@@ -43,6 +43,8 @@ resource "aws_cloudfront_distribution" "media_cf_distribution" {
     var.cf_domain_name
   ]
 
+  default_root_object = "index.html"
+
   enabled = true
 
   default_cache_behavior {
@@ -53,6 +55,13 @@ resource "aws_cloudfront_distribution" "media_cf_distribution" {
     target_origin_id           = var.cf_domain_name
     cache_policy_id            = data.aws_cloudfront_cache_policy.cache_policy.id
     response_headers_policy_id = data.aws_cloudfront_response_headers_policy.response_headers_policy.id
+  }
+
+  custom_error_response {
+    error_caching_min_ttl = 86400
+    error_code            = 403
+    response_code         = 200
+    response_page_path    = "/index.html"
   }
 
   restrictions {
@@ -67,7 +76,7 @@ resource "aws_cloudfront_distribution" "media_cf_distribution" {
     ssl_support_method             = "sni-only"
   }
 
-  tags = merge(tomap({ "Name" : join("-", ["qatalyst-media-distribution", var.STAGE]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+  tags = merge(tomap({ "Name" : join("-", [var.cf_domain_name, var.STAGE]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
 #S3 Bucket Policy

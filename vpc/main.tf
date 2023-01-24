@@ -118,26 +118,3 @@ resource "aws_vpc_endpoint" "s3_endpoint" {
   route_table_ids   = [aws_route_table.private_route_table.id]
   tags              = merge(tomap({ "Name" : "qatalyst-s3-gateway-endpoint" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
-
-resource "aws_security_group" "lambda_security_group" {
-  provider    = aws.vpc_region
-  name        = "qatalyst-lambda-sg"
-  description = "Security Group for Lambda to Deploy in VPC"
-  vpc_id      = aws_vpc.main.id
-
-  ingress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = merge(tomap({ "Name" : "qatalyst-lambda-sg" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
-}
