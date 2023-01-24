@@ -20,7 +20,6 @@ module "create_eu_s3_bucket" {
   datacenter_codes       = var.datacenter_codes
   tester_view_sub_domain = var.tester_view_sub_domain
   base_domain            = var.base_domain
-  
 
   providers = {
     aws.s3_region = aws.eu_region
@@ -95,7 +94,6 @@ module "create_in_s3_bucket" {
   datacenter_codes       = var.datacenter_codes
   tester_view_sub_domain = var.tester_view_sub_domain
   base_domain            = var.base_domain
-  
 
   providers = {
     aws.s3_region = aws.in_region
@@ -170,7 +168,6 @@ module "create_sea_s3_bucket" {
   datacenter_codes       = var.datacenter_codes
   tester_view_sub_domain = var.tester_view_sub_domain
   base_domain            = var.base_domain
-  
 
   providers = {
     aws.s3_region = aws.sea_region
@@ -245,7 +242,6 @@ module "create_us_s3_bucket" {
   datacenter_codes       = var.datacenter_codes
   tester_view_sub_domain = var.tester_view_sub_domain
   base_domain            = var.base_domain
-  
 
   providers = {
     aws.s3_region = aws.us_region
