@@ -48,6 +48,16 @@ variable "tester_view_sub_domain" {
   description = "Tester View Domain Name"
 }
 
+variable "user_pool_name" {
+  type        = string
+  description = "Cognito user pool name"
+}
+
+variable "user_pool_web_client_name" {
+  type        = string
+  description = "Cognito web app client name"
+}
+
 variable "global_ddb_table_details" {
   type = list
   description = "DDB Global Tables details"

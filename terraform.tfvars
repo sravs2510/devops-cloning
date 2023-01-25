@@ -35,6 +35,9 @@ api_sub_domain         = "api"
 media_sub_domain       = "media"
 tester_view_sub_domain = "studyview"
 
+user_pool_name            = "qatalyst-user-pool"
+user_pool_web_client_name = "qatalyst-web-app"
+
 global_ddb_table_details = [
   {
     table_name = "qatalyst-configurations"
