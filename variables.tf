@@ -47,3 +47,14 @@ variable "tester_view_sub_domain" {
   type        = string
   description = "Tester View Domain Name"
 }
+
+variable "user_pool_name" {
+  type        = string
+  description = "Cognito user pool name"
+}
+
+variable "user_pool_web_client_name" {
+  type        = string
+  description = "Cognito web app client name"
+
+}

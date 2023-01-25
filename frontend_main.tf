@@ -39,6 +39,19 @@ module "create_dashboard_cloudfront" {
   }
 }
 
+module "create_cognito_user_pool" {
+  source                    = "./cognito"
+  user_pool_name            = var.user_pool_name
+  user_pool_web_client_name = var.user_pool_web_client_name
+  DEFAULT_TAGS              = var.DEFAULT_TAGS
+  STAGE                     = var.STAGE
+
+  providers = {
+    aws.cognito_region = aws.us_region
+
+  }
+}
+
 # Testervioew Resources
 module "create_tester_view_s3_bucket" {
   source       = "./s3-fe"
@@ -79,3 +92,5 @@ module "create_tester_view_cloudfront" {
     aws.bucket_region     = aws.sea_region
   }
 }
+
+
