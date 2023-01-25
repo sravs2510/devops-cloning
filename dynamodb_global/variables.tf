@@ -1,4 +1,9 @@
-variable "global_table_details" {
+variable "global_ddb_table_details" {
+  type = list
+  description = "List of global tables and properties"
+}
+
+variable "global_ddb_tables_without_range" {
   type = list
   description = "List of global tables and properties"
 }

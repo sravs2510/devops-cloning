@@ -47,3 +47,13 @@ variable "tester_view_sub_domain" {
   type        = string
   description = "Tester View Domain Name"
 }
+
+variable "global_ddb_table_details" {
+  type = list
+  description = "DDB Global Tables details"
+}
+
+variable "global_ddb_tables_without_range" {
+  type = list
+  description = "DDB Global Tables details without range key"
+}

@@ -35,20 +35,21 @@ api_sub_domain         = "api"
 media_sub_domain       = "media"
 tester_view_sub_domain = "studyview"
 
-global_table_details = [
+global_ddb_table_details = [
   {
     table_name = "qatalyst-configurations"
     hash_key   = "PK"
     range_key  = "SK"
-  },
+  }
+]
+
+global_ddb_tables_without_range = [
   {
     table_name = "qatalyst-user-profile"
     hash_key   = "user_id"
-    range_key  = null
   },
   {
     table_name = "qatalyst-workspace-info"
     hash_key   = "workspace_id"
-    range_key  = null
   }
 ]
