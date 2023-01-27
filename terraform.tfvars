@@ -37,3 +37,30 @@ tester_view_sub_domain = "studyview"
 
 user_pool_name            = "qatalyst-user-pool"
 user_pool_web_client_name = "qatalyst-web-app"
+
+global_ddb_table_details = [
+  {
+    table_name      = "qatalyst-configurations"
+    hash_key        = "PK"
+    range_key       = "SK"
+    stream_enabled  = false
+  }
+]
+
+global_ddb_tables_without_range = [
+  {
+    table_name      = "qatalyst-cognito-mapping"
+    hash_key        = "cognito_user_id"
+    stream_enabled  = false
+  },
+  {
+    table_name      = "qatalyst-user-profile"
+    hash_key        = "user_id"
+    stream_enabled  = false
+  },
+  {
+    table_name      = "qatalyst-workspace-info"
+    hash_key        = "workspace_id"
+    stream_enabled  = false
+  }
+]

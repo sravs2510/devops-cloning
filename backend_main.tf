@@ -293,3 +293,19 @@ module "create_us_acm_api" {
     aws.datacenter_region = aws.us_region
   }
 }
+
+#Global DDB Tables
+module "create_global_dynamodb" {
+  source                            = "./dynamodb_global"
+  DEFAULT_TAGS                      = var.DEFAULT_TAGS
+  STAGE                             = var.STAGE
+  global_ddb_table_details          = var.global_ddb_table_details
+  global_ddb_tables_without_range   = var.global_ddb_tables_without_range
+
+  providers = {
+    aws.sea_region = aws.sea_region
+    aws.in_region  = aws.in_region
+    aws.us_region  = aws.us_region
+    aws.eu_region  = aws.eu_region
+  }
+}
