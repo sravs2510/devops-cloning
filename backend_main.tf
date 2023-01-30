@@ -72,6 +72,19 @@ module "create_eu_acm_api" {
   }
 }
 
+module "create_eu_alb" {
+  source             = "./alb"
+  vpc_id             = module.create_eu_vpc.vpc_id
+  alb_subnets        = module.create_eu_vpc.public_subnets
+  alb_certficate_arn = module.create_eu_acm_api.acm_arn
+  DEFAULT_TAGS       = var.DEFAULT_TAGS
+  STAGE              = var.STAGE
+
+  providers = {
+    aws.alb_region = aws.eu_region
+  }
+}
+
 # INDIA Resources
 module "create_in_vpc" {
   source          = "./vpc"
@@ -143,6 +156,19 @@ module "create_in_acm_api" {
   providers = {
     aws.acm_region        = aws.in_region
     aws.datacenter_region = aws.in_region
+  }
+}
+
+module "create_in_alb" {
+  source             = "./alb"
+  vpc_id             = module.create_in_vpc.vpc_id
+  alb_subnets        = module.create_in_vpc.public_subnets
+  alb_certficate_arn = module.create_in_acm_api.acm_arn
+  DEFAULT_TAGS       = var.DEFAULT_TAGS
+  STAGE              = var.STAGE
+
+  providers = {
+    aws.alb_region = aws.in_region
   }
 }
 
@@ -220,6 +246,19 @@ module "create_sea_acm_api" {
   }
 }
 
+module "create_sea_alb" {
+  source             = "./alb"
+  vpc_id             = module.create_sea_vpc.vpc_id
+  alb_subnets        = module.create_sea_vpc.public_subnets
+  alb_certficate_arn = module.create_sea_acm_api.acm_arn
+  DEFAULT_TAGS       = var.DEFAULT_TAGS
+  STAGE              = var.STAGE
+
+  providers = {
+    aws.alb_region = aws.sea_region
+  }
+}
+
 # US Resources
 module "create_us_vpc" {
   source          = "./vpc"
@@ -291,6 +330,19 @@ module "create_us_acm_api" {
   providers = {
     aws.acm_region        = aws.us_region
     aws.datacenter_region = aws.us_region
+  }
+}
+
+module "create_us_alb" {
+  source             = "./alb"
+  vpc_id             = module.create_us_vpc.vpc_id
+  alb_subnets        = module.create_us_vpc.public_subnets
+  alb_certficate_arn = module.create_us_acm_api.acm_arn
+  DEFAULT_TAGS       = var.DEFAULT_TAGS
+  STAGE              = var.STAGE
+
+  providers = {
+    aws.alb_region = aws.us_region
   }
 }
 
