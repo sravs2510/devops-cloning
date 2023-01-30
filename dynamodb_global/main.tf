@@ -36,6 +36,10 @@ resource "aws_dynamodb_table" "ddb_global_config_table" {
   stream_enabled   =  true
   stream_view_type = "NEW_AND_OLD_IMAGES"
 
+  point_in_time_recovery {
+    enabled = var.point_in_time_recovery
+  }
+
   attribute {
     name = var.global_ddb_table_details[count.index].hash_key
     type = "S"
@@ -73,6 +77,10 @@ resource "aws_dynamodb_table" "ddb_global_config_table_without_range" {
 
   stream_enabled   = true
   stream_view_type = "NEW_AND_OLD_IMAGES"
+
+  point_in_time_recovery {
+    enabled = var.point_in_time_recovery
+  }
 
   attribute {
     name = var.global_ddb_tables_without_range[count.index].hash_key
