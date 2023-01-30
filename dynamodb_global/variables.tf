@@ -17,3 +17,9 @@ variable "DEFAULT_TAGS" {
   type = map(any)
   description = "Default Tags for all resources"
 }
+
+variable "point_in_time_recovery" {
+  type = bool
+  description = "Point in time recovery value"
+  default = false
+}
