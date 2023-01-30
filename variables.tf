@@ -68,7 +68,7 @@ variable "global_ddb_tables_without_range" {
   description = "DDB Global Tables details without range key"
 }
 
-variable "ecr_name" {
-  type        = string
-  description = "ECR Repo name"
+variable "fargate_cpu_memory" {
+  type        = map(any)
+  description = "Fargate CPU and Memory Details"
 }

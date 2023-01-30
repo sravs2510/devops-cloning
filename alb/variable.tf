@@ -19,6 +19,6 @@ variable "alb_subnets" {
 }
 
 variable "alb_certficate_arn" {
-  type = string
+  type        = string
   description = "ALB Certficate ARN"
 }

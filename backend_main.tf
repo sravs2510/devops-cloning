@@ -85,6 +85,21 @@ module "create_eu_alb" {
   }
 }
 
+module "create_eu_ecs" {
+  source               = "./ecs"
+  fargate_cpu_memory   = var.fargate_cpu_memory
+  vpc_id               = module.create_eu_vpc.vpc_id
+  alb_security_group   = module.create_eu_alb.qatalyst_alb_sg_id
+  ecs_subnets          = module.create_eu_vpc.private_subnets
+  alb_target_group_arn = module.create_eu_alb.qatalyst_alb_target_group_arn
+  DEFAULT_TAGS         = var.DEFAULT_TAGS
+  STAGE                = var.STAGE
+
+  providers = {
+    aws.ecs_region = aws.eu_region
+  }
+}
+
 # INDIA Resources
 module "create_in_vpc" {
   source          = "./vpc"
@@ -169,6 +184,21 @@ module "create_in_alb" {
 
   providers = {
     aws.alb_region = aws.in_region
+  }
+}
+
+module "create_in_ecs" {
+  source               = "./ecs"
+  fargate_cpu_memory   = var.fargate_cpu_memory
+  vpc_id               = module.create_in_vpc.vpc_id
+  alb_security_group   = module.create_in_alb.qatalyst_alb_sg_id
+  ecs_subnets          = module.create_in_vpc.private_subnets
+  alb_target_group_arn = module.create_in_alb.qatalyst_alb_target_group_arn
+  DEFAULT_TAGS         = var.DEFAULT_TAGS
+  STAGE                = var.STAGE
+
+  providers = {
+    aws.ecs_region = aws.in_region
   }
 }
 
@@ -259,6 +289,21 @@ module "create_sea_alb" {
   }
 }
 
+module "create_sea_ecs" {
+  source               = "./ecs"
+  fargate_cpu_memory   = var.fargate_cpu_memory
+  vpc_id               = module.create_sea_vpc.vpc_id
+  alb_security_group   = module.create_sea_alb.qatalyst_alb_sg_id
+  ecs_subnets          = module.create_sea_vpc.private_subnets
+  alb_target_group_arn = module.create_sea_alb.qatalyst_alb_target_group_arn
+  DEFAULT_TAGS         = var.DEFAULT_TAGS
+  STAGE                = var.STAGE
+
+  providers = {
+    aws.ecs_region = aws.sea_region
+  }
+}
+
 # US Resources
 module "create_us_vpc" {
   source          = "./vpc"
@@ -346,6 +391,21 @@ module "create_us_alb" {
   }
 }
 
+module "create_us_ecs" {
+  source               = "./ecs"
+  fargate_cpu_memory   = var.fargate_cpu_memory
+  vpc_id               = module.create_us_vpc.vpc_id
+  alb_security_group   = module.create_us_alb.qatalyst_alb_sg_id
+  ecs_subnets          = module.create_us_vpc.private_subnets
+  alb_target_group_arn = module.create_us_alb.qatalyst_alb_target_group_arn
+  DEFAULT_TAGS         = var.DEFAULT_TAGS
+  STAGE                = var.STAGE
+
+  providers = {
+    aws.ecs_region = aws.us_region
+  }
+}
+
 #Global DDB Tables
 module "create_global_dynamodb" {
   source                          = "./dynamodb_global"
@@ -365,7 +425,6 @@ module "create_global_dynamodb" {
 #ECR 
 module "create_ecr" {
   source       = "./ecr"
-  ecr_name     = var.ecr_name
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
 
