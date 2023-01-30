@@ -9,6 +9,6 @@ variable "STAGE" {
 }
 
 variable "bucket_name" {
-  type = string
+  type        = string
   description = "Base Domain Name"
 }

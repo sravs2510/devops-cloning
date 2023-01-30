@@ -33,7 +33,8 @@ resource "aws_dynamodb_table" "ddb_global_config_table" {
   range_key    = var.global_ddb_table_details[count.index].range_key
   billing_mode = "PAY_PER_REQUEST"
 
-  stream_enabled   =  var.global_ddb_tables_without_range[count.index].stream_enabled
+  stream_enabled   =  true
+  stream_view_type = "NEW_AND_OLD_IMAGES"
 
   attribute {
     name = var.global_ddb_table_details[count.index].hash_key
@@ -70,7 +71,8 @@ resource "aws_dynamodb_table" "ddb_global_config_table_without_range" {
   hash_key     = var.global_ddb_tables_without_range[count.index].hash_key
   billing_mode = "PAY_PER_REQUEST"
 
-  stream_enabled   = var.global_ddb_tables_without_range[count.index].stream_enabled
+  stream_enabled   = true
+  stream_view_type = "NEW_AND_OLD_IMAGES"
 
   attribute {
     name = var.global_ddb_tables_without_range[count.index].hash_key

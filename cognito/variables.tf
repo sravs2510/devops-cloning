@@ -14,6 +14,6 @@ variable "user_pool_name" {
 }
 
 variable "user_pool_web_client_name" {
-  type = string
+  type        = string
   description = "Cognito web client name"
 }
