@@ -28,6 +28,10 @@ resource "aws_cognito_user_pool" "user_pool" {
     email_message        = "Please enter the below verification code to verify your email and complete the Sign-in process for your Qatalyst account.<br><br>Verification Code: {####}"
   }
 
+  lambda_config {
+    post_confirmation    = var.SIGN_UP_TRIGGER_LAMBDA_ARN
+  }
+
   tags = merge(tomap({ "Name" : var.user_pool_name, "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 

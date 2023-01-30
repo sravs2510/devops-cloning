@@ -45,6 +45,7 @@ module "create_cognito_user_pool" {
   user_pool_web_client_name = var.user_pool_web_client_name
   DEFAULT_TAGS              = var.DEFAULT_TAGS
   STAGE                     = var.STAGE
+  SIGN_UP_TRIGGER_LAMBDA_ARN= var.SIGN_UP_TRIGGER_LAMBDA_ARN
 
   providers = {
     aws.cognito_region = aws.us_region
