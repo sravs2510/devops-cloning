@@ -60,3 +60,5 @@ global_ddb_tables_without_range = [
     hash_key   = "workspace_id"
   }
 ]
+
+ecr_name = "qatalyst-backend"

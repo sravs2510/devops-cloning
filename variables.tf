@@ -67,3 +67,8 @@ variable "global_ddb_tables_without_range" {
   type        = list(any)
   description = "DDB Global Tables details without range key"
 }
+
+variable "ecr_name" {
+  type        = string
+  description = "ECR Repo name"
+}

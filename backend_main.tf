@@ -309,3 +309,18 @@ module "create_global_dynamodb" {
     aws.eu_region  = aws.eu_region
   }
 }
+
+#ECR 
+module "create_ecr" {
+  source       = "./ecr"
+  ecr_name     = var.ecr_name
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
+
+  providers = {
+    aws.sea_region = aws.sea_region
+    aws.in_region  = aws.in_region
+    aws.us_region  = aws.us_region
+    aws.eu_region  = aws.eu_region
+  }
+}
