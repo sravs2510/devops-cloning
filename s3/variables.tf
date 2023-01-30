@@ -14,7 +14,7 @@ variable "datacenter_codes" {
 }
 
 variable "base_domain" {
-  type = string
+  type        = string
   description = "Base Domain Name"
 }
 
@@ -24,6 +24,6 @@ variable "bucket_prefix" {
 }
 
 variable "tester_view_sub_domain" {
-  type = string
+  type        = string
   description = "Tester View Sub Domain Name"
 }

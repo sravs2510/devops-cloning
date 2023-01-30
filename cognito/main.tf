@@ -8,6 +8,7 @@ terraform {
 }
 
 resource "aws_cognito_user_pool" "user_pool" {
+  provider            = aws.cognito_region
   name                = var.user_pool_name
   deletion_protection = "INACTIVE"
   username_attributes = ["email"]
@@ -31,6 +32,7 @@ resource "aws_cognito_user_pool" "user_pool" {
 }
 
 resource "aws_cognito_user_pool_client" "user_pool_web_client" {
+  provider     = aws.cognito_region
   name         = var.user_pool_web_client_name
   user_pool_id = aws_cognito_user_pool.user_pool.id
 }

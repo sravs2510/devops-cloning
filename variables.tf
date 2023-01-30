@@ -59,11 +59,11 @@ variable "user_pool_web_client_name" {
 }
 
 variable "global_ddb_table_details" {
-  type = list
+  type        = list(any)
   description = "DDB Global Tables details"
 }
 
 variable "global_ddb_tables_without_range" {
-  type = list
+  type        = list(any)
   description = "DDB Global Tables details without range key"
 }
