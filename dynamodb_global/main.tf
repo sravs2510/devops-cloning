@@ -25,7 +25,7 @@ data "aws_region" "eu_region" {
 
 # ddb configuration
 resource "aws_dynamodb_table" "ddb_global_config_table" {
-  provider = aws.sea_region
+  provider = aws.us_region
   count    = length(var.global_ddb_table_details)
 
   name         = var.global_ddb_table_details[count.index].table_name
@@ -50,7 +50,7 @@ resource "aws_dynamodb_table" "ddb_global_config_table" {
     propagate_tags = true
   }
   replica {
-    region_name    = data.aws_region.us_region.name
+    region_name    = data.aws_region.sea_region.name
     propagate_tags = true
   }
   replica {
@@ -63,7 +63,7 @@ resource "aws_dynamodb_table" "ddb_global_config_table" {
 
 # ddb configuration without range key
 resource "aws_dynamodb_table" "ddb_global_config_table_without_range" {
-  provider = aws.sea_region
+  provider = aws.us_region
   count    = length(var.global_ddb_tables_without_range)
 
   name         = var.global_ddb_tables_without_range[count.index].table_name
@@ -82,7 +82,7 @@ resource "aws_dynamodb_table" "ddb_global_config_table_without_range" {
     propagate_tags = true
   }
   replica {
-    region_name    = data.aws_region.us_region.name
+    region_name    = data.aws_region.sea_region.name
     propagate_tags = true
   }
   replica {
