@@ -22,3 +22,18 @@ variable "alb_certficate_arn" {
   type        = string
   description = "ALB Certficate ARN"
 }
+
+variable "base_domain" {
+  type        = string
+  description = "Base domain"
+}
+
+variable "sub_domain" {
+  type        = string
+  description = "Sub Domain name"
+}
+
+variable "datacenter_codes" {
+  type        = map(string)
+  description = "Data center code values"
+}

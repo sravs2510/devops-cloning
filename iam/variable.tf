@@ -1,4 +1,3 @@
-
 variable "STAGE" {
   type        = string
   description = "Stage for deployment"

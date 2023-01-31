@@ -77,6 +77,9 @@ module "create_eu_alb" {
   vpc_id             = module.create_eu_vpc.vpc_id
   alb_subnets        = module.create_eu_vpc.public_subnets
   alb_certficate_arn = module.create_eu_acm_api.acm_arn
+  datacenter_codes   = var.datacenter_codes
+  base_domain        = var.base_domain
+  sub_domain         = var.api_sub_domain
   DEFAULT_TAGS       = var.DEFAULT_TAGS
   STAGE              = var.STAGE
 
@@ -180,6 +183,9 @@ module "create_in_alb" {
   vpc_id             = module.create_in_vpc.vpc_id
   alb_subnets        = module.create_in_vpc.public_subnets
   alb_certficate_arn = module.create_in_acm_api.acm_arn
+  datacenter_codes   = var.datacenter_codes
+  base_domain        = var.base_domain
+  sub_domain         = var.api_sub_domain
   DEFAULT_TAGS       = var.DEFAULT_TAGS
   STAGE              = var.STAGE
 
@@ -283,6 +289,9 @@ module "create_sea_alb" {
   vpc_id             = module.create_sea_vpc.vpc_id
   alb_subnets        = module.create_sea_vpc.public_subnets
   alb_certficate_arn = module.create_sea_acm_api.acm_arn
+  datacenter_codes   = var.datacenter_codes
+  base_domain        = var.base_domain
+  sub_domain         = var.api_sub_domain
   DEFAULT_TAGS       = var.DEFAULT_TAGS
   STAGE              = var.STAGE
 
@@ -386,6 +395,9 @@ module "create_us_alb" {
   vpc_id             = module.create_us_vpc.vpc_id
   alb_subnets        = module.create_us_vpc.public_subnets
   alb_certficate_arn = module.create_us_acm_api.acm_arn
+  datacenter_codes   = var.datacenter_codes
+  base_domain        = var.base_domain
+  sub_domain         = var.api_sub_domain
   DEFAULT_TAGS       = var.DEFAULT_TAGS
   STAGE              = var.STAGE
 
