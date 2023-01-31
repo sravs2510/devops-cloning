@@ -52,7 +52,7 @@ module "create_cognito_user_pool" {
   }
 }
 
-# Testervioew Resources
+# Tester view Resources
 module "create_tester_view_s3_bucket" {
   source       = "./s3-fe"
   bucket_name  = var.STAGE == "prod" ? join(".", [var.tester_view_sub_domain, var.base_domain]) : join(".", [var.tester_view_sub_domain, var.STAGE, var.base_domain])
