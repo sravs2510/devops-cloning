@@ -124,6 +124,10 @@ resource "aws_dynamodb_table" "global_ddb_table_gsi_without_range" {
     type = "S"
   }
 
+  point_in_time_recovery {
+    enabled = var.point_in_time_recovery
+  }
+
   global_secondary_index {
     name            =each.value.gsi_1.name
     hash_key        = each.value.gsi_1.hash_key

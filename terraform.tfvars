@@ -54,10 +54,6 @@ global_ddb_tables_without_range = [
   {
     table_name = "qatalyst-user-profile"
     hash_key   = "user_id"
-  },
-  {
-    table_name = "qatalyst-workspace-info"
-    hash_key   = "workspace_id"
   }
 ]
 
