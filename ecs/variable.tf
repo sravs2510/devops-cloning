@@ -32,5 +32,9 @@ variable "alb_target_group_arn" {
 variable "ecs_subnets" {
   type        = list(string)
   description = "Private Subnets for ECS Service"
+}
 
+variable "ecs_task_execution_role_arn" {
+  type        = string
+  description = "ECS Task Execution Role Arn"
 }

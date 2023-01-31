@@ -37,31 +37,6 @@ resource "aws_ecs_cluster_capacity_providers" "qatalyst_ecs_cluster_capacity_pro
   }
 }
 
-resource "aws_iam_role" "qatalyst_ecs_task_execution_role" {
-  provider = aws.ecs_region
-  name     = join("-", ["qatalyst-ecs-task-execution-role-name", data.aws_region.ecs_region.name])
-  assume_role_policy = jsonencode(
-    {
-      "Version" : "2012-10-17",
-      "Statement" : [
-        {
-          "Action" : "sts:AssumeRole",
-          "Principal" : {
-            "Service" : "ecs-tasks.amazonaws.com"
-          },
-          "Effect" : "Allow",
-          "Sid" : ""
-        }
-      ]
-  })
-}
-
-resource "aws_iam_role_policy_attachment" "qatalyst_ecs_task_execution_service_role_policy_attachment" {
-  provider   = aws.ecs_region
-  role       = aws_iam_role.qatalyst_ecs_task_execution_role.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
-}
-
 resource "aws_cloudwatch_log_group" "qatalyst_log_group" {
   provider          = aws.ecs_region
   name              = "qatalyst-backend-log-group"
@@ -76,7 +51,7 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
   requires_compatibilities = ["FARGATE"]
   memory                   = var.fargate_cpu_memory.memory
   cpu                      = var.fargate_cpu_memory.cpu
-  execution_role_arn       = aws_iam_role.qatalyst_ecs_task_execution_role.arn
+  execution_role_arn       = var.ecs_task_execution_role_arn
   #task_role_arn            = ""
   container_definitions = jsonencode(
     [
