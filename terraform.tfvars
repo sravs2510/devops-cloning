@@ -69,3 +69,8 @@ gsi_global_table_details_without_range = {
     }
   }
 }
+
+fargate_cpu_memory = {
+  "cpu" : 1024
+  "memory" : 2048
+}

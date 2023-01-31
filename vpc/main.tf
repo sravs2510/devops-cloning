@@ -11,6 +11,10 @@ data "aws_region" "current" {
   provider = aws.vpc_region
 }
 
+data "aws_availability_zones" "available" {
+  provider = aws.vpc_region
+}
+
 resource "aws_vpc" "main" {
   provider   = aws.vpc_region
   cidr_block = lookup(var.cidr_block, data.aws_region.current.name)
@@ -37,11 +41,12 @@ resource "aws_main_route_table_association" "route_table_association" {
 }
 
 resource "aws_subnet" "public_subnet" {
-  count      = length(lookup(var.public_subnets, data.aws_region.current.name))
-  provider   = aws.vpc_region
-  vpc_id     = aws_vpc.main.id
-  cidr_block = lookup(var.public_subnets, data.aws_region.current.name)[count.index]
-  tags       = merge(tomap({ "Name" : "qatalyst-public-${count.index + 1}" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+  count             = length(lookup(var.public_subnets, data.aws_region.current.name))
+  provider          = aws.vpc_region
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = lookup(var.public_subnets, data.aws_region.current.name)[count.index]
+  availability_zone = data.aws_availability_zones.available.names[count.index]
+  tags              = merge(tomap({ "Name" : "qatalyst-public-${count.index + 1}" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
 resource "aws_route_table" "public_route_table" {
@@ -62,11 +67,12 @@ resource "aws_route_table_association" "public" {
 }
 
 resource "aws_subnet" "private_subnet" {
-  count      = length(lookup(var.private_subnets, data.aws_region.current.name))
-  provider   = aws.vpc_region
-  vpc_id     = aws_vpc.main.id
-  cidr_block = lookup(var.private_subnets, data.aws_region.current.name)[count.index]
-  tags       = merge(tomap({ "Name" : "qatalyst-private-${count.index + 1}" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+  count             = length(lookup(var.private_subnets, data.aws_region.current.name))
+  provider          = aws.vpc_region
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = lookup(var.private_subnets, data.aws_region.current.name)[count.index]
+  availability_zone = data.aws_availability_zones.available.names[count.index]
+  tags              = merge(tomap({ "Name" : "qatalyst-private-${count.index + 1}" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
 resource "aws_eip" "eip_nat_gateway" {
