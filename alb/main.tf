@@ -80,3 +80,27 @@ resource "aws_lb_listener" "qatalyst_alb_listener" {
     target_group_arn = aws_lb_target_group.qatalyst_tg.arn
   }
 }
+
+# ALB Domain Mapping
+locals {
+  domain_name = var.STAGE == "prod" ? join(".", [lookup(var.datacenter_codes, data.aws_region.current.name), var.sub_domain, var.base_domain]) : join(".", [lookup(var.datacenter_codes, data.aws_region.current.name), var.sub_domain, var.STAGE, var.base_domain])
+}
+
+data "aws_route53_zone" "domain_hosted_zone" {
+  provider     = aws.alb_region
+  name         = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.base_domain])
+  private_zone = false
+}
+
+resource "aws_route53_record" "qatalyst_api_domain_record" {
+  provider = aws.alb_region
+  zone_id  = data.aws_route53_zone.domain_hosted_zone.zone_id
+  name     = local.domain_name
+  type     = "A"
+
+  alias {
+    name                   = aws_lb.qatalyst_alb.dns_name
+    zone_id                = aws_lb.qatalyst_alb.zone_id
+    evaluate_target_health = false
+  }
+}
