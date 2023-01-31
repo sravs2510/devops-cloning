@@ -58,11 +58,6 @@ variable "user_pool_web_client_name" {
   description = "Cognito web app client name"
 }
 
-variable "AWS_ACCOUNT_ID" {
-  type        = string
-  description = "aws account id"
-}
-
 variable "global_ddb_table_details" {
   type        = list(any)
   description = "DDB Global Tables details"

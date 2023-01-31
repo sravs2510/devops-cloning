@@ -7,6 +7,19 @@ terraform {
   }
 }
 
+data "aws_region" "us_region" {
+  provider = aws.cognito_region
+}
+
+data "aws_caller_identity" "current" {
+  provider = aws.cognito_region
+}
+
+locals {
+  account_id        = data.aws_caller_identity.current.account_id
+  us_region_name    = data.aws_region.us_region.name
+}
+
 resource "aws_cognito_user_pool" "user_pool" {
   provider            = aws.cognito_region
   name                = var.user_pool_name
@@ -29,7 +42,7 @@ resource "aws_cognito_user_pool" "user_pool" {
   }
 
   lambda_config {
-    post_confirmation    = var.SIGN_UP_TRIGGER_LAMBDA_ARN
+    post_confirmation    = join("", ["arn:aws:lambda:", locals.us_region.name, ":", locals.account_id, ":function:qatalyst-", var.STAGE, "-signup"])
   }
 
   tags = merge(tomap({ "Name" : var.user_pool_name, "STAGE" : var.STAGE }), var.DEFAULT_TAGS)

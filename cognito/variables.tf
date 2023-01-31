@@ -17,8 +17,3 @@ variable "user_pool_web_client_name" {
   type        = string
   description = "Cognito web client name"
 }
-
-variable "SIGN_UP_TRIGGER_LAMBDA_ARN" {
-  type        = string
-  description = "Post sign in lambda arn"
-}
