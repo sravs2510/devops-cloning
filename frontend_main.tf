@@ -45,7 +45,7 @@ module "create_cognito_user_pool" {
   user_pool_web_client_name = var.user_pool_web_client_name
   DEFAULT_TAGS              = var.DEFAULT_TAGS
   STAGE                     = var.STAGE
-  SIGN_UP_TRIGGER_LAMBDA_ARN= var.SIGN_UP_TRIGGER_LAMBDA_ARN
+  SIGN_UP_TRIGGER_LAMBDA_ARN= join("", ["arn:aws:lambda:", "us-east-1", ":", var.AWS_ACCOUNT_ID, ":function:qatalyst-", var.STAGE, "-signup"])
 
   providers = {
     aws.cognito_region = aws.us_region
@@ -53,7 +53,7 @@ module "create_cognito_user_pool" {
   }
 }
 
-# Testervioew Resources
+# Tester view Resources
 module "create_tester_view_s3_bucket" {
   source       = "./s3-fe"
   bucket_name  = var.STAGE == "prod" ? join(".", [var.tester_view_sub_domain, var.base_domain]) : join(".", [var.tester_view_sub_domain, var.STAGE, var.base_domain])

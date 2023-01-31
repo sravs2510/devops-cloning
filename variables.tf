@@ -58,9 +58,9 @@ variable "user_pool_web_client_name" {
   description = "Cognito web app client name"
 }
 
-variable "SIGN_UP_TRIGGER_LAMBDA_ARN" {
+variable "AWS_ACCOUNT_ID" {
   type        = string
-  description = "Post sign in lambda arn"
+  description = "aws account id"
 }
 
 variable "global_ddb_table_details" {
