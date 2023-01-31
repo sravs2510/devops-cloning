@@ -424,11 +424,12 @@ module "create_us_ecs" {
 
 #Global DDB Tables
 module "create_global_dynamodb" {
-  source                          = "./dynamodb_global"
-  DEFAULT_TAGS                    = var.DEFAULT_TAGS
-  STAGE                           = var.STAGE
-  global_ddb_table_details        = var.global_ddb_table_details
-  global_ddb_tables_without_range = var.global_ddb_tables_without_range
+  source                                = "./dynamodb_global"
+  DEFAULT_TAGS                          = var.DEFAULT_TAGS
+  STAGE                                 = var.STAGE
+  global_ddb_table_details              = var.global_ddb_table_details
+  global_ddb_tables_without_range       = var.global_ddb_tables_without_range
+  gsi_global_table_details_without_range= var.gsi_global_table_details_without_range
 
   providers = {
     aws.sea_region = aws.sea_region

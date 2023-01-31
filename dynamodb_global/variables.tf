@@ -23,3 +23,14 @@ variable "point_in_time_recovery" {
   description = "Point in time recovery value"
   default = false
 }
+
+variable "gsi_global_table_details_without_range" {
+  type = any
+  description = "List of global ddb tables and properties"
+}
+
+variable "stream_view_type" {
+  type = string
+  description = "Stream view type which is used to get the old data, new data or both from dynamodb"
+  default = "NEW_AND_OLD_IMAGES"
+}

@@ -68,6 +68,11 @@ variable "global_ddb_tables_without_range" {
   description = "DDB Global Tables details without range key"
 }
 
+variable "gsi_global_table_details_without_range" {
+  type = any
+  description = "List of global ddb tables and properties"
+}
+
 variable "fargate_cpu_memory" {
   type        = map(any)
   description = "Fargate CPU and Memory Details"

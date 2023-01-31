@@ -54,12 +54,21 @@ global_ddb_tables_without_range = [
   {
     table_name = "qatalyst-user-profile"
     hash_key   = "user_id"
-  },
-  {
-    table_name = "qatalyst-workspace-info"
-    hash_key   = "workspace_id"
   }
 ]
+
+gsi_global_table_details_without_range = {
+  "workspaces" : {
+    table_name  = "qatalyst-workspace-info"
+    hash_key    = "workspace_id"
+    attribute_1 = "name"
+    stream_enabled = true
+    "gsi_1" : {
+      name      = "qatalyst-workspace-name-gsi"
+      hash_key  = "name"
+    }
+  }
+}
 
 fargate_cpu_memory = {
   "cpu" : 1024
