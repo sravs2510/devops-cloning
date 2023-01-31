@@ -61,4 +61,7 @@ global_ddb_tables_without_range = [
   }
 ]
 
-ecr_name = "qatalyst-backend"
+fargate_cpu_memory = {
+  "cpu" : 1024
+  "memory" : 2048
+}

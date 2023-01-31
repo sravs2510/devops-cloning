@@ -26,7 +26,7 @@ data "aws_region" "eu_region" {
 resource "aws_ecr_repository" "qatalyst_repository" {
   # as Jenkins is in SEA Region
   provider = aws.sea_region
-  name     = var.ecr_name
+  name     = "qatalyst-backend"
   tags     = merge(tomap({ "Name" : "qatalyst-backend-ecr" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
@@ -78,7 +78,7 @@ resource "aws_ecr_replication_configuration" "qatalyst_ecr_replication" {
 
       repository_filter {
         filter_type = "PREFIX_MATCH"
-        filter      = var.ecr_name
+        filter      = "qatalyst"
       }
     }
   }
