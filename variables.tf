@@ -69,7 +69,7 @@ variable "global_ddb_tables_without_range" {
 }
 
 variable "gsi_global_table_details_without_range" {
-  type = any
+  type        = any
   description = "List of global ddb tables and properties"
 }
 

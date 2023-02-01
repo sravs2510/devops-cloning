@@ -16,8 +16,8 @@ data "aws_caller_identity" "current" {
 }
 
 locals {
-  account_id            = data.aws_caller_identity.current.account_id
-  cognito_region_name   = data.aws_region.cognito_region.name
+  account_id          = data.aws_caller_identity.current.account_id
+  cognito_region_name = data.aws_region.cognito_region.name
 }
 
 resource "aws_cognito_user_pool" "user_pool" {
@@ -42,7 +42,7 @@ resource "aws_cognito_user_pool" "user_pool" {
   }
 
   lambda_config {
-    post_confirmation    = join("", ["arn:aws:lambda:", local.cognito_region_name, ":", local.account_id, ":function:qatalyst-", var.STAGE, "-signup"])
+    post_confirmation = join("", ["arn:aws:lambda:", local.cognito_region_name, ":", local.account_id, ":function:qatalyst-", var.STAGE, "-signup"])
   }
 
   tags = merge(tomap({ "Name" : var.user_pool_name, "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
@@ -62,7 +62,9 @@ resource "aws_cognito_identity_provider" "microsoft_saml_provider" {
   provider_type = "SAML"
 
   provider_details = {
-    MetadataURL = "https://login.microsoftonline.com/c47dcff4-6b21-4de3-931a-058aa60a9629/federationmetadata/2007-06/federationmetadata.xml"
+    MetadataURL           = "https://login.microsoftonline.com/c47dcff4-6b21-4de3-931a-058aa60a9629/federationmetadata/2007-06/federationmetadata.xml"
+    SSORedirectBindingURI = "https://login.microsoftonline.com/c47dcff4-6b21-4de3-931a-058aa60a9629/saml2"
+    SLORedirectBindingURI = "https://login.microsoftonline.com/c47dcff4-6b21-4de3-931a-058aa60a9629/saml2"
   }
 
   attribute_mapping = {

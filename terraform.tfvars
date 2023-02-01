@@ -59,17 +59,17 @@ gsi_global_table_details_without_range = {
     hash_key    = "workspace_id"
     attribute_1 = "name"
     "gsi_1" : {
-      name      = "qatalyst-workspace-name-gsi"
-      hash_key  = "name"
+      name     = "qatalyst-workspace-name-gsi"
+      hash_key = "name"
     }
   },
-  "user_profile": {
+  "user_profile" : {
     table_name  = "qatalyst-user-profile"
     hash_key    = "user_id"
     attribute_1 = "email_id"
     "gsi_1" : {
-      name      = "qatalyst-user-email-gsi"
-      hash_key  = "email_id"
+      name     = "qatalyst-user-email-gsi"
+      hash_key = "email_id"
     }
   }
 }
