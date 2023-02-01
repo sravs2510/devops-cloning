@@ -445,10 +445,7 @@ module "create_ecr" {
   STAGE        = var.STAGE
 
   providers = {
-    aws.sea_region = aws.sea_region
-    aws.in_region  = aws.in_region
-    aws.us_region  = aws.us_region
-    aws.eu_region  = aws.eu_region
+    aws.ecr_region = aws.sea_region
   }
 }
 

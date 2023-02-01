@@ -36,3 +36,20 @@ resource "aws_cognito_user_pool_client" "user_pool_web_client" {
   name         = var.user_pool_web_client_name
   user_pool_id = aws_cognito_user_pool.user_pool.id
 }
+
+#Microsoft
+resource "aws_cognito_identity_provider" "microsoft_saml_provider" {
+  user_pool_id  = aws_cognito_user_pool.user_pool.id
+  provider_name = "Microsoft"
+  provider_type = "SAML"
+
+  provider_details = {
+    MetadataURL = "https://login.microsoftonline.com/c47dcff4-6b21-4de3-931a-058aa60a9629/federationmetadata/2007-06/federationmetadata.xml"
+  }
+
+  attribute_mapping = {
+    email    = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"
+    username = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"
+    website  = "http://schemas.microsoft.com/ws/2008/06/identity/claims/windowsaccountname"
+  }
+}
