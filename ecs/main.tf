@@ -61,7 +61,6 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
         "memory" : var.fargate_cpu_memory.memory,
         "cpu" : var.fargate_cpu_memory.cpu,
         "essential" : true,
-        #        "entryPoint" : ["/"],
         "environment" : [
           {
             "name" : "COGNITO_USER_POOL_ID",
