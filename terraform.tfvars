@@ -50,10 +50,6 @@ global_ddb_tables_without_range = [
   {
     table_name = "qatalyst-cognito-mapping"
     hash_key   = "cognito_user_id"
-  },
-  {
-    table_name = "qatalyst-user-profile"
-    hash_key   = "user_id"
   }
 ]
 
@@ -66,6 +62,16 @@ gsi_global_table_details_without_range = {
     "gsi_1" : {
       name      = "qatalyst-workspace-name-gsi"
       hash_key  = "name"
+    }
+  },
+  "user_profile": {
+    table_name  = "qatalyst-user-profile"
+    hash_key    = "user_id"
+    attribute_1 = "email_id"
+    stream_enabled = true
+    "gsi_1" : {
+      name      = "qatalyst-user-email-gsi"
+      hash_key  = "email_id"
     }
   }
 }
