@@ -56,6 +56,7 @@ resource "aws_cognito_user_pool_client" "user_pool_web_client" {
 
 #Microsoft
 resource "aws_cognito_identity_provider" "microsoft_saml_provider" {
+  provider      = aws.cognito_region
   user_pool_id  = aws_cognito_user_pool.user_pool.id
   provider_name = "Microsoft"
   provider_type = "SAML"
