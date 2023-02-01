@@ -58,7 +58,6 @@ gsi_global_table_details_without_range = {
     table_name  = "qatalyst-workspace-info"
     hash_key    = "workspace_id"
     attribute_1 = "name"
-    stream_enabled = true
     "gsi_1" : {
       name      = "qatalyst-workspace-name-gsi"
       hash_key  = "name"
@@ -68,7 +67,6 @@ gsi_global_table_details_without_range = {
     table_name  = "qatalyst-user-profile"
     hash_key    = "user_id"
     attribute_1 = "email_id"
-    stream_enabled = true
     "gsi_1" : {
       name      = "qatalyst-user-email-gsi"
       hash_key  = "email_id"
