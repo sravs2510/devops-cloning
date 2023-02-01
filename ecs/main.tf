@@ -61,18 +61,22 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
         "memory" : var.fargate_cpu_memory.memory,
         "cpu" : var.fargate_cpu_memory.cpu,
         "essential" : true,
-#        "entryPoint" : ["/"],
+        #        "entryPoint" : ["/"],
         "environment" : [
           {
-            "name" : "ENV_NAME",
-            "value" : "ENV_VALUE"
+            "name" : "COGNITO_USER_POOL_ID",
+            "value" : var.cognito_user_pool_id
+          },
+          {
+            "name" : "STAGE",
+            "value" : var.STAGE
           }
         ],
         "portMappings" : [
           {
             "containerPort" : 80,
             "hostPort" : 80,
-            "protocol": "tcp"
+            "protocol" : "tcp"
           }
         ]
         "logConfiguration" : {
