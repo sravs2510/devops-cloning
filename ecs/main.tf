@@ -71,7 +71,8 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
         "portMappings" : [
           {
             "containerPort" : 80,
-            "hostPort" : 80
+            "hostPort" : 80,
+            "protocol": "tcp"
           }
         ]
         "logConfiguration" : {
@@ -96,7 +97,7 @@ resource "aws_security_group" "qatalyst_ecs_sg" {
   ingress {
     description     = "HTTP From ALB"
     from_port       = 80
-    to_port         = 90
+    to_port         = 80
     protocol        = "tcp"
     security_groups = [var.alb_security_group] #ALB Security
   }
