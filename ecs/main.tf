@@ -69,6 +69,10 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
           {
             "name" : "STAGE",
             "value" : var.STAGE
+          },
+          {
+            "name" : "LOCAL_RUN",
+            "value" : false
           }
         ],
         "portMappings" : [
