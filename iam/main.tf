@@ -47,6 +47,7 @@ resource "aws_iam_policy" "qatalyst_ecs_task_iam_policy" {
           "dynamodb:BatchGetItem",
           "dynamodb:BatchWriteItem",
           "dynamodb:PutItem",
+          "dynamodb:DescribeTable",
           "dynamodb:DeleteItem",
           "dynamodb:GetItem",
           "dynamodb:Query",

@@ -48,3 +48,8 @@ variable "cognito_user_pool_id" {
   type        = string
   description = "cognito user pool id"
 }
+
+variable "qatalyst_domain" {
+  type        = string
+  description = "Qatalyst Domain"
+}

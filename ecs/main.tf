@@ -73,6 +73,10 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
           {
             "name" : "LOCAL_RUN",
             "value" : "false"
+          },
+          {
+            "name": "QATALYST_DOMAIN"
+            "value": var.qatalyst_domain
           }
         ],
         "portMappings" : [
