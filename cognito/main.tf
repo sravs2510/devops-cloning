@@ -95,6 +95,7 @@ resource "aws_cognito_identity_provider" "google_sso_provider" {
 
 # Custom Domain
 resource "aws_cognito_user_pool_domain" "cognito_custom_domain" {
+  provider        = aws.cognito_region
   domain          = var.cognito_custom_domain
   certificate_arn = var.cognito_custom_domain_acm_arn
   user_pool_id    = aws_cognito_user_pool.user_pool.id
