@@ -41,6 +41,7 @@ module "create_dashboard_cloudfront" {
 
 locals {
   cognito_custom_domain = var.STAGE == "prod" ? join(".", ["auth", var.base_domain]) : join(".", ["auth", var.STAGE, var.base_domain])
+
 }
 
 #Congito Custom Domain ACM
@@ -63,6 +64,7 @@ module "create_cognito_user_pool" {
   user_pool_web_client_name     = var.user_pool_web_client_name
   cognito_custom_domain         = local.cognito_custom_domain
   cognito_custom_domain_acm_arn = module.create_cognito_custom_domain_acm.acm_arn
+  cognito_callback_url          = join("/", [local.qatalyst_domain, "callback?"])
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
 

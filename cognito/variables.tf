@@ -27,3 +27,8 @@ variable "cognito_custom_domain_acm_arn" {
   type        = string
   description = "Cognito Custom Domain ACM ARN"
 }
+
+variable "cognito_callback_url" {
+  type        = string
+  description = "Cognito callback url"
+}
