@@ -39,12 +39,32 @@ module "create_dashboard_cloudfront" {
   }
 }
 
+locals {
+  cognito_custom_domain = var.STAGE == "prod" ? join(".", ["auth", var.base_domain]) : join(".", ["auth", var.STAGE, var.base_domain])
+}
+
+#Congito Custom Domain ACM
+module "create_cognito_custom_domain_acm" {
+  source       = "./acm-fe"
+  base_domain  = var.base_domain
+  domain_name  = local.cognito_custom_domain
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
+
+  providers = {
+    aws.acm_region = aws.us_region
+  }
+}
+
+#Cognito
 module "create_cognito_user_pool" {
-  source                    = "./cognito"
-  user_pool_name            = var.user_pool_name
-  user_pool_web_client_name = var.user_pool_web_client_name
-  DEFAULT_TAGS              = var.DEFAULT_TAGS
-  STAGE                     = var.STAGE
+  source                        = "./cognito"
+  user_pool_name                = var.user_pool_name
+  user_pool_web_client_name     = var.user_pool_web_client_name
+  cognito_custom_domain         = local.cognito_custom_domain
+  cognito_custom_domain_acm_arn = module.create_cognito_custom_domain_acm.acm_arn
+  DEFAULT_TAGS                  = var.DEFAULT_TAGS
+  STAGE                         = var.STAGE
 
   providers = {
     aws.cognito_region = aws.us_region
