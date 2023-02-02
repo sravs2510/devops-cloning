@@ -76,6 +76,7 @@ resource "aws_cognito_identity_provider" "microsoft_saml_provider" {
 
 #Google
 resource "aws_cognito_identity_provider" "google_sso_provider" {
+  provider      = aws.cognito_region
   user_pool_id  = aws_cognito_user_pool.user_pool.id
   provider_name = "Google"
   provider_type = "Google"
