@@ -1,4 +1,7 @@
 # EU Resources
+locals {
+  qatalyst_domain = var.STAGE == "prod" ? join("", ["https://", var.base_domain]) : join("", ["https://", var.STAGE, ".", var.base_domain])
+}
 module "create_eu_vpc" {
   source          = "./vpc"
   cidr_block      = var.cidr_block
@@ -98,6 +101,7 @@ module "create_eu_ecs" {
   ecs_task_execution_role_arn = module.create_iam.ecs_task_execution_role_arn
   ecs_task_role_arn           = module.create_iam.ecs_task_role_arn
   cognito_user_pool_id        = module.create_cognito_user_pool.user_pool_id
+  qatalyst_domain             = local.qatalyst_domain
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE
 
@@ -206,6 +210,7 @@ module "create_in_ecs" {
   ecs_task_execution_role_arn = module.create_iam.ecs_task_execution_role_arn
   ecs_task_role_arn           = module.create_iam.ecs_task_role_arn
   cognito_user_pool_id        = module.create_cognito_user_pool.user_pool_id
+  qatalyst_domain             = local.qatalyst_domain
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE
 
@@ -314,6 +319,7 @@ module "create_sea_ecs" {
   ecs_task_execution_role_arn = module.create_iam.ecs_task_execution_role_arn
   ecs_task_role_arn           = module.create_iam.ecs_task_role_arn
   cognito_user_pool_id        = module.create_cognito_user_pool.user_pool_id
+  qatalyst_domain             = local.qatalyst_domain
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE
 
@@ -422,6 +428,7 @@ module "create_us_ecs" {
   ecs_task_execution_role_arn = module.create_iam.ecs_task_execution_role_arn
   ecs_task_role_arn           = module.create_iam.ecs_task_role_arn
   cognito_user_pool_id        = module.create_cognito_user_pool.user_pool_id
+  qatalyst_domain             = local.qatalyst_domain
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE
 
