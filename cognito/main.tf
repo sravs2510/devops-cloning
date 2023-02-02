@@ -68,8 +68,27 @@ resource "aws_cognito_identity_provider" "microsoft_saml_provider" {
   }
 
   attribute_mapping = {
-    email    = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"
-    username = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"
-    website  = "http://schemas.microsoft.com/ws/2008/06/identity/claims/windowsaccountname"
+    email   = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"
+    name    = "http://schemas.microsoft.com/identity/claims/displayname"
+    website = "http://schemas.microsoft.com/ws/2008/06/identity/claims/windowsaccountname"
   }
 }
+
+#Google
+resource "aws_cognito_identity_provider" "google_sso_provider" {
+  user_pool_id  = aws_cognito_user_pool.user_pool.id
+  provider_name = "Google"
+  provider_type = "Google"
+
+  provider_details = {
+    authorize_scopes = "profile email openid"
+    client_id        = "#QATALYST_GOOGLE_CLIENT_ID"
+    client_secret    = "#QATALYST_GOOGLE_CLIENT_SECRET"
+  }
+
+  attribute_mapping = {
+    email    = "email"
+    username = "sub"
+  }
+}
+
