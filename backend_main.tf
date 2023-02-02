@@ -96,6 +96,7 @@ module "create_eu_ecs" {
   ecs_subnets                 = module.create_eu_vpc.private_subnets
   alb_target_group_arn        = module.create_eu_alb.qatalyst_alb_target_group_arn
   ecs_task_execution_role_arn = module.create_iam.ecs_task_execution_role_arn
+  ecs_task_role_arn           = module.create_iam.ecs_task_role_arn
   cognito_user_pool_id        = module.create_cognito_user_pool.user_pool_id
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE
@@ -203,6 +204,7 @@ module "create_in_ecs" {
   ecs_subnets                 = module.create_in_vpc.private_subnets
   alb_target_group_arn        = module.create_in_alb.qatalyst_alb_target_group_arn
   ecs_task_execution_role_arn = module.create_iam.ecs_task_execution_role_arn
+  ecs_task_role_arn           = module.create_iam.ecs_task_role_arn
   cognito_user_pool_id        = module.create_cognito_user_pool.user_pool_id
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE
@@ -310,6 +312,7 @@ module "create_sea_ecs" {
   ecs_subnets                 = module.create_sea_vpc.private_subnets
   alb_target_group_arn        = module.create_sea_alb.qatalyst_alb_target_group_arn
   ecs_task_execution_role_arn = module.create_iam.ecs_task_execution_role_arn
+  ecs_task_role_arn           = module.create_iam.ecs_task_role_arn
   cognito_user_pool_id        = module.create_cognito_user_pool.user_pool_id
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE
@@ -417,6 +420,7 @@ module "create_us_ecs" {
   ecs_subnets                 = module.create_us_vpc.private_subnets
   alb_target_group_arn        = module.create_us_alb.qatalyst_alb_target_group_arn
   ecs_task_execution_role_arn = module.create_iam.ecs_task_execution_role_arn
+  ecs_task_role_arn           = module.create_iam.ecs_task_role_arn
   cognito_user_pool_id        = module.create_cognito_user_pool.user_pool_id
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE

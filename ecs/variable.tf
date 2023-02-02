@@ -39,6 +39,11 @@ variable "ecs_task_execution_role_arn" {
   description = "ECS Task Execution Role Arn"
 }
 
+variable "ecs_task_role_arn" {
+  type        = string
+  description = "ECS Task Role Arn"
+}
+
 variable "cognito_user_pool_id" {
   type        = string
   description = "cognito user pool id"
