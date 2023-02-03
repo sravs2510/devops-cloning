@@ -33,6 +33,13 @@ resource "aws_iam_role_policy_attachment" "qatalyst_ecs_task_execution_service_r
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
+data "aws_caller_identity" "current" {
+  provider = aws.iam_region
+}
+
+locals {
+  account_id = data.aws_caller_identity.current.account_id
+}
 # add the required permission to the policy below
 resource "aws_iam_policy" "qatalyst_ecs_task_iam_policy" {
   provider    = aws.iam_region
@@ -54,7 +61,7 @@ resource "aws_iam_policy" "qatalyst_ecs_task_iam_policy" {
           "dynamodb:UpdateItem"
         ]
         Effect   = "Allow"
-        Resource = "arn:aws:dynamodb:us-east-1:081063778907:table/qatalyst-*"
+        Resource = join(":", ["arn:aws:dynamodb:*", local.account_id, "table/qatalyst-*"])
       },
     ]
   })
