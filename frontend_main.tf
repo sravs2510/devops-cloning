@@ -11,9 +11,9 @@ module "create_dashboard_s3_bucket" {
 }
 
 module "create_dashboard_acm" {
-  source       = "./acm-fe"
+  source       = "./acm-fe-wc"
   base_domain  = var.base_domain
-  domain_name  = var.STAGE == "prod" ? join(".", ["*", var.base_domain]) : join(".", ["*", var.STAGE, var.base_domain])
+  domain_name  = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.base_domain])
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
 
@@ -23,9 +23,9 @@ module "create_dashboard_acm" {
 }
 
 module "create_dashboard_cloudfront" {
-  source                      = "./cloudfront-fe"
+  source                      = "./cloudfront-fe-wc"
   base_domain                 = var.base_domain
-  cf_domain_name              = var.STAGE == "prod" ? join(".", ["*", var.base_domain]) : join(".", ["*", var.STAGE, var.base_domain])
+  cf_domain_name              = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.base_domain])
   bucket_arn                  = module.create_dashboard_s3_bucket.s3_bucket_arn
   bucket_id                   = module.create_dashboard_s3_bucket.s3_bucket_id
   bucket_regional_domain_name = module.create_dashboard_s3_bucket.s3_bucket_regional_domain_name
