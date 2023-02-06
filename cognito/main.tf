@@ -18,6 +18,7 @@ data "aws_caller_identity" "current" {
 locals {
   account_id          = data.aws_caller_identity.current.account_id
   cognito_region_name = data.aws_region.cognito_region.name
+  from_email_id       = var.STAGE == "prod" ? join("", ["hello@", var.base_domain]) : join("", ["hello@", var.STAGE, ".", var.base_domain])
 }
 
 resource "aws_cognito_user_pool" "user_pool" {
@@ -34,6 +35,10 @@ resource "aws_cognito_user_pool" "user_pool" {
   }
 
   auto_verified_attributes = ["email"]
+  email_configuration {
+    email_sending_account = "COGNITO_DEFAULT"
+    from_email_address    = local.from_email_id
+  }
 
   verification_message_template {
     default_email_option = "CONFIRM_WITH_CODE"

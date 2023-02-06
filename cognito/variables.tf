@@ -32,3 +32,8 @@ variable "cognito_callback_url" {
   type        = string
   description = "Cognito callback url"
 }
+
+variable "base_domain" {
+  type        = string
+  description = "Base Domain"
+}
