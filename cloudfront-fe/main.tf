@@ -76,7 +76,7 @@ resource "aws_cloudfront_distribution" "media_cf_distribution" {
     ssl_support_method             = "sni-only"
   }
 
-  tags = merge(tomap({ "Name" : join("-", [var.cf_domain_name, var.STAGE]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+  tags = merge(tomap({ "Name" : var.cf_domain_name }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
 #S3 Bucket Policy
