@@ -35,10 +35,6 @@ resource "aws_cognito_user_pool" "user_pool" {
   }
 
   auto_verified_attributes = ["email"]
-  email_configuration {
-    email_sending_account = "COGNITO_DEFAULT"
-    from_email_address    = local.from_email_id
-  }
 
   verification_message_template {
     default_email_option = "CONFIRM_WITH_CODE"
