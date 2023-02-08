@@ -40,7 +40,7 @@ resource "aws_ecs_cluster_capacity_providers" "qatalyst_ecs_cluster_capacity_pro
 resource "aws_cloudwatch_log_group" "qatalyst_log_group" {
   provider          = aws.ecs_region
   name              = "qatalyst-backend-log-group"
-  retention_in_days = 90
+  retention_in_days = var.cw_logs_retention_in_days
   tags              = merge(tomap({ "Name" : "qatalyst-backend-log-group" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
@@ -75,8 +75,8 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
             "value" : "false"
           },
           {
-            "name": "QATALYST_DOMAIN"
-            "value": var.qatalyst_domain
+            "name" : "QATALYST_DOMAIN"
+            "value" : var.qatalyst_domain
           }
         ],
         "portMappings" : [

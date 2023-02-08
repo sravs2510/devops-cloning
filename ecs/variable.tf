@@ -53,3 +53,8 @@ variable "qatalyst_domain" {
   type        = string
   description = "Qatalyst Domain"
 }
+
+variable "cw_logs_retention_in_days" {
+  type        = string
+  description = "CloudWatch Logs Retention Period in Days"
+}

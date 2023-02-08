@@ -102,6 +102,7 @@ module "create_eu_ecs" {
   ecs_task_role_arn           = module.create_iam.ecs_task_role_arn
   cognito_user_pool_id        = module.create_cognito_user_pool.user_pool_id
   qatalyst_domain             = local.qatalyst_domain
+  cw_logs_retention_in_days   = var.cw_logs_retention_in_days
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE
 
@@ -211,6 +212,7 @@ module "create_in_ecs" {
   ecs_task_role_arn           = module.create_iam.ecs_task_role_arn
   cognito_user_pool_id        = module.create_cognito_user_pool.user_pool_id
   qatalyst_domain             = local.qatalyst_domain
+  cw_logs_retention_in_days   = var.cw_logs_retention_in_days
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE
 
@@ -320,6 +322,7 @@ module "create_sea_ecs" {
   ecs_task_role_arn           = module.create_iam.ecs_task_role_arn
   cognito_user_pool_id        = module.create_cognito_user_pool.user_pool_id
   qatalyst_domain             = local.qatalyst_domain
+  cw_logs_retention_in_days   = var.cw_logs_retention_in_days
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE
 
@@ -429,6 +432,7 @@ module "create_us_ecs" {
   ecs_task_role_arn           = module.create_iam.ecs_task_role_arn
   cognito_user_pool_id        = module.create_cognito_user_pool.user_pool_id
   qatalyst_domain             = local.qatalyst_domain
+  cw_logs_retention_in_days   = var.cw_logs_retention_in_days
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE
 
