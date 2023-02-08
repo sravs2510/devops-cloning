@@ -43,6 +43,11 @@ global_ddb_table_details = [
     table_name = "qatalyst-configurations"
     hash_key   = "PK"
     range_key  = "SK"
+  },
+  {
+    table_name = "qatalyst-user-workspace-mapping"
+    hash_key   = "user_id"
+    range_key  = "workspace_id"
   }
 ]
 
