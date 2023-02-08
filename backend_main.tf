@@ -111,6 +111,28 @@ module "create_eu_ecs" {
   }
 }
 
+module "create_eu_dynamodb_gsi" {
+  source            = "./dynamodb_gsi"
+  DEFAULT_TAGS      = var.DEFAULT_TAGS
+  STAGE             = var.STAGE
+  gsi_table_details = var.gsi_table_details
+
+  providers = {
+    aws.dynamo_region = aws.eu_region
+  }
+}
+
+module "create_eu_dynamodb" {
+  source        = "./dynamodb"
+  DEFAULT_TAGS  = var.DEFAULT_TAGS
+  STAGE         = var.STAGE
+  table_details = var.table_details
+
+  providers = {
+    aws.dynamo_region = aws.eu_region
+  }
+}
+
 # INDIA Resources
 module "create_in_vpc" {
   source          = "./vpc"
@@ -218,6 +240,28 @@ module "create_in_ecs" {
 
   providers = {
     aws.ecs_region = aws.in_region
+  }
+}
+
+module "create_in_dynamodb_gsi" {
+  source            = "./dynamodb_gsi"
+  DEFAULT_TAGS      = var.DEFAULT_TAGS
+  STAGE             = var.STAGE
+  gsi_table_details = var.gsi_table_details
+
+  providers = {
+    aws.dynamo_region = aws.in_region
+  }
+}
+
+module "create_in_dynamodb" {
+  source        = "./dynamodb"
+  DEFAULT_TAGS  = var.DEFAULT_TAGS
+  STAGE         = var.STAGE
+  table_details = var.table_details
+
+  providers = {
+    aws.dynamo_region = aws.in_region
   }
 }
 
@@ -331,6 +375,28 @@ module "create_sea_ecs" {
   }
 }
 
+module "create_sea_dynamodb_gsi" {
+  source            = "./dynamodb_gsi"
+  DEFAULT_TAGS      = var.DEFAULT_TAGS
+  STAGE             = var.STAGE
+  gsi_table_details = var.gsi_table_details
+
+  providers = {
+    aws.dynamo_region = aws.sea_region
+  }
+}
+
+module "create_sea_dynamodb" {
+  source        = "./dynamodb"
+  DEFAULT_TAGS  = var.DEFAULT_TAGS
+  STAGE         = var.STAGE
+  table_details = var.table_details
+
+  providers = {
+    aws.dynamo_region = aws.sea_region
+  }
+}
+
 # US Resources
 module "create_us_vpc" {
   source          = "./vpc"
@@ -438,6 +504,28 @@ module "create_us_ecs" {
 
   providers = {
     aws.ecs_region = aws.us_region
+  }
+}
+
+module "create_us_dynamodb_gsi" {
+  source            = "./dynamodb_gsi"
+  DEFAULT_TAGS      = var.DEFAULT_TAGS
+  STAGE             = var.STAGE
+  gsi_table_details = var.gsi_table_details
+
+  providers = {
+    aws.dynamo_region = aws.us_region
+  }
+}
+
+module "create_us_dynamodb" {
+  source        = "./dynamodb"
+  DEFAULT_TAGS  = var.DEFAULT_TAGS
+  STAGE         = var.STAGE
+  table_details = var.table_details
+
+  providers = {
+    aws.dynamo_region = aws.us_region
   }
 }
 

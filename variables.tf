@@ -82,3 +82,13 @@ variable "cw_logs_retention_in_days" {
   type        = string
   description = "CloudWatch Logs Retention Period in Days"
 }
+
+variable "table_details" {
+  type        = map(any)
+  description = "DDB Tables details"
+}
+
+variable "gsi_table_details" {
+  type        = any
+  description = "DDB Tables with GSI details"
+}
