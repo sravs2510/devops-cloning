@@ -1,2 +1,2 @@
-STAGE = "staging"
-point_in_time_recovery = true
+STAGE                     = "staging"
+cw_logs_retention_in_days = 14

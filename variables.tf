@@ -77,3 +77,8 @@ variable "fargate_cpu_memory" {
   type        = map(any)
   description = "Fargate CPU and Memory Details"
 }
+
+variable "cw_logs_retention_in_days" {
+  type        = string
+  description = "CloudWatch Logs Retention Period in Days"
+}
