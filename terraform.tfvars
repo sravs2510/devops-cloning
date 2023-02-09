@@ -79,6 +79,30 @@ gsi_global_table_details_without_range = {
   }
 }
 
+gsi_table_details = {
+  "study_details" : {
+    table_name     = "qatalyst-study-details"
+    hash_key       = "workspace_id"
+    range_key      = "study_id"
+    attribute_1    = "last_modified_date"
+    stream_enabled = false
+    "gsi_1" : {
+      name      = "qatalyst-study-details-date-gsi"
+      hash_key  = "workspace_id"
+      range_key = "last_modified_date"
+    }
+  }
+}
+
+table_details = {
+  "block-details" : {
+    table_name     = "qatalyst-block-details"
+    hash_key       = "study_id"
+    range_key      = "block_id"
+    stream_enabled = false
+  }
+}
+
 fargate_cpu_memory = {
   "cpu" : 1024
   "memory" : 2048
