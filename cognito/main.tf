@@ -42,7 +42,7 @@ resource "aws_cognito_user_pool" "user_pool" {
   }
 
   lambda_config {
-    post_confirmation = join("", ["arn:aws:lambda:", local.cognito_region_name, ":", local.account_id, ":function:qatalyst-", var.STAGE, "-signup"]),
+    post_confirmation = join("", ["arn:aws:lambda:", local.cognito_region_name, ":", local.account_id, ":function:qatalyst-", var.STAGE, "-signup"])
     pre_authentication = join("", ["arn:aws:lambda:", local.cognito_region_name, ":", local.account_id, ":function:qatalyst-", var.STAGE, "-pre-authentication"])
   }
 
