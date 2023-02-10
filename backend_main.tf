@@ -1,6 +1,6 @@
 # EU Resources
 locals {
-  qatalyst_domain = var.STAGE == "prod" ? join("", [var.base_domain]) : join("", [var.STAGE, ".", var.base_domain])
+  qatalyst_domain = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.base_domain])
 }
 module "create_eu_vpc" {
   source          = "./vpc"
