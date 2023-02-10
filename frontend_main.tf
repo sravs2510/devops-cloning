@@ -114,3 +114,16 @@ module "create_tester_view_cloudfront" {
     aws.bucket_region     = aws.sea_region
   }
 }
+
+#CDN
+module "create_cdn" {
+  source       = "./cdn"
+  count        = var.STAGE == "prod" ? 1 : 0
+  base_domain  = var.base_domain
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
+
+  providers = {
+    aws.cdn_region = aws.us_region
+  }
+}

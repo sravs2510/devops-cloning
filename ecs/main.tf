@@ -132,7 +132,7 @@ resource "aws_ecs_service" "qatalyst_ecs_service" {
   scheduling_strategy  = "REPLICA"
   desired_count        = 1
   force_new_deployment = true
-
+  propagate_tags       = "SERVICE"
   network_configuration {
     subnets          = var.ecs_subnets
     assign_public_ip = false
