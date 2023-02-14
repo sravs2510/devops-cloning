@@ -24,3 +24,8 @@ variable "stream_view_type" {
   description = "Stream view type which is used to get the old data, new data or both from dynamodb"
   default     = "NEW_AND_OLD_IMAGES"
 }
+
+variable "point_in_time_recovery" {
+  type        = bool
+  description = "Point in time recovery value"
+}
