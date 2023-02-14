@@ -77,6 +77,10 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
           {
             "name" : "QATALYST_DOMAIN"
             "value" : var.qatalyst_domain
+          },
+          {
+            "name" : "SENTRY_SDK_DSN"
+            "value" : "#SENTRY_DSN_VALUE"
           }
         ],
         "portMappings" : [
@@ -132,7 +136,7 @@ resource "aws_ecs_service" "qatalyst_ecs_service" {
   scheduling_strategy  = "REPLICA"
   desired_count        = 1
   force_new_deployment = true
-
+  propagate_tags       = "SERVICE"
   network_configuration {
     subnets          = var.ecs_subnets
     assign_public_ip = false
