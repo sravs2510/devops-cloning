@@ -33,7 +33,7 @@ resource "aws_dynamodb_table" "ddb_global_config_table" {
   range_key    = var.global_ddb_table_details[count.index].range_key
   billing_mode = "PAY_PER_REQUEST"
 
-  stream_enabled   =  true
+  stream_enabled   = true
   stream_view_type = "NEW_AND_OLD_IMAGES"
 
   point_in_time_recovery {
@@ -129,7 +129,7 @@ resource "aws_dynamodb_table" "global_ddb_table_gsi_without_range" {
   }
 
   global_secondary_index {
-    name            =each.value.gsi_1.name
+    name            = each.value.gsi_1.name
     hash_key        = each.value.gsi_1.hash_key
     projection_type = "ALL"
   }

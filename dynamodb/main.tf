@@ -19,6 +19,10 @@ resource "aws_dynamodb_table" "table" {
   stream_enabled   = try(each.value.stream_enabled, var.stream_enabled)
   stream_view_type = var.stream_view_type
 
+  point_in_time_recovery {
+    enabled = var.point_in_time_recovery
+  }
+
   attribute {
     name = each.value.hash_key
     type = "S"

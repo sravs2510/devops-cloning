@@ -92,3 +92,9 @@ variable "gsi_table_details" {
   type        = any
   description = "DDB Tables with GSI details"
 }
+
+variable "point_in_time_recovery" {
+  type        = bool
+  description = "Point in time recovery value"
+  default     = false
+}
