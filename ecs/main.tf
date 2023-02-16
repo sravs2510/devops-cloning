@@ -81,6 +81,10 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
           {
             "name" : "SENTRY_SDK_DSN"
             "value" : "#SENTRY_DSN_VALUE"
+          },
+          {
+            "name" : "FE_TESTER_VIEW_DOMAIN_NAME"
+            "value" : var.fe_tester_view_domain_name
           }
         ],
         "portMappings" : [
