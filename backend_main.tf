@@ -1,6 +1,7 @@
 # EU Resources
 locals {
   qatalyst_domain = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.base_domain])
+  tester_view_domain = var.STAGE == "prod" ? join(".", [var.tester_view_sub_domain, var.base_domain]) : join(".", [var.tester_view_sub_domain, var.STAGE, var.base_domain])
 }
 module "create_eu_vpc" {
   source          = "./vpc"
@@ -102,6 +103,7 @@ module "create_eu_ecs" {
   ecs_task_role_arn           = module.create_iam.ecs_task_role_arn
   cognito_user_pool_id        = module.create_cognito_user_pool.user_pool_id
   qatalyst_domain             = local.qatalyst_domain
+  fe_tester_view_domain_name  = local.tester_view_domain
   cw_logs_retention_in_days   = var.cw_logs_retention_in_days
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE
@@ -234,6 +236,7 @@ module "create_in_ecs" {
   ecs_task_role_arn           = module.create_iam.ecs_task_role_arn
   cognito_user_pool_id        = module.create_cognito_user_pool.user_pool_id
   qatalyst_domain             = local.qatalyst_domain
+  fe_tester_view_domain_name  = local.tester_view_domain
   cw_logs_retention_in_days   = var.cw_logs_retention_in_days
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE
@@ -368,6 +371,7 @@ module "create_sea_ecs" {
   ecs_task_role_arn           = module.create_iam.ecs_task_role_arn
   cognito_user_pool_id        = module.create_cognito_user_pool.user_pool_id
   qatalyst_domain             = local.qatalyst_domain
+  fe_tester_view_domain_name  = local.tester_view_domain
   cw_logs_retention_in_days   = var.cw_logs_retention_in_days
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE
@@ -502,6 +506,7 @@ module "create_us_ecs" {
   ecs_task_role_arn           = module.create_iam.ecs_task_role_arn
   cognito_user_pool_id        = module.create_cognito_user_pool.user_pool_id
   qatalyst_domain             = local.qatalyst_domain
+  fe_tester_view_domain_name  = local.tester_view_domain
   cw_logs_retention_in_days   = var.cw_logs_retention_in_days
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE

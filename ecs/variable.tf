@@ -58,3 +58,8 @@ variable "cw_logs_retention_in_days" {
   type        = string
   description = "CloudWatch Logs Retention Period in Days"
 }
+
+variable "fe_tester_view_domain_name" {
+  type        = string
+  description = "FE test view domain name"
+}
