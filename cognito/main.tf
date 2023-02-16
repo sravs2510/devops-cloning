@@ -19,6 +19,7 @@ locals {
   account_id          = data.aws_caller_identity.current.account_id
   cognito_region_name = data.aws_region.cognito_region.name
   from_email_id       = var.STAGE == "prod" ? join("", ["hello@", var.base_domain]) : join("", ["hello@", var.STAGE, ".", var.base_domain])
+  default_auth_flows  = ["ALLOW_REFRESH_TOKEN_AUTH", "ALLOW_CUSTOM_AUTH", "ALLOW_USER_SRP_AUTH"]
 }
 
 resource "aws_cognito_user_pool" "user_pool" {
@@ -59,7 +60,7 @@ resource "aws_cognito_user_pool_client" "user_pool_web_client" {
   allowed_oauth_flows                  = ["implicit"]
   allowed_oauth_scopes                 = ["phone", "email", "openid"]
   supported_identity_providers         = ["COGNITO", "Google", "Microsoft"]
-  explicit_auth_flows                  = var.STAGE == "prod" ? [] : ["ALLOW_ADMIN_USER_PASSWORD_AUTH"]
+  explicit_auth_flows                  = var.STAGE == "prod" ? local.default_auth_flows : concat(local.default_auth_flows, ["ALLOW_ADMIN_USER_PASSWORD_AUTH"])
 }
 
 #Microsoft
