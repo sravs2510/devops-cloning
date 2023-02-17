@@ -103,6 +103,15 @@ table_details = {
   }
 }
 
+table_details = {
+  "block-details" : {
+    table_name     = "qatalyst-tester-details"
+    hash_key       = "study_id"
+    range_key      = "tester_id"
+    stream_enabled = false
+  }
+}
+
 fargate_cpu_memory = {
   "cpu" : 1024
   "memory" : 2048
