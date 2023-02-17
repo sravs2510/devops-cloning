@@ -38,8 +38,10 @@ data "aws_caller_identity" "current" {
 }
 
 locals {
-  account_id = data.aws_caller_identity.current.account_id
+  account_id    = data.aws_caller_identity.current.account_id
+  s3_bucket_arn = var.STAGE == "prod" ? "arn:aws:s3:::*.media.getqatalyst.io/*" : join("", ["arn:aws:s3:::*.media.", var.STAGE, ".getqatalyst.io/*"])
 }
+
 # add the required permission to the policy below
 resource "aws_iam_policy" "qatalyst_ecs_task_iam_policy" {
   provider    = aws.iam_region
@@ -64,12 +66,12 @@ resource "aws_iam_policy" "qatalyst_ecs_task_iam_policy" {
         Resource = join(":", ["arn:aws:dynamodb:*", local.account_id, "table/qatalyst-*"])
       },
       {
-        "Effect" : "Allow",
-        "Action" : [
+        Action = [
           "s3:PutObject",
           "s3:GetObject"
-        ]
-        "Resource" : join("", ["arn:aws:s3:::*.", "/media.", var.STAGE, ".getqatalyst.io/*"])
+        ],
+        Effect   = "Allow",
+        Resource = local.s3_bucket_arn
       }
     ]
   })
