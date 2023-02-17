@@ -63,14 +63,14 @@ resource "aws_iam_policy" "qatalyst_ecs_task_iam_policy" {
         Effect   = "Allow"
         Resource = join(":", ["arn:aws:dynamodb:*", local.account_id, "table/qatalyst-*"])
       },
-       {
-            "Effect": "Allow",
-            "Action": [
-                "s3:PutObject",
-                "s3:GetObject"
-            ]
-            "Resource":join("" , ["arn:aws:s3:::*.", "/media.", var.STAGE, ".getqatalyst.io/*"])
-        }
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "s3:PutObject",
+          "s3:GetObject"
+        ]
+        "Resource" : join("", ["arn:aws:s3:::*.", "/media.", var.STAGE, ".getqatalyst.io/*"])
+      }
     ]
   })
   tags = merge(tomap({ "Name" : "qatalyst-ecs-task-iam-policy" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
