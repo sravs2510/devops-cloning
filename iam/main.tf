@@ -69,7 +69,7 @@ resource "aws_iam_policy" "qatalyst_ecs_task_iam_policy" {
                 "s3:PutObject",
                 "s3:GetObject"
             ]
-            "Resource":join("" , ["arn:aws:s3:::*:", "/*.media.", var.STAGE, ".getqatalyst.io/*"])
+            "Resource":join("" , ["arn:aws:s3:::*.", "/media.", var.STAGE, ".getqatalyst.io/*"])
         }
     ]
   })
