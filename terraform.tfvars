@@ -100,11 +100,8 @@ table_details = {
     hash_key       = "study_id"
     range_key      = "block_id"
     stream_enabled = false
-  }
-}
-
-table_details = {
-  "block-details" : {
+  },
+  "tester-details" : {
     table_name     = "qatalyst-tester-details"
     hash_key       = "study_id"
     range_key      = "tester_id"
