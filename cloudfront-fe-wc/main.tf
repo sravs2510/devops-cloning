@@ -44,7 +44,7 @@ resource "aws_cloudfront_distribution" "media_cf_distribution" {
   }
 
   aliases = [
-    var.cf_domain_name, 
+    var.cf_domain_name,
     local.wildcard_cf_domain
   ]
 
@@ -102,37 +102,4 @@ resource "aws_s3_bucket_policy" "media_s3_bucket_policy" {
   provider = aws.bucket_region
   bucket   = var.bucket_id
   policy   = data.aws_iam_policy_document.media_s3_bucket_policy_document.json
-}
-
-data "aws_route53_zone" "route53_zone" {
-  provider     = aws.cloudfront_region
-  name         = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.base_domain])
-  private_zone = false
-}
-
-resource "aws_route53_record" "media_cf_r53_record" {
-  provider = aws.cloudfront_region
-  name     = var.cf_domain_name
-  type     = "A"
-  zone_id  = data.aws_route53_zone.route53_zone.id
-
-  alias {
-    name                   = aws_cloudfront_distribution.media_cf_distribution.domain_name
-    zone_id                = aws_cloudfront_distribution.media_cf_distribution.hosted_zone_id
-    evaluate_target_health = false
-  }
-}
-
-# Base domain mapping
-resource "aws_route53_record" "base_domain_cf_record" {
-  provider = aws.cloudfront_region
-  name     = local.wildcard_cf_domain
-  type     = "A"
-  zone_id  = data.aws_route53_zone.route53_zone.id
-
-  alias {
-    name                   = aws_cloudfront_distribution.media_cf_distribution.domain_name
-    zone_id                = aws_cloudfront_distribution.media_cf_distribution.hosted_zone_id
-    evaluate_target_health = false
-  }
 }

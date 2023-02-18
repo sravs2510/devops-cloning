@@ -89,7 +89,7 @@ locals {
 
 data "aws_route53_zone" "domain_hosted_zone" {
   provider     = aws.alb_region
-  name         = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.base_domain])
+  name         = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.sub_domain, var.base_domain])
   private_zone = false
 }
 

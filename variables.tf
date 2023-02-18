@@ -98,3 +98,9 @@ variable "point_in_time_recovery" {
   description = "Point in time recovery value"
   default     = false
 }
+
+variable "dashboard_acm_arn" {
+  type        = string
+  description = "Dashboard ACM ARN"
+
+}

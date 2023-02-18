@@ -101,7 +101,7 @@ resource "aws_s3_bucket_policy" "media_s3_bucket_policy" {
 
 data "aws_route53_zone" "route53_zone" {
   provider     = aws.cloudfront_region
-  name         = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.base_domain])
+  name         = var.STAGE == "prod" ? var.base_domain : var.cf_domain_name
   private_zone = false
 }
 
