@@ -21,7 +21,7 @@ locals {
 resource "aws_s3_bucket" "s3_bucket" {
   provider = aws.s3_region
   bucket   = local.bucket_name
-  tags     = merge(tomap({ "Name" : join("-", [datacenter_code, "qatalyst", "media", "bucket"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+  tags     = merge(tomap({ "Name" : join("-", [local.datacenter_code, "qatalyst", "media", "bucket"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
 resource "aws_s3_bucket_acl" "s3_bucket_acl" {
