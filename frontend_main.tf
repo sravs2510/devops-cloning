@@ -62,10 +62,14 @@ module "create_cognito_user_pool" {
   }
 }
 
+locals {
+  s3_bucket_name = var.STAGE == "prod" ? join(".", [var.tester_view_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.tester_view_sub_domain, var.base_domain])
+}
+
 # Tester view Resources
 module "create_tester_view_s3_bucket" {
   source       = "./s3-fe"
-  bucket_name  = var.STAGE == "prod" ? join(".", [var.tester_view_sub_domain, var.base_domain]) : join(".", [var.tester_view_sub_domain, var.STAGE, var.base_domain])
+  bucket_name  = local.s3_bucket_name
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
 
