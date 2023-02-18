@@ -83,7 +83,8 @@ resource "aws_lb_listener" "qatalyst_alb_listener" {
 
 # ALB Domain Mapping
 locals {
-  domain_name = var.STAGE == "prod" ? join(".", [lookup(var.datacenter_codes, data.aws_region.current.name), var.sub_domain, var.base_domain]) : join(".", [lookup(var.datacenter_codes, data.aws_region.current.name), var.sub_domain, var.STAGE, var.base_domain])
+  datacenter_code = lookup(var.datacenter_codes, data.aws_region.current.name)
+  alb_domain_name = var.STAGE == "prod" ? join(".", [local.datacenter_code, var.sub_domain, var.base_domain]) : join(".", [local.datacenter_code, var.STAGE, var.sub_domain, var.base_domain])
 }
 
 data "aws_route53_zone" "domain_hosted_zone" {
@@ -95,7 +96,7 @@ data "aws_route53_zone" "domain_hosted_zone" {
 resource "aws_route53_record" "qatalyst_api_domain_record" {
   provider = aws.alb_region
   zone_id  = data.aws_route53_zone.domain_hosted_zone.zone_id
-  name     = local.domain_name
+  name     = local.alb_domain_name
   type     = "A"
 
   alias {

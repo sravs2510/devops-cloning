@@ -16,7 +16,7 @@ resource "aws_acm_certificate" "acm_domain_name" {
 
 data "aws_route53_zone" "domain_hosted_zone" {
   provider     = aws.acm_region
-  name         = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.base_domain])
+  name         = var.STAGE == "prod" ? var.base_domain : var.domain_name
   private_zone = false
 }
 

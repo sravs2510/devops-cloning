@@ -7,18 +7,21 @@ terraform {
   }
 }
 
-locals {
-  studyview_domain = format("%s%s", "https://", var.STAGE == "prod" ? join(".", [var.tester_view_sub_domain, var.base_domain]) : join(".", [var.tester_view_sub_domain, var.STAGE, var.base_domain]))
-  dashboard_domain = format("%s%s", "https://", var.STAGE == "prod" ? join(".", ["*", var.base_domain]) : join(".", ["*", var.STAGE, var.base_domain]))
-}
 data "aws_region" "current" {
   provider = aws.s3_region
 }
 
+locals {
+  datacenter_code  = lookup(var.datacenter_codes, data.aws_region.current.name)
+  studyview_domain = format("%s%s", "https://", var.STAGE == "prod" ? join(".", [var.tester_view_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.tester_view_sub_domain, var.base_domain]))
+  dashboard_domain = format("%s%s", "https://", var.STAGE == "prod" ? join(".", ["*", var.base_domain]) : join(".", ["*", var.STAGE, var.base_domain]))
+  bucket_name      = var.STAGE == "prod" ? join(".", [local.datacenter_code, var.bucket_prefix, var.base_domain]) : join(".", [local.datacenter_code, var.STAGE, var.bucket_prefix, var.base_domain])
+}
+
 resource "aws_s3_bucket" "s3_bucket" {
   provider = aws.s3_region
-  bucket   = join(".", [lookup(var.datacenter_codes, data.aws_region.current.name), var.bucket_prefix, var.STAGE, var.base_domain])
-  tags     = merge(tomap({ "Name" : join("-", ["qatalyst", "media", lookup(var.datacenter_codes, data.aws_region.current.name), "bucket"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+  bucket   = local.bucket_name
+  tags     = merge(tomap({ "Name" : join("-", [datacenter_code, "qatalyst", "media", "bucket"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
 resource "aws_s3_bucket_acl" "s3_bucket_acl" {

@@ -12,7 +12,8 @@ data "aws_region" "current" {
 }
 
 locals {
-  cf_domain_name = var.STAGE == "prod" ? join(".", [lookup(var.datacenter_codes, data.aws_region.current.name), var.sub_domain, var.base_domain]) : join(".", [lookup(var.datacenter_codes, data.aws_region.current.name), var.sub_domain, var.STAGE, var.base_domain])
+  datacenter_code = lookup(var.datacenter_codes, data.aws_region.current.name)
+  cf_domain_name  = var.STAGE == "prod" ? join(".", [local.datacenter_code, var.sub_domain, var.base_domain]) : join(".", [local.datacenter_code, var.STAGE, var.sub_domain, var.base_domain])
 }
 
 data "aws_cloudfront_cache_policy" "cache_policy" {

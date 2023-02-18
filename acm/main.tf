@@ -11,16 +11,20 @@ data "aws_region" "datacenter_region" {
   provider = aws.datacenter_region
 }
 
+locals {
+  datacenter_code = lookup(var.datacenter_codes, data.aws_region.datacenter_region.name)
+}
+
 resource "aws_acm_certificate" "acm_domain_name" {
   provider          = aws.acm_region
-  domain_name       = var.STAGE == "prod" ? join(".", [lookup(var.datacenter_codes, data.aws_region.datacenter_region.name), var.sub_domain, var.base_domain]) : join(".", [lookup(var.datacenter_codes, data.aws_region.datacenter_region.name), var.sub_domain, var.STAGE, var.base_domain])
+  domain_name       = var.STAGE == "prod" ? join(".", [local.datacenter_code, var.sub_domain, var.base_domain]) : join(".", [local.datacenter_code, var.STAGE, var.sub_domain, var.base_domain])
   validation_method = "DNS"
   tags              = merge(tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
 data "aws_route53_zone" "domain_hosted_zone" {
   provider     = aws.acm_region
-  name         = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.base_domain])
+  name         = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.sub_domain, var.base_domain])
   private_zone = false
 }
 

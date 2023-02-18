@@ -40,7 +40,7 @@ module "create_dashboard_cloudfront" {
 }
 
 locals {
-  cognito_custom_domain = var.STAGE == "prod" ? join(".", ["auth", var.base_domain]) : join(".", ["auth", var.STAGE, var.base_domain])
+  cognito_custom_domain = var.STAGE == "prod" ? join(".", ["auth", var.base_domain]) : join(".", [var.STAGE, "auth", var.base_domain])
 }
 
 #Congito Custom Domain ACM
@@ -89,7 +89,7 @@ module "create_tester_view_s3_bucket" {
 module "create_tester_view_acm" {
   source       = "./acm-fe"
   base_domain  = var.base_domain
-  domain_name  = var.STAGE == "prod" ? join(".", [var.tester_view_sub_domain, var.base_domain]) : join(".", [var.tester_view_sub_domain, var.STAGE, var.base_domain])
+  domain_name  = var.STAGE == "prod" ? join(".", [var.tester_view_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.tester_view_sub_domain, var.base_domain])
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
 
