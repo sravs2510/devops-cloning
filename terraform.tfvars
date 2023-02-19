@@ -106,6 +106,12 @@ table_details = {
     hash_key       = "study_id"
     range_key      = "tester_id"
     stream_enabled = false
+  },
+  "tester-response-details" : {
+    table_name     = "qatalyst-tester-responses"
+    hash_key       = "block_id"
+    range_key      = "tester_id"
+    stream_enabled = true
   }
 }
 
