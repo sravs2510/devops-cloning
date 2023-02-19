@@ -111,7 +111,7 @@ table_details = {
     table_name     = "qatalyst-tester-responses"
     hash_key       = "block_id"
     range_key      = "tester_id"
-    stream_enabled = true
+    stream_enabled = false
   }
 }
 
