@@ -39,7 +39,7 @@ data "aws_caller_identity" "current" {
 
 locals {
   account_id    = data.aws_caller_identity.current.account_id
-  s3_bucket_arn = var.STAGE == "prod" ? "arn:aws:s3:::*.media.getqatalyst.io/*" : join("", ["arn:aws:s3:::*.media.", var.STAGE, ".getqatalyst.io/*"])
+  s3_bucket_arn = var.STAGE == "prod" ? "arn:aws:s3:::*.media.getqatalyst.io/*" : join("", ["arn:aws:s3:::*.", var.STAGE, ".media.getqatalyst.io/*"])
 }
 
 # add the required permission to the policy below

@@ -12,7 +12,9 @@ data "aws_region" "current" {
 }
 
 locals {
-  cf_domain_name = var.STAGE == "prod" ? join(".", [lookup(var.datacenter_codes, data.aws_region.current.name), var.sub_domain, var.base_domain]) : join(".", [lookup(var.datacenter_codes, data.aws_region.current.name), var.sub_domain, var.STAGE, var.base_domain])
+  datacenter_code             = lookup(var.datacenter_codes, data.aws_region.current.name)
+  r53_hosted_zone_domain_name = var.STAGE == "prod" ? join(".", [var.sub_domain, var.base_domain]) : join(".", [var.STAGE, var.sub_domain, var.base_domain])
+  cf_domain_name              = join(".", [local.datacenter_code, local.r53_hosted_zone_domain_name])
 }
 
 data "aws_cloudfront_cache_policy" "cache_policy" {
@@ -96,7 +98,7 @@ resource "aws_s3_bucket_policy" "media_s3_bucket_policy" {
 
 data "aws_route53_zone" "route53_zone" {
   provider     = aws.cloudfront_region
-  name         = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.base_domain])
+  name         = local.r53_hosted_zone_domain_name
   private_zone = false
 }
 
