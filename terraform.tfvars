@@ -117,7 +117,7 @@ table_details = {
     table_name     = "qatalyst-workspace-configurations"
     hash_key       = "workspace_id"
     range_key      = "organisation_id"
-    stream_enabled = true
+    stream_enabled = false
   }
 }
 
