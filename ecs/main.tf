@@ -154,3 +154,44 @@ resource "aws_ecs_service" "qatalyst_ecs_service" {
   }
   tags = merge(tomap({ "Name" : "qatalyst-ecs-service" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
+
+
+# Define the Auto Scaling target for the ECS service
+resource "aws_appautoscaling_target" "qatalyst-ecs-ast" {
+  max_capacity       = 6
+  min_capacity       = 2
+  resource_id        = "service/${aws_ecs_cluster.qatalyst-ecs-cluster.name}/${aws_ecs_service.qatalyst-ecs-service.name}"
+  scalable_dimension = "ecs:service:DesiredCount"
+  service_namespace  = "ecs"
+}
+
+# Define the Auto Scaling policy for the ECS service
+resource "aws_appautoscaling_policy" "qatalyst-ecs-asp" {
+  name               = "qatalyst-ecs-asp"
+  policy_type        = "StepScaling"
+  resource_id        = aws_appautoscaling_target.qatalyst-ecs-ast.resource_id
+  scalable_dimension = aws_appautoscaling_target.qatalyst-ecs-ast.scalable_dimension
+
+  step_scaling_policy_configuration {
+    adjustment_type         = "ChangeInCapacity"
+    metric_aggregation_type = "Average"
+
+    step_adjustment {
+      metric_interval_upper_bound = 60
+      scaling_adjustment = 1
+      cooldown = 300
+    }
+
+    step_adjustment {
+      metric_interval_lower_bound = 30
+      scaling_adjustment = -1
+      cooldown = 300
+    }
+  }
+}
+
+
+
+
+
+
