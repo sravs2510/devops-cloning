@@ -167,7 +167,7 @@ resource "aws_appautoscaling_target" "qatalyst_ecs_ast" {
 
 # Define the Auto Scaling policy for the ECS service
 resource "aws_appautoscaling_policy" "qatalyst_ecs_asp" {
-  name               = "qatalyst-ecs-asp"
+  name               = "qatalyst_ecs_asp"
   policy_type        = "StepScaling"
   resource_id        = aws_appautoscaling_target.qatalyst_ecs_ast.resource_id
   scalable_dimension = aws_appautoscaling_target.qatalyst_ecs_ast.scalable_dimension
