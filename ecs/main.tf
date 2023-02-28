@@ -156,7 +156,7 @@ resource "aws_ecs_service" "qatalyst_ecs_service" {
 }
 
 
-Define the Auto Scaling target for the ECS service
+# Define the Auto Scaling target for the ECS service
 resource "aws_appautoscaling_target" "qatalyst_ecs_ast" {
   max_capacity       = 6
   min_capacity       = 2
