@@ -158,6 +158,7 @@ resource "aws_ecs_service" "qatalyst_ecs_service" {
 
 # Define the Auto Scaling target for the ECS service
 resource "aws_appautoscaling_target" "qatalyst_ecs_ast" {
+  provider           = aws.ecs_region
   max_capacity       = 6
   min_capacity       = 2
   resource_id        = "service/${aws_ecs_cluster.qatalyst_ecs_cluster.name}/${aws_ecs_service.qatalyst_ecs_service.name}"
@@ -167,6 +168,7 @@ resource "aws_appautoscaling_target" "qatalyst_ecs_ast" {
 
 # Define the Auto Scaling policy for the ECS service
 resource "aws_appautoscaling_policy" "qatalyst_ecs_asp" {
+  provider           = aws.ecs_region
   name               = "qatalyst_ecs_asp"
   policy_type        = "StepScaling"
   resource_id        = aws_appautoscaling_target.qatalyst_ecs_ast.resource_id
