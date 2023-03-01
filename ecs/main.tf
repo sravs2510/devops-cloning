@@ -85,6 +85,10 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
           {
             "name" : "FE_TESTER_VIEW_DOMAIN_NAME"
             "value" : var.fe_tester_view_domain_name
+          },
+          {
+            "name" : "REGION_NAME"
+            "value" : data.aws_region.ecs_region.name
           }
         ],
         "portMappings" : [
