@@ -103,3 +103,27 @@ resource "aws_iam_role_policy_attachment" "qatalyst_ecs_task_role_policy_attachm
   role       = aws_iam_role.qatalyst_ecs_task_role.name
   policy_arn = aws_iam_policy.qatalyst_ecs_task_iam_policy.arn
 }
+
+resource "aws_iam_role" "qatalyst_ecs_autoscale_role" {
+  provider = aws.iam_region
+  name     = "qatalyst-ecs-autoscale-role"
+  assume_role_policy = jsonencode(
+    {
+      "Version" : "2012-10-17",
+      "Statement" : [
+        {
+          "Action" : "sts:AssumeRole",
+          "Principal" : {
+            "Service" : "application-autoscaling.amazonaws.com"
+          },
+          "Effect" : "Allow"
+        }
+      ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "qatalyst_ecs_autoscale_policy" {
+  provider   = aws.iam_region
+  role       = aws_iam_role.qatalyst_ecs_autoscale_role.id
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceAutoscaleRole"
+}

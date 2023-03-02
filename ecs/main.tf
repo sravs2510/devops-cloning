@@ -158,3 +158,52 @@ resource "aws_ecs_service" "qatalyst_ecs_service" {
   }
   tags = merge(tomap({ "Name" : "qatalyst-ecs-service" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
+
+
+# Define the Auto Scaling target for the ECS service
+resource "aws_appautoscaling_target" "qatalyst_ecs_ast" {
+  provider           = aws.ecs_region
+  min_capacity       = 1
+  max_capacity       = 6
+  resource_id        = join("/", ["service", aws_ecs_cluster.qatalyst_ecs_cluster.name, aws_ecs_service.qatalyst_ecs_service.name])
+  scalable_dimension = "ecs:service:DesiredCount"
+  service_namespace  = "ecs"
+  role_arn           = var.qatalyst_ecs_autoscale_role_arn
+}
+
+# Define the Auto Scaling policy for the ECS service
+resource "aws_appautoscaling_policy" "qatalyst_ecs_asp_cpu_average" {
+  provider           = aws.ecs_region
+  name               = "qatalyst-ecs-asp"
+  policy_type        = "TargetTrackingScaling"
+  resource_id        = aws_appautoscaling_target.qatalyst_ecs_ast.resource_id
+  scalable_dimension = aws_appautoscaling_target.qatalyst_ecs_ast.scalable_dimension
+  service_namespace  = aws_appautoscaling_target.qatalyst_ecs_ast.service_namespace
+
+  target_tracking_scaling_policy_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "ECSServiceAverageCPUUtilization"
+    }
+    target_value       = 70
+    scale_in_cooldown  = 300
+    scale_out_cooldown = 300
+  }
+}
+
+resource "aws_appautoscaling_policy" "qatalyst_ecs_asp_memory_average" {
+  provider           = aws.ecs_region
+  name               = "qatalyst-ecs-asp"
+  policy_type        = "TargetTrackingScaling"
+  resource_id        = aws_appautoscaling_target.qatalyst_ecs_ast.resource_id
+  scalable_dimension = aws_appautoscaling_target.qatalyst_ecs_ast.scalable_dimension
+  service_namespace  = aws_appautoscaling_target.qatalyst_ecs_ast.service_namespace
+
+  target_tracking_scaling_policy_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "ECSServiceAverageMemoryUtilization"
+    }
+    target_value       = 70
+    scale_in_cooldown  = 300
+    scale_out_cooldown = 300
+  }
+}
