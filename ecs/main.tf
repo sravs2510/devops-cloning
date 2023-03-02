@@ -174,7 +174,7 @@ resource "aws_appautoscaling_target" "qatalyst_ecs_ast" {
 # Define the Auto Scaling policy for the ECS service
 resource "aws_appautoscaling_policy" "qatalyst_ecs_asp_cpu_average" {
   provider           = aws.ecs_region
-  name               = "qatalyst-ecs-asp"
+  name               = "qatalyst-ecs-asp-cpu"
   policy_type        = "TargetTrackingScaling"
   resource_id        = aws_appautoscaling_target.qatalyst_ecs_ast.resource_id
   scalable_dimension = aws_appautoscaling_target.qatalyst_ecs_ast.scalable_dimension
@@ -192,7 +192,7 @@ resource "aws_appautoscaling_policy" "qatalyst_ecs_asp_cpu_average" {
 
 resource "aws_appautoscaling_policy" "qatalyst_ecs_asp_memory_average" {
   provider           = aws.ecs_region
-  name               = "qatalyst-ecs-asp"
+  name               = "qatalyst-ecs-asp-memory"
   policy_type        = "TargetTrackingScaling"
   resource_id        = aws_appautoscaling_target.qatalyst_ecs_ast.resource_id
   scalable_dimension = aws_appautoscaling_target.qatalyst_ecs_ast.scalable_dimension
