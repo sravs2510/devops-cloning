@@ -159,35 +159,47 @@ resource "aws_ecs_service" "qatalyst_ecs_service" {
 # Define the Auto Scaling target for the ECS service
 resource "aws_appautoscaling_target" "qatalyst_ecs_ast" {
   provider           = aws.ecs_region
+  min_capacity       = 1
   max_capacity       = 6
-  min_capacity       = 2
-  resource_id        = "service/${aws_ecs_cluster.qatalyst_ecs_cluster.name}/${aws_ecs_service.qatalyst_ecs_service.name}"
+  resource_id        = join("/", ["service", aws_ecs_cluster.qatalyst_ecs_cluster.name, aws_ecs_service.qatalyst_ecs_service.name])
   scalable_dimension = "ecs:service:DesiredCount"
   service_namespace  = "ecs"
+  role_arn           = aws_iam_role.ecs-autoscale-role.arn
 }
 
 # Define the Auto Scaling policy for the ECS service
-resource "aws_appautoscaling_policy" "qatalyst_ecs_asp" {
+resource "aws_appautoscaling_policy" "qatalyst_ecs_asp_cpu_average" {
   provider           = aws.ecs_region
-  name               = "qatalyst_ecs_asp"
-  policy_type        = "StepScaling"
+  name               = "qatalyst-ecs-asp"
+  policy_type        = "TargetTrackingScaling"
   resource_id        = aws_appautoscaling_target.qatalyst_ecs_ast.resource_id
   scalable_dimension = aws_appautoscaling_target.qatalyst_ecs_ast.scalable_dimension
   service_namespace  = aws_appautoscaling_target.qatalyst_ecs_ast.service_namespace
 
-  step_scaling_policy_configuration {
-    adjustment_type         = "ChangeInCapacity"
-    cooldown = 300
-    metric_aggregation_type = "Average"
-
-    step_adjustment {
-      metric_interval_upper_bound = 60
-      scaling_adjustment = 1
+  target_tracking_scaling_policy_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "ECSServiceAverageCPUUtilization"
     }
+    target_value       = 70
+    scale_in_cooldown  = 300
+    scale_out_cooldown = 300
+  }
+}
 
-    step_adjustment {
-      metric_interval_lower_bound = 30
-      scaling_adjustment = -1
+resource "aws_appautoscaling_policy" "qatalyst_ecs_asp_memory_average" {
+  provider           = aws.ecs_region
+  name               = "qatalyst-ecs-asp"
+  policy_type        = "TargetTrackingScaling"
+  resource_id        = aws_appautoscaling_target.qatalyst_ecs_ast.resource_id
+  scalable_dimension = aws_appautoscaling_target.qatalyst_ecs_ast.scalable_dimension
+  service_namespace  = aws_appautoscaling_target.qatalyst_ecs_ast.service_namespace
+
+  target_tracking_scaling_policy_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "ECSServiceAverageCPUUtilization"
     }
+    target_value       = 70
+    scale_in_cooldown  = 300
+    scale_out_cooldown = 300
   }
 }
