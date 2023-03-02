@@ -93,20 +93,21 @@ module "create_eu_alb" {
 }
 
 module "create_eu_ecs" {
-  source                      = "./ecs"
-  fargate_cpu_memory          = var.fargate_cpu_memory
-  vpc_id                      = module.create_eu_vpc.vpc_id
-  alb_security_group          = module.create_eu_alb.qatalyst_alb_sg_id
-  ecs_subnets                 = module.create_eu_vpc.private_subnets
-  alb_target_group_arn        = module.create_eu_alb.qatalyst_alb_target_group_arn
-  ecs_task_execution_role_arn = module.create_iam.ecs_task_execution_role_arn
-  ecs_task_role_arn           = module.create_iam.ecs_task_role_arn
-  cognito_user_pool_id        = module.create_cognito_user_pool.user_pool_id
-  qatalyst_domain             = local.qatalyst_domain
-  fe_tester_view_domain_name  = local.tester_view_domain
-  cw_logs_retention_in_days   = var.cw_logs_retention_in_days
-  DEFAULT_TAGS                = var.DEFAULT_TAGS
-  STAGE                       = var.STAGE
+  source                          = "./ecs"
+  fargate_cpu_memory              = var.fargate_cpu_memory
+  vpc_id                          = module.create_eu_vpc.vpc_id
+  alb_security_group              = module.create_eu_alb.qatalyst_alb_sg_id
+  ecs_subnets                     = module.create_eu_vpc.private_subnets
+  alb_target_group_arn            = module.create_eu_alb.qatalyst_alb_target_group_arn
+  ecs_task_execution_role_arn     = module.create_iam.ecs_task_execution_role_arn
+  ecs_task_role_arn               = module.create_iam.ecs_task_role_arn
+  cognito_user_pool_id            = module.create_cognito_user_pool.user_pool_id
+  qatalyst_domain                 = local.qatalyst_domain
+  fe_tester_view_domain_name      = local.tester_view_domain
+  cw_logs_retention_in_days       = var.cw_logs_retention_in_days
+  qatalyst_ecs_autoscale_role_arn = module.create_iam.qatalyst_ecs_autoscale_role_arn
+  DEFAULT_TAGS                    = var.DEFAULT_TAGS
+  STAGE                           = var.STAGE
 
   providers = {
     aws.ecs_region = aws.eu_region
@@ -226,20 +227,21 @@ module "create_in_alb" {
 }
 
 module "create_in_ecs" {
-  source                      = "./ecs"
-  fargate_cpu_memory          = var.fargate_cpu_memory
-  vpc_id                      = module.create_in_vpc.vpc_id
-  alb_security_group          = module.create_in_alb.qatalyst_alb_sg_id
-  ecs_subnets                 = module.create_in_vpc.private_subnets
-  alb_target_group_arn        = module.create_in_alb.qatalyst_alb_target_group_arn
-  ecs_task_execution_role_arn = module.create_iam.ecs_task_execution_role_arn
-  ecs_task_role_arn           = module.create_iam.ecs_task_role_arn
-  cognito_user_pool_id        = module.create_cognito_user_pool.user_pool_id
-  qatalyst_domain             = local.qatalyst_domain
-  fe_tester_view_domain_name  = local.tester_view_domain
-  cw_logs_retention_in_days   = var.cw_logs_retention_in_days
-  DEFAULT_TAGS                = var.DEFAULT_TAGS
-  STAGE                       = var.STAGE
+  source                          = "./ecs"
+  fargate_cpu_memory              = var.fargate_cpu_memory
+  vpc_id                          = module.create_in_vpc.vpc_id
+  alb_security_group              = module.create_in_alb.qatalyst_alb_sg_id
+  ecs_subnets                     = module.create_in_vpc.private_subnets
+  alb_target_group_arn            = module.create_in_alb.qatalyst_alb_target_group_arn
+  ecs_task_execution_role_arn     = module.create_iam.ecs_task_execution_role_arn
+  ecs_task_role_arn               = module.create_iam.ecs_task_role_arn
+  cognito_user_pool_id            = module.create_cognito_user_pool.user_pool_id
+  qatalyst_domain                 = local.qatalyst_domain
+  fe_tester_view_domain_name      = local.tester_view_domain
+  cw_logs_retention_in_days       = var.cw_logs_retention_in_days
+  qatalyst_ecs_autoscale_role_arn = module.create_iam.qatalyst_ecs_autoscale_role_arn
+  DEFAULT_TAGS                    = var.DEFAULT_TAGS
+  STAGE                           = var.STAGE
 
   providers = {
     aws.ecs_region = aws.in_region
@@ -361,20 +363,21 @@ module "create_sea_alb" {
 }
 
 module "create_sea_ecs" {
-  source                      = "./ecs"
-  fargate_cpu_memory          = var.fargate_cpu_memory
-  vpc_id                      = module.create_sea_vpc.vpc_id
-  alb_security_group          = module.create_sea_alb.qatalyst_alb_sg_id
-  ecs_subnets                 = module.create_sea_vpc.private_subnets
-  alb_target_group_arn        = module.create_sea_alb.qatalyst_alb_target_group_arn
-  ecs_task_execution_role_arn = module.create_iam.ecs_task_execution_role_arn
-  ecs_task_role_arn           = module.create_iam.ecs_task_role_arn
-  cognito_user_pool_id        = module.create_cognito_user_pool.user_pool_id
-  qatalyst_domain             = local.qatalyst_domain
-  fe_tester_view_domain_name  = local.tester_view_domain
-  cw_logs_retention_in_days   = var.cw_logs_retention_in_days
-  DEFAULT_TAGS                = var.DEFAULT_TAGS
-  STAGE                       = var.STAGE
+  source                          = "./ecs"
+  fargate_cpu_memory              = var.fargate_cpu_memory
+  vpc_id                          = module.create_sea_vpc.vpc_id
+  alb_security_group              = module.create_sea_alb.qatalyst_alb_sg_id
+  ecs_subnets                     = module.create_sea_vpc.private_subnets
+  alb_target_group_arn            = module.create_sea_alb.qatalyst_alb_target_group_arn
+  ecs_task_execution_role_arn     = module.create_iam.ecs_task_execution_role_arn
+  ecs_task_role_arn               = module.create_iam.ecs_task_role_arn
+  cognito_user_pool_id            = module.create_cognito_user_pool.user_pool_id
+  qatalyst_domain                 = local.qatalyst_domain
+  fe_tester_view_domain_name      = local.tester_view_domain
+  cw_logs_retention_in_days       = var.cw_logs_retention_in_days
+  qatalyst_ecs_autoscale_role_arn = module.create_iam.qatalyst_ecs_autoscale_role_arn
+  DEFAULT_TAGS                    = var.DEFAULT_TAGS
+  STAGE                           = var.STAGE
 
   providers = {
     aws.ecs_region = aws.sea_region
@@ -496,20 +499,21 @@ module "create_us_alb" {
 }
 
 module "create_us_ecs" {
-  source                      = "./ecs"
-  fargate_cpu_memory          = var.fargate_cpu_memory
-  vpc_id                      = module.create_us_vpc.vpc_id
-  alb_security_group          = module.create_us_alb.qatalyst_alb_sg_id
-  ecs_subnets                 = module.create_us_vpc.private_subnets
-  alb_target_group_arn        = module.create_us_alb.qatalyst_alb_target_group_arn
-  ecs_task_execution_role_arn = module.create_iam.ecs_task_execution_role_arn
-  ecs_task_role_arn           = module.create_iam.ecs_task_role_arn
-  cognito_user_pool_id        = module.create_cognito_user_pool.user_pool_id
-  qatalyst_domain             = local.qatalyst_domain
-  fe_tester_view_domain_name  = local.tester_view_domain
-  cw_logs_retention_in_days   = var.cw_logs_retention_in_days
-  DEFAULT_TAGS                = var.DEFAULT_TAGS
-  STAGE                       = var.STAGE
+  source                          = "./ecs"
+  fargate_cpu_memory              = var.fargate_cpu_memory
+  vpc_id                          = module.create_us_vpc.vpc_id
+  alb_security_group              = module.create_us_alb.qatalyst_alb_sg_id
+  ecs_subnets                     = module.create_us_vpc.private_subnets
+  alb_target_group_arn            = module.create_us_alb.qatalyst_alb_target_group_arn
+  ecs_task_execution_role_arn     = module.create_iam.ecs_task_execution_role_arn
+  ecs_task_role_arn               = module.create_iam.ecs_task_role_arn
+  cognito_user_pool_id            = module.create_cognito_user_pool.user_pool_id
+  qatalyst_domain                 = local.qatalyst_domain
+  fe_tester_view_domain_name      = local.tester_view_domain
+  cw_logs_retention_in_days       = var.cw_logs_retention_in_days
+  qatalyst_ecs_autoscale_role_arn = module.create_iam.qatalyst_ecs_autoscale_role_arn
+  DEFAULT_TAGS                    = var.DEFAULT_TAGS
+  STAGE                           = var.STAGE
 
   providers = {
     aws.ecs_region = aws.us_region

@@ -63,3 +63,8 @@ variable "fe_tester_view_domain_name" {
   type        = string
   description = "FE test view domain name"
 }
+
+variable "qatalyst_ecs_autoscale_role_arn" {
+  type        = string
+  description = "Qatalyst ECS AutoScale Arn"
+}

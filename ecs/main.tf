@@ -164,7 +164,7 @@ resource "aws_appautoscaling_target" "qatalyst_ecs_ast" {
   resource_id        = join("/", ["service", aws_ecs_cluster.qatalyst_ecs_cluster.name, aws_ecs_service.qatalyst_ecs_service.name])
   scalable_dimension = "ecs:service:DesiredCount"
   service_namespace  = "ecs"
-  role_arn           = aws_iam_role.ecs-autoscale-role.arn
+  role_arn           = var.qatalyst_ecs_autoscale_role_arn
 }
 
 # Define the Auto Scaling policy for the ECS service
@@ -196,7 +196,7 @@ resource "aws_appautoscaling_policy" "qatalyst_ecs_asp_memory_average" {
 
   target_tracking_scaling_policy_configuration {
     predefined_metric_specification {
-      predefined_metric_type = "ECSServiceAverageCPUUtilization"
+      predefined_metric_type = "ECSServiceAverageMemoryUtilization"
     }
     target_value       = 70
     scale_in_cooldown  = 300
