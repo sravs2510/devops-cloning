@@ -135,7 +135,15 @@ module "create_eu_dynamodb" {
     aws.dynamo_region = aws.eu_region
   }
 }
-
+module "create_eu_cloudwatch_dashboard" {
+  source               = "./cloudwatch"
+  DEFAULT_TAGS         = var.DEFAULT_TAGS
+  STAGE                = var.STAGE
+  qatalyst_cw_role_arn = module.create_eu_cw_dashboard.qatalyst_cw_dashboard_role_arn
+  providers = {
+    aws.cw_region = aws.eu_region
+  }
+}
 # INDIA Resources
 module "create_in_vpc" {
   source          = "./vpc"
@@ -271,7 +279,15 @@ module "create_in_dynamodb" {
     aws.dynamo_region = aws.in_region
   }
 }
-
+module "create_in_cloudwatch_dashboard" {
+  source               = "./cloudwatch"
+  DEFAULT_TAGS         = var.DEFAULT_TAGS
+  STAGE                = var.STAGE
+  qatalyst_cw_role_arn = module.create_in_cw_dashboard.qatalyst_cw_dashboard_role_arn
+  providers = {
+    aws.cw_region = aws.in_region
+  }
+}
 # SEA Resources
 module "create_sea_vpc" {
   source          = "./vpc"
@@ -407,7 +423,15 @@ module "create_sea_dynamodb" {
     aws.dynamo_region = aws.sea_region
   }
 }
-
+module "create_sea_cloudwatch_dashboard" {
+  source               = "./cloudwatch"
+  DEFAULT_TAGS         = var.DEFAULT_TAGS
+  STAGE                = var.STAGE
+  qatalyst_cw_role_arn = module.create_sea_cw_dashboard.qatalyst_cw_dashboard_role_arn
+  providers = {
+    aws.cw_region = aws.sea_region
+  }
+}
 # US Resources
 module "create_us_vpc" {
   source          = "./vpc"
@@ -561,7 +585,15 @@ module "create_global_dynamodb" {
     aws.eu_region  = aws.eu_region
   }
 }
-
+module "create_us_cloudwatch_dashboard" {
+  source               = "./cloudwatch"
+  DEFAULT_TAGS         = var.DEFAULT_TAGS
+  STAGE                = var.STAGE
+  qatalyst_cw_role_arn = module.create_us_cw_dashboard.qatalyst_cw_dashboard_role_arn
+  providers = {
+    aws.cw_region = aws.us_region
+  }
+}
 #ECR 
 module "create_ecr" {
   source       = "./ecr"
