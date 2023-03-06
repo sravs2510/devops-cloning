@@ -127,3 +127,48 @@ resource "aws_iam_role_policy_attachment" "qatalyst_ecs_autoscale_policy" {
   role       = aws_iam_role.qatalyst_ecs_autoscale_role.id
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceAutoscaleRole"
 }
+resource "aws_iam_role" "qatalyst_cw_dashboard_role" {
+ provider   = aws.iam_region
+ name = "qatalyst_cw_dashboard_role"
+ assume_role_policy = jsonencode({ 
+ Version = "2012-10-17"
+ Statement = [
+ {
+ Action = "sts:AssumeRole"
+ Effect = "Allow"
+ Principal = {
+ Service = "cloudwatch.amazonaws.com"
+ }
+ }
+ ]
+ })
+}
+resource "aws_iam_policy" "qatalyst_cw_dashboard_policy" "qatalyst_cw_dashboard_policy" {
+ provider  = aws.iam_region
+policy = jsonencode({
+ Version = "2012-10-17",
+ Statement = [
+ {
+ Effect = "Allow",
+ Action = [
+ "cloudwatch:GetMetricStatistics",
+ "cloudwatch:ListMetrics"
+ ],
+ Resource = "*"
+ },
+ {
+ Effect = "Allow",
+ Action = [
+ "ecs:DescribeServices",
+ "ecs:DescribeTasks"
+ ],
+Resource = "*"
+}
+ ]
+ })
+}
+resource "aws_iam_role_policy_attachment" "qatalyst_cw_dashboard_attachment" {
+provider = aws.iam_region
+policy_arn = aws_iam_policy.qatalyst_cw_dashboard_policy.arn 
+role = aws_iam_role.qatalyst_cw_dashboard_role.name
+}

@@ -25,6 +25,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
   provider       = aws.cw_region
   dashboard_name = "Qatalyst ECS"
   role_arn       = var.qatalyst_cw_dashboard_role_arn
+  #dashboard_arn = aws_iam_role.example_role.arn
   tags           = merge(tomap({ "Name" = "qatalyst_cw_dashboard" }), tomap({ "STAGE" = var.STAGE }), var.DEFAULT_TAGS)
   # Define widgets
   widgets = [

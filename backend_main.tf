@@ -139,7 +139,7 @@ module "create_eu_cloudwatch_dashboard" {
   source               = "./cloudwatch"
   DEFAULT_TAGS         = var.DEFAULT_TAGS
   STAGE                = var.STAGE
-  qatalyst_cw_role_arn = module.create_eu_cw_dashboard.qatalyst_cw_dashboard_role_arn
+  qatalyst_cw_role_arn = module.create_iam.qatalyst_cw_dashboard_role_arn
   providers = {
     aws.cw_region = aws.eu_region
   }
@@ -283,7 +283,7 @@ module "create_in_cloudwatch_dashboard" {
   source               = "./cloudwatch"
   DEFAULT_TAGS         = var.DEFAULT_TAGS
   STAGE                = var.STAGE
-  qatalyst_cw_role_arn = module.create_in_cw_dashboard.qatalyst_cw_dashboard_role_arn
+  qatalyst_cw_role_arn = module.create_iam.qatalyst_cw_dashboard_role_arn
   providers = {
     aws.cw_region = aws.in_region
   }
@@ -427,7 +427,7 @@ module "create_sea_cloudwatch_dashboard" {
   source               = "./cloudwatch"
   DEFAULT_TAGS         = var.DEFAULT_TAGS
   STAGE                = var.STAGE
-  qatalyst_cw_role_arn = module.create_sea_cw_dashboard.qatalyst_cw_dashboard_role_arn
+  qatalyst_cw_role_arn = module.create_iam.qatalyst_cw_dashboard_role_arn
   providers = {
     aws.cw_region = aws.sea_region
   }
@@ -589,7 +589,7 @@ module "create_us_cloudwatch_dashboard" {
   source               = "./cloudwatch"
   DEFAULT_TAGS         = var.DEFAULT_TAGS
   STAGE                = var.STAGE
-  qatalyst_cw_role_arn = module.create_us_cw_dashboard.qatalyst_cw_dashboard_role_arn
+  qatalyst_cw_role_arn = module.create_iam.qatalyst_cw_dashboard_role_arn
   providers = {
     aws.cw_region = aws.us_region
   }
