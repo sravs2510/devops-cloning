@@ -130,39 +130,41 @@ resource "aws_iam_role_policy_attachment" "qatalyst_ecs_autoscale_policy" {
 resource "aws_iam_role" "qatalyst_cw_dashboard_role" {
  provider   = aws.iam_region
  name = "qatalyst_cw_dashboard_role"
- assume_role_policy = jsonencode({ 
- Version = "2012-10-17"
- Statement = [
+ assume_role_policy = jsonencode(
  {
- Action = "sts:AssumeRole"
- Effect = "Allow"
- Principal = {
- Service = "cloudwatch.amazonaws.com"
- }
- }
- ]
- })
+      "Version" : "2012-10-17",
+      "Statement" : [
+        {
+          "Action"   = "sts:AssumeRole",
+          "Principal" : {
+            "Service" : "cloudwatch.amazonaws.com"
+          },
+          "Effect" : "Allow"
+        }
+      ]
+  })
 }
-resource "aws_iam_policy" "qatalyst_cw_dashboard_policy" "qatalyst_cw_dashboard_policy" {
+resource "aws_iam_policy" "qatalyst_cw_dashboard_policy" {
  provider  = aws.iam_region
 policy = jsonencode({
- Version = "2012-10-17",
- Statement = [
- {
- Effect = "Allow",
- Action = [
- "cloudwatch:GetMetricStatistics",
- "cloudwatch:ListMetrics"
- ],
- Resource = "*"
- },
- {
- Effect = "Allow",
- Action = [
- "ecs:DescribeServices",
- "ecs:DescribeTasks"
- ],
-Resource = "*"
+ 
+      "Version" : "2012-10-17",
+      "Statement" : [
+        {
+          Action = [   
+             "logs:CreateLogGroup"
+             ],
+         Resource = "*"
+         },
+         {
+          Effect = "Allow",
+          Action = [
+              "cloudwatch:PutMetricData",
+              "cloudwatch:GetMetricData",
+              "cloudwatch:GetMetricStatistics",
+              "cloudwatch:ListMetrics",
+             ],
+           Resource = "*"
 }
  ]
  })
