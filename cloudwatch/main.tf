@@ -14,182 +14,115 @@ data "aws_region" "cw_region" {
 data "aws_caller_identity" "current" {
   provider = aws.cw_region
 }
-
 locals {
-  account_id = data.aws_caller_identity.current.account_id
-  ecr_repo   = join(".", [local.account_id, "dkr.ecr", data.aws_region.cw_region.name, "amazonaws.com/qatalyst-backend=latest"])
+  ecs_metric=["AWS/ECS", "CPUUtilization", "ClusterName", "qatalyst-ecs-cluster", "ServiceName", "qatalyst-ecs-service"]
 }
-
 # Create CloudWatch dashboard
 resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
   provider       = aws.cw_region
-  dashboard_name = "Qatalyst ECS"
-  role_arn       = var.qatalyst_cw_dashboard_role_arn
-  #dashboard_arn = aws_iam_role.example_role.arn
-  tags           = merge(tomap({ "Name" = "qatalyst_cw_dashboard" }), tomap({ "STAGE" = var.STAGE }), var.DEFAULT_TAGS)
-  # Define widgets
-  widgets = [
-    # Widget for CPUUtilization metric
-    {
-      type   = "metric"
-      x      = 0
-      y      = 3
-      width  = 12
-      height = 12
-      properties = jsonencode({
+  dashboard_name = "Qatalyst-Dashboard"
+  
+  dashboard_body = jsonencode({
+    widgets = [
+      {
+        type    = "metric"
+        x       = 0
+        y       = 3
+        width   = 12
+        height  = 12
         view    = "timeSeries"
         stacked = false
         metrics = [
-          ["AWS/ECS", "CPUUtilization", "ClusterName", "${var.qatalyst_ecs_cluster}", "ServiceName", "qatalyst_ecs_service"],
+          ["AWS/ECS", "CPUUtilization", "ClusterName", "qatalyst-ecs-cluster", "ServiceName", "qatalyst-ecs-service"],
         ]
         title = "ECS CPUUtilization"
         stat  = "Sum",
-        yAxis = {
-          left = {
-            min = 0
-          }
-          right = {
-            show = false
-          }
-        }
-        annotations = {
-          alarms = []
-        }
-      })
-    },
-    # Widget for MemoryUtilization metric
-    {
-      type   = "metric"
-      x      = 12
-      y      = 3
-      width  = 12
-      height = 12
-      properties = jsonencode({
-        view    = "timeSeries"
-        stacked = false
-        metrics = [
-          ["AWS/ECS", "MemoryUtilization", "ClusterName", "${var.qatalyst_ecs_cluster}", "ServiceName", "qatalyst_ecs_service"],
-        ]
-        title = "ECS MemoryUtilization"
-        stat  = "Average",
-        yAxis = {
-          left = {
-            min = 0
-          }
-          right = {
-            show = false
-          }
-        }
-        annotations = {
-          alarms = []
-        }
-      })
-    },
-    # Widget for HTTPCode_Target_3XX_Count metric
-    {
-      type   = "metric"
-      x      = 0
-      y      = 6
-      width  = 8
-      height = 8
-      properties = jsonencode({
-        view    = "timeSeries"
-        stacked = false
-        metrics = [
-          ["AWS/ECS", "HTTPCode_Target_3XX_Count", "ClusterName", "${var.qatalyst_ecs_cluster}", "ServiceName", "qatalyst_ecs_service"],
-        ]
-        title = "HTTPCode_Target_3XX_Count"
-        stat  = "Count",
-        yAxis = {
-          left = {
-            min = 0
-          }
-          right = {
-            show = false
-          }
-        }
-        annotations = {
-          alarms = []
-        }
 
-      })
-    },
-    # Widget for HTTPCode_Target_4XX_Count metric
-    {
-      type   = "metric"
-      x      = 8
-      y      = 6
-      width  = 12
-      height = 12
-      properties = jsonencode({
-        view    = "timeSeries"
-        stacked = false
-        metrics = [
-          ["AWS/ECS", "HTTPCode_Target_4XX_Count", "ClusterName", "${var.qatalyst_ecs_cluster}", "ServiceName", "qatalyst_ecs_service"],
-        ]
-        title = "HTTPCode_Target_4XX_Count"
-        stat  = "Count",
-        yAxis = {
-          left = {
-            min = 0
-          }
-          right = {
-            show = false
-          }
-        }
-        annotations = {
-          alarms = []
-        }
+      },
 
-      })
-    },
-    # Widget for HTTPCode_Target_5XX_Count metric
-    {
-      type   = "metric"
-      x      = 16
-      y      = 6
-      width  = 12
-      height = 12
-      properties = jsonencode({
-        view    = "timeSeries"
-        stacked = false
-        metrics = [
-          ["AWS/ECS", "HTTPCode_Target_5XX_Count", "ClusterName", "${var.qatalyst_ecs_cluster}", "ServiceName", "qatalyst_ecs_service"],
-        ]
-        title = "HTTPCode_Target_5XX_Count"
-        stat  = "Count",
-        yAxis = {
-          left = {
-            min = 0
-          }
-          right = {
-            show = false
-          }
-        }
-        annotations = {
-          alarms = []
-        }
+      # Widget for MemoryUtilization metric
+      {
+        type   = "metric"
+        x      = 12
+        y      = 3
+        width  = 12
+        height = 12
+        properties = jsonencode({
+          view    = "timeSeries"
+          stacked = false
+          metrics = [
+            ["AWS/ECS", "MemoryUtilization", "ClusterName", "qatalyst-ecs-cluster", "ServiceName", "qatalyst-ecs-service"],
+          ]
+          title = "ECS MemoryUtilization"
+          stat  = "Average",
 
-      })
-    }
-  ]
-}
-# Define the CloudWatch dashboard ALB
-resource "aws_cloudwatch_dashboard" "alb_dashboard" {
-  provider       = aws.cw_region
-  dashboard_name = "Qatalyst ALB"
+        })
+      },
+      # Widget for HTTPCode_Target_3XX_Count metric
+      {
+        type   = "metric"
+        x      = 0
+        y      = 6
+        width  = 8
+        height = 8
+        properties = jsonencode({
+          view    = "timeSeries"
+          stacked = false
+          metrics = [
+            ["AWS/ECS", "HTTPCode_Target_3XX_Count", "ClusterName", "qatalyst-ecs-cluster", "ServiceName", "qatalyst-ecs-service"],
+          ]
+          title = "HTTPCode_Target_3XX_Count"
+          stat  = "Count",
 
-  # Define the widgets for the dashboard
-  dashboard_body = jsonencode([
-    {
+
+        })
+      },
+      # Widget for HTTPCode_Target_4XX_Count metric
+      {
+        type   = "metric"
+        x      = 8
+        y      = 6
+        width  = 12
+        height = 12
+        properties = jsonencode({
+          view    = "timeSeries"
+          stacked = false
+          metrics = [
+            ["AWS/ECS", "HTTPCode_Target_4XX_Count", "ClusterName", "qatalyst-ecs-cluster", "ServiceName", "qatalyst-ecs-service"],
+          ]
+          title = "HTTPCode_Target_4XX_Count"
+          stat  = "Count",
+
+
+        })
+      },
+      # Widget for HTTPCode_Target_5XX_Count metric
+      {
+        type   = "metric"
+        x      = 16
+        y      = 6
+        width  = 12
+        height = 12
+        properties = jsonencode({
+          view    = "timeSeries"
+          stacked = false
+          metrics = [
+            ["AWS/ECS", "HTTPCode_Target_5XX_Count", "ClusterName", "qatalyst-ecs-cluster", "ServiceName", "qatalyst_ecs_service"],
+          ]
+          title = "HTTPCode_Target_5XX_Count"
+          stat  = "Count",
+
+        })
+      },
+      {
       type   = "metric",
       x      = 0,
-      x      = 0,
+      y      = 6,
       width  = 6,
       height = 6,
       properties = {
         metrics = [
-          ["AWS/ApplicationELB", "ActiveConnectionCount", "LoadBalancer", "${aws_lb.qatalyst_alb.arn}"]
+          ["AWS/ApplicationELB", "ActiveConnectionCount", "LoadBalancer", var.qatalyst_alb_arn]
         ],
         title = "ActiveConnectionCount"
         stat  = "Average"
@@ -198,12 +131,12 @@ resource "aws_cloudwatch_dashboard" "alb_dashboard" {
     {
       type   = "metric",
       x      = 0,
-      x      = 0,
+      y      = 0,
       width  = 6,
       height = 6,
       properties = {
         metrics = [
-          ["AWS/ApplicationELB", "HealthyHostCount", "LoadBalancer", "${aws_lb.qatalyst_alb.arn}"]
+          ["AWS/ApplicationELB", "HealthyHostCount", "LoadBalancer", var.qatalyst_alb_arn]
         ],
         title = "HealthyHostCount"
         stat  = "Average"
@@ -212,12 +145,12 @@ resource "aws_cloudwatch_dashboard" "alb_dashboard" {
     {
       type   = "metric",
       x      = 6,
-      x      = 0,
+      y      = 0,
       width  = 6,
       height = 6,
       properties = {
         metrics = [
-          ["AWS/ApplicationELB", "ClientTLSNegotiationErrorCount", "LoadBalancer", "${aws_lb.qatalyst_alb.arn}"]
+          ["AWS/ApplicationELB", "ClientTLSNegotiationErrorCount", "LoadBalancer", var.qatalyst_alb_arn]
         ],
         title = "ClientTLSNegotiationErrorCount"
         stat  = "Average"
@@ -226,12 +159,12 @@ resource "aws_cloudwatch_dashboard" "alb_dashboard" {
     {
       type   = "metric",
       x      = 0,
-      x      = 6,
+      y      = 6,
       width  = 6,
       height = 6,
       properties = {
         metrics = [
-          ["AWS/ApplicationELB", "HTTPCode_ELB_3XX_Count", "LoadBalancer", "${aws_lb.qatalyst_alb.arn}"]
+          ["AWS/ApplicationELB", "HTTPCode_ELB_3XX_Count", "LoadBalancer", var.qatalyst_alb_arn]
         ],
         title = "HTTPCode_ELB_3XX_Countt"
         stat  = "Count"
@@ -240,12 +173,12 @@ resource "aws_cloudwatch_dashboard" "alb_dashboard" {
     {
       type   = "metric",
       x      = 0,
-      x      = 6,
+      y      = 6,
       width  = 6,
       height = 6,
       properties = {
         metrics = [
-          ["AWS/ApplicationELB", "HTTPCode_ELB_4XX_Count", "LoadBalancer", "${aws_lb.qatalyst_alb.arn}"]
+          ["AWS/ApplicationELB", "HTTPCode_ELB_4XX_Count", "LoadBalancer", var.qatalyst_alb_arn]
         ],
         title = "HTTPCode_ELB_4XX_Count"
         stat  = "Count"
@@ -254,12 +187,12 @@ resource "aws_cloudwatch_dashboard" "alb_dashboard" {
     {
       type   = "metric",
       x      = 0,
-      x      = 6,
+      y      = 6,
       width  = 6,
       height = 6,
       properties = {
         metrics = [
-          ["AWS/ApplicationELB", "HTTPCode_ELB_5XX_Count", "LoadBalancer", "${aws_lb.qatalyst_alb.arn}"]
+          ["AWS/ApplicationELB", "HTTPCode_ELB_5XX_Count", "LoadBalancer", var.qatalyst_alb_arn]
         ],
         title = "HTTPCode_ELB_5XX_Count"
         stat  = "Count"
@@ -268,16 +201,19 @@ resource "aws_cloudwatch_dashboard" "alb_dashboard" {
     {
       type   = "metric",
       x      = 0,
-      x      = 6,
+      y      = 6,
       width  = 6,
       height = 6,
       properties = {
         metrics = [
-          ["AWS/ApplicationELB", "RejectedConnectionCount", "LoadBalancer", "${aws_lb.qatalyst_alb.arn}"]
+          ["AWS/ApplicationELB", "RejectedConnectionCount", "LoadBalancer", var.qatalyst_alb_arn]
         ],
         title = "RejectedConnectionCount"
-        stat  = "Average"
+        stat  = "Count"
+
       }
     }
-  ])
+    ]
+  })
 }
+

@@ -9,7 +9,7 @@ variable "DEFAULT_TAGS" {
   description = "Default Tags for all resources"
 }
 
-variable "qatalyst_cw_dashboard_role_arn" {
+variable "qatalyst_alb_arn" {
   type        = string
-  description = "Qatalyst Cloudwatch Dashboard Arn"
+  description = "Qatalyst ALB Arn"
 }
