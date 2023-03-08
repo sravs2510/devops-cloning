@@ -7,16 +7,6 @@ terraform {
   }
 }
 
-data "aws_region" "cw_region" {
-  provider = aws.cw_region
-}
-
-data "aws_caller_identity" "current" {
-  provider = aws.cw_region
-}
-locals {
-  ecs_metric=["AWS/ECS", "CPUUtilization", "ClusterName", "qatalyst-ecs-cluster", "ServiceName", "qatalyst-ecs-service"]
-}
 # Create CloudWatch dashboard
 resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
   provider       = aws.cw_region
@@ -26,190 +16,242 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
     widgets = [
       {
         type    = "metric"
-        x       = 0
-        y       = 3
-        width   = 12
-        height  = 12
+        metrics = [
+          [
+            "AWS/ECS", 
+            "CPUUtilization", 
+            "ClusterName", 
+            "qatalyst-ecs-cluster", 
+            "ServiceName", 
+            "qatalyst-ecs-service"
+          ]
+        ],
         view    = "timeSeries"
         stacked = false
-        metrics = [
-          ["AWS/ECS", "CPUUtilization", "ClusterName", "qatalyst-ecs-cluster", "ServiceName", "qatalyst-ecs-service"],
-        ]
-        title = "ECS CPUUtilization"
-        stat  = "Sum",
+        timezone= "+0530"
+        stat    = "Sum"
+        title   = "ECS CPUUtilization"
 
       },
 
       # Widget for MemoryUtilization metric
       {
         type   = "metric"
-        x      = 12
-        y      = 3
-        width  = 12
-        height = 12
-        properties = jsonencode({
+        properties = ({
+          metrics = [
+            [
+               "AWS/ECS", 
+               "MemoryUtilization", 
+               "ClusterName", 
+               "qatalyst-ecs-cluster", 
+               "ServiceName", 
+               "qatalyst-ecs-service"
+            ]
+          ],
           view    = "timeSeries"
           stacked = false
-          metrics = [
-            ["AWS/ECS", "MemoryUtilization", "ClusterName", "qatalyst-ecs-cluster", "ServiceName", "qatalyst-ecs-service"],
-          ]
-          title = "ECS MemoryUtilization"
-          stat  = "Average",
-
+          stat    = "Average"
+          timezone= "+0530"
+          title   = "ECS MemoryUtilization",
         })
       },
       # Widget for HTTPCode_Target_3XX_Count metric
       {
         type   = "metric"
-        x      = 0
-        y      = 6
-        width  = 8
-        height = 8
-        properties = jsonencode({
+        properties = ({
+          metrics = [
+            [
+              "AWS/ECS", 
+              "HTTPCode_Target_3XX_Count", 
+              "ClusterName", 
+              "qatalyst-ecs-cluster", 
+              "ServiceName", 
+              "qatalyst-ecs-service"
+            ]
+          ],
           view    = "timeSeries"
           stacked = false
-          metrics = [
-            ["AWS/ECS", "HTTPCode_Target_3XX_Count", "ClusterName", "qatalyst-ecs-cluster", "ServiceName", "qatalyst-ecs-service"],
-          ]
+          timezone= "+0530"
+          stat  = "SampleCount"
           title = "HTTPCode_Target_3XX_Count"
-          stat  = "Count",
-
-
         })
       },
       # Widget for HTTPCode_Target_4XX_Count metric
       {
         type   = "metric"
-        x      = 8
-        y      = 6
-        width  = 12
-        height = 12
-        properties = jsonencode({
+        properties = ({
+          metrics = [
+            [
+              "AWS/ECS", 
+              "HTTPCode_Target_4XX_Count", 
+              "ClusterName", 
+              "qatalyst-ecs-cluster", 
+              "ServiceName", 
+              "qatalyst-ecs-service"
+            ]
+          ],
           view    = "timeSeries"
           stacked = false
-          metrics = [
-            ["AWS/ECS", "HTTPCode_Target_4XX_Count", "ClusterName", "qatalyst-ecs-cluster", "ServiceName", "qatalyst-ecs-service"],
-          ]
-          title = "HTTPCode_Target_4XX_Count"
-          stat  = "Count",
-
+          stat  = "SampleCount"
+          timezone= "+0530"
+          title = "HTTPCode_Target_4XX_Count",
 
         })
       },
       # Widget for HTTPCode_Target_5XX_Count metric
       {
         type   = "metric"
-        x      = 16
-        y      = 6
-        width  = 12
-        height = 12
-        properties = jsonencode({
+        properties = ({
+          metrics = [
+            [
+              "AWS/ECS", 
+              "HTTPCode_Target_5XX_Count", 
+              "ClusterName", 
+              "qatalyst-ecs-cluster", 
+              "ServiceName", 
+              "qatalyst_ecs_service"
+            ]
+          ],
           view    = "timeSeries"
           stacked = false
-          metrics = [
-            ["AWS/ECS", "HTTPCode_Target_5XX_Count", "ClusterName", "qatalyst-ecs-cluster", "ServiceName", "qatalyst_ecs_service"],
-          ]
-          title = "HTTPCode_Target_5XX_Count"
-          stat  = "Count",
+          period  = 300
+          stat    = "SampleCount"
+          timezone= "+0530"
+          title   = "HTTPCode_Target_5XX_Count",
 
         })
       },
       {
-      type   = "metric",
-      x      = 0,
-      y      = 6,
-      width  = 6,
-      height = 6,
+      type   = "metric"
       properties = {
         metrics = [
-          ["AWS/ApplicationELB", "ActiveConnectionCount", "LoadBalancer", var.qatalyst_alb_arn]
+          [
+            "AWS/ApplicationELB", 
+            "ActiveConnectionCount", 
+            "LoadBalancer", 
+            var.qatalyst_alb_arn
+          ]
         ],
-        title = "ActiveConnectionCount"
-        stat  = "Average"
+          view    = "timeSeries"
+          stacked = false
+          period  = 300
+          stat    = "SampleCount"
+          timezone= "+0530"
+          title   = "ActiveConnectionCount"
+      }
+    },
+    {
+      type   = "metric"
+      properties = {
+        metrics = [
+          [
+            "AWS/ApplicationELB", 
+            "HealthyHostCount", 
+            "LoadBalancer", 
+            var.qatalyst_alb_arn
+          ]
+        ],
+          view    = "timeSeries"
+          stacked = false
+          period  = 300
+          stat    = "SampleCount"
+          timezone= "+0530"
+          title = "HealthyHostCount"
+      }
+    },
+    {
+      type   = "metric"
+      properties = {
+        metrics = [
+          [
+            "AWS/ApplicationELB", 
+            "ClientTLSNegotiationErrorCount", 
+            "LoadBalancer", 
+            var.qatalyst_alb_arn
+          ]
+        ],
+          view    = "timeSeries"
+          stacked = false
+          period  = 300
+          stat    = "SampleCount"
+          timezone= "+0530"
+          title   = "ClientTLSNegotiationErrorCount"
+      }
+    },
+    {
+      type   = "metric"
+      properties = {
+        metrics = [
+          [
+            "AWS/ApplicationELB", 
+            "HTTPCode_ELB_3XX_Count", 
+            "LoadBalancer", 
+            var.qatalyst_alb_arn
+          ]
+        ],
+          view    = "timeSeries"
+          stacked = false
+          period  = 300
+          stat    = "SampleCount"
+          timezone= "+0530"
+          title   = "HTTPCode_ELB_3XX_Countt"
       }
     },
     {
       type   = "metric",
-      x      = 0,
-      y      = 0,
-      width  = 6,
-      height = 6,
       properties = {
         metrics = [
-          ["AWS/ApplicationELB", "HealthyHostCount", "LoadBalancer", var.qatalyst_alb_arn]
+          [
+            "AWS/ApplicationELB", 
+            "HTTPCode_ELB_4XX_Count", 
+            "LoadBalancer", 
+            var.qatalyst_alb_arn
+          ]
         ],
-        title = "HealthyHostCount"
-        stat  = "Average"
+          view    = "timeSeries"
+          stacked = false
+          period  = 300
+          stat    = "SampleCount"
+          timezone= "+0530"
+          title   = "HTTPCode_ELB_4XX_Count"
       }
     },
     {
-      type   = "metric",
-      x      = 6,
-      y      = 0,
-      width  = 6,
-      height = 6,
+      type   = "metric"
       properties = {
         metrics = [
-          ["AWS/ApplicationELB", "ClientTLSNegotiationErrorCount", "LoadBalancer", var.qatalyst_alb_arn]
+          [
+            "AWS/ApplicationELB", 
+            "HTTPCode_ELB_5XX_Count", 
+            "LoadBalancer", 
+            var.qatalyst_alb_arn
+          ]
         ],
-        title = "ClientTLSNegotiationErrorCount"
-        stat  = "Average"
+          view    = "timeSeries"
+          stacked = false
+          period  = 300
+          stat    = "SampleCount"
+          timezone= "+0530"
+          title   = "HTTPCode_ELB_5XX_Count"
       }
     },
     {
-      type   = "metric",
-      x      = 0,
-      y      = 6,
-      width  = 6,
-      height = 6,
+      type   = "metric"
       properties = {
         metrics = [
-          ["AWS/ApplicationELB", "HTTPCode_ELB_3XX_Count", "LoadBalancer", var.qatalyst_alb_arn]
+          [
+            "AWS/ApplicationELB", 
+            "RejectedConnectionCount", 
+            "LoadBalancer", 
+            var.qatalyst_alb_arn
+          ]
         ],
-        title = "HTTPCode_ELB_3XX_Countt"
-        stat  = "Count"
-      }
-    },
-    {
-      type   = "metric",
-      x      = 0,
-      y      = 6,
-      width  = 6,
-      height = 6,
-      properties = {
-        metrics = [
-          ["AWS/ApplicationELB", "HTTPCode_ELB_4XX_Count", "LoadBalancer", var.qatalyst_alb_arn]
-        ],
-        title = "HTTPCode_ELB_4XX_Count"
-        stat  = "Count"
-      }
-    },
-    {
-      type   = "metric",
-      x      = 0,
-      y      = 6,
-      width  = 6,
-      height = 6,
-      properties = {
-        metrics = [
-          ["AWS/ApplicationELB", "HTTPCode_ELB_5XX_Count", "LoadBalancer", var.qatalyst_alb_arn]
-        ],
-        title = "HTTPCode_ELB_5XX_Count"
-        stat  = "Count"
-      }
-    },
-    {
-      type   = "metric",
-      x      = 0,
-      y      = 6,
-      width  = 6,
-      height = 6,
-      properties = {
-        metrics = [
-          ["AWS/ApplicationELB", "RejectedConnectionCount", "LoadBalancer", var.qatalyst_alb_arn]
-        ],
-        title = "RejectedConnectionCount"
-        stat  = "Count"
+          view    = "timeSeries"
+          stacked = false
+          period  = 300
+          stat    = "SampleCount"
+          timezone= "+0530"
+          title = "RejectedConnectionCount"
 
       }
     }
