@@ -6,6 +6,12 @@ terraform {
     }
   }
 }
+locals {
+  ist_timezone="+0530"
+}
+locals {
+  period="300"
+}
 
 # Create CloudWatch dashboard
 resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
@@ -28,16 +34,16 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
         ],
         view    = "timeSeries"
         stacked = false
-        timezone= "+0530"
-        stat    = "Sum"
-        title   = "ECS CPUUtilization"
-
+        period  = local.period
+        timezone= local.ist_timezone
+        stat    = "Average"
+        title   = "Average CPUUtilization"
       },
 
       # Widget for MemoryUtilization metric
       {
         type   = "metric"
-        properties = ({
+        properties = {
           metrics = [
             [
                "AWS/ECS", 
@@ -50,15 +56,16 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           ],
           view    = "timeSeries"
           stacked = false
+          period  = local.period
+          timezone= local.ist_timezone
           stat    = "Average"
-          timezone= "+0530"
-          title   = "ECS MemoryUtilization",
-        })
+          title   = "Average MemoryUtilization",
+        }
       },
       # Widget for HTTPCode_Target_3XX_Count metric
       {
         type   = "metric"
-        properties = ({
+        properties = {
           metrics = [
             [
               "AWS/ECS", 
@@ -71,15 +78,16 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           ],
           view    = "timeSeries"
           stacked = false
-          timezone= "+0530"
+          period  = local.period
+          timezone= local.ist_timezone
           stat  = "SampleCount"
           title = "HTTPCode_Target_3XX_Count"
-        })
+        }
       },
       # Widget for HTTPCode_Target_4XX_Count metric
       {
         type   = "metric"
-        properties = ({
+        properties = {
           metrics = [
             [
               "AWS/ECS", 
@@ -92,16 +100,16 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           ],
           view    = "timeSeries"
           stacked = false
-          stat  = "SampleCount"
-          timezone= "+0530"
+          period  = local.period
+          timezone= local.ist_timezone
+          stat    = "SampleCount"
           title = "HTTPCode_Target_4XX_Count",
-
-        })
+        }
       },
       # Widget for HTTPCode_Target_5XX_Count metric
       {
         type   = "metric"
-        properties = ({
+        properties = {
           metrics = [
             [
               "AWS/ECS", 
@@ -114,12 +122,11 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           ],
           view    = "timeSeries"
           stacked = false
-          period  = 300
+          period  = local.period
+          timezone= local.ist_timezone
           stat    = "SampleCount"
-          timezone= "+0530"
           title   = "HTTPCode_Target_5XX_Count",
-
-        })
+        }
       },
       {
       type   = "metric"
@@ -134,9 +141,9 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
         ],
           view    = "timeSeries"
           stacked = false
-          period  = 300
+          period  = local.period
+          timezone= local.ist_timezone
           stat    = "SampleCount"
-          timezone= "+0530"
           title   = "ActiveConnectionCount"
       }
     },
@@ -153,9 +160,9 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
         ],
           view    = "timeSeries"
           stacked = false
-          period  = 300
+          period  = local.period
+          timezone= local.ist_timezone
           stat    = "SampleCount"
-          timezone= "+0530"
           title = "HealthyHostCount"
       }
     },
@@ -172,9 +179,9 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
         ],
           view    = "timeSeries"
           stacked = false
-          period  = 300
+          period  = local.period
+          timezone= local.ist_timezone
           stat    = "SampleCount"
-          timezone= "+0530"
           title   = "ClientTLSNegotiationErrorCount"
       }
     },
@@ -191,9 +198,9 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
         ],
           view    = "timeSeries"
           stacked = false
-          period  = 300
+          period  = local.period
+          timezone= local.ist_timezone
           stat    = "SampleCount"
-          timezone= "+0530"
           title   = "HTTPCode_ELB_3XX_Countt"
       }
     },
@@ -210,9 +217,9 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
         ],
           view    = "timeSeries"
           stacked = false
-          period  = 300
+          period  = local.period
+          timezone= local.ist_timezone
           stat    = "SampleCount"
-          timezone= "+0530"
           title   = "HTTPCode_ELB_4XX_Count"
       }
     },
@@ -229,9 +236,9 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
         ],
           view    = "timeSeries"
           stacked = false
-          period  = 300
+          period  = local.period
+          timezone= local.ist_timezone
           stat    = "SampleCount"
-          timezone= "+0530"
           title   = "HTTPCode_ELB_5XX_Count"
       }
     },
@@ -248,11 +255,10 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
         ],
           view    = "timeSeries"
           stacked = false
-          period  = 300
+          period  = local.period
+          timezone= local.ist_timezone
           stat    = "SampleCount"
-          timezone= "+0530"
           title = "RejectedConnectionCount"
-
       }
     }
     ]
