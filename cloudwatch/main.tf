@@ -7,10 +7,8 @@ terraform {
   }
 }
 locals {
-  ist_timezone="+0530"
-}
-locals {
-  period="300"
+  ist_timezone = "+0530"
+  period       = "300"
 }
 
 # Create CloudWatch dashboard
@@ -22,6 +20,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
     widgets = [
       {
         type    = "metric"
+        properties = {
         metrics = [
           [
             "AWS/ECS", 
@@ -38,6 +37,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
         timezone= local.ist_timezone
         stat    = "Average"
         title   = "Average CPUUtilization"
+      }
       },
 
       # Widget for MemoryUtilization metric
