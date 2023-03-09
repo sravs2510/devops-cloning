@@ -3,6 +3,7 @@ locals {
   qatalyst_domain    = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.base_domain])
   tester_view_domain = var.STAGE == "prod" ? join(".", [var.tester_view_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.tester_view_sub_domain, var.base_domain])
 }
+
 module "create_eu_vpc" {
   source          = "./vpc"
   cidr_block      = var.cidr_block
@@ -120,6 +121,7 @@ module "create_eu_dynamodb_gsi" {
   STAGE                  = var.STAGE
   gsi_table_details      = var.gsi_table_details
   point_in_time_recovery = var.point_in_time_recovery
+
   providers = {
     aws.dynamo_region = aws.eu_region
   }
@@ -131,8 +133,20 @@ module "create_eu_dynamodb" {
   STAGE                  = var.STAGE
   table_details          = var.table_details
   point_in_time_recovery = var.point_in_time_recovery
+
   providers = {
     aws.dynamo_region = aws.eu_region
+  }
+}
+
+module "create_eu_cloudwatch_dashboard" {
+  source           = "./cloudwatch"
+  DEFAULT_TAGS     = var.DEFAULT_TAGS
+  STAGE            = var.STAGE
+  qatalyst_alb_arn = module.create_eu_alb.qatalyst_alb_arn
+
+  providers = {
+    aws.cw_region = aws.eu_region
   }
 }
 
@@ -272,6 +286,17 @@ module "create_in_dynamodb" {
   }
 }
 
+module "create_in_cloudwatch_dashboard" {
+  source           = "./cloudwatch"
+  DEFAULT_TAGS     = var.DEFAULT_TAGS
+  STAGE            = var.STAGE
+  qatalyst_alb_arn = module.create_in_alb.qatalyst_alb_arn
+
+  providers = {
+    aws.cw_region = aws.in_region
+  }
+}
+
 # SEA Resources
 module "create_sea_vpc" {
   source          = "./vpc"
@@ -405,6 +430,17 @@ module "create_sea_dynamodb" {
 
   providers = {
     aws.dynamo_region = aws.sea_region
+  }
+}
+
+module "create_sea_cloudwatch_dashboard" {
+  source           = "./cloudwatch"
+  DEFAULT_TAGS     = var.DEFAULT_TAGS
+  STAGE            = var.STAGE
+  qatalyst_alb_arn = module.create_sea_alb.qatalyst_alb_arn
+
+  providers = {
+    aws.cw_region = aws.sea_region
   }
 }
 
@@ -559,6 +595,17 @@ module "create_global_dynamodb" {
     aws.in_region  = aws.in_region
     aws.us_region  = aws.us_region
     aws.eu_region  = aws.eu_region
+  }
+}
+
+module "create_us_cloudwatch_dashboard" {
+  source           = "./cloudwatch"
+  DEFAULT_TAGS     = var.DEFAULT_TAGS
+  STAGE            = var.STAGE
+  qatalyst_alb_arn = module.create_us_alb.qatalyst_alb_arn
+
+  providers = {
+    aws.cw_region = aws.us_region
   }
 }
 
