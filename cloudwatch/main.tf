@@ -9,7 +9,11 @@ terraform {
 
 locals {
   ist_timezone = "+0530" #IST
-  period       = "300"   #Seconds
+  period       = 300     #Seconds
+}
+
+data "aws_region" "current" {
+  provider = aws.cw_region
 }
 
 # Create CloudWatch dashboard
@@ -36,11 +40,11 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           stacked  = false
           period   = local.period
           timezone = local.ist_timezone
+          region   = data.aws_region.current.name
           stat     = "Average"
           title    = "Average CPUUtilization"
         }
       },
-
       # Widget for MemoryUtilization metric
       {
         type = "metric"
@@ -59,6 +63,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           stacked  = false
           period   = local.period
           timezone = local.ist_timezone
+          region   = data.aws_region.current.name
           stat     = "Average"
           title    = "Average MemoryUtilization",
         }
@@ -81,6 +86,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           stacked  = false
           period   = local.period
           timezone = local.ist_timezone
+          region   = data.aws_region.current.name
           stat     = "SampleCount"
           title    = "HTTPCode_Target_3XX_Count"
         }
@@ -103,6 +109,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           stacked  = false
           period   = local.period
           timezone = local.ist_timezone
+          region   = data.aws_region.current.name
           stat     = "SampleCount"
           title    = "HTTPCode_Target_4XX_Count",
         }
@@ -125,6 +132,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           stacked  = false
           period   = local.period
           timezone = local.ist_timezone
+          region   = data.aws_region.current.name
           stat     = "SampleCount"
           title    = "HTTPCode_Target_5XX_Count",
         }
@@ -144,6 +152,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           stacked  = false
           period   = local.period
           timezone = local.ist_timezone
+          region   = data.aws_region.current.name
           stat     = "SampleCount"
           title    = "ActiveConnectionCount"
         }
@@ -163,6 +172,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           stacked  = false
           period   = local.period
           timezone = local.ist_timezone
+          region   = data.aws_region.current.name
           stat     = "SampleCount"
           title    = "HealthyHostCount"
         }
@@ -182,6 +192,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           stacked  = false
           period   = local.period
           timezone = local.ist_timezone
+          region   = data.aws_region.current.name
           stat     = "SampleCount"
           title    = "ClientTLSNegotiationErrorCount"
         }
@@ -201,6 +212,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           stacked  = false
           period   = local.period
           timezone = local.ist_timezone
+          region   = data.aws_region.current.name
           stat     = "SampleCount"
           title    = "HTTPCode_ELB_3XX_Countt"
         }
@@ -220,6 +232,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           stacked  = false
           period   = local.period
           timezone = local.ist_timezone
+          region   = data.aws_region.current.name
           stat     = "SampleCount"
           title    = "HTTPCode_ELB_4XX_Count"
         }
@@ -239,6 +252,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           stacked  = false
           period   = local.period
           timezone = local.ist_timezone
+          region   = data.aws_region.current.name
           stat     = "SampleCount"
           title    = "HTTPCode_ELB_5XX_Count"
         }
@@ -258,6 +272,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           stacked  = false
           period   = local.period
           timezone = local.ist_timezone
+          region   = data.aws_region.current.name
           stat     = "SampleCount"
           title    = "RejectedConnectionCount"
         }
