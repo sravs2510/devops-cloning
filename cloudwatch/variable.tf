@@ -9,7 +9,22 @@ variable "DEFAULT_TAGS" {
   description = "Default Tags for all resources"
 }
 
-variable "qatalyst_alb_arn" {
+variable "alb_arn_suffix" {
   type        = string
-  description = "Qatalyst ALB Arn"
+  description = "ALB Arn Suffix"
+}
+
+variable "tg_arn_suffix" {
+  type        = string
+  description = "TG Arn Suffix"
+}
+
+variable "ecs_service_name" {
+  type        = string
+  description = "ECS service name"
+}
+
+variable "ecs_cluster_name" {
+  type        = string
+  description = "ECS cluster name"
 }

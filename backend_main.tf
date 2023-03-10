@@ -2,7 +2,10 @@
 locals {
   qatalyst_domain    = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.base_domain])
   tester_view_domain = var.STAGE == "prod" ? join(".", [var.tester_view_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.tester_view_sub_domain, var.base_domain])
+  qatalyst_ecs_service_name = "qatalyst-ecs-service"
+  qatalyst_ecs_cluster_name = "qatalyst-ecs-cluster"
 }
+
 
 module "create_eu_vpc" {
   source          = "./vpc"
@@ -143,8 +146,10 @@ module "create_eu_cloudwatch_dashboard" {
   source           = "./cloudwatch"
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
-  qatalyst_alb_arn = module.create_eu_alb.qatalyst_alb_arn
-
+  ecs_service_name = local.qatalyst_ecs_service_name
+  ecs_cluster_name = local.qatalyst_ecs_cluster_name
+  alb_arn_suffix = module.create_eu_alb.qatalyst_alb_arn_suffix
+  tg_arn_suffix  = module.create_eu_alb.qatalyst_tg_arn_suffix
   providers = {
     aws.cw_region = aws.eu_region
   }
@@ -290,7 +295,10 @@ module "create_in_cloudwatch_dashboard" {
   source           = "./cloudwatch"
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
-  qatalyst_alb_arn = module.create_in_alb.qatalyst_alb_arn
+  ecs_service_name = local.qatalyst_ecs_service_name
+  ecs_cluster_name = local.qatalyst_ecs_cluster_name
+  alb_arn_suffix = module.create_in_alb.qatalyst_alb_arn_suffix
+  tg_arn_suffix  = module.create_eu_alb.qatalyst_tg_arn_suffix
 
   providers = {
     aws.cw_region = aws.in_region
@@ -437,7 +445,10 @@ module "create_sea_cloudwatch_dashboard" {
   source           = "./cloudwatch"
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
-  qatalyst_alb_arn = module.create_sea_alb.qatalyst_alb_arn
+  ecs_service_name = local.qatalyst_ecs_service_name
+  ecs_cluster_name = local.qatalyst_ecs_cluster_name
+  alb_arn_suffix = module.create_sea_alb.qatalyst_alb_arn_suffix
+  tg_arn_suffix  = module.create_sea_alb.qatalyst_tg_arn_suffix
 
   providers = {
     aws.cw_region = aws.sea_region
@@ -602,8 +613,11 @@ module "create_us_cloudwatch_dashboard" {
   source           = "./cloudwatch"
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
-  qatalyst_alb_arn = module.create_us_alb.qatalyst_alb_arn
-
+  ecs_service_name = local.qatalyst_ecs_service_name
+  ecs_cluster_name = local.qatalyst_ecs_cluster_name
+  alb_arn_suffix = module.create_us_alb.qatalyst_alb_arn_suffix
+  tg_arn_suffix  = module.create_us_alb.qatalyst_tg_arn_suffix
+ 
   providers = {
     aws.cw_region = aws.us_region
   }
