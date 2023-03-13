@@ -155,7 +155,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           period   = local.period
           timezone = local.ist_timezone
           region   = data.aws_region.current.name
-          stat     = "Sum"
+          stat     = "Maximum"
           title    = "HealthyHostCount"
         }
       },
@@ -177,7 +177,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           period   = local.period
           timezone = local.ist_timezone
           region   = data.aws_region.current.name
-          stat     = "Sum"
+          stat     = "Maximum"
           title    = "UnHealthyHostCount"
         }
       },
@@ -318,7 +318,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           period   = local.period
           timezone = local.ist_timezone
           region   = data.aws_region.current.name
-          stat     = "Sum"
+          stat     = "Maximum"
           title    = "TargetResponseTime"
         }
       },
