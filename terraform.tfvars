@@ -118,6 +118,12 @@ table_details = {
     hash_key       = "workspace_id"
     range_key      = "organisation_id"
     stream_enabled = false
+  },
+  "workspace-testers-email" : {
+    table_name     = "qatalyst-workspace-testers-email"
+    hash_key       = "workspace_id"
+    range_key      = "tester_email_id"
+    stream_enabled = false
   }
 }
 
