@@ -155,7 +155,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           period   = local.period
           timezone = local.ist_timezone
           region   = data.aws_region.current.name
-          stat     = "Maximum"
+          stat     = "Minimum"
           title    = "HealthyHostCount"
         }
       },

@@ -150,6 +150,7 @@ module "create_eu_cloudwatch_dashboard" {
   ecs_cluster_name = local.qatalyst_ecs_cluster_name
   alb_arn_suffix   = module.create_eu_alb.qatalyst_alb_arn_suffix
   tg_arn_suffix    = module.create_eu_alb.qatalyst_tg_arn_suffix
+  
   providers = {
     aws.cw_region = aws.eu_region
   }
@@ -298,7 +299,7 @@ module "create_in_cloudwatch_dashboard" {
   ecs_service_name = local.qatalyst_ecs_service_name
   ecs_cluster_name = local.qatalyst_ecs_cluster_name
   alb_arn_suffix   = module.create_in_alb.qatalyst_alb_arn_suffix
-  tg_arn_suffix    = module.create_eu_alb.qatalyst_tg_arn_suffix
+  tg_arn_suffix    = module.create_in_alb.qatalyst_tg_arn_suffix
 
   providers = {
     aws.cw_region = aws.in_region
