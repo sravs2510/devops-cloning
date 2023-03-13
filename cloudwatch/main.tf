@@ -31,9 +31,9 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
               "AWS/ECS",
               "CPUUtilization",
               "ClusterName",
-              "qatalyst-ecs-cluster",
+              var.ecs_cluster_name,
               "ServiceName",
-              "qatalyst-ecs-service"
+              var.ecs_service_name
             ]
           ],
           view     = "timeSeries"
@@ -54,9 +54,9 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
               "AWS/ECS",
               "MemoryUtilization",
               "ClusterName",
-              "qatalyst-ecs-cluster",
+              var.ecs_cluster_name,
               "ServiceName",
-              "qatalyst-ecs-service"
+              var.ecs_service_name
             ]
           ],
           view     = "timeSeries"
@@ -74,12 +74,12 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
         properties = {
           metrics = [
             [
-              "AWS/ECS",
+              "AWS/ApplicationELB",
               "HTTPCode_Target_3XX_Count",
-              "ClusterName",
-              "qatalyst-ecs-cluster",
-              "ServiceName",
-              "qatalyst-ecs-service"
+              "TargetGroup",
+              var.tg_arn_suffix,
+              "LoadBalancer",
+              var.alb_arn_suffix
             ]
           ],
           view     = "timeSeries"
@@ -87,7 +87,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           period   = local.period
           timezone = local.ist_timezone
           region   = data.aws_region.current.name
-          stat     = "SampleCount"
+          stat     = "Sum"
           title    = "HTTPCode_Target_3XX_Count"
         }
       },
@@ -97,12 +97,12 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
         properties = {
           metrics = [
             [
-              "AWS/ECS",
+              "AWS/ApplicationELB",
               "HTTPCode_Target_4XX_Count",
-              "ClusterName",
-              "qatalyst-ecs-cluster",
-              "ServiceName",
-              "qatalyst-ecs-service"
+              "TargetGroup",
+              var.tg_arn_suffix,
+              "LoadBalancer",
+              var.alb_arn_suffix
             ]
           ],
           view     = "timeSeries"
@@ -110,7 +110,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           period   = local.period
           timezone = local.ist_timezone
           region   = data.aws_region.current.name
-          stat     = "SampleCount"
+          stat     = "Sum"
           title    = "HTTPCode_Target_4XX_Count",
         }
       },
@@ -120,12 +120,12 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
         properties = {
           metrics = [
             [
-              "AWS/ECS",
+              "AWS/ApplicationELB",
               "HTTPCode_Target_5XX_Count",
-              "ClusterName",
-              "qatalyst-ecs-cluster",
-              "ServiceName",
-              "qatalyst_ecs_service"
+              "TargetGroup",
+              var.tg_arn_suffix,
+              "LoadBalancer",
+              var.alb_arn_suffix
             ]
           ],
           view     = "timeSeries"
@@ -133,7 +133,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           period   = local.period
           timezone = local.ist_timezone
           region   = data.aws_region.current.name
-          stat     = "SampleCount"
+          stat     = "Sum"
           title    = "HTTPCode_Target_5XX_Count",
         }
       },
@@ -143,9 +143,11 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           metrics = [
             [
               "AWS/ApplicationELB",
-              "ActiveConnectionCount",
+              "HealthyHostCount",
+              "TargetGroup",
+              var.tg_arn_suffix,
               "LoadBalancer",
-              var.qatalyst_alb_arn
+              var.alb_arn_suffix
             ]
           ],
           view     = "timeSeries"
@@ -153,8 +155,8 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           period   = local.period
           timezone = local.ist_timezone
           region   = data.aws_region.current.name
-          stat     = "SampleCount"
-          title    = "ActiveConnectionCount"
+          stat     = "Sum"
+          title    = "HealthyHostCount"
         }
       },
       {
@@ -163,9 +165,11 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           metrics = [
             [
               "AWS/ApplicationELB",
-              "HealthyHostCount",
+              "UnHealthyHostCount",
+              "TargetGroup",
+              var.tg_arn_suffix,
               "LoadBalancer",
-              var.qatalyst_alb_arn
+              var.alb_arn_suffix
             ]
           ],
           view     = "timeSeries"
@@ -173,8 +177,29 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           period   = local.period
           timezone = local.ist_timezone
           region   = data.aws_region.current.name
-          stat     = "SampleCount"
-          title    = "HealthyHostCount"
+          stat     = "Sum"
+          title    = "UnHealthyHostCount"
+        }
+      },
+      #LoadBalancer
+      {
+        type = "metric"
+        properties = {
+          metrics = [
+            [
+              "AWS/ApplicationELB",
+              "ActiveConnectionCount",
+              "LoadBalancer",
+              var.alb_arn_suffix
+            ]
+          ],
+          view     = "timeSeries"
+          stacked  = false
+          period   = local.period
+          timezone = local.ist_timezone
+          region   = data.aws_region.current.name
+          stat     = "Sum"
+          title    = "ActiveConnectionCount"
         }
       },
       {
@@ -185,7 +210,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
               "AWS/ApplicationELB",
               "ClientTLSNegotiationErrorCount",
               "LoadBalancer",
-              var.qatalyst_alb_arn
+              var.alb_arn_suffix
             ]
           ],
           view     = "timeSeries"
@@ -193,7 +218,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           period   = local.period
           timezone = local.ist_timezone
           region   = data.aws_region.current.name
-          stat     = "SampleCount"
+          stat     = "Sum"
           title    = "ClientTLSNegotiationErrorCount"
         }
       },
@@ -205,7 +230,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
               "AWS/ApplicationELB",
               "HTTPCode_ELB_3XX_Count",
               "LoadBalancer",
-              var.qatalyst_alb_arn
+              var.alb_arn_suffix
             ]
           ],
           view     = "timeSeries"
@@ -213,7 +238,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           period   = local.period
           timezone = local.ist_timezone
           region   = data.aws_region.current.name
-          stat     = "SampleCount"
+          stat     = "Sum"
           title    = "HTTPCode_ELB_3XX_Countt"
         }
       },
@@ -225,7 +250,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
               "AWS/ApplicationELB",
               "HTTPCode_ELB_4XX_Count",
               "LoadBalancer",
-              var.qatalyst_alb_arn
+              var.alb_arn_suffix
             ]
           ],
           view     = "timeSeries"
@@ -233,7 +258,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           period   = local.period
           timezone = local.ist_timezone
           region   = data.aws_region.current.name
-          stat     = "SampleCount"
+          stat     = "Sum"
           title    = "HTTPCode_ELB_4XX_Count"
         }
       },
@@ -245,7 +270,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
               "AWS/ApplicationELB",
               "HTTPCode_ELB_5XX_Count",
               "LoadBalancer",
-              var.qatalyst_alb_arn
+              var.alb_arn_suffix
             ]
           ],
           view     = "timeSeries"
@@ -253,7 +278,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           period   = local.period
           timezone = local.ist_timezone
           region   = data.aws_region.current.name
-          stat     = "SampleCount"
+          stat     = "Sum"
           title    = "HTTPCode_ELB_5XX_Count"
         }
       },
@@ -265,7 +290,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
               "AWS/ApplicationELB",
               "RejectedConnectionCount",
               "LoadBalancer",
-              var.qatalyst_alb_arn
+              var.alb_arn_suffix
             ]
           ],
           view     = "timeSeries"
@@ -273,8 +298,48 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           period   = local.period
           timezone = local.ist_timezone
           region   = data.aws_region.current.name
-          stat     = "SampleCount"
+          stat     = "Sum"
           title    = "RejectedConnectionCount"
+        }
+      },
+      {
+        type = "metric"
+        properties = {
+          metrics = [
+            [
+              "AWS/ApplicationELB",
+              "TargetResponseTime",
+              "LoadBalancer",
+              var.alb_arn_suffix
+            ]
+          ],
+          view     = "timeSeries"
+          stacked  = false
+          period   = local.period
+          timezone = local.ist_timezone
+          region   = data.aws_region.current.name
+          stat     = "Sum"
+          title    = "TargetResponseTime"
+        }
+      },
+      {
+        type = "metric"
+        properties = {
+          metrics = [
+            [
+              "AWS/ApplicationELB",
+              "TargetTLSNegotiationErrorCount",
+              "LoadBalancer",
+              var.alb_arn_suffix
+            ]
+          ],
+          view     = "timeSeries"
+          stacked  = false
+          period   = local.period
+          timezone = local.ist_timezone
+          region   = data.aws_region.current.name
+          stat     = "Sum"
+          title    = "TargetTLSNegotiationErrorCount"
         }
       }
     ]

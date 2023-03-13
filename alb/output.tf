@@ -9,3 +9,11 @@ output "qatalyst_alb_target_group_arn" {
 output "qatalyst_alb_arn" {
   value = aws_lb.qatalyst_alb.arn
 }
+
+output "qatalyst_alb_arn_suffix" {
+  value = aws_lb.qatalyst_alb.arn_suffix
+}
+
+output "qatalyst_tg_arn_suffix" {
+  value = aws_lb_target_group.qatalyst_tg.arn_suffix
+}
