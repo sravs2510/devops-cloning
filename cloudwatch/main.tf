@@ -127,7 +127,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
               "LoadBalancer",
               var.alb_arn_suffix
             ]
-          ], 
+          ],
           view     = "timeSeries"
           stacked  = false
           period   = local.period
@@ -146,7 +146,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
               "HealthyHostCount",
               "TargetGroup",
               var.tg_arn_suffix,
-              "LoadBalancer", 
+              "LoadBalancer",
               var.alb_arn_suffix
             ]
           ],
@@ -168,7 +168,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
               "UnHealthyHostCount",
               "TargetGroup",
               var.tg_arn_suffix,
-              "LoadBalancer", 
+              "LoadBalancer",
               var.alb_arn_suffix
             ]
           ],
