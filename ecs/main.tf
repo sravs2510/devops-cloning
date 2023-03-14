@@ -102,14 +102,12 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
             "value" : data.aws_region.ecs_region.name
           },
           {
-<<<<<<< HEAD
             "name" : "BITLY_BEARER"
             "value" : data.aws_ssm_parameter.BITLY_BEARER.value
-
-=======
+          },
+          {
             "name" : "SENDGRID_KEY"
             "value" : data.aws_ssm_parameter.qatalyst_sendgrid_key.value
->>>>>>> 4d4a4f3f407ec1cb06fe59105f6a2dc67e40030a
           }
         ],
         "portMappings" : [
