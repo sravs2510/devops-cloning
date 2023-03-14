@@ -89,7 +89,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           timezone = local.ist_timezone
           region   = data.aws_region.current.name
           stat     = "Sum"
-          title    = "HTTPCode_Target_3XX_Count"
+          title    = "Sum HTTPCode_Target_3XX_Count"
         }
       },
       # Widget for HTTPCode_Target_4XX_Count metric
@@ -112,7 +112,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           timezone = local.ist_timezone
           region   = data.aws_region.current.name
           stat     = "Sum"
-          title    = "HTTPCode_Target_4XX_Count",
+          title    = "Sum HTTPCode_Target_4XX_Count",
         }
       },
       # Widget for HTTPCode_Target_5XX_Count metric
@@ -135,7 +135,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           timezone = local.ist_timezone
           region   = data.aws_region.current.name
           stat     = "Sum"
-          title    = "HTTPCode_Target_5XX_Count",
+          title    = "Sum HTTPCode_Target_5XX_Count",
         }
       },
       {
@@ -157,7 +157,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           timezone = local.ist_timezone
           region   = data.aws_region.current.name
           stat     = "Minimum"
-          title    = "HealthyHostCount"
+          title    = "Minimum HealthyHostCount"
         }
       },
       {
@@ -179,7 +179,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           timezone = local.ist_timezone
           region   = data.aws_region.current.name
           stat     = "Maximum"
-          title    = "UnHealthyHostCount"
+          title    = "Maximum UnHealthyHostCount"
         }
       },
       #LoadBalancer
@@ -200,7 +200,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           timezone = local.ist_timezone
           region   = data.aws_region.current.name
           stat     = "Sum"
-          title    = "ActiveConnectionCount"
+          title    = "Sum ActiveConnectionCount"
         }
       },
       {
@@ -220,7 +220,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           timezone = local.ist_timezone
           region   = data.aws_region.current.name
           stat     = "Sum"
-          title    = "ClientTLSNegotiationErrorCount"
+          title    = "Sum ClientTLSNegotiationErrorCount"
         }
       },
       {
@@ -240,7 +240,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           timezone = local.ist_timezone
           region   = data.aws_region.current.name
           stat     = "Sum"
-          title    = "HTTPCode_ELB_3XX_Countt"
+          title    = "Sum HTTPCode_ELB_3XX_Countt"
         }
       },
       {
@@ -260,7 +260,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           timezone = local.ist_timezone
           region   = data.aws_region.current.name
           stat     = "Sum"
-          title    = "HTTPCode_ELB_4XX_Count"
+          title    = "Sum HTTPCode_ELB_4XX_Count"
         }
       },
       {
@@ -280,7 +280,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           timezone = local.ist_timezone
           region   = data.aws_region.current.name
           stat     = "Sum"
-          title    = "HTTPCode_ELB_5XX_Count"
+          title    = "Sum HTTPCode_ELB_5XX_Count"
         }
       },
       {
@@ -300,7 +300,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           timezone = local.ist_timezone
           region   = data.aws_region.current.name
           stat     = "Sum"
-          title    = "RejectedConnectionCount"
+          title    = "Sum RejectedConnectionCount"
         }
       },
       {
@@ -320,7 +320,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           timezone = local.ist_timezone
           region   = data.aws_region.current.name
           stat     = "Maximum"
-          title    = "TargetResponseTime"
+          title    = "Maximum TargetResponseTime"
         }
       },
       {
@@ -340,7 +340,7 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
           timezone = local.ist_timezone
           region   = data.aws_region.current.name
           stat     = "Sum"
-          title    = "TargetTLSNegotiationErrorCount"
+          title    = "Sum TargetTLSNegotiationErrorCount"
         }
       }
     ]
