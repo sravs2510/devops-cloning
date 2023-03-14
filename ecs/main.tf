@@ -15,8 +15,9 @@ data "aws_caller_identity" "current" {
   provider = aws.ecs_region
 }
 
-data "aws_ssm_parameter" "sendgrid_key" {
-  name = "sendgrid_key"
+data "aws_ssm_parameter" "qatalyst_sendgrid_key" {
+  provider = aws.ecs_region
+  name = "qatalyst_sendgrid_key"
 }
 
 locals {
@@ -96,7 +97,7 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
           },
           {
             "name" : "SENDGRID_KEY"
-            "value" : data.aws_ssm_parameter.sendgrid_key.value
+            "value" : data.aws_ssm_parameter.qatalyst_sendgrid_key.value
           }
         ],
         "portMappings" : [
