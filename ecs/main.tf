@@ -16,6 +16,7 @@ data "aws_caller_identity" "current" {
 }
 
 data "aws_ssm_parameter" "BITLY_BEARER" {
+  provider = aws.ecs_region
   name = "qatalyst-bit-ly-access-token"
 }
 
