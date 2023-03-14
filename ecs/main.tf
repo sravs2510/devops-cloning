@@ -15,9 +15,15 @@ data "aws_caller_identity" "current" {
   provider = aws.ecs_region
 }
 
+data "aws_ssm_parameter" "BITLY_BEARER" {
+  provider = aws.ecs_region
+  name   = "qatalyst-bit-ly-access-token"
+}
+
 data "aws_ssm_parameter" "qatalyst_sendgrid_key" {
   provider = aws.ecs_region
   name = "qatalyst_sendgrid_key"
+
 }
 
 locals {
@@ -94,6 +100,10 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
           {
             "name" : "REGION_NAME"
             "value" : data.aws_region.ecs_region.name
+          },
+          {
+            "name" : "BITLY_BEARER"
+            "value" : data.aws_ssm_parameter.BITLY_BEARER.value
           },
           {
             "name" : "SENDGRID_KEY"
