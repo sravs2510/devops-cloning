@@ -28,3 +28,8 @@ variable "ecs_cluster_name" {
   type        = string
   description = "ECS cluster name"
 }
+
+variable "datacenter_codes" {
+  type        = map(string)
+  description = "Data center code values"
+}
