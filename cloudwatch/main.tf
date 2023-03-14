@@ -8,8 +8,9 @@ terraform {
 }
 
 locals {
-  ist_timezone = "+0530" #IST
-  period       = 300     #Seconds
+  ist_timezone    = "+0530" #IST
+  period          = 300     #Seconds
+  datacenter_code = lookup(var.datacenter_codes, data.aws_region.current.name)
 }
 
 data "aws_region" "current" {
@@ -19,7 +20,7 @@ data "aws_region" "current" {
 # Create CloudWatch dashboard
 resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
   provider       = aws.cw_region
-  dashboard_name = "Qatalyst-Dashboard"
+  dashboard_name = join("-", ["Qatalyst", "Dashboard", local.datacenter_code])
 
   dashboard_body = jsonencode({
     widgets = [
