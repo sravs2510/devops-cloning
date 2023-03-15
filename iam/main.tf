@@ -73,6 +73,13 @@ resource "aws_iam_policy" "qatalyst_ecs_task_iam_policy" {
         ],
         Effect   = "Allow",
         Resource = local.s3_bucket_arn
+      },
+      {
+        Action = [
+          "sts:AssumeRole"
+        ],
+        Effect   = "Allow",
+        Resource = "*"
       }
     ]
   })
