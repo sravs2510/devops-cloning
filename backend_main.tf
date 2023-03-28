@@ -649,3 +649,14 @@ module "create_iam" {
     aws.iam_region = aws.us_region
   }
 }
+
+module "create_ses" {
+  source       = "./ses"
+  STAGE        = var.STAGE
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  base_domain  = var.base_domain
+
+  providers = {
+    aws.ses_region = aws.us_region
+  }
+}
