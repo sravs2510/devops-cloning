@@ -64,7 +64,7 @@ variable "verification_message" {
 
                        style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%">
 
-                    <tr style="border-collapse:collapse">F
+                    <tr style="border-collapse:collapse">
 
                         <td align="center" bgcolor="#ffffff" style="padding:0;Margin:0;background-color:#ffffff">
 
