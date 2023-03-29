@@ -46,3 +46,11 @@ resource "aws_ses_receipt_rule" "qatalyst_ses_receipt_rule" {
   }
 }
 
+resource "aws_ses_active_receipt_rule_set" "qatalyst_active_receipt_rule_set" {
+  provider      = aws.ses_region
+  rule_set_name = aws_ses_receipt_rule_set.qatalyst_receipt_rule_set.id
+
+depends_on = [
+  aws_ses_receipt_rule_set.qatalyst_receipt_rule_set
+  ]
+}
