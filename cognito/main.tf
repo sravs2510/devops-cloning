@@ -40,7 +40,13 @@ resource "aws_cognito_user_pool" "user_pool" {
   verification_message_template {
     default_email_option = "CONFIRM_WITH_CODE"
     email_subject        = "Welcome to Qatalyst! Verify your email"
-    email_message        = "Welcome to Qatalyst,To finish signing up, please verify your email by making use of this verification code {####}. The verification code will be valid for the next 1 hr.<br><br>Thanks!<br>Team Qatalyst"
+    email_message        = <<-EOT
+      <body>
+        <p>Welcome to Qatalyst, To finish signing up, please verify your email by making use of this verification code <span style="font-weight: bold; font-size: 1.2em;">{####}</span>. The verification code will be valid for the next 1 hr.</p>
+        <p>Thanks!</p>
+        <p>Team Qatalyst</p>
+      </body>
+    EOT
   }
 
   lambda_config {
