@@ -651,19 +651,6 @@ module "create_iam" {
 }
 
 module "create_ses" {
-  count        = var.STAGE == "prod" ? 0 : 1
-  source       = "./ses"
-  STAGE        = var.STAGE
-  DEFAULT_TAGS = var.DEFAULT_TAGS
-  base_domain  = var.base_domain
-
-  providers = {
-    aws.ses_region = aws.us_region
-  }
-}
-
-module "create_ses_prod" {
-  count        = var.STAGE == "prod" ? 1 : 0
   source       = "./ses"
   STAGE        = var.STAGE
   DEFAULT_TAGS = var.DEFAULT_TAGS
