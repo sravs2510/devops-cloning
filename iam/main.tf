@@ -68,10 +68,18 @@ resource "aws_iam_policy" "qatalyst_ecs_task_iam_policy" {
       {
         Action = [
           "s3:PutObject",
-          "s3:GetObject"
+          "s3:GetObject",
+          "s3:DeleteObject"
         ],
         Effect   = "Allow",
         Resource = local.s3_bucket_arn
+      },
+      {
+        Action = [
+          "sts:AssumeRole"
+        ],
+        Effect   = "Allow",
+        Resource = "*"
       }
     ]
   })

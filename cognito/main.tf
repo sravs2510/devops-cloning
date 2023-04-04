@@ -43,16 +43,15 @@ resource "aws_cognito_user_pool" "user_pool" {
   }
 
   auto_verified_attributes = ["email"]
-
   verification_message_template {
     default_email_option = "CONFIRM_WITH_CODE"
-    email_subject        = "Qatalyst | Verification code"
-    email_message        = "Please enter the below verification code to verify your email and complete the Sign-in process for your Qatalyst account.<br><br>Verification Code: {####}"
+    email_subject        = "Welcome to Qatalyst! Verify your email"
+    email_message        = "Welcome to Qatalyst,To finish signing up, please verify your email by making use of this verification code {####}. The verification code will be valid for the next 1 hr.<br><br>Thanks!<br>Team Qatalyst"
   }
 
   lambda_config {
-    post_confirmation  = join("", ["arn:aws:lambda:", local.cognito_region_name, ":", local.account_id, ":function:qatalyst-", var.STAGE, "-signup"])
-    pre_authentication = join("", ["arn:aws:lambda:", local.cognito_region_name, ":", local.account_id, ":function:qatalyst-", var.STAGE, "-pre-authentication"])
+    post_confirmation = join("", ["arn:aws:lambda:", local.cognito_region_name, ":", local.account_id, ":function:qatalyst-", var.STAGE, "-signup"])
+    custom_message    = join("", ["arn:aws:lambda:", local.cognito_region_name, ":", local.account_id, ":function:qatalyst-", var.STAGE, "-custom-message"])
   }
 
   tags = merge(tomap({ "Name" : var.user_pool_name, "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
