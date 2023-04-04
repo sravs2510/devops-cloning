@@ -18,8 +18,9 @@ data "aws_caller_identity" "current" {
 locals {
   account_id          = data.aws_caller_identity.current.account_id
   cognito_region_name = data.aws_region.cognito_region.name
-  from_email_id       = var.STAGE == "prod" ? join("", ["hello@", var.base_domain]) : join("", ["hello@", var.STAGE, ".", var.base_domain])
+  from_email_id       = var.STAGE == "prod" ? join("", ["noreply@", var.base_domain]) : join("", ["noreply@", var.STAGE, ".", var.base_domain])
   default_auth_flows  = ["ALLOW_REFRESH_TOKEN_AUTH", "ALLOW_CUSTOM_AUTH", "ALLOW_USER_SRP_AUTH"]
+  ses_arn             = join("", ["arn:aws:ses:us-west-2:", local.account_id, ":identity/", local.from_email_id])
 }
 
 resource "aws_cognito_user_pool" "user_pool" {
@@ -33,6 +34,12 @@ resource "aws_cognito_user_pool" "user_pool" {
       name     = "verified_email"
       priority = 1
     }
+  }
+
+  email_configuration {
+    from_email_address    = local.from_email_id
+    email_sending_account = "DEVELOPER"
+    source_arn            = local.ses_arn
   }
 
   auto_verified_attributes = ["email"]
