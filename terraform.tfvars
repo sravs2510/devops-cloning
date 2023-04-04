@@ -48,6 +48,11 @@ global_ddb_table_details = [
     table_name = "qatalyst-user-workspace-mapping"
     hash_key   = "user_id"
     range_key  = "workspace_id"
+  },
+  {
+    table_name = "qatalyst-invited-users"
+    hash_key   = "email_id"
+    range_key  = "workspace_id"
   }
 ]
 
