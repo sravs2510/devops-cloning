@@ -104,7 +104,7 @@ variable "dashboard_acm_arn" {
   description = "Dashboard ACM ARN"
 }
 
-variable "bucket_life_cycle" {
+variable "object_expiration_duration" {
   type        = string
   description = "Bucket objects expiration in Days"
 }

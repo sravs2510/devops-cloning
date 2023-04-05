@@ -28,7 +28,7 @@ variable "tester_view_sub_domain" {
   description = "Tester View Sub Domain Name"
 }
 
-variable "bucket_life_cycle" {
+variable "object_expiration_duration" {
   type        = string
   description = "Bucket objects expiration in Days"
 }
