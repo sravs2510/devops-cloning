@@ -50,5 +50,19 @@ resource "aws_s3_bucket_cors_configuration" "aws_cors_config" {
     expose_headers  = []
     max_age_seconds = 3600
   }
+}
 
+resource "aws_s3_bucket_lifecycle_configuration" "s3_bucket_lifecycle" {
+  count    = var.STAGE == "prod" ? 0 : 1
+  provider = aws.s3_region
+  rule {
+    id     = "delete-old-objects"
+    filter {}
+    status = "Enabled"
+    
+    expiration {
+      days = var.object_expiration_duration
+    }
+  }
+  bucket = aws_s3_bucket.s3_bucket.id
 }
