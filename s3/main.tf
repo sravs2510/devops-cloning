@@ -57,8 +57,9 @@ resource "aws_s3_bucket_lifecycle_configuration" "s3_bucket_lifecycle" {
   provider = aws.s3_region
   rule {
     id     = "delete-old-objects"
-    status = "Enabled"
     filter {}
+    status = "Enabled"
+    
     expiration {
       days = var.object_expiration_duration
     }
