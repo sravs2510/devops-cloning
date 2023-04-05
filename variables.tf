@@ -102,5 +102,9 @@ variable "point_in_time_recovery" {
 variable "dashboard_acm_arn" {
   type        = string
   description = "Dashboard ACM ARN"
+}
 
+variable "bucket_life_cycle" {
+  type        = string
+  description = "Bucket objects expiration in Days"
 }
