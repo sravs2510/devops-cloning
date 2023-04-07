@@ -17,13 +17,18 @@ data "aws_caller_identity" "current" {
 
 data "aws_ssm_parameter" "BITLY_BEARER" {
   provider = aws.ecs_region
-  name   = "qatalyst-bit-ly-access-token"
+  name   = join("-", ["qatalyst", var.STAGE, "bitly-bearer-token"])
 }
 
 data "aws_ssm_parameter" "qatalyst_sendgrid_key" {
   provider = aws.ecs_region
-  name = "qatalyst_sendgrid_key"
+  name = join("-", ["qatalyst", var.STAGE, "sendgrid-key"])
 
+}
+
+data "aws_ssm_parameter" "figma_access_token" {
+  provider = aws.ecs_region
+  name = join("-", ["qatalyst", var.STAGE, "figma-access-token"])
 }
 
 locals {
@@ -104,6 +109,10 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
           {
             "name" : "BITLY_BEARER"
             "value" : data.aws_ssm_parameter.BITLY_BEARER.value
+          },
+          {
+            "name" : "FIGMA_ACCESS_TOKEN"
+            "value" : data.aws_ssm_parameter.figma_access_token.value
           },
           {
             "name" : "SENDGRID_KEY"
