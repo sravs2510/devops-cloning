@@ -76,6 +76,13 @@ resource "aws_iam_policy" "qatalyst_ecs_task_iam_policy" {
       },
       {
         Action = [
+          "ses:SendEmail"
+        ],
+        Effect   = "Allow",
+        Resource = "*"
+      },
+      {
+        Action = [
           "sts:AssumeRole"
         ],
         Effect   = "Allow",
