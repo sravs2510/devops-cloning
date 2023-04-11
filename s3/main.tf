@@ -53,24 +53,14 @@ resource "aws_s3_bucket_cors_configuration" "aws_cors_config" {
 }
 
 resource "aws_s3_bucket_lifecycle_configuration" "s3_bucket_lifecycle" {
-  count    = var.STAGE == "prod" ? 0 : 1
   provider = aws.s3_region
   rule {
-    id     = "delete-old-objects"
+    id     = "delete-old-objects-aborted-multi-part-uploads"
     status = "Enabled"
     filter {}
     expiration {
       days = var.object_expiration_duration
     }
-  }
-  bucket = aws_s3_bucket.s3_bucket.id
-}
-
-resource "aws_s3_bucket_lifecycle_configuration" "delete_aborted_multipart_uploads" {
-  provider = aws.s3_region
-  rule {
-    id     = "delete-aborted-multipart-uploads"
-    status = "Enabled"
     abort_incomplete_multipart_upload {
       days_after_initiation = 7
     }
