@@ -12,7 +12,8 @@ resource "aws_ssm_parameter" "qatalyst_bitly_bearer_token" {
   name     = join("-", ["qatalyst", var.STAGE, "bitly-bearer-token"])
   type     = "SecureString"
   value    = "#BITLY_BEARER_TOKEN"
-  tags     = merge(tomap({ "Name" : join("-", ["qatalyst", var.STAGE, "bitlyBearerToken"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+  overwrite = true
+  tags     = merge(tomap({ "Name" : join("-", ["qatalyst", var.STAGE, "bitly-bearer-token"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
 resource "aws_ssm_parameter" "qatalyst_sendgrid_key" {
@@ -20,7 +21,8 @@ resource "aws_ssm_parameter" "qatalyst_sendgrid_key" {
   name     = join("-", ["qatalyst", var.STAGE, "sendgrid-key"])
   type     = "SecureString"
   value    = "#SENDGRID_KEY"
-  tags     = merge(tomap({ "Name" : join("-", ["qatalyst", var.STAGE, "sendgridAccessKey"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+  overwrite = true
+  tags     = merge(tomap({ "Name" : join("-", ["qatalyst", var.STAGE, "sendgrid-key"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
 resource "aws_ssm_parameter" "qatalyst_figma_access_token" {
@@ -28,5 +30,6 @@ resource "aws_ssm_parameter" "qatalyst_figma_access_token" {
   name     = join("-", ["qatalyst", var.STAGE, "figma-access-token"])
   type     = "SecureString"
   value    = "#FIGMA_ACCESS_TOKEN"
-  tags     = merge(tomap({ "Name" : join("-", ["qatalyst", var.STAGE, "figmaAccessToken"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+  overwrite = true
+  tags     = merge(tomap({ "Name" : join("-", ["qatalyst", var.STAGE, "figma-access-token"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
