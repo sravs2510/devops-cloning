@@ -52,6 +52,8 @@ resource "aws_cognito_user_pool" "user_pool" {
   lambda_config {
     post_confirmation = join("", ["arn:aws:lambda:", local.cognito_region_name, ":", local.account_id, ":function:qatalyst-", var.STAGE, "-signup"])
     custom_message    = join("", ["arn:aws:lambda:", local.cognito_region_name, ":", local.account_id, ":function:qatalyst-", var.STAGE, "-custom-message"])
+    pre_signup         = join("", ["arn:aws:lambda:", local.cognito_region_name, ":", local.account_id, ":function:qatalyst-", var.STAGE, "-pre-signup"])
+
   }
 
   tags = merge(tomap({ "Name" : var.user_pool_name, "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
@@ -63,8 +65,8 @@ resource "aws_cognito_user_pool_client" "user_pool_web_client" {
   user_pool_id                         = aws_cognito_user_pool.user_pool.id
   callback_urls                        = [var.cognito_callback_url]
   allowed_oauth_flows_user_pool_client = true
-  allowed_oauth_flows                  = ["implicit"]
-  allowed_oauth_scopes                 = ["phone", "email", "openid"]
+  allowed_oauth_flows                  = ["code"]
+  allowed_oauth_scopes                 = ["email", "openid"]
   supported_identity_providers         = ["COGNITO", "Google", "Microsoft"]
   explicit_auth_flows                  = var.STAGE == "prod" ? local.default_auth_flows : concat(local.default_auth_flows, ["ALLOW_ADMIN_USER_PASSWORD_AUTH"])
 }
