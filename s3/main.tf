@@ -55,8 +55,8 @@ resource "aws_s3_bucket_cors_configuration" "aws_cors_config" {
 resource "aws_s3_bucket_lifecycle_configuration" "s3_bucket_lifecycle" {
   provider = aws.s3_region
   rule {
-    id      = "delete-old-objects"
-    status  = "Enabled"
+    id     = "delete-old-objects-aborted-multi-part-uploads"
+    status = "Enabled"
     filter {}
     expiration {
       days = var.object_expiration_duration
