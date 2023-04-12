@@ -108,3 +108,8 @@ variable "object_expiration_duration" {
   type        = string
   description = "Bucket objects expiration in Days"
 }
+
+variable "uvicorn_workers_count" {
+  type        = string
+  description = "Uvicorn Workers Count in Container"
+}
