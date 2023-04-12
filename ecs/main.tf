@@ -15,22 +15,6 @@ data "aws_caller_identity" "current" {
   provider = aws.ecs_region
 }
 
-//data "aws_ssm_parameter" "qatalyst_bitly_bearer_token" {
-//  provider = aws.ecs_region
-//  name   = join("-", ["qatalyst", var.STAGE, "bitly-bearer-token"])
-//}
-
-//data "aws_ssm_parameter" "qatalyst_sendgrid_key" {
-//  provider = aws.ecs_region
-//  name = join("-", ["qatalyst", var.STAGE, "sendgrid-key"])
-
-//}
-
-//data "aws_ssm_parameter" "figma_access_token" {
-//  provider = aws.ecs_region
-//  name = join("-", ["qatalyst", var.STAGE, "figma-access-token"])
-//}
-
 locals {
   account_id = data.aws_caller_identity.current.account_id
   ecr_repo   = join(".", [local.account_id, "dkr.ecr", data.aws_region.ecs_region.name, "amazonaws.com/qatalyst-backend:latest"])
@@ -107,7 +91,7 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
             "value" : data.aws_region.ecs_region.name
           },
           {
-            "name" : "qatalyst_bitly_bearer_token"
+            "name" : "BITLY_BEARER"
             "value" : var.qatalyst_bitly_token
           },
           {

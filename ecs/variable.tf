@@ -74,7 +74,7 @@ variable "qatalyst_bitly_token" {
   description = "Qatalyst Bearer Token"
 }
 
-variable "qatalyst_send_grid_key" {
+variable "qatalyst_sendgrid_key" {
   type        = string
   description = "Qatalyst Sendgrid Key"
 }
