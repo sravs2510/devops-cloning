@@ -6,7 +6,6 @@ locals {
   qatalyst_ecs_cluster_name = "qatalyst-ecs-cluster"
 }
 
-
 module "create_eu_vpc" {
   source          = "./vpc"
   cidr_block      = var.cidr_block
@@ -102,6 +101,9 @@ module "create_eu_ecs" {
   fargate_cpu_memory              = var.fargate_cpu_memory
   vpc_id                          = module.create_eu_vpc.vpc_id
   alb_security_group              = module.create_eu_alb.qatalyst_alb_sg_id
+  qatalyst_bitly_token            = module.create_eu_ssm.qatalyst_bitly_bearer_token
+  qatalyst_sendgrid_key           = module.create_eu_ssm.qatalyst_sendgrid_key
+  qatalyst_figma_token            = module.create_eu_ssm.qatalyst_figma_access_token
   ecs_subnets                     = module.create_eu_vpc.private_subnets
   alb_target_group_arn            = module.create_eu_alb.qatalyst_alb_target_group_arn
   ecs_task_execution_role_arn     = module.create_iam.ecs_task_execution_role_arn
@@ -155,6 +157,15 @@ module "create_eu_cloudwatch_dashboard" {
 
   providers = {
     aws.cw_region = aws.eu_region
+  }
+}
+
+module "create_eu_ssm" {
+  source       = "./ssm"
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
+  providers = {
+    aws.ssm_region = aws.eu_region
   }
 }
 
@@ -254,6 +265,9 @@ module "create_in_ecs" {
   fargate_cpu_memory              = var.fargate_cpu_memory
   vpc_id                          = module.create_in_vpc.vpc_id
   alb_security_group              = module.create_in_alb.qatalyst_alb_sg_id
+  qatalyst_bitly_token            = module.create_in_ssm.qatalyst_bitly_bearer_token
+  qatalyst_sendgrid_key           = module.create_in_ssm.qatalyst_sendgrid_key
+  qatalyst_figma_token            = module.create_in_ssm.qatalyst_figma_access_token
   ecs_subnets                     = module.create_in_vpc.private_subnets
   alb_target_group_arn            = module.create_in_alb.qatalyst_alb_target_group_arn
   ecs_task_execution_role_arn     = module.create_iam.ecs_task_execution_role_arn
@@ -307,6 +321,15 @@ module "create_in_cloudwatch_dashboard" {
 
   providers = {
     aws.cw_region = aws.in_region
+  }
+}
+
+module "create_in_ssm" {
+  source       = "./ssm"
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
+  providers = {
+    aws.ssm_region = aws.in_region
   }
 }
 
@@ -406,6 +429,9 @@ module "create_sea_ecs" {
   fargate_cpu_memory              = var.fargate_cpu_memory
   vpc_id                          = module.create_sea_vpc.vpc_id
   alb_security_group              = module.create_sea_alb.qatalyst_alb_sg_id
+  qatalyst_bitly_token            = module.create_sea_ssm.qatalyst_bitly_bearer_token
+  qatalyst_sendgrid_key           = module.create_sea_ssm.qatalyst_sendgrid_key
+  qatalyst_figma_token            = module.create_sea_ssm.qatalyst_figma_access_token
   ecs_subnets                     = module.create_sea_vpc.private_subnets
   alb_target_group_arn            = module.create_sea_alb.qatalyst_alb_target_group_arn
   ecs_task_execution_role_arn     = module.create_iam.ecs_task_execution_role_arn
@@ -459,6 +485,15 @@ module "create_sea_cloudwatch_dashboard" {
 
   providers = {
     aws.cw_region = aws.sea_region
+  }
+}
+
+module "create_sea_ssm" {
+  source       = "./ssm"
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
+  providers = {
+    aws.ssm_region = aws.sea_region
   }
 }
 
@@ -558,6 +593,9 @@ module "create_us_ecs" {
   fargate_cpu_memory              = var.fargate_cpu_memory
   vpc_id                          = module.create_us_vpc.vpc_id
   alb_security_group              = module.create_us_alb.qatalyst_alb_sg_id
+  qatalyst_bitly_token            = module.create_us_ssm.qatalyst_bitly_bearer_token
+  qatalyst_sendgrid_key           = module.create_us_ssm.qatalyst_sendgrid_key
+  qatalyst_figma_token            = module.create_us_ssm.qatalyst_figma_access_token
   ecs_subnets                     = module.create_us_vpc.private_subnets
   alb_target_group_arn            = module.create_us_alb.qatalyst_alb_target_group_arn
   ecs_task_execution_role_arn     = module.create_iam.ecs_task_execution_role_arn
@@ -629,6 +667,15 @@ module "create_us_cloudwatch_dashboard" {
 
   providers = {
     aws.cw_region = aws.us_region
+  }
+}
+
+module "create_us_ssm" {
+  source       = "./ssm"
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
+  providers = {
+    aws.ssm_region = aws.us_region
   }
 }
 
