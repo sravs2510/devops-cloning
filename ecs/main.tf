@@ -107,6 +107,10 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
           {
             "name" : "WEB_CONCURRENCY"
             "value" : var.uvicorn_workers_count
+          },
+          {
+            "name" : "QATALYST_SENDER_EMAIL"
+            "value" : local.qatalyst_sender_email
           }
         ],
         "portMappings" : [
