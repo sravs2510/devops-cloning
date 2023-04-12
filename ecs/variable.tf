@@ -88,3 +88,7 @@ variable "uvicorn_workers_count" {
   type        = string
   description = "Uvicorn Workers Count in Container"
 }
+variable "base_domain" {
+  type        = string
+  description = "base domain"
+}

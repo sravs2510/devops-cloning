@@ -116,6 +116,7 @@ module "create_eu_ecs" {
   uvicorn_workers_count           = var.uvicorn_workers_count
   DEFAULT_TAGS                    = var.DEFAULT_TAGS
   STAGE                           = var.STAGE
+  base_domain                     = var.base_domain
 
   providers = {
     aws.ecs_region = aws.eu_region
@@ -281,6 +282,7 @@ module "create_in_ecs" {
   uvicorn_workers_count           = var.uvicorn_workers_count
   DEFAULT_TAGS                    = var.DEFAULT_TAGS
   STAGE                           = var.STAGE
+  base_domain                     = var.base_domain
 
   providers = {
     aws.ecs_region = aws.in_region
@@ -446,6 +448,7 @@ module "create_sea_ecs" {
   uvicorn_workers_count           = var.uvicorn_workers_count
   DEFAULT_TAGS                    = var.DEFAULT_TAGS
   STAGE                           = var.STAGE
+  base_domain                     = var.base_domain
 
   providers = {
     aws.ecs_region = aws.sea_region
@@ -611,6 +614,7 @@ module "create_us_ecs" {
   uvicorn_workers_count           = var.uvicorn_workers_count
   DEFAULT_TAGS                    = var.DEFAULT_TAGS
   STAGE                           = var.STAGE
+  base_domain                     = var.base_domain
 
   providers = {
     aws.ecs_region = aws.us_region

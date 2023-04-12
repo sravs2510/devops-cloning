@@ -15,9 +15,11 @@ data "aws_caller_identity" "current" {
   provider = aws.ecs_region
 }
 
+
 locals {
-  account_id = data.aws_caller_identity.current.account_id
-  ecr_repo   = join(".", [local.account_id, "dkr.ecr", data.aws_region.ecs_region.name, "amazonaws.com/qatalyst-backend:latest"])
+  account_id            = data.aws_caller_identity.current.account_id
+  ecr_repo              = join(".", [local.account_id, "dkr.ecr", data.aws_region.ecs_region.name, "amazonaws.com/qatalyst-backend:latest"])
+  qatalyst_sender_email = var.STAGE == "prod" ? join("", ["noreply@", var.base_domain]) : join("", ["noreply@", var.STAGE, ".", var.base_domain])
 }
 resource "aws_ecs_cluster" "qatalyst_ecs_cluster" {
   provider = aws.ecs_region
@@ -105,6 +107,10 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
           {
             "name" : "WEB_CONCURRENCY"
             "value" : var.uvicorn_workers_count
+          },
+          {
+            "name" : "QATALYST_SENDER_EMAIL"
+            "value" : local.qatalyst_sender_email
           }
         ],
         "portMappings" : [
