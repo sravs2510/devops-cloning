@@ -68,3 +68,18 @@ variable "qatalyst_ecs_autoscale_role_arn" {
   type        = string
   description = "Qatalyst ECS AutoScale Arn"
 }
+
+variable "qatalyst_bitly_token" {
+  type        = string
+  description = "Qatalyst Bearer Token"
+}
+
+variable "qatalyst_send_grid_key" {
+  type        = string
+  description = "Qatalyst Sendgrid Key"
+}
+
+variable "qatalyst_figma_token" {
+  type        = string
+  description = "Qatalyst Figma Access Token"
+}
