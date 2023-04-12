@@ -100,7 +100,7 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
           },
           {
             "name" : "SENDGRID_KEY"
-            "value" : var.qatalyst_send_grid_key
+            "value" : var.qatalyst_sendgrid_key
           }
         ],
         "portMappings" : [
