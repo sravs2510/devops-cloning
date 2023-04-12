@@ -83,3 +83,8 @@ variable "qatalyst_figma_token" {
   type        = string
   description = "Qatalyst Figma Access Token"
 }
+
+variable "uvicorn_workers_count" {
+  type        = string
+  description = "Uvicorn Workers Count in Container"
+}

@@ -113,6 +113,7 @@ module "create_eu_ecs" {
   fe_tester_view_domain_name      = local.tester_view_domain
   cw_logs_retention_in_days       = var.cw_logs_retention_in_days
   qatalyst_ecs_autoscale_role_arn = module.create_iam.qatalyst_ecs_autoscale_role_arn
+  uvicorn_workers_count           = var.uvicorn_workers_count
   DEFAULT_TAGS                    = var.DEFAULT_TAGS
   STAGE                           = var.STAGE
 
@@ -277,6 +278,7 @@ module "create_in_ecs" {
   fe_tester_view_domain_name      = local.tester_view_domain
   cw_logs_retention_in_days       = var.cw_logs_retention_in_days
   qatalyst_ecs_autoscale_role_arn = module.create_iam.qatalyst_ecs_autoscale_role_arn
+  uvicorn_workers_count           = var.uvicorn_workers_count
   DEFAULT_TAGS                    = var.DEFAULT_TAGS
   STAGE                           = var.STAGE
 
@@ -441,6 +443,7 @@ module "create_sea_ecs" {
   fe_tester_view_domain_name      = local.tester_view_domain
   cw_logs_retention_in_days       = var.cw_logs_retention_in_days
   qatalyst_ecs_autoscale_role_arn = module.create_iam.qatalyst_ecs_autoscale_role_arn
+  uvicorn_workers_count           = var.uvicorn_workers_count
   DEFAULT_TAGS                    = var.DEFAULT_TAGS
   STAGE                           = var.STAGE
 
@@ -605,6 +608,7 @@ module "create_us_ecs" {
   fe_tester_view_domain_name      = local.tester_view_domain
   cw_logs_retention_in_days       = var.cw_logs_retention_in_days
   qatalyst_ecs_autoscale_role_arn = module.create_iam.qatalyst_ecs_autoscale_role_arn
+  uvicorn_workers_count           = var.uvicorn_workers_count
   DEFAULT_TAGS                    = var.DEFAULT_TAGS
   STAGE                           = var.STAGE
 

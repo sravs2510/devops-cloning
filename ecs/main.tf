@@ -101,6 +101,10 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
           {
             "name" : "SENDGRID_KEY"
             "value" : var.qatalyst_sendgrid_key
+          },
+          {
+            "name" : "WEB_CONCURRENCY"
+            "value" : var.uvicorn_workers_count
           }
         ],
         "portMappings" : [
