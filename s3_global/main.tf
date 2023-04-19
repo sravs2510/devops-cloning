@@ -22,7 +22,7 @@ locals {
 resource "aws_s3_bucket" "s3_bucket" {
   provider = aws.s3_region
   bucket   = local.bucket_name
-  tags     = merge(tomap({ "Name" : join("-", [local.datacenter_code, "qatalyst", "media", "bucket"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+  tags     = merge(tomap({ "Name" : join("-", ["qatalyst", "userprofile", "bucket"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
 resource "aws_s3_bucket_acl" "s3_bucket_acl" {
@@ -47,7 +47,7 @@ resource "aws_s3_bucket_cors_configuration" "aws_cors_config" {
   cors_rule {
     allowed_headers = ["*"]
     allowed_methods = ["PUT", "POST", "GET"]
-    allowed_origins = var.STAGE != "dev" ? [local.studyview_domain, local.dashboard_domain] : [local.studyview_domain, local.dashboard_domain, "http://localhost:3000", "http://*.localhost:3000"]
+    allowed_origins = var.STAGE != "dev" ? [local.dashboard_domain] : [local.dashboard_domain, "http://localhost:3000", "http://*.localhost:3000"]
     expose_headers  = []
     max_age_seconds = 3600
   }
