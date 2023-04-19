@@ -113,3 +113,8 @@ variable "uvicorn_workers_count" {
   type        = string
   description = "Uvicorn Workers Count in Container"
 }
+
+variable "user_profile" {
+  type        = string
+  description = "User Profile folder name"
+}

@@ -532,6 +532,21 @@ module "create_us_s3_bucket" {
   }
 }
 
+module "create_us_user_profile_s3_bucket" {
+  source                     = "./s3_global"
+  bucket_prefix              = var.user_profile
+  DEFAULT_TAGS               = var.DEFAULT_TAGS
+  STAGE                      = var.STAGE
+  datacenter_codes           = var.datacenter_codes
+  tester_view_sub_domain     = var.tester_view_sub_domain
+  base_domain                = var.base_domain
+  object_expiration_duration = var.object_expiration_duration
+
+  providers = {
+    aws.s3_region = aws.us_region
+  }
+}
+
 module "create_us_acm_media_cf" {
   source           = "./acm"
   base_domain      = var.base_domain
