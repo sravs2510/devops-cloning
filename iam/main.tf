@@ -40,6 +40,8 @@ data "aws_caller_identity" "current" {
 locals {
   account_id    = data.aws_caller_identity.current.account_id
   s3_bucket_arn = var.STAGE == "prod" ? "arn:aws:s3:::*.media.getqatalyst.io/*" : join("", ["arn:aws:s3:::*.", var.STAGE, ".media.getqatalyst.io/*"])
+  s3_common_bucket_arn = var.STAGE == "prod" ? "arn:aws:s3:::*.common.getqatalyst.io/*" : join("", ["arn:aws:s3:::*.", var.STAGE, ".common.getqatalyst.io/*"])
+
 }
 
 # add the required permission to the policy below
@@ -73,6 +75,15 @@ resource "aws_iam_policy" "qatalyst_ecs_task_iam_policy" {
         ],
         Effect   = "Allow",
         Resource = local.s3_bucket_arn
+      },
+      {
+        Action = [
+          "s3:PutObject",
+          "s3:GetObject",
+          "s3:DeleteObject"
+        ],
+        Effect   = "Allow",
+        Resource = local.s3_common_bucket_arn
       },
       {
         Action = [
