@@ -12,8 +12,6 @@ data "aws_region" "current" {
 }
 
 locals {
-  datacenter_code  = lookup(var.datacenter_codes, data.aws_region.current.name)
-  studyview_domain = format("%s%s", "https://", var.STAGE == "prod" ? join(".", [var.tester_view_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.tester_view_sub_domain, var.base_domain]))
   dashboard_domain = format("%s%s", "https://", var.STAGE == "prod" ? join(".", ["*", var.base_domain]) : join(".", ["*", var.STAGE, var.base_domain]))
   bucket_name      = var.STAGE == "prod" ? join(".", [var.bucket_prefix, var.base_domain]) : join(".", [var.STAGE, var.bucket_prefix, var.base_domain])
 
