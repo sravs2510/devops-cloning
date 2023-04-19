@@ -14,6 +14,11 @@ variable "fargate_cpu_memory" {
   description = "Fargate CPU and Memory Details"
 }
 
+variable "datadog_cpu_memory" {
+  type        = map(any)
+  description = "Datadog CPU and Memory Details"
+}
+
 variable "vpc_id" {
   type        = string
   description = "VPC ID"
@@ -91,4 +96,14 @@ variable "uvicorn_workers_count" {
 variable "base_domain" {
   type        = string
   description = "base domain"
+}
+
+variable "datadog_api_key" {
+  type        = string
+  description = "Datadog Api Key"
+}
+
+variable "datadog_docker_image" {
+  type        = string
+  description = "Datadog Docker Image"
 }

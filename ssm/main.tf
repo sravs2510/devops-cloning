@@ -33,3 +33,12 @@ resource "aws_ssm_parameter" "qatalyst_figma_access_token" {
   overwrite = true
   tags      = merge(tomap({ "Name" : join("-", ["qatalyst", var.STAGE, "figma-access-token"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
+
+resource "aws_ssm_parameter" "datadog_api_key" {
+  provider  = aws.ssm_region
+  name      = join("-", ["datadog", var.STAGE, "api-key"])
+  type      = "SecureString"
+  value     = "#DD_API_KEY"
+  overwrite = true
+  tags      = merge(tomap({ "Name" : join("-", ["datadog", var.STAGE, "api-key"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+}

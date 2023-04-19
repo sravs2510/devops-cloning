@@ -118,3 +118,13 @@ variable "user_profile" {
   type        = string
   description = "User Profile folder name"
 }
+
+variable "datadog_cpu_memory" {
+  type        = map(any)
+  description = "Datadog CPU and Memory Details"
+}
+
+variable "datadog_docker_image" {
+  type        = string
+  description = "Datadog Docker Image"
+}
