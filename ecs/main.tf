@@ -149,13 +149,6 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
             "value" : var.datadog_api_key
           }
         ],
-        "portMappings" : [
-          {
-            "containerPort" : 80,
-            "hostPort" : 80,
-            "protocol" : "tcp"
-          }
-        ]
       }
   ])
   tags = merge(tomap({ "Name" : "qatalyst-ecs-td" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
