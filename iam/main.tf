@@ -40,9 +40,9 @@ data "aws_caller_identity" "current" {
 locals {
   account_id           = data.aws_caller_identity.current.account_id
   media_bucket_name    = var.STAGE == "prod" ? join(".", ["*", "media.getqatalyst.io/*"]) : join(".", ["*", var.STAGE, "media.getqatalyst.io/*"])
-  s3_media_bucket_arn  = join(":", ["arn:aws:s3:", local.account_id, local.media_bucket_name])
+  s3_media_bucket_arn  = join(":", ["arn:aws:s3::", local.media_bucket_name])
   common_bucket_name   = var.STAGE == "prod" ? "common.getqatalyst.io/*" : join(".", [var.STAGE, "common.getqatalyst.io/*"])
-  s3_common_bucket_arn = join(":", ["arn:aws:s3:", local.account_id, local.common_bucket_name])
+  s3_common_bucket_arn = join(":", ["arn:aws:s3::", local.common_bucket_name])
   ses_arn              = join(":", ["arn:aws:ses:", local.account_id, "identity/*"])
 }
 
