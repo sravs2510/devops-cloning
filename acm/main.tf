@@ -13,12 +13,16 @@ data "aws_region" "datacenter_region" {
 }
 
 locals {
-  datacenter_code = lookup(var.datacenter_codes, data.aws_region.datacenter_region.name)
+  datacenter_code     = lookup(var.datacenter_codes, data.aws_region.datacenter_region.name)
+  domain_suffix       = join(".", [var.sub_domain, var.base_domain])
+  multi_region_domain = var.STAGE == "prod" ? join(".", [local.datacenter_code, local.domain_suffix]) : join(".", [local.datacenter_code, var.STAGE, local.domain_suffix])
+  global_domain       = var.STAGE == "prod" ? local.domain_suffix : join(".", [var.STAGE, local.domain_suffix])
+  acm_domain_name     = var.is_multi_region ? local.multi_region_domain : local.global_domain
 }
 
 resource "aws_acm_certificate" "acm_domain_name" {
   provider          = aws.acm_region
-  domain_name       = var.STAGE == "prod" ? join(".", [local.datacenter_code, var.sub_domain, var.base_domain]) : join(".", [local.datacenter_code, var.STAGE, var.sub_domain, var.base_domain])
+  domain_name       = local.acm_domain_name
   validation_method = "DNS"
   tags              = merge(tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
