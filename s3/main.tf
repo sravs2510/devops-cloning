@@ -12,16 +12,19 @@ data "aws_region" "current" {
 }
 
 locals {
-  datacenter_code  = lookup(var.datacenter_codes, data.aws_region.current.name)
-  studyview_domain = format("%s%s", "https://", var.STAGE == "prod" ? join(".", [var.tester_view_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.tester_view_sub_domain, var.base_domain]))
-  dashboard_domain = format("%s%s", "https://", var.STAGE == "prod" ? join(".", ["*", var.base_domain]) : join(".", ["*", var.STAGE, var.base_domain]))
-  bucket_name      = var.STAGE == "prod" ? join(".", [local.datacenter_code, var.bucket_prefix, var.base_domain]) : join(".", [local.datacenter_code, var.STAGE, var.bucket_prefix, var.base_domain])
+  datacenter_code          = lookup(var.datacenter_codes, data.aws_region.current.name)
+  studyview_domain         = format("%s%s", "https://", var.STAGE == "prod" ? join(".", [var.tester_view_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.tester_view_sub_domain, var.base_domain]))
+  dashboard_domain         = format("%s%s", "https://", var.STAGE == "prod" ? join(".", ["*", var.base_domain]) : join(".", ["*", var.STAGE, var.base_domain]))
+  bucket_prefix            = join(".", [var.bucket_prefix, var.base_domain])
+  multi_region_bucket_name = var.STAGE == "prod" ? join(".", [local.datacenter_code, local.bucket_prefix]) : join(".", [local.datacenter_code, var.STAGE, local.bucket_prefix])
+  global_bucket_name       = var.STAGE == "prod" ? local.bucket_prefix : join(".", [var.STAGE, local.bucket_prefix])
+  bucket_name              = var.is_multi_region ? local.multi_region_bucket_name : local.global_bucket_name
 }
 
 resource "aws_s3_bucket" "s3_bucket" {
   provider = aws.s3_region
   bucket   = local.bucket_name
-  tags     = merge(tomap({ "Name" : join("-", [local.datacenter_code, "qatalyst", "media", "bucket"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+  tags     = merge(tomap({ "Name" : join("-", [local.datacenter_code, "qatalyst", var.bucket_prefix, "bucket"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
 resource "aws_s3_bucket_acl" "s3_bucket_acl" {

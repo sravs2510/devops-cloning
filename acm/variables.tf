@@ -25,5 +25,5 @@ variable "DEFAULT_TAGS" {
 
 variable "is_multi_region" {
   type        = bool
-  description = "Flag to indicate multi region cloudfront"
+  description = "Flag to indicate multi region acm"
 }

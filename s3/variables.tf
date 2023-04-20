@@ -32,3 +32,8 @@ variable "object_expiration_duration" {
   type        = string
   description = "Bucket objects expiration in Days"
 }
+
+variable "is_multi_region" {
+  type        = bool
+  description = "Flag to indicate multi region S3 buckets"
+}
