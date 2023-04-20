@@ -9,3 +9,7 @@ output "qatalyst_sendgrid_key" {
 output "qatalyst_figma_access_token" {
   value = aws_ssm_parameter.qatalyst_figma_access_token.value
 }
+
+output "datadog_api_key" {
+  value = aws_ssm_parameter.datadog_api_key.value
+}

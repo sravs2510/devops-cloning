@@ -103,6 +103,7 @@ module "create_eu_alb" {
 module "create_eu_ecs" {
   source                          = "./ecs"
   fargate_cpu_memory              = var.fargate_cpu_memory
+  datadog_cpu_memory              = var.datadog_cpu_memory
   vpc_id                          = module.create_eu_vpc.vpc_id
   alb_security_group              = module.create_eu_alb.qatalyst_alb_sg_id
   qatalyst_bitly_token            = module.create_eu_ssm.qatalyst_bitly_bearer_token
@@ -113,11 +114,13 @@ module "create_eu_ecs" {
   ecs_task_execution_role_arn     = module.create_iam.ecs_task_execution_role_arn
   ecs_task_role_arn               = module.create_iam.ecs_task_role_arn
   cognito_user_pool_id            = module.create_cognito_user_pool.user_pool_id
+  datadog_api_key                 = module.create_eu_ssm.datadog_api_key
   qatalyst_domain                 = local.qatalyst_domain
   fe_tester_view_domain_name      = local.tester_view_domain
   cw_logs_retention_in_days       = var.cw_logs_retention_in_days
   qatalyst_ecs_autoscale_role_arn = module.create_iam.qatalyst_ecs_autoscale_role_arn
   uvicorn_workers_count           = var.uvicorn_workers_count
+  datadog_docker_image            = var.datadog_docker_image
   DEFAULT_TAGS                    = var.DEFAULT_TAGS
   STAGE                           = var.STAGE
   base_domain                     = var.base_domain
@@ -273,6 +276,7 @@ module "create_in_alb" {
 module "create_in_ecs" {
   source                          = "./ecs"
   fargate_cpu_memory              = var.fargate_cpu_memory
+  datadog_cpu_memory              = var.datadog_cpu_memory
   vpc_id                          = module.create_in_vpc.vpc_id
   alb_security_group              = module.create_in_alb.qatalyst_alb_sg_id
   qatalyst_bitly_token            = module.create_in_ssm.qatalyst_bitly_bearer_token
@@ -283,11 +287,13 @@ module "create_in_ecs" {
   ecs_task_execution_role_arn     = module.create_iam.ecs_task_execution_role_arn
   ecs_task_role_arn               = module.create_iam.ecs_task_role_arn
   cognito_user_pool_id            = module.create_cognito_user_pool.user_pool_id
+  datadog_api_key                 = module.create_in_ssm.datadog_api_key
   qatalyst_domain                 = local.qatalyst_domain
   fe_tester_view_domain_name      = local.tester_view_domain
   cw_logs_retention_in_days       = var.cw_logs_retention_in_days
   qatalyst_ecs_autoscale_role_arn = module.create_iam.qatalyst_ecs_autoscale_role_arn
   uvicorn_workers_count           = var.uvicorn_workers_count
+  datadog_docker_image            = var.datadog_docker_image
   DEFAULT_TAGS                    = var.DEFAULT_TAGS
   STAGE                           = var.STAGE
   base_domain                     = var.base_domain
@@ -443,6 +449,7 @@ module "create_sea_alb" {
 module "create_sea_ecs" {
   source                          = "./ecs"
   fargate_cpu_memory              = var.fargate_cpu_memory
+  datadog_cpu_memory              = var.datadog_cpu_memory
   vpc_id                          = module.create_sea_vpc.vpc_id
   alb_security_group              = module.create_sea_alb.qatalyst_alb_sg_id
   qatalyst_bitly_token            = module.create_sea_ssm.qatalyst_bitly_bearer_token
@@ -453,11 +460,13 @@ module "create_sea_ecs" {
   ecs_task_execution_role_arn     = module.create_iam.ecs_task_execution_role_arn
   ecs_task_role_arn               = module.create_iam.ecs_task_role_arn
   cognito_user_pool_id            = module.create_cognito_user_pool.user_pool_id
+  datadog_api_key                 = module.create_sea_ssm.datadog_api_key
   qatalyst_domain                 = local.qatalyst_domain
   fe_tester_view_domain_name      = local.tester_view_domain
   cw_logs_retention_in_days       = var.cw_logs_retention_in_days
   qatalyst_ecs_autoscale_role_arn = module.create_iam.qatalyst_ecs_autoscale_role_arn
   uvicorn_workers_count           = var.uvicorn_workers_count
+  datadog_docker_image            = var.datadog_docker_image
   DEFAULT_TAGS                    = var.DEFAULT_TAGS
   STAGE                           = var.STAGE
   base_domain                     = var.base_domain
@@ -663,6 +672,7 @@ module "create_us_alb" {
 module "create_us_ecs" {
   source                          = "./ecs"
   fargate_cpu_memory              = var.fargate_cpu_memory
+  datadog_cpu_memory              = var.datadog_cpu_memory
   vpc_id                          = module.create_us_vpc.vpc_id
   alb_security_group              = module.create_us_alb.qatalyst_alb_sg_id
   qatalyst_bitly_token            = module.create_us_ssm.qatalyst_bitly_bearer_token
@@ -673,11 +683,13 @@ module "create_us_ecs" {
   ecs_task_execution_role_arn     = module.create_iam.ecs_task_execution_role_arn
   ecs_task_role_arn               = module.create_iam.ecs_task_role_arn
   cognito_user_pool_id            = module.create_cognito_user_pool.user_pool_id
+  datadog_api_key                 = module.create_us_ssm.datadog_api_key
   qatalyst_domain                 = local.qatalyst_domain
   fe_tester_view_domain_name      = local.tester_view_domain
   cw_logs_retention_in_days       = var.cw_logs_retention_in_days
   qatalyst_ecs_autoscale_role_arn = module.create_iam.qatalyst_ecs_autoscale_role_arn
   uvicorn_workers_count           = var.uvicorn_workers_count
+  datadog_docker_image            = var.datadog_docker_image
   DEFAULT_TAGS                    = var.DEFAULT_TAGS
   STAGE                           = var.STAGE
   base_domain                     = var.base_domain

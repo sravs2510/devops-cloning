@@ -128,6 +128,27 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
             "awslogs-stream-prefix" : "qatalyst-backend"
           }
         },
+      },
+      {
+        "name" : "datadog-agent",
+        "image" : var.datadog_docker_image,
+        "memory" : var.datadog_cpu_memory.memory,
+        "cpu" : var.datadog_cpu_memory.cpu,
+        "essential" : true,
+        "environment" : [
+          {
+            "name" : "STAGE",
+            "value" : var.STAGE
+          },
+          {
+            "name" : "ECS_FARGATE",
+            "value" : "true"
+          },
+          {
+            "name" : "DD_API_KEY",
+            "value" : var.datadog_api_key
+          }
+        ],
       }
   ])
   tags = merge(tomap({ "Name" : "qatalyst-ecs-td" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
