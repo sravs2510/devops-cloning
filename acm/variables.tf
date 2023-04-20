@@ -22,3 +22,8 @@ variable "DEFAULT_TAGS" {
   type        = map(any)
   description = "Default Tags for all resources"
 }
+
+variable "is_multi_region" {
+  type        = bool
+  description = "Flag to indicate multi region cloudfront"
+}

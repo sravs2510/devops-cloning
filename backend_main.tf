@@ -39,6 +39,7 @@ module "create_eu_acm_media_cf" {
   base_domain      = var.base_domain
   sub_domain       = var.media_sub_domain
   datacenter_codes = var.datacenter_codes
+  is_multi_region  = true
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
 
@@ -72,6 +73,7 @@ module "create_eu_acm_api" {
   base_domain      = var.base_domain
   sub_domain       = var.api_sub_domain
   datacenter_codes = var.datacenter_codes
+  is_multi_region  = true
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
 
@@ -206,6 +208,7 @@ module "create_in_acm_media_cf" {
   base_domain      = var.base_domain
   sub_domain       = var.media_sub_domain
   datacenter_codes = var.datacenter_codes
+  is_multi_region  = true
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
 
@@ -239,6 +242,7 @@ module "create_in_acm_api" {
   base_domain      = var.base_domain
   sub_domain       = var.api_sub_domain
   datacenter_codes = var.datacenter_codes
+  is_multi_region  = true
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
 
@@ -373,6 +377,7 @@ module "create_sea_acm_media_cf" {
   base_domain      = var.base_domain
   sub_domain       = var.media_sub_domain
   datacenter_codes = var.datacenter_codes
+  is_multi_region  = true
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
 
@@ -406,6 +411,7 @@ module "create_sea_acm_api" {
   base_domain      = var.base_domain
   sub_domain       = var.api_sub_domain
   datacenter_codes = var.datacenter_codes
+  is_multi_region  = true
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
 
@@ -540,6 +546,7 @@ module "create_common_acm_cf" {
   base_domain      = var.base_domain
   sub_domain       = var.common_s3_sub_domain
   datacenter_codes = var.datacenter_codes
+  is_multi_region  = false
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
 
@@ -588,6 +595,7 @@ module "create_us_acm_media_cf" {
   base_domain      = var.base_domain
   sub_domain       = var.media_sub_domain
   datacenter_codes = var.datacenter_codes
+  is_multi_region  = true
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
 
@@ -621,6 +629,7 @@ module "create_us_acm_api" {
   base_domain      = var.base_domain
   sub_domain       = var.api_sub_domain
   datacenter_codes = var.datacenter_codes
+  is_multi_region  = true
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
 
