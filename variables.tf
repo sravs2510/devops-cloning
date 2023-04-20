@@ -114,7 +114,7 @@ variable "uvicorn_workers_count" {
   description = "Uvicorn Workers Count in Container"
 }
 
-variable "user_profile" {
+variable "common_s3_sub_domain" {
   type        = string
-  description = "User Profile folder name"
+  description = "Sub domain to serve common assets"
 }

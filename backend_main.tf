@@ -57,6 +57,7 @@ module "create_eu_media_cloudfront" {
   bucket_id                   = module.create_eu_s3_bucket.s3_bucket_id
   bucket_regional_domain_name = module.create_eu_s3_bucket.s3_bucket_regional_domain_name
   acm_certificate_arn         = module.create_eu_acm_media_cf.acm_arn
+  is_multi_region             = true
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE
 
@@ -223,6 +224,7 @@ module "create_in_media_cloudfront" {
   bucket_id                   = module.create_in_s3_bucket.s3_bucket_id
   bucket_regional_domain_name = module.create_in_s3_bucket.s3_bucket_regional_domain_name
   acm_certificate_arn         = module.create_in_acm_media_cf.acm_arn
+  is_multi_region             = true
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE
 
@@ -389,6 +391,7 @@ module "create_sea_media_cloudfront" {
   bucket_id                   = module.create_sea_s3_bucket.s3_bucket_id
   bucket_regional_domain_name = module.create_sea_s3_bucket.s3_bucket_regional_domain_name
   acm_certificate_arn         = module.create_sea_acm_media_cf.acm_arn
+  is_multi_region             = true
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE
 
@@ -532,9 +535,23 @@ module "create_us_s3_bucket" {
   }
 }
 
-module "create_us_user_profile_s3_bucket" {
+module "create_common_acm_cf" {
+  source           = "./acm"
+  base_domain      = var.base_domain
+  sub_domain       = var.common_s3_sub_domain
+  datacenter_codes = var.datacenter_codes
+  DEFAULT_TAGS     = var.DEFAULT_TAGS
+  STAGE            = var.STAGE
+
+  providers = {
+    aws.acm_region        = aws.us_region
+    aws.datacenter_region = aws.us_region
+  }
+}
+
+module "create_common_s3_bucket" {
   source                     = "./s3_global"
-  bucket_prefix              = var.user_profile
+  bucket_prefix              = var.common_s3_sub_domain
   DEFAULT_TAGS               = var.DEFAULT_TAGS
   STAGE                      = var.STAGE
   datacenter_codes           = var.datacenter_codes
@@ -544,6 +561,25 @@ module "create_us_user_profile_s3_bucket" {
 
   providers = {
     aws.s3_region = aws.us_region
+  }
+}
+
+module "create_common_cloudfront" {
+  source                      = "./cloudfront"
+  base_domain                 = var.base_domain
+  sub_domain                  = var.common_s3_sub_domain
+  datacenter_codes            = var.datacenter_codes
+  bucket_arn                  = module.create_common_s3_bucket.s3_bucket_arn
+  bucket_id                   = module.create_common_s3_bucket.s3_bucket_id
+  bucket_regional_domain_name = module.create_common_s3_bucket.s3_bucket_regional_domain_name
+  acm_certificate_arn         = module.create_common_acm_cf.acm_arn
+  is_multi_region             = false
+  DEFAULT_TAGS                = var.DEFAULT_TAGS
+  STAGE                       = var.STAGE
+
+  providers = {
+    aws.cloudfront_region = aws.us_region
+    aws.bucket_region     = aws.us_region
   }
 }
 
@@ -570,6 +606,7 @@ module "create_us_media_cloudfront" {
   bucket_id                   = module.create_us_s3_bucket.s3_bucket_id
   bucket_regional_domain_name = module.create_us_s3_bucket.s3_bucket_regional_domain_name
   acm_certificate_arn         = module.create_us_acm_media_cf.acm_arn
+  is_multi_region             = true
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE
 
