@@ -139,7 +139,7 @@ fargate_cpu_memory = {
 
 uvicorn_workers_count = 4
 
-user_profile = "common"
+common_s3_sub_domain = "common"
 
 datadog_cpu_memory = {
   "cpu" : 256
