@@ -38,10 +38,12 @@ data "aws_caller_identity" "current" {
 }
 
 locals {
-  account_id    = data.aws_caller_identity.current.account_id
-  s3_bucket_arn = var.STAGE == "prod" ? "arn:aws:s3:::*.media.getqatalyst.io/*" : join("", ["arn:aws:s3:::*.", var.STAGE, ".media.getqatalyst.io/*"])
-  s3_common_bucket_arn = var.STAGE == "prod" ? "arn:aws:s3:::*.common.getqatalyst.io/*" : join("", ["arn:aws:s3:::*.", var.STAGE, ".common.getqatalyst.io/*"])
-
+  account_id           = data.aws_caller_identity.current.account_id
+  media_bucket_name    = var.STAGE == "prod" ? join(".", ["*", "media.getqatalyst.io/*"]) : join(".", ["*", var.STAGE, "media.getqatalyst.io/*"])
+  s3_media_bucket_arn  = join(":", ["arn:aws:s3:", local.account_id, local.media_bucket_name])
+  common_bucket_name   = var.STAGE == "prod" ? "common.getqatalyst.io/*" : join(".", [var.STAGE, "common.getqatalyst.io/*"])
+  s3_common_bucket_arn = join(":", ["arn:aws:s3:", local.account_id, local.common_bucket_name])
+  ses_arn              = join(":", ["arn:aws:ses:", local.account_id, "identity/*"])
 }
 
 # add the required permission to the policy below
@@ -74,7 +76,7 @@ resource "aws_iam_policy" "qatalyst_ecs_task_iam_policy" {
           "s3:DeleteObject"
         ],
         Effect   = "Allow",
-        Resource = local.s3_bucket_arn
+        Resource = local.s3_media_bucket_arn
       },
       {
         Action = [
@@ -90,14 +92,7 @@ resource "aws_iam_policy" "qatalyst_ecs_task_iam_policy" {
           "ses:SendEmail"
         ],
         Effect   = "Allow",
-        Resource = "*"
-      },
-      {
-        Action = [
-          "sts:AssumeRole"
-        ],
-        Effect   = "Allow",
-        Resource = "*"
+        Resource = local.ses_arn
       }
     ]
   })
