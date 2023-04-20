@@ -14,7 +14,10 @@ data "aws_region" "current" {
 locals {
   datacenter_code             = lookup(var.datacenter_codes, data.aws_region.current.name)
   r53_hosted_zone_domain_name = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.sub_domain, var.base_domain])
-  cf_domain_name              = var.STAGE == "prod" ? join(".", [local.datacenter_code, var.sub_domain, var.base_domain]) : join(".", [local.datacenter_code, var.STAGE, var.sub_domain, var.base_domain])
+  domain_suffix               = join(".", [var.sub_domain, var.base_domain])
+  cf_datacenter_code_domain   = var.STAGE == "prod" ? join(".", [local.datacenter_code, local.domain_suffix]) : join(".", [local.datacenter_code, var.STAGE, local.domain_suffix])
+  cf_with_prefix_domain       = var.STAGE == "prod" ? local.domain_suffix : join(".", [var.STAGE, local.domain_suffix])
+  cf_domain_name              = var.is_multi_region ? local.cf_datacenter_code_domain : local.cf_with_prefix_domain
 }
 
 data "aws_cloudfront_cache_policy" "cache_policy" {
