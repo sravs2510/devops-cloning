@@ -119,11 +119,6 @@ variable "common_s3_sub_domain" {
   description = "Sub domain to serve common assets"
 }
 
-variable "datadog_cpu_memory" {
-  type        = map(any)
-  description = "Datadog CPU and Memory Details"
-}
-
 variable "datadog_docker_image" {
   type        = string
   description = "Datadog Docker Image"

@@ -132,8 +132,6 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
       {
         "name" : "datadog-agent",
         "image" : var.datadog_docker_image,
-        "memory" : var.datadog_cpu_memory.memory,
-        "cpu" : var.datadog_cpu_memory.cpu,
         "essential" : true,
         "environment" : [
           {
