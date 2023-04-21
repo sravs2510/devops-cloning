@@ -14,11 +14,6 @@ variable "fargate_cpu_memory" {
   description = "Fargate CPU and Memory Details"
 }
 
-variable "datadog_cpu_memory" {
-  type        = map(any)
-  description = "Datadog CPU and Memory Details"
-}
-
 variable "vpc_id" {
   type        = string
   description = "VPC ID"
