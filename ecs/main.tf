@@ -158,8 +158,8 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
         "essential" : true,
         "environment" : [
           {
-            "name" : "STAGE",
-            "value" : var.STAGE
+            "name" : "DD_APM_ENABLED",
+            "value" : "true"
           },
           {
             "name" : "ECS_FARGATE",
