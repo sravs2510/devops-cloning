@@ -166,6 +166,10 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
             "value" : "true"
           },
           {
+            "name" : "DD_LOGS_INJECTION",
+            "value" : "true"
+          },
+          {
             "name" : "DD_API_KEY",
             "value" : var.datadog_api_key
           }
@@ -222,7 +226,6 @@ resource "aws_ecs_service" "qatalyst_ecs_service" {
   }
   tags = merge(tomap({ "Name" : "qatalyst-ecs-service" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
-
 
 # Define the Auto Scaling target for the ECS service
 resource "aws_appautoscaling_target" "qatalyst_ecs_ast" {
