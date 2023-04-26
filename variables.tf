@@ -88,6 +88,11 @@ variable "table_details" {
   description = "DDB Tables details"
 }
 
+variable "tables_without_range_key" {
+  type        = map(any)
+  description = "DDB Tables(without range key) details"
+}
+
 variable "gsi_table_details" {
   type        = any
   description = "DDB Tables with GSI details"

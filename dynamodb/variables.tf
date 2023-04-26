@@ -3,6 +3,11 @@ variable "table_details" {
   description = "List of tables and properties"
 }
 
+variable "tables_without_range_key" {
+  type        = map(any)
+  description = "List of tables and properties without range key"
+}
+
 variable "STAGE" {
   type        = string
   description = "Stage for deployment"
