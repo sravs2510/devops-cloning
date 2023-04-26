@@ -36,7 +36,7 @@ resource "aws_dynamodb_table" "table" {
   tags = merge(tomap({ "Name" : each.value.table_name }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
-resource "aws_dynamodb_table" "table_without_range_key" {
+resource "aws_dynamodb_table" "tables_without_range_key" {
   provider = aws.dynamo_region
 
   for_each = var.tables_without_range_key
