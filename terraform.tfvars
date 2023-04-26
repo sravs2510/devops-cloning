@@ -132,6 +132,14 @@ table_details = {
   }
 }
 
+tables_without_range_key = {
+  "reports-lookup" : {
+    table_name     = "qatalyst-report-details"
+    hash_key       = "report_id"
+    stream_enabled = false
+  }
+}
+
 fargate_cpu_memory = {
   "cpu" : 1024
   "memory" : 2048

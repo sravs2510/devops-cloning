@@ -146,6 +146,7 @@ module "create_eu_dynamodb" {
   DEFAULT_TAGS           = var.DEFAULT_TAGS
   STAGE                  = var.STAGE
   table_details          = var.table_details
+  tables_without_range_key = var.tables_without_range_key
   point_in_time_recovery = var.point_in_time_recovery
 
   providers = {
@@ -318,6 +319,7 @@ module "create_in_dynamodb" {
   DEFAULT_TAGS           = var.DEFAULT_TAGS
   STAGE                  = var.STAGE
   table_details          = var.table_details
+  tables_without_range_key = var.tables_without_range_key
   point_in_time_recovery = var.point_in_time_recovery
 
   providers = {
@@ -490,6 +492,7 @@ module "create_sea_dynamodb" {
   DEFAULT_TAGS           = var.DEFAULT_TAGS
   STAGE                  = var.STAGE
   table_details          = var.table_details
+  tables_without_range_key = var.tables_without_range_key
   point_in_time_recovery = var.point_in_time_recovery
 
   providers = {
@@ -712,6 +715,7 @@ module "create_us_dynamodb" {
   DEFAULT_TAGS           = var.DEFAULT_TAGS
   STAGE                  = var.STAGE
   table_details          = var.table_details
+  tables_without_range_key = var.tables_without_range_key
   point_in_time_recovery = var.point_in_time_recovery
 
   providers = {
