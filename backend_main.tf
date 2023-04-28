@@ -569,7 +569,7 @@ module "create_common_acm_cf" {
   }
 }
 
-module "create_reporst_acm_cf" {
+module "create_reports_acm_cf" {
   source           = "./acm"
   base_domain      = var.base_domain
   sub_domain       = var.reports_s3_sub_domain
