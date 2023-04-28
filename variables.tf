@@ -128,3 +128,8 @@ variable "datadog_docker_image" {
   type        = string
   description = "Datadog Docker Image"
 }
+
+variable "reports_s3_sub_domain" {
+  type        = string
+  description = "Sub domain to serve reports"
+}

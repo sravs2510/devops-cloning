@@ -148,6 +148,7 @@ fargate_cpu_memory = {
 uvicorn_workers_count = 4
 
 common_s3_sub_domain = "common"
+reports_s3_sub_domain = "reports"
 
 # Datadog
 datadog_docker_image = "public.ecr.aws/datadog/agent:latest"
