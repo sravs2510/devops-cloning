@@ -67,6 +67,22 @@ resource "aws_lb_target_group" "qatalyst_tg" {
   }
 }
 
+resource "aws_lb_target_group" "qatalyst-reports-tg" {
+  provider    = aws.alb_region
+  name        = "qatalyst-reports-tg"
+  port        = 80
+  protocol    = "HTTP"
+  target_type = "ip"
+  vpc_id      = var.vpc_id
+
+  health_check {
+    path                = "/health"
+    interval            = 10
+    timeout             = 5
+    healthy_threshold   = 5
+    unhealthy_threshold = 2
+  }
+}
 resource "aws_lb_listener" "qatalyst_alb_listener" {
   provider          = aws.alb_region
   certificate_arn   = var.alb_certficate_arn

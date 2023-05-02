@@ -102,3 +102,8 @@ variable "datadog_docker_image" {
   type        = string
   description = "Datadog Docker Image"
 }
+
+variable "alb_target_group_reports_arn" {
+  type        = string
+  description = "ALB Reports Security Group"
+}
