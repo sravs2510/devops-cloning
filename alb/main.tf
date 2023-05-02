@@ -67,7 +67,7 @@ resource "aws_lb_target_group" "qatalyst_tg" {
   }
 }
 
-resource "aws_lb_target_group" "qatalyst-reports-tg" {
+resource "aws_lb_target_group" "qatalyst_reports_tg" {
   provider    = aws.alb_region
   name        = "qatalyst-reports-tg"
   port        = 80

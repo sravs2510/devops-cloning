@@ -227,7 +227,7 @@ resource "aws_ecs_service" "qatalyst_ecs_service" {
   tags = merge(tomap({ "Name" : "qatalyst-ecs-service" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
-resource "aws_ecs_service" "qatalyst-reports-service" {
+resource "aws_ecs_service" "qatalyst_reports_service" {
   provider             = aws.ecs_region
   name                 = "qatalyst-reports-service"
   cluster              = aws_ecs_cluster.qatalyst_ecs_cluster.id
