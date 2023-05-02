@@ -96,11 +96,27 @@ resource "aws_lb_listener" "qatalyst_alb_listener" {
     target_group_arn = aws_lb_target_group.qatalyst_tg.arn
   }
 }
+resource "aws_lb_listener_rule" "qatalyst_alb_listener_reports_rule" {
+  listener_arn = aws_lb_listener.qatalyst_alb_listener.arn
+  provider          = aws.alb_region
+  priority     = 100
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.qatalyst_reports_tg.arn
+  }
+  condition {
+    path_pattern {
+      values = [local.path_pattern]
+    }
+  }
+}
 
 # ALB Domain Mapping
 locals {
   datacenter_code = lookup(var.datacenter_codes, data.aws_region.current.name)
   alb_domain_name = var.STAGE == "prod" ? join(".", [local.datacenter_code, var.sub_domain, var.base_domain]) : join(".", [local.datacenter_code, var.STAGE, var.sub_domain, var.base_domain])
+  path_prefix = "/"
+  path_pattern = join("", [local.path_prefix, "v1", local.path_prefix, local.datacenter_code])
 }
 
 data "aws_route53_zone" "domain_hosted_zone" {
