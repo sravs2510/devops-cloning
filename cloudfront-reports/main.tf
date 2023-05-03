@@ -160,8 +160,13 @@ resource "aws_cloudfront_distribution" "reports_cf_distribution" {
     target_origin_id           = local.cf_domain_name
     cache_policy_id            = data.aws_cloudfront_cache_policy.cache_policy.id
     response_headers_policy_id = data.aws_cloudfront_response_headers_policy.response_headers_policy.id
+  forwarded_values {
+      query_string = false
+  cookies {
+        forward = "none"
+      }
+   }
   }
-
   restrictions {
     geo_restriction {
       restriction_type = "none"
