@@ -572,40 +572,9 @@ module "create_common_acm_cf" {
   }
 }
 
-module "create_reports_acm_cf" {
-  source           = "./acm"
-  base_domain      = var.base_domain
-  sub_domain       = var.reports_s3_sub_domain
-  datacenter_codes = var.datacenter_codes
-  is_multi_region  = false
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
-
-  providers = {
-    aws.acm_region        = aws.us_region
-    aws.datacenter_region = aws.us_region
-  }
-}
-
 module "create_common_s3_bucket" {
   source                     = "./s3"
   bucket_prefix              = var.common_s3_sub_domain
-  DEFAULT_TAGS               = var.DEFAULT_TAGS
-  STAGE                      = var.STAGE
-  datacenter_codes           = var.datacenter_codes
-  tester_view_sub_domain     = var.tester_view_sub_domain
-  base_domain                = var.base_domain
-  object_expiration_duration = var.object_expiration_duration
-  is_multi_region            = false
-
-  providers = {
-    aws.s3_region = aws.us_region
-  }
-}
-
-module "create_reports_s3_sub_domain" {
-  source                     = "./s3"
-  bucket_prefix              = var.reports_s3_sub_domain
   DEFAULT_TAGS               = var.DEFAULT_TAGS
   STAGE                      = var.STAGE
   datacenter_codes           = var.datacenter_codes
@@ -632,6 +601,55 @@ module "create_common_cloudfront" {
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE
 
+  providers = {
+    aws.cloudfront_region = aws.us_region
+    aws.bucket_region     = aws.us_region
+  }
+}
+module "create_reports_acm_cf" {
+  source           = "./acm"
+  base_domain      = var.base_domain
+  sub_domain       = var.reports_s3_sub_domain
+  datacenter_codes = var.datacenter_codes
+  is_multi_region  = false
+  DEFAULT_TAGS     = var.DEFAULT_TAGS
+  STAGE            = var.STAGE
+
+  providers = {
+    aws.acm_region        = aws.us_region
+    aws.datacenter_region = aws.us_region
+  }
+}
+module "create_reports_s3_sub_domain" {
+  source                     = "./s3"
+  bucket_prefix              = var.reports_s3_sub_domain
+  DEFAULT_TAGS               = var.DEFAULT_TAGS
+  STAGE                      = var.STAGE
+  datacenter_codes           = var.datacenter_codes
+  tester_view_sub_domain     = var.tester_view_sub_domain
+  base_domain                = var.base_domain
+  object_expiration_duration = var.object_expiration_duration
+  is_multi_region            = false
+
+  providers = {
+    aws.s3_region = aws.us_region
+  }
+}
+
+module "create_cloudfront_reports" {
+  source                      = "./cloudfront-reports"
+  DEFAULT_TAGS                = var.DEFAULT_TAGS
+  STAGE                       = var.STAGE
+  base_domain                 = var.base_domain
+  sub_domain                  = var.reports_s3_sub_domain
+  bucket_id                   = module.create_reports_s3_sub_domain.s3_bucket_id
+  bucket_arn                  = module.create_reports_s3_sub_domain.s3_bucket_arn
+  acm_certificate_arn         = module.create_reports_acm_cf.acm_arn
+  bucket_regional_domain_name = module.create_reports_s3_sub_domain.s3_bucket_regional_domain_name
+  qatalyst_eu_alb_dns_name    = module.create_eu_alb.qatalyst_alb_dns_name
+  qatalyst_in_alb_dns_name    = module.create_in_alb.qatalyst_alb_dns_name
+  qatalyst_sea_alb_dns_name   = module.create_sea_alb.qatalyst_alb_dns_name
+  qatalyst_us_alb_dns_name    = module.create_us_alb.qatalyst_alb_dns_name
   providers = {
     aws.cloudfront_region = aws.us_region
     aws.bucket_region     = aws.us_region

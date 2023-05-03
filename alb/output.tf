@@ -21,3 +21,7 @@ output "qatalyst_tg_arn_suffix" {
 output "qatalyst_alb_target_group_reports_arn" {
   value = aws_lb_target_group.qatalyst_reports_tg.arn
 }
+
+output "qatalyst_alb_dns_name" {
+  value = aws_lb.qatalyst_alb.dns_name
+}
