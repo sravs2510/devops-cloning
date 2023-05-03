@@ -50,25 +50,57 @@ resource "aws_cloudfront_distribution" "reports_cf_distribution" {
   origin {
     domain_name = var.qatalyst_eu_alb_dns_name
     origin_id   = var.qatalyst_eu_alb_dns_name
+    custom_origin_config {
+      http_port                = 80
+      https_port               = 443
+      origin_protocol_policy   = "https-only"
+      origin_ssl_protocols     = ["TLSv1.2"]
+      origin_keepalive_timeout = 60
+      origin_read_timeout      = 60
+    }
   }
   origin {
     domain_name = var.qatalyst_in_alb_dns_name
     origin_id   = var.qatalyst_in_alb_dns_name
+    custom_origin_config {
+      http_port                = 80
+      https_port               = 443
+      origin_protocol_policy   = "https-only"
+      origin_ssl_protocols     = ["TLSv1.2"]
+      origin_keepalive_timeout = 60
+      origin_read_timeout      = 60
+    }
   }
   origin {
     domain_name = var.qatalyst_sea_alb_dns_name
     origin_id   = var.qatalyst_sea_alb_dns_name
+    custom_origin_config {
+      http_port                = 80
+      https_port               = 443
+      origin_protocol_policy   = "https-only"
+      origin_ssl_protocols     = ["TLSv1.2"]
+      origin_keepalive_timeout = 60
+      origin_read_timeout      = 60
+    }
   }
   origin {
     domain_name = var.qatalyst_us_alb_dns_name
     origin_id   = var.qatalyst_us_alb_dns_name
+    custom_origin_config {
+      http_port                = 80
+      https_port               = 443
+      origin_protocol_policy   = "https-only"
+      origin_ssl_protocols     = ["TLSv1.2"]
+      origin_keepalive_timeout = 60
+      origin_read_timeout      = 60
+    }
   }
+
   aliases = [
     local.cf_domain_name
   ]
 
   enabled = true
-
   ordered_cache_behavior {
     path_pattern     = "/v1/eu/*"
     allowed_methods  = local.api_http_allowed_methods
