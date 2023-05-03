@@ -29,6 +29,15 @@ data "aws_cloudfront_response_headers_policy" "response_headers_policy" {
   name     = "Managed-SecurityHeadersPolicy"
 }
 
+data "aws_cloudfront_cache_policy" "cache_policy_api" {
+  provider = aws.cloudfront_region
+  name     = "Managed-CachingDisabled"
+}
+
+data "aws_cloudfront_origin_request_policy" "origin_request_policy_api" {
+  provider = aws.cloudfront_region
+  name     = "Managed-AllViewer"
+}
 # CF OAI
 resource "aws_cloudfront_origin_access_identity" "reports_s3_origin_identity" {
   provider = aws.cloudfront_region
@@ -102,55 +111,43 @@ resource "aws_cloudfront_distribution" "reports_cf_distribution" {
 
   enabled = true
   ordered_cache_behavior {
-    path_pattern     = "/v1/eu/*"
-    allowed_methods  = local.api_http_allowed_methods
-    cached_methods   = local.api_http_cache_methods
-    target_origin_id = var.qatalyst_eu_alb_dns_name
-
-    min_ttl                = 0
-    default_ttl            = 0
-    max_ttl                = 0
-    compress               = false
-    viewer_protocol_policy = "https-only"
+    path_pattern             = "/v1/eu/*"
+    allowed_methods          = local.api_http_allowed_methods
+    cached_methods           = local.api_http_cache_methods
+    target_origin_id         = var.qatalyst_eu_alb_dns_name
+    cache_policy_id          = data.aws_cloudfront_cache_policy.cache_policy_api.id
+    origin_request_policy_id = data.aws_cloudfront_origin_request_policy.origin_request_policy_api.id
+    viewer_protocol_policy   = "https-only"
   }
 
   ordered_cache_behavior {
-    path_pattern     = "/v1/in/*"
-    allowed_methods  = local.api_http_allowed_methods
-    cached_methods   = local.api_http_cache_methods
-    target_origin_id = var.qatalyst_in_alb_dns_name
-
-    min_ttl                = 0
-    default_ttl            = 0
-    max_ttl                = 0
-    compress               = false
-    viewer_protocol_policy = "https-only"
+    path_pattern             = "/v1/in/*"
+    allowed_methods          = local.api_http_allowed_methods
+    cached_methods           = local.api_http_cache_methods
+    target_origin_id         = var.qatalyst_in_alb_dns_name
+    cache_policy_id          = data.aws_cloudfront_cache_policy.cache_policy_api.id
+    origin_request_policy_id = data.aws_cloudfront_origin_request_policy.origin_request_policy_api.id
+    viewer_protocol_policy   = "https-only"
   }
 
   ordered_cache_behavior {
-    path_pattern     = "/v1/sea/*"
-    allowed_methods  = local.api_http_allowed_methods
-    cached_methods   = local.api_http_cache_methods
-    target_origin_id = var.qatalyst_sea_alb_dns_name
-
-    min_ttl                = 0
-    default_ttl            = 0
-    max_ttl                = 0
-    compress               = false
-    viewer_protocol_policy = "https-only"
+    path_pattern             = "/v1/sea/*"
+    allowed_methods          = local.api_http_allowed_methods
+    cached_methods           = local.api_http_cache_methods
+    target_origin_id         = var.qatalyst_sea_alb_dns_name
+    cache_policy_id          = data.aws_cloudfront_cache_policy.cache_policy_api.id
+    origin_request_policy_id = data.aws_cloudfront_origin_request_policy.origin_request_policy_api.id
+    viewer_protocol_policy   = "https-only"
   }
 
   ordered_cache_behavior {
-    path_pattern     = "/v1/us/*"
-    allowed_methods  = local.api_http_allowed_methods
-    cached_methods   = local.api_http_cache_methods
-    target_origin_id = var.qatalyst_us_alb_dns_name
-
-    min_ttl                = 0
-    default_ttl            = 0
-    max_ttl                = 0
-    compress               = false
-    viewer_protocol_policy = "https-only"
+    path_pattern             = "/v1/us/*"
+    allowed_methods          = local.api_http_allowed_methods
+    cached_methods           = local.api_http_cache_methods
+    target_origin_id         = var.qatalyst_us_alb_dns_name
+    cache_policy_id          = data.aws_cloudfront_cache_policy.cache_policy_api.id
+    origin_request_policy_id = data.aws_cloudfront_origin_request_policy.origin_request_policy_api.id
+    viewer_protocol_policy   = "https-only"
   }
   default_cache_behavior {
     allowed_methods            = ["GET", "HEAD", "OPTIONS"]
@@ -160,12 +157,6 @@ resource "aws_cloudfront_distribution" "reports_cf_distribution" {
     target_origin_id           = local.cf_domain_name
     cache_policy_id            = data.aws_cloudfront_cache_policy.cache_policy.id
     response_headers_policy_id = data.aws_cloudfront_response_headers_policy.response_headers_policy.id
-  forwarded_values {
-      query_string = false
-  cookies {
-        forward = "none"
-      }
-   }
   }
   restrictions {
     geo_restriction {
