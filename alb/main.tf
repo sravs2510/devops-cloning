@@ -98,6 +98,7 @@ resource "aws_lb_listener" "qatalyst_alb_listener" {
 }
 
 resource "aws_lb_listener_certificate" "qatalyst_reports_listener_certificate" {
+  provider        = aws.alb_region
   listener_arn    = aws_lb_listener.qatalyst_alb_listener.arn
   certificate_arn = var.reports_acm_arn
 }
