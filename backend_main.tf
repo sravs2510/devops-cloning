@@ -50,6 +50,20 @@ module "create_eu_acm_media_cf" {
   }
 }
 
+module "create_eu_reports_acm" {
+  source           = "./acm"
+  base_domain      = var.base_domain
+  sub_domain       = var.reports_s3_sub_domain
+  datacenter_codes = var.datacenter_codes
+  is_multi_region  = false
+  DEFAULT_TAGS     = var.DEFAULT_TAGS
+  STAGE            = var.STAGE
+
+  providers = {
+    aws.acm_region        = aws.eu_region
+    aws.datacenter_region = aws.eu_region
+  }
+}
 module "create_eu_media_cloudfront" {
   source                      = "./cloudfront"
   base_domain                 = var.base_domain
@@ -89,6 +103,7 @@ module "create_eu_alb" {
   vpc_id             = module.create_eu_vpc.vpc_id
   alb_subnets        = module.create_eu_vpc.public_subnets
   alb_certficate_arn = module.create_eu_acm_api.acm_arn
+  reports_acm_arn    = module.create_eu_reports_acm.acm_arn
   datacenter_codes   = var.datacenter_codes
   base_domain        = var.base_domain
   sub_domain         = var.api_sub_domain
@@ -224,6 +239,20 @@ module "create_in_acm_media_cf" {
   }
 }
 
+module "create_in_reports_acm" {
+  source           = "./acm"
+  base_domain      = var.base_domain
+  sub_domain       = var.reports_s3_sub_domain
+  datacenter_codes = var.datacenter_codes
+  is_multi_region  = false
+  DEFAULT_TAGS     = var.DEFAULT_TAGS
+  STAGE            = var.STAGE
+
+  providers = {
+    aws.acm_region        = aws.in_region
+    aws.datacenter_region = aws.in_region
+  }
+}
 module "create_in_media_cloudfront" {
   source                      = "./cloudfront"
   base_domain                 = var.base_domain
@@ -263,6 +292,7 @@ module "create_in_alb" {
   vpc_id             = module.create_in_vpc.vpc_id
   alb_subnets        = module.create_in_vpc.public_subnets
   alb_certficate_arn = module.create_in_acm_api.acm_arn
+  reports_acm_arn    = module.create_in_reports_acm.acm_arn
   datacenter_codes   = var.datacenter_codes
   base_domain        = var.base_domain
   sub_domain         = var.api_sub_domain
@@ -398,6 +428,20 @@ module "create_sea_acm_media_cf" {
   }
 }
 
+module "create_sea_reports_acm" {
+  source           = "./acm"
+  base_domain      = var.base_domain
+  sub_domain       = var.reports_s3_sub_domain
+  datacenter_codes = var.datacenter_codes
+  is_multi_region  = false
+  DEFAULT_TAGS     = var.DEFAULT_TAGS
+  STAGE            = var.STAGE
+
+  providers = {
+    aws.acm_region        = aws.sea_region
+    aws.datacenter_region = aws.sea_region
+  }
+}
 module "create_sea_media_cloudfront" {
   source                      = "./cloudfront"
   base_domain                 = var.base_domain
@@ -437,6 +481,7 @@ module "create_sea_alb" {
   vpc_id             = module.create_sea_vpc.vpc_id
   alb_subnets        = module.create_sea_vpc.public_subnets
   alb_certficate_arn = module.create_sea_acm_api.acm_arn
+  reports_acm_arn    = module.create_sea_reports_acm.acm_arn
   datacenter_codes   = var.datacenter_codes
   base_domain        = var.base_domain
   sub_domain         = var.api_sub_domain
@@ -606,6 +651,7 @@ module "create_common_cloudfront" {
     aws.bucket_region     = aws.us_region
   }
 }
+#ACM or cloudfront & ALB
 module "create_reports_acm_cf" {
   source           = "./acm"
   base_domain      = var.base_domain
@@ -710,6 +756,7 @@ module "create_us_alb" {
   vpc_id             = module.create_us_vpc.vpc_id
   alb_subnets        = module.create_us_vpc.public_subnets
   alb_certficate_arn = module.create_us_acm_api.acm_arn
+  reports_acm_arn    = module.create_reports_acm_cf.acm_arn
   datacenter_codes   = var.datacenter_codes
   base_domain        = var.base_domain
   sub_domain         = var.api_sub_domain
