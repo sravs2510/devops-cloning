@@ -96,6 +96,11 @@ resource "aws_lb_listener" "qatalyst_alb_listener" {
     target_group_arn = aws_lb_target_group.qatalyst_tg.arn
   }
 }
+
+resource "aws_lb_listener_certificate" "qatalyst_reports_listener_certificate" {
+  listener_arn    = aws_lb_listener.qatalyst_alb_listener.arn
+  certificate_arn = var.reports_acm_arn
+}
 resource "aws_lb_listener_rule" "qatalyst_alb_listener_reports_rule" {
   listener_arn = aws_lb_listener.qatalyst_alb_listener.arn
   provider     = aws.alb_region

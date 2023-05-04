@@ -37,3 +37,8 @@ variable "datacenter_codes" {
   type        = map(string)
   description = "Data center code values"
 }
+
+variable "reports_acm_arn" {
+  type        = string
+  description = "Reports ACM "
+}
