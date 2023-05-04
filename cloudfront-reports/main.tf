@@ -59,6 +59,10 @@ resource "aws_cloudfront_distribution" "reports_cf_distribution" {
   origin {
     domain_name = var.qatalyst_eu_alb_dns_name
     origin_id   = var.qatalyst_eu_alb_dns_name
+    custom_header {
+      name  = "REQUEST-SOURCE"
+      value = "CLOUDFRONT"
+    }
     custom_origin_config {
       http_port                = 80
       https_port               = 443
@@ -71,6 +75,10 @@ resource "aws_cloudfront_distribution" "reports_cf_distribution" {
   origin {
     domain_name = var.qatalyst_in_alb_dns_name
     origin_id   = var.qatalyst_in_alb_dns_name
+    custom_header {
+      name  = "REQUEST-SOURCE"
+      value = "CLOUDFRONT"
+    }
     custom_origin_config {
       http_port                = 80
       https_port               = 443
@@ -83,6 +91,10 @@ resource "aws_cloudfront_distribution" "reports_cf_distribution" {
   origin {
     domain_name = var.qatalyst_sea_alb_dns_name
     origin_id   = var.qatalyst_sea_alb_dns_name
+    custom_header {
+      name  = "REQUEST-SOURCE"
+      value = "CLOUDFRONT"
+    }
     custom_origin_config {
       http_port                = 80
       https_port               = 443
@@ -95,6 +107,10 @@ resource "aws_cloudfront_distribution" "reports_cf_distribution" {
   origin {
     domain_name = var.qatalyst_us_alb_dns_name
     origin_id   = var.qatalyst_us_alb_dns_name
+    custom_header {
+      name  = "REQUEST-SOURCE"
+      value = "CLOUDFRONT"
+    }
     custom_origin_config {
       http_port                = 80
       https_port               = 443
