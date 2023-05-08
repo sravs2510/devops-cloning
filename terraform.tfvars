@@ -135,6 +135,12 @@ table_details = {
     hash_key       = "workspace_id"
     range_key      = "tester_email_id"
     stream_enabled = false
+  },
+  "reports-collab-info" : {
+    table_name     = "qatalyst-reports-collab"
+    hash_key       = "report_id"
+    range_key      = "user_id"
+    stream_enabled = false
   }
 }
 
