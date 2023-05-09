@@ -251,6 +251,30 @@ resource "aws_ecs_service" "qatalyst_reports_service" {
   tags = merge(tomap({ "Name" : "qatalyst-reports-service" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
+resource "aws_ecs_service" "qatalyst_tester_view_service" {
+  provider             = aws.ecs_region
+  name                 = "qatalyst-tester-view-service"
+  cluster              = aws_ecs_cluster.qatalyst_ecs_cluster.id
+  task_definition      = aws_ecs_task_definition.qatalyst_ecs_task_definition.arn
+  launch_type          = "FARGATE"
+  scheduling_strategy  = "REPLICA"
+  desired_count        = 1
+  force_new_deployment = true
+  propagate_tags       = "SERVICE"
+  network_configuration {
+    subnets          = var.ecs_subnets
+    assign_public_ip = false
+    security_groups  = [aws_security_group.qatalyst_ecs_sg.id]
+  }
+
+  load_balancer {
+    target_group_arn = var.alb_target_group_tester_view_arn
+    container_name   = "qatalyst-ecs-container-definition"
+    container_port   = 80
+  }
+  tags = merge(tomap({ "Name" : "qatalyst-tester-view-service" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+}
+
 # Define the Auto Scaling target for the ECS service
 resource "aws_appautoscaling_target" "qatalyst_ecs_ast" {
   provider           = aws.ecs_region

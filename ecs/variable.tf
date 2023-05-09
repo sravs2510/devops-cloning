@@ -107,3 +107,8 @@ variable "alb_target_group_reports_arn" {
   type        = string
   description = "ALB Reports Security Group"
 }
+
+variable "alb_target_group_tester_view_arn" {
+  type        = string
+  description = "ALB Tester View Security Group"
+}
