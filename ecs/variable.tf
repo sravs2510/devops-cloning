@@ -112,3 +112,8 @@ variable "alb_target_group_tester_view_arn" {
   type        = string
   description = "ALB Tester View Security Group"
 }
+
+variable "datacenter_codes" {
+  type        = map(string)
+  description = "Data center code values"
+}
