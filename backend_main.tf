@@ -214,7 +214,7 @@ module "create_eu_cloudwatch_tester_view_dashboard" {
   ecs_service_name = local.qatalyst_ecs_service_name
   ecs_cluster_name = local.qatalyst_ecs_cluster_name
   alb_arn_suffix   = module.create_eu_alb.qatalyst_alb_arn_suffix
-  tg_arn_suffix    = module.create_eu_alb.qatalyst_tg_arn_suffix
+  tg_arn_suffix    = module.create_eu_alb.qatalyst_alb_target_group_tester_view_arn_suffix
   datacenter_codes = var.datacenter_codes
   dashboard_name   = local.qatalyst_cloudwatch_dashboard_name_tester_view
 
@@ -437,7 +437,7 @@ module "create_in_cloudwatch_tester_view_dashboard" {
   ecs_service_name = local.qatalyst_ecs_service_name
   ecs_cluster_name = local.qatalyst_ecs_cluster_name
   alb_arn_suffix   = module.create_in_alb.qatalyst_alb_arn_suffix
-  tg_arn_suffix    = module.create_in_alb.qatalyst_tg_arn_suffix
+  tg_arn_suffix    = module.create_in_alb.qatalyst_alb_target_group_tester_view_arn_suffix
   datacenter_codes = var.datacenter_codes
   dashboard_name   = local.qatalyst_cloudwatch_dashboard_name_tester_view
 
@@ -660,7 +660,7 @@ module "create_sea_cloudwatch_tester_view_dashboard" {
   ecs_service_name = local.qatalyst_ecs_service_name
   ecs_cluster_name = local.qatalyst_ecs_cluster_name
   alb_arn_suffix   = module.create_sea_alb.qatalyst_alb_arn_suffix
-  tg_arn_suffix    = module.create_sea_alb.qatalyst_tg_arn_suffix
+  tg_arn_suffix    = module.create_sea_alb.qatalyst_alb_target_group_tester_view_arn_suffix
   datacenter_codes = var.datacenter_codes
   dashboard_name   = local.qatalyst_cloudwatch_dashboard_name_tester_view
 
@@ -987,7 +987,7 @@ module "create_us_cloudwatch_tester_view_dashboard" {
   ecs_service_name = local.qatalyst_ecs_service_name
   ecs_cluster_name = local.qatalyst_ecs_cluster_name
   alb_arn_suffix   = module.create_us_alb.qatalyst_alb_arn_suffix
-  tg_arn_suffix    = module.create_us_alb.qatalyst_tg_arn_suffix
+  tg_arn_suffix    = module.create_us_alb.qatalyst_alb_target_group_tester_view_arn_suffix
   datacenter_codes = var.datacenter_codes
   dashboard_name   = local.qatalyst_cloudwatch_dashboard_name_tester_view
 
