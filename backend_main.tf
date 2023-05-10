@@ -5,9 +5,11 @@ locals {
   qatalyst_ecs_service_name                      = "qatalyst-ecs-service"
   qatalyst_ecs_cluster_name                      = "qatalyst-ecs-cluster"
   qatalyst_reports_service_name                  = "qatalyst-reports-service"
+  qatalyst_tester_view_service_name              = join("-", ["qatalyst-tester-view-service", var.STAGE, local.datacenter_code])
   qatalyst_cloudwatch_dashboard_name_api         = "Qatalyst-API"
   qatalyst_cloudwatch_dashboard_name_reports     = "Qatalyst-Reports"
   qatalyst_cloudwatch_dashboard_name_tester_view = "Qatalyst-Tester-View"
+  datacenter_code                                = lookup(var.datacenter_codes, data.aws_region.ecs_region.name)
 }
 
 module "create_eu_vpc" {
@@ -211,7 +213,7 @@ module "create_eu_cloudwatch_tester_view_dashboard" {
   source           = "./cloudwatch"
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
-  ecs_service_name = local.qatalyst_ecs_service_name
+  ecs_service_name = local.qatalyst_tester_view_service_name
   ecs_cluster_name = local.qatalyst_ecs_cluster_name
   alb_arn_suffix   = module.create_eu_alb.qatalyst_alb_arn_suffix
   tg_arn_suffix    = module.create_eu_alb.qatalyst_alb_target_group_tester_view_arn_suffix
@@ -434,7 +436,7 @@ module "create_in_cloudwatch_tester_view_dashboard" {
   source           = "./cloudwatch"
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
-  ecs_service_name = local.qatalyst_ecs_service_name
+  ecs_service_name = local.qatalyst_tester_view_service_name
   ecs_cluster_name = local.qatalyst_ecs_cluster_name
   alb_arn_suffix   = module.create_in_alb.qatalyst_alb_arn_suffix
   tg_arn_suffix    = module.create_in_alb.qatalyst_alb_target_group_tester_view_arn_suffix
@@ -657,7 +659,7 @@ module "create_sea_cloudwatch_tester_view_dashboard" {
   source           = "./cloudwatch"
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
-  ecs_service_name = local.qatalyst_ecs_service_name
+  ecs_service_name = local.qatalyst_tester_view_service_name
   ecs_cluster_name = local.qatalyst_ecs_cluster_name
   alb_arn_suffix   = module.create_sea_alb.qatalyst_alb_arn_suffix
   tg_arn_suffix    = module.create_sea_alb.qatalyst_alb_target_group_tester_view_arn_suffix
@@ -984,7 +986,7 @@ module "create_us_cloudwatch_tester_view_dashboard" {
   source           = "./cloudwatch"
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
-  ecs_service_name = local.qatalyst_ecs_service_name
+  ecs_service_name = local.qatalyst_tester_view_service_name
   ecs_cluster_name = local.qatalyst_ecs_cluster_name
   alb_arn_suffix   = module.create_us_alb.qatalyst_alb_arn_suffix
   tg_arn_suffix    = module.create_us_alb.qatalyst_alb_target_group_tester_view_arn_suffix

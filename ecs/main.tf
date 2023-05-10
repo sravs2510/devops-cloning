@@ -15,6 +15,7 @@ data "aws_caller_identity" "current" {
   provider = aws.ecs_region
 }
 
+
 locals {
   account_id            = data.aws_caller_identity.current.account_id
   ecr_repo              = join(".", [local.account_id, "dkr.ecr", data.aws_region.ecs_region.name, "amazonaws.com/qatalyst-backend:latest"])
