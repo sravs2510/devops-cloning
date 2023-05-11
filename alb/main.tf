@@ -137,7 +137,7 @@ resource "aws_lb_listener_rule" "qatalyst_alb_listener_reports_rule" {
 resource "aws_lb_listener_rule" "qatalyst_alb_listener_tester_view_rule" {
   listener_arn = aws_lb_listener.qatalyst_alb_listener.arn
   provider     = aws.alb_region
-  priority     = 100
+  priority     = 101
   action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.qatalyst_tester_view_tg.arn
