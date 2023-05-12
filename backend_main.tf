@@ -5,11 +5,10 @@ locals {
   qatalyst_ecs_service_name                      = "qatalyst-ecs-service"
   qatalyst_ecs_cluster_name                      = "qatalyst-ecs-cluster"
   qatalyst_reports_service_name                  = "qatalyst-reports-service"
-  qatalyst_tester_view_service_name              = join("-", ["qatalyst-tester-view-service", var.STAGE, local.datacenter_code])
   qatalyst_cloudwatch_dashboard_name_api         = "Qatalyst-API"
   qatalyst_cloudwatch_dashboard_name_reports     = "Qatalyst-Reports"
   qatalyst_cloudwatch_dashboard_name_tester_view = "Qatalyst-Tester-View"
-  datacenter_code                                = lookup(var.datacenter_codes, data.aws_region.ecs_region.name)
+  qatalyst_tester_view_service_name              = "qatalyst-tester-view-service"
 }
 
 module "create_eu_vpc" {
