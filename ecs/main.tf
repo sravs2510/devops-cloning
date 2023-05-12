@@ -120,13 +120,6 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
             "protocol" : "tcp"
           }
         ]
-        "name": "log-driver",
-        "image": "amazon/aws-for-fluent-bit:stable",
-        "essential" : true,
-        "firelensConfiguration": {
-          "type": "fluentbit",
-          "options": { "enable-ecs-log-metadata": "true" }
-        }  
         "logConfiguration" : {
           "logDriver": "awsfirelens",
           "options": {
