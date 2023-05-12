@@ -88,6 +88,11 @@ variable "table_details" {
   description = "DDB Tables details"
 }
 
+variable "tables_without_range_key" {
+  type        = map(any)
+  description = "DDB Tables(without range key) details"
+}
+
 variable "gsi_table_details" {
   type        = any
   description = "DDB Tables with GSI details"
@@ -122,4 +127,9 @@ variable "common_s3_sub_domain" {
 variable "datadog_docker_image" {
   type        = string
   description = "Datadog Docker Image"
+}
+
+variable "reports_s3_sub_domain" {
+  type        = string
+  description = "Sub domain to serve reports"
 }

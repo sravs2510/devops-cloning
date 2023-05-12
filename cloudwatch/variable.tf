@@ -33,3 +33,8 @@ variable "datacenter_codes" {
   type        = map(string)
   description = "Data center code values"
 }
+
+variable "dashboard_name" {
+  type        = string
+  description = "Name of the Cloudwatch Dashboard"
+}

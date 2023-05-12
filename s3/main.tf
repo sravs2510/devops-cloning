@@ -27,6 +27,14 @@ resource "aws_s3_bucket" "s3_bucket" {
   tags     = merge(tomap({ "Name" : join("-", [local.datacenter_code, "qatalyst", var.bucket_prefix, "bucket"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
+resource "aws_s3_bucket_ownership_controls" "s3_bucket_ownership_controls" {
+  provider = aws.s3_region
+  bucket   = aws_s3_bucket.s3_bucket.id
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
+}
+
 resource "aws_s3_bucket_acl" "s3_bucket_acl" {
   provider = aws.s3_region
   bucket   = aws_s3_bucket.s3_bucket.id

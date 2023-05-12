@@ -20,7 +20,7 @@ data "aws_region" "current" {
 # Create CloudWatch dashboard
 resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
   provider       = aws.cw_region
-  dashboard_name = join("-", ["Qatalyst", "Dashboard", local.datacenter_code])
+  dashboard_name = join("-", [var.dashboard_name, local.datacenter_code])
 
   dashboard_body = jsonencode({
     widgets = [

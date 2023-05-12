@@ -118,6 +118,12 @@ table_details = {
     range_key      = "tester_id"
     stream_enabled = false
   },
+  "tester-events-details" : {
+    table_name     = "qatalyst-tester-events"
+    hash_key       = "block_id"
+    range_key      = "tester_id"
+    stream_enabled = false
+  },
   "workspace-configurations" : {
     table_name     = "qatalyst-workspace-configurations"
     hash_key       = "workspace_id"
@@ -129,6 +135,20 @@ table_details = {
     hash_key       = "workspace_id"
     range_key      = "tester_email_id"
     stream_enabled = false
+  },
+  "reports-collab-info" : {
+    table_name     = "qatalyst-reports-collab"
+    hash_key       = "report_id"
+    range_key      = "user_id"
+    stream_enabled = false
+  }
+}
+
+tables_without_range_key = {
+  "reports-lookup" : {
+    table_name     = "qatalyst-report-details"
+    hash_key       = "report_id"
+    stream_enabled = false
   }
 }
 
@@ -139,7 +159,8 @@ fargate_cpu_memory = {
 
 uvicorn_workers_count = 4
 
-common_s3_sub_domain = "common"
+common_s3_sub_domain  = "common"
+reports_s3_sub_domain = "reports"
 
 # Datadog
 datadog_docker_image = "public.ecr.aws/datadog/agent:latest"
