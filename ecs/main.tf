@@ -141,6 +141,7 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
             "provider": "ecs"
             }
           },
+      },
       {
         "name" : "datadog-agent",
         "image" : var.datadog_docker_image,
