@@ -20,7 +20,6 @@ locals {
   account_id            = data.aws_caller_identity.current.account_id
   ecr_repo              = join(".", [local.account_id, "dkr.ecr", data.aws_region.ecs_region.name, "amazonaws.com/qatalyst-backend:latest"])
   qatalyst_sender_email = var.STAGE == "prod" ? join("", ["noreply@", var.base_domain]) : join("", ["noreply@", var.STAGE, ".", var.base_domain])
-  datacenter_code       = lookup(var.datacenter_codes, data.aws_region.ecs_region.name)
 }
 resource "aws_ecs_cluster" "qatalyst_ecs_cluster" {
   provider = aws.ecs_region
@@ -254,7 +253,7 @@ resource "aws_ecs_service" "qatalyst_reports_service" {
 
 resource "aws_ecs_service" "qatalyst_tester_view_service" {
   provider             = aws.ecs_region
-  name                 = join("-", ["qatalyst-tester-view-service", var.STAGE, local.datacenter_code])
+  name                 = "qatalyst-tester-view-service"
   cluster              = aws_ecs_cluster.qatalyst_ecs_cluster.id
   task_definition      = aws_ecs_task_definition.qatalyst_ecs_task_definition.arn
   launch_type          = "FARGATE"
