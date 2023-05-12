@@ -133,6 +133,10 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
             "TLS": "on",
             "provider": "ecs"
             }
+            "firelensConfiguration": {
+             "type": "fluentbit",
+             "options": { "enable-ecs-log-metadata": "true" }
+        }
           },
       },
       {
