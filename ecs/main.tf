@@ -121,23 +121,28 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
           }
         ]
         "logConfiguration" : {
-          "logDriver": "awsfirelens",
-          "options": {
-            "Name": "datadog",
-            "apikey": var.datadog_api_key
-            "Host": "http-intake.logs.datadoghq.com",
-            "dd_service": "firelens-test",
-            "dd_source": "redis",
-            "dd_message_key": "log",
-            "dd_tags": "project:fluentbit",
-            "TLS": "on",
-            "provider": "ecs"
-            }
-            "firelensConfiguration": {
-             "type": "fluentbit",
-             "options": { "enable-ecs-log-metadata": "true" }
+          "logDriver" : "awsfirelens",
+          "options" : {
+            "Name" : "datadog",
+            "apikey" : var.datadog_api_key
+            "Host" : "http-intake.logs.datadoghq.com",
+            "dd_service" : "firelens-test",
+            "dd_source" : "redis",
+            "dd_message_key" : "log",
+            "dd_tags" : "project:fluentbit",
+            "TLS" : "on",
+            "provider" : "ecs"
+          }
+        },
+      },
+      {
+        "essential" : true,
+        "image" : "amazon/aws-for-fluent-bit:stable",
+        "name" : "log_router",
+        "firelensConfiguration" : {
+          "type" : "fluentbit",
+          "options" : { "enable-ecs-log-metadata" : "true" }
         }
-          },
       },
       {
         "name" : "datadog-agent",
