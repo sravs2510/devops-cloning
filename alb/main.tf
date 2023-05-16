@@ -65,6 +65,7 @@ resource "aws_lb_target_group" "qatalyst_tg" {
     healthy_threshold   = 5
     unhealthy_threshold = 2
   }
+  tags = merge(tomap({ "Name" : "qatalyst-dashboard-tg" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
 resource "aws_lb_target_group" "qatalyst_reports_tg" {
@@ -82,6 +83,7 @@ resource "aws_lb_target_group" "qatalyst_reports_tg" {
     healthy_threshold   = 5
     unhealthy_threshold = 2
   }
+  tags = merge(tomap({ "Name" : "qatalyst-reports-tg" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
 resource "aws_lb_target_group" "qatalyst_tester_view_tg" {
@@ -99,6 +101,7 @@ resource "aws_lb_target_group" "qatalyst_tester_view_tg" {
     healthy_threshold   = 5
     unhealthy_threshold = 2
   }
+  tags = merge(tomap({ "Name" : "qatalyst-tester-view-tg" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 resource "aws_lb_listener" "qatalyst_alb_listener" {
   provider          = aws.alb_region
@@ -112,6 +115,7 @@ resource "aws_lb_listener" "qatalyst_alb_listener" {
     type             = "forward"
     target_group_arn = aws_lb_target_group.qatalyst_tg.arn
   }
+  tags = merge(tomap({ "Name" : "qatalyst-alb-listener" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
 resource "aws_lb_listener_certificate" "qatalyst_reports_listener_certificate" {
