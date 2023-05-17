@@ -20,10 +20,11 @@ locals {
   account_id            = data.aws_caller_identity.current.account_id
   ecr_repo              = join(".", [local.account_id, "dkr.ecr", data.aws_region.ecs_region.name, "amazonaws.com/qatalyst-backend:latest"])
   qatalyst_sender_email = var.STAGE == "prod" ? join("", ["noreply@", var.base_domain]) : join("", ["noreply@", var.STAGE, ".", var.base_domain])
-}
+  datacenter_code = lookup(var.datacenter_codes, data.aws_region.ecs_region.name)
+  }
 resource "aws_ecs_cluster" "qatalyst_ecs_cluster" {
   provider = aws.ecs_region
-  name     = "qatalyst-ecs-cluster"
+  name     =  join("-",["qatalyst-ecs-cluster", var.STAGE, local.datacenter_code])
   tags     = merge(tomap({ "Name" : "qatalyst-ecs-cluster" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
@@ -197,7 +198,7 @@ resource "aws_security_group" "qatalyst_ecs_sg" {
 
 resource "aws_ecs_service" "qatalyst_ecs_service" {
   provider             = aws.ecs_region
-  name                 = "qatalyst-ecs-service"
+  name                 = join("-",["qatalyst-ecs-service", var.STAGE, local.datacenter_code])
   cluster              = aws_ecs_cluster.qatalyst_ecs_cluster.id
   task_definition      = aws_ecs_task_definition.qatalyst_ecs_task_definition.arn
   launch_type          = "FARGATE"
@@ -221,7 +222,7 @@ resource "aws_ecs_service" "qatalyst_ecs_service" {
 
 resource "aws_ecs_service" "qatalyst_reports_service" {
   provider             = aws.ecs_region
-  name                 = "qatalyst-reports-service"
+  name                 = join("-",["qatalyst_reports_service", var.STAGE, local.datacenter_code])
   cluster              = aws_ecs_cluster.qatalyst_ecs_cluster.id
   task_definition      = aws_ecs_task_definition.qatalyst_ecs_task_definition.arn
   launch_type          = "FARGATE"
@@ -245,7 +246,7 @@ resource "aws_ecs_service" "qatalyst_reports_service" {
 
 resource "aws_ecs_service" "qatalyst_tester_view_service" {
   provider             = aws.ecs_region
-  name                 = "qatalyst-tester-view-service"
+  name                 = join("-",["qatalyst-tester-view-service", var.STAGE, local.datacenter_code])
   cluster              = aws_ecs_cluster.qatalyst_ecs_cluster.id
   task_definition      = aws_ecs_task_definition.qatalyst_ecs_task_definition.arn
   launch_type          = "FARGATE"
