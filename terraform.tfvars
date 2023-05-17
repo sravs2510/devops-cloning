@@ -101,10 +101,12 @@ gsi_table_details = {
     table_name     = "qatalyst-tester-responses"
     hash_key       = "block_id"
     range_key      = "tester_id"
+    attribute_1    = "block_id"
     stream_enabled = false
     "gsi_1" : {
       name     = "qatalyst-tester-responses-tester-gsi"
       hash_key = "tester_id"
+      range_key = "block_id"
     }
   }
 }
