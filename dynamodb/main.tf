@@ -33,6 +33,16 @@ resource "aws_dynamodb_table" "table" {
     type = "S"
   }
 
+  dynamic "global_secondary_index" {
+    for_each = length(each.value.gsi_1) == 0 ? []: [each.value.gsi_1]
+    content {
+      name            = global_secondary_index.value.name
+      hash_key        = global_secondary_index.value.hash_key
+      range_key       = global_secondary_index.value.range_key
+      projection_type = "ALL"
+    }
+  }
+
   tags = merge(tomap({ "Name" : each.value.table_name }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
