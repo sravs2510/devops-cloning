@@ -70,7 +70,7 @@ resource "aws_lb_target_group" "qatalyst_tg" {
 
 resource "aws_lb_target_group" "qatalyst_reports_tg" {
   provider    = aws.alb_region
-  name        = "qatalyst-reports-dashboard-tg"
+  name        = "qatalyst-reports-tg"
   port        = 80
   protocol    = "HTTP"
   target_type = "ip"
