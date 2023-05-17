@@ -96,6 +96,15 @@ gsi_table_details = {
       hash_key  = "workspace_id"
       range_key = "last_modified_date"
     }
+  },
+  "tester_response" : {
+    table_name  = "qatalyst-tester-responses"
+    hash_key    = "block_id"
+    range_key    = "tester_id"
+    "gsi_1" : {
+      name     = "qatalyst-tester-responses-tester-gsi"
+      hash_key = "tester_id"
+    }
   }
 }
 
