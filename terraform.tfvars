@@ -97,10 +97,11 @@ gsi_table_details = {
       range_key = "last_modified_date"
     }
   },
-  "tester_response" : {
-    table_name  = "qatalyst-tester-responses"
-    hash_key    = "block_id"
-    range_key    = "tester_id"
+  "tester_response_details" : {
+    table_name     = "qatalyst-tester-responses"
+    hash_key       = "block_id"
+    range_key      = "tester_id"
+    stream_enabled = false
     "gsi_1" : {
       name     = "qatalyst-tester-responses-tester-gsi"
       hash_key = "tester_id"
@@ -118,12 +119,6 @@ table_details = {
   "tester-details" : {
     table_name     = "qatalyst-tester-details"
     hash_key       = "study_id"
-    range_key      = "tester_id"
-    stream_enabled = false
-  },
-  "tester-response-details" : {
-    table_name     = "qatalyst-tester-responses"
-    hash_key       = "block_id"
     range_key      = "tester_id"
     stream_enabled = false
   },
