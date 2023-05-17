@@ -2,10 +2,10 @@
 locals {
   qatalyst_domain                                = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.base_domain])
   tester_view_domain                             = var.STAGE == "prod" ? join(".", [var.tester_view_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.tester_view_sub_domain, var.base_domain])
-  qatalyst_ecs_service_name                      = "qatalyst-ecs-service"
+  qatalyst_dashboard_service_name                = "qatalyst-dashboard-service"
   qatalyst_ecs_cluster_name                      = "qatalyst-ecs-cluster"
   qatalyst_reports_service_name                  = "qatalyst-reports-service"
-  qatalyst_cloudwatch_dashboard_name_api         = "Qatalyst-API"
+  qatalyst_cloudwatch_dashboard_name_dashboard   = "Qatalyst-Dashboard"
   qatalyst_cloudwatch_dashboard_name_reports     = "Qatalyst-Reports"
   qatalyst_cloudwatch_dashboard_name_tester_view = "Qatalyst-Tester-View"
   qatalyst_tester_view_service_name              = "qatalyst-tester-view-service"
@@ -121,31 +121,35 @@ module "create_eu_alb" {
 }
 
 module "create_eu_ecs" {
-  source                           = "./ecs"
-  fargate_cpu_memory               = var.fargate_cpu_memory
-  vpc_id                           = module.create_eu_vpc.vpc_id
-  alb_security_group               = module.create_eu_alb.qatalyst_alb_sg_id
-  qatalyst_bitly_token             = module.create_eu_ssm.qatalyst_bitly_bearer_token
-  qatalyst_sendgrid_key            = module.create_eu_ssm.qatalyst_sendgrid_key
-  qatalyst_figma_token             = module.create_eu_ssm.qatalyst_figma_access_token
-  ecs_subnets                      = module.create_eu_vpc.private_subnets
-  alb_target_group_arn             = module.create_eu_alb.qatalyst_alb_target_group_arn
-  alb_target_group_reports_arn     = module.create_eu_alb.qatalyst_alb_target_group_reports_arn
-  ecs_task_execution_role_arn      = module.create_iam.ecs_task_execution_role_arn
-  ecs_task_role_arn                = module.create_iam.ecs_task_role_arn
-  cognito_user_pool_id             = module.create_cognito_user_pool.user_pool_id
-  datadog_api_key                  = module.create_eu_ssm.datadog_api_key
-  qatalyst_domain                  = local.qatalyst_domain
-  fe_tester_view_domain_name       = local.tester_view_domain
-  cw_logs_retention_in_days        = var.cw_logs_retention_in_days
-  qatalyst_ecs_autoscale_role_arn  = module.create_iam.qatalyst_ecs_autoscale_role_arn
-  uvicorn_workers_count            = var.uvicorn_workers_count
-  datadog_docker_image             = var.datadog_docker_image
-  DEFAULT_TAGS                     = var.DEFAULT_TAGS
-  STAGE                            = var.STAGE
-  base_domain                      = var.base_domain
-  alb_target_group_tester_view_arn = module.create_eu_alb.qatalyst_alb_target_group_tester_view_arn
-  datacenter_codes                 = var.datacenter_codes
+  source                            = "./ecs"
+  fargate_cpu_memory                = var.fargate_cpu_memory
+  vpc_id                            = module.create_eu_vpc.vpc_id
+  alb_security_group                = module.create_eu_alb.qatalyst_alb_sg_id
+  qatalyst_bitly_token              = module.create_eu_ssm.qatalyst_bitly_bearer_token
+  qatalyst_sendgrid_key             = module.create_eu_ssm.qatalyst_sendgrid_key
+  qatalyst_figma_token              = module.create_eu_ssm.qatalyst_figma_access_token
+  ecs_subnets                       = module.create_eu_vpc.private_subnets
+  alb_target_group_arn              = module.create_eu_alb.qatalyst_alb_target_group_arn
+  alb_target_group_reports_arn      = module.create_eu_alb.qatalyst_alb_target_group_reports_arn
+  ecs_task_execution_role_arn       = module.create_iam.ecs_task_execution_role_arn
+  ecs_task_role_arn                 = module.create_iam.ecs_task_role_arn
+  cognito_user_pool_id              = module.create_cognito_user_pool.user_pool_id
+  datadog_api_key                   = module.create_eu_ssm.datadog_api_key
+  qatalyst_domain                   = local.qatalyst_domain
+  fe_tester_view_domain_name        = local.tester_view_domain
+  cw_logs_retention_in_days         = var.cw_logs_retention_in_days
+  qatalyst_ecs_autoscale_role_arn   = module.create_iam.qatalyst_ecs_autoscale_role_arn
+  uvicorn_workers_count             = var.uvicorn_workers_count
+  datadog_docker_image              = var.datadog_docker_image
+  DEFAULT_TAGS                      = var.DEFAULT_TAGS
+  STAGE                             = var.STAGE
+  base_domain                       = var.base_domain
+  alb_target_group_tester_view_arn  = module.create_eu_alb.qatalyst_alb_target_group_tester_view_arn
+  datacenter_codes                  = var.datacenter_codes
+  qatalyst_ecs_cluster_name         = local.qatalyst_ecs_cluster_name
+  qatalyst_dashboard_service_name   = local.qatalyst_dashboard_service_name
+  qatalyst_reports_service_name     = local.qatalyst_reports_service_name
+  qatalyst_tester_view_service_name = local.qatalyst_tester_view_service_name
 
   providers = {
     aws.ecs_region = aws.eu_region
@@ -181,12 +185,12 @@ module "create_eu_cloudwatch_dashboard" {
   source           = "./cloudwatch"
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
-  ecs_service_name = local.qatalyst_ecs_service_name
+  ecs_service_name = local.qatalyst_dashboard_service_name
   ecs_cluster_name = local.qatalyst_ecs_cluster_name
   alb_arn_suffix   = module.create_eu_alb.qatalyst_alb_arn_suffix
   tg_arn_suffix    = module.create_eu_alb.qatalyst_tg_arn_suffix
   datacenter_codes = var.datacenter_codes
-  dashboard_name   = local.qatalyst_cloudwatch_dashboard_name_api
+  dashboard_name   = local.qatalyst_cloudwatch_dashboard_name_dashboard
 
   providers = {
     aws.cw_region = aws.eu_region
@@ -344,31 +348,35 @@ module "create_in_alb" {
 }
 
 module "create_in_ecs" {
-  source                           = "./ecs"
-  fargate_cpu_memory               = var.fargate_cpu_memory
-  vpc_id                           = module.create_in_vpc.vpc_id
-  alb_security_group               = module.create_in_alb.qatalyst_alb_sg_id
-  qatalyst_bitly_token             = module.create_in_ssm.qatalyst_bitly_bearer_token
-  qatalyst_sendgrid_key            = module.create_in_ssm.qatalyst_sendgrid_key
-  qatalyst_figma_token             = module.create_in_ssm.qatalyst_figma_access_token
-  ecs_subnets                      = module.create_in_vpc.private_subnets
-  alb_target_group_arn             = module.create_in_alb.qatalyst_alb_target_group_arn
-  alb_target_group_reports_arn     = module.create_in_alb.qatalyst_alb_target_group_reports_arn
-  ecs_task_execution_role_arn      = module.create_iam.ecs_task_execution_role_arn
-  ecs_task_role_arn                = module.create_iam.ecs_task_role_arn
-  cognito_user_pool_id             = module.create_cognito_user_pool.user_pool_id
-  datadog_api_key                  = module.create_in_ssm.datadog_api_key
-  qatalyst_domain                  = local.qatalyst_domain
-  fe_tester_view_domain_name       = local.tester_view_domain
-  cw_logs_retention_in_days        = var.cw_logs_retention_in_days
-  qatalyst_ecs_autoscale_role_arn  = module.create_iam.qatalyst_ecs_autoscale_role_arn
-  uvicorn_workers_count            = var.uvicorn_workers_count
-  datadog_docker_image             = var.datadog_docker_image
-  DEFAULT_TAGS                     = var.DEFAULT_TAGS
-  STAGE                            = var.STAGE
-  base_domain                      = var.base_domain
-  alb_target_group_tester_view_arn = module.create_in_alb.qatalyst_alb_target_group_tester_view_arn
-  datacenter_codes                 = var.datacenter_codes
+  source                            = "./ecs"
+  fargate_cpu_memory                = var.fargate_cpu_memory
+  vpc_id                            = module.create_in_vpc.vpc_id
+  alb_security_group                = module.create_in_alb.qatalyst_alb_sg_id
+  qatalyst_bitly_token              = module.create_in_ssm.qatalyst_bitly_bearer_token
+  qatalyst_sendgrid_key             = module.create_in_ssm.qatalyst_sendgrid_key
+  qatalyst_figma_token              = module.create_in_ssm.qatalyst_figma_access_token
+  ecs_subnets                       = module.create_in_vpc.private_subnets
+  alb_target_group_arn              = module.create_in_alb.qatalyst_alb_target_group_arn
+  alb_target_group_reports_arn      = module.create_in_alb.qatalyst_alb_target_group_reports_arn
+  ecs_task_execution_role_arn       = module.create_iam.ecs_task_execution_role_arn
+  ecs_task_role_arn                 = module.create_iam.ecs_task_role_arn
+  cognito_user_pool_id              = module.create_cognito_user_pool.user_pool_id
+  datadog_api_key                   = module.create_in_ssm.datadog_api_key
+  qatalyst_domain                   = local.qatalyst_domain
+  fe_tester_view_domain_name        = local.tester_view_domain
+  cw_logs_retention_in_days         = var.cw_logs_retention_in_days
+  qatalyst_ecs_autoscale_role_arn   = module.create_iam.qatalyst_ecs_autoscale_role_arn
+  uvicorn_workers_count             = var.uvicorn_workers_count
+  datadog_docker_image              = var.datadog_docker_image
+  DEFAULT_TAGS                      = var.DEFAULT_TAGS
+  STAGE                             = var.STAGE
+  base_domain                       = var.base_domain
+  alb_target_group_tester_view_arn  = module.create_in_alb.qatalyst_alb_target_group_tester_view_arn
+  datacenter_codes                  = var.datacenter_codes
+  qatalyst_ecs_cluster_name         = local.qatalyst_ecs_cluster_name
+  qatalyst_dashboard_service_name   = local.qatalyst_dashboard_service_name
+  qatalyst_reports_service_name     = local.qatalyst_reports_service_name
+  qatalyst_tester_view_service_name = local.qatalyst_tester_view_service_name
 
   providers = {
     aws.ecs_region = aws.in_region
@@ -404,12 +412,12 @@ module "create_in_cloudwatch_dashboard" {
   source           = "./cloudwatch"
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
-  ecs_service_name = local.qatalyst_ecs_service_name
+  ecs_service_name = local.qatalyst_dashboard_service_name
   ecs_cluster_name = local.qatalyst_ecs_cluster_name
   alb_arn_suffix   = module.create_in_alb.qatalyst_alb_arn_suffix
   tg_arn_suffix    = module.create_in_alb.qatalyst_tg_arn_suffix
   datacenter_codes = var.datacenter_codes
-  dashboard_name   = local.qatalyst_cloudwatch_dashboard_name_api
+  dashboard_name   = local.qatalyst_cloudwatch_dashboard_name_dashboard
 
   providers = {
     aws.cw_region = aws.in_region
@@ -567,31 +575,35 @@ module "create_sea_alb" {
 }
 
 module "create_sea_ecs" {
-  source                           = "./ecs"
-  fargate_cpu_memory               = var.fargate_cpu_memory
-  vpc_id                           = module.create_sea_vpc.vpc_id
-  alb_security_group               = module.create_sea_alb.qatalyst_alb_sg_id
-  qatalyst_bitly_token             = module.create_sea_ssm.qatalyst_bitly_bearer_token
-  qatalyst_sendgrid_key            = module.create_sea_ssm.qatalyst_sendgrid_key
-  qatalyst_figma_token             = module.create_sea_ssm.qatalyst_figma_access_token
-  ecs_subnets                      = module.create_sea_vpc.private_subnets
-  alb_target_group_arn             = module.create_sea_alb.qatalyst_alb_target_group_arn
-  alb_target_group_reports_arn     = module.create_sea_alb.qatalyst_alb_target_group_reports_arn
-  ecs_task_execution_role_arn      = module.create_iam.ecs_task_execution_role_arn
-  ecs_task_role_arn                = module.create_iam.ecs_task_role_arn
-  cognito_user_pool_id             = module.create_cognito_user_pool.user_pool_id
-  datadog_api_key                  = module.create_sea_ssm.datadog_api_key
-  qatalyst_domain                  = local.qatalyst_domain
-  fe_tester_view_domain_name       = local.tester_view_domain
-  cw_logs_retention_in_days        = var.cw_logs_retention_in_days
-  qatalyst_ecs_autoscale_role_arn  = module.create_iam.qatalyst_ecs_autoscale_role_arn
-  uvicorn_workers_count            = var.uvicorn_workers_count
-  datadog_docker_image             = var.datadog_docker_image
-  DEFAULT_TAGS                     = var.DEFAULT_TAGS
-  STAGE                            = var.STAGE
-  base_domain                      = var.base_domain
-  alb_target_group_tester_view_arn = module.create_sea_alb.qatalyst_alb_target_group_tester_view_arn
-  datacenter_codes                 = var.datacenter_codes
+  source                            = "./ecs"
+  fargate_cpu_memory                = var.fargate_cpu_memory
+  vpc_id                            = module.create_sea_vpc.vpc_id
+  alb_security_group                = module.create_sea_alb.qatalyst_alb_sg_id
+  qatalyst_bitly_token              = module.create_sea_ssm.qatalyst_bitly_bearer_token
+  qatalyst_sendgrid_key             = module.create_sea_ssm.qatalyst_sendgrid_key
+  qatalyst_figma_token              = module.create_sea_ssm.qatalyst_figma_access_token
+  ecs_subnets                       = module.create_sea_vpc.private_subnets
+  alb_target_group_arn              = module.create_sea_alb.qatalyst_alb_target_group_arn
+  alb_target_group_reports_arn      = module.create_sea_alb.qatalyst_alb_target_group_reports_arn
+  ecs_task_execution_role_arn       = module.create_iam.ecs_task_execution_role_arn
+  ecs_task_role_arn                 = module.create_iam.ecs_task_role_arn
+  cognito_user_pool_id              = module.create_cognito_user_pool.user_pool_id
+  datadog_api_key                   = module.create_sea_ssm.datadog_api_key
+  qatalyst_domain                   = local.qatalyst_domain
+  fe_tester_view_domain_name        = local.tester_view_domain
+  cw_logs_retention_in_days         = var.cw_logs_retention_in_days
+  qatalyst_ecs_autoscale_role_arn   = module.create_iam.qatalyst_ecs_autoscale_role_arn
+  uvicorn_workers_count             = var.uvicorn_workers_count
+  datadog_docker_image              = var.datadog_docker_image
+  DEFAULT_TAGS                      = var.DEFAULT_TAGS
+  STAGE                             = var.STAGE
+  base_domain                       = var.base_domain
+  alb_target_group_tester_view_arn  = module.create_sea_alb.qatalyst_alb_target_group_tester_view_arn
+  datacenter_codes                  = var.datacenter_codes
+  qatalyst_ecs_cluster_name         = local.qatalyst_ecs_cluster_name
+  qatalyst_dashboard_service_name   = local.qatalyst_dashboard_service_name
+  qatalyst_reports_service_name     = local.qatalyst_reports_service_name
+  qatalyst_tester_view_service_name = local.qatalyst_tester_view_service_name
 
   providers = {
     aws.ecs_region = aws.sea_region
@@ -627,12 +639,12 @@ module "create_sea_cloudwatch_dashboard" {
   source           = "./cloudwatch"
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
-  ecs_service_name = local.qatalyst_ecs_service_name
+  ecs_service_name = local.qatalyst_dashboard_service_name
   ecs_cluster_name = local.qatalyst_ecs_cluster_name
   alb_arn_suffix   = module.create_sea_alb.qatalyst_alb_arn_suffix
   tg_arn_suffix    = module.create_sea_alb.qatalyst_tg_arn_suffix
   datacenter_codes = var.datacenter_codes
-  dashboard_name   = local.qatalyst_cloudwatch_dashboard_name_api
+  dashboard_name   = local.qatalyst_cloudwatch_dashboard_name_dashboard
 
   providers = {
     aws.cw_region = aws.sea_region
@@ -876,31 +888,35 @@ module "create_us_alb" {
 }
 
 module "create_us_ecs" {
-  source                           = "./ecs"
-  fargate_cpu_memory               = var.fargate_cpu_memory
-  vpc_id                           = module.create_us_vpc.vpc_id
-  alb_security_group               = module.create_us_alb.qatalyst_alb_sg_id
-  qatalyst_bitly_token             = module.create_us_ssm.qatalyst_bitly_bearer_token
-  qatalyst_sendgrid_key            = module.create_us_ssm.qatalyst_sendgrid_key
-  qatalyst_figma_token             = module.create_us_ssm.qatalyst_figma_access_token
-  ecs_subnets                      = module.create_us_vpc.private_subnets
-  alb_target_group_arn             = module.create_us_alb.qatalyst_alb_target_group_arn
-  alb_target_group_reports_arn     = module.create_us_alb.qatalyst_alb_target_group_reports_arn
-  ecs_task_execution_role_arn      = module.create_iam.ecs_task_execution_role_arn
-  ecs_task_role_arn                = module.create_iam.ecs_task_role_arn
-  cognito_user_pool_id             = module.create_cognito_user_pool.user_pool_id
-  datadog_api_key                  = module.create_us_ssm.datadog_api_key
-  qatalyst_domain                  = local.qatalyst_domain
-  fe_tester_view_domain_name       = local.tester_view_domain
-  cw_logs_retention_in_days        = var.cw_logs_retention_in_days
-  qatalyst_ecs_autoscale_role_arn  = module.create_iam.qatalyst_ecs_autoscale_role_arn
-  uvicorn_workers_count            = var.uvicorn_workers_count
-  datadog_docker_image             = var.datadog_docker_image
-  DEFAULT_TAGS                     = var.DEFAULT_TAGS
-  STAGE                            = var.STAGE
-  base_domain                      = var.base_domain
-  alb_target_group_tester_view_arn = module.create_us_alb.qatalyst_alb_target_group_tester_view_arn
-  datacenter_codes                 = var.datacenter_codes
+  source                            = "./ecs"
+  fargate_cpu_memory                = var.fargate_cpu_memory
+  vpc_id                            = module.create_us_vpc.vpc_id
+  alb_security_group                = module.create_us_alb.qatalyst_alb_sg_id
+  qatalyst_bitly_token              = module.create_us_ssm.qatalyst_bitly_bearer_token
+  qatalyst_sendgrid_key             = module.create_us_ssm.qatalyst_sendgrid_key
+  qatalyst_figma_token              = module.create_us_ssm.qatalyst_figma_access_token
+  ecs_subnets                       = module.create_us_vpc.private_subnets
+  alb_target_group_arn              = module.create_us_alb.qatalyst_alb_target_group_arn
+  alb_target_group_reports_arn      = module.create_us_alb.qatalyst_alb_target_group_reports_arn
+  ecs_task_execution_role_arn       = module.create_iam.ecs_task_execution_role_arn
+  ecs_task_role_arn                 = module.create_iam.ecs_task_role_arn
+  cognito_user_pool_id              = module.create_cognito_user_pool.user_pool_id
+  datadog_api_key                   = module.create_us_ssm.datadog_api_key
+  qatalyst_domain                   = local.qatalyst_domain
+  fe_tester_view_domain_name        = local.tester_view_domain
+  cw_logs_retention_in_days         = var.cw_logs_retention_in_days
+  qatalyst_ecs_autoscale_role_arn   = module.create_iam.qatalyst_ecs_autoscale_role_arn
+  uvicorn_workers_count             = var.uvicorn_workers_count
+  datadog_docker_image              = var.datadog_docker_image
+  DEFAULT_TAGS                      = var.DEFAULT_TAGS
+  STAGE                             = var.STAGE
+  base_domain                       = var.base_domain
+  alb_target_group_tester_view_arn  = module.create_us_alb.qatalyst_alb_target_group_tester_view_arn
+  datacenter_codes                  = var.datacenter_codes
+  qatalyst_ecs_cluster_name         = local.qatalyst_ecs_cluster_name
+  qatalyst_dashboard_service_name   = local.qatalyst_dashboard_service_name
+  qatalyst_reports_service_name     = local.qatalyst_reports_service_name
+  qatalyst_tester_view_service_name = local.qatalyst_tester_view_service_name
 
   providers = {
     aws.ecs_region = aws.us_region
@@ -954,12 +970,12 @@ module "create_us_cloudwatch_dashboard" {
   source           = "./cloudwatch"
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
-  ecs_service_name = local.qatalyst_ecs_service_name
+  ecs_service_name = local.qatalyst_dashboard_service_name
   ecs_cluster_name = local.qatalyst_ecs_cluster_name
   alb_arn_suffix   = module.create_us_alb.qatalyst_alb_arn_suffix
   tg_arn_suffix    = module.create_us_alb.qatalyst_tg_arn_suffix
   datacenter_codes = var.datacenter_codes
-  dashboard_name   = local.qatalyst_cloudwatch_dashboard_name_api
+  dashboard_name   = local.qatalyst_cloudwatch_dashboard_name_dashboard
 
   providers = {
     aws.cw_region = aws.us_region

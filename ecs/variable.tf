@@ -117,3 +117,23 @@ variable "datacenter_codes" {
   type        = map(string)
   description = "Data center code values"
 }
+
+variable "qatalyst_dashboard_service_name" {
+  type        = string
+  description = "Dashboard service"
+}
+
+variable "qatalyst_reports_service_name" {
+  type        = string
+  description = "reports service"
+}
+
+variable "qatalyst_tester_view_service_name" {
+  type        = string
+  description = " tester view service"
+}
+
+variable "qatalyst_ecs_cluster_name" {
+  type        = string
+  description = "ECS Cluster"
+}

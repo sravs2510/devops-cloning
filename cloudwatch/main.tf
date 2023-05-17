@@ -8,9 +8,11 @@ terraform {
 }
 
 locals {
-  ist_timezone    = "+0530" #IST
-  period          = 300     #Seconds
-  datacenter_code = lookup(var.datacenter_codes, data.aws_region.current.name)
+  ist_timezone     = "+0530" #IST
+  period           = 300     #Seconds
+  datacenter_code  = lookup(var.datacenter_codes, data.aws_region.current.name)
+  ecs_service_name = join("-", [var.ecs_service_name, var.STAGE, local.datacenter_code])
+  ecs_cluster_name = join("-", [var.ecs_cluster_name, var.STAGE, local.datacenter_code])
 }
 
 data "aws_region" "current" {
@@ -32,9 +34,9 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
               "AWS/ECS",
               "CPUUtilization",
               "ClusterName",
-              var.ecs_cluster_name,
+              local.ecs_cluster_name,
               "ServiceName",
-              var.ecs_service_name
+              local.ecs_service_name
             ]
           ],
           view     = "timeSeries"
@@ -55,9 +57,9 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
               "AWS/ECS",
               "MemoryUtilization",
               "ClusterName",
-              var.ecs_cluster_name,
+              local.ecs_cluster_name,
               "ServiceName",
-              var.ecs_service_name
+              local.ecs_service_name
             ]
           ],
           view     = "timeSeries"
