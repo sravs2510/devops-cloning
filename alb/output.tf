@@ -25,3 +25,15 @@ output "qatalyst_alb_target_group_reports_arn" {
 output "qatalyst_alb_dns_name" {
   value = aws_lb.qatalyst_alb.dns_name
 }
+
+output "qatalyst_alb_target_group_reports_arn_suffix" {
+  value = aws_lb_target_group.qatalyst_reports_tg.arn_suffix
+}
+
+output "qatalyst_alb_target_group_tester_view_arn" {
+  value = aws_lb_target_group.qatalyst_tester_view_tg.arn
+}
+
+output "qatalyst_alb_target_group_tester_view_arn_suffix" {
+  value = aws_lb_target_group.qatalyst_tester_view_tg.arn_suffix
+}
