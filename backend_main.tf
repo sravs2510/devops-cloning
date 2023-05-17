@@ -146,6 +146,7 @@ module "create_eu_ecs" {
   base_domain                       = var.base_domain
   alb_target_group_tester_view_arn  = module.create_eu_alb.qatalyst_alb_target_group_tester_view_arn
   datacenter_codes                  = var.datacenter_codes
+  qatalyst_ecs_cluster_name         = local.qatalyst_ecs_cluster_name
   qatalyst_dashboard_service_name   = local.qatalyst_dashboard_service_name
   qatalyst_reports_service_name     = local.qatalyst_reports_service_name
   qatalyst_tester_view_service_name = local.qatalyst_tester_view_service_name
@@ -372,6 +373,7 @@ module "create_in_ecs" {
   base_domain                       = var.base_domain
   alb_target_group_tester_view_arn  = module.create_in_alb.qatalyst_alb_target_group_tester_view_arn
   datacenter_codes                  = var.datacenter_codes
+  qatalyst_ecs_cluster_name         = local.qatalyst_ecs_cluster_name
   qatalyst_dashboard_service_name   = local.qatalyst_dashboard_service_name
   qatalyst_reports_service_name     = local.qatalyst_reports_service_name
   qatalyst_tester_view_service_name = local.qatalyst_tester_view_service_name
@@ -598,6 +600,7 @@ module "create_sea_ecs" {
   base_domain                       = var.base_domain
   alb_target_group_tester_view_arn  = module.create_sea_alb.qatalyst_alb_target_group_tester_view_arn
   datacenter_codes                  = var.datacenter_codes
+  qatalyst_ecs_cluster_name         = local.qatalyst_ecs_cluster_name
   qatalyst_dashboard_service_name   = local.qatalyst_dashboard_service_name
   qatalyst_reports_service_name     = local.qatalyst_reports_service_name
   qatalyst_tester_view_service_name = local.qatalyst_tester_view_service_name
@@ -910,6 +913,7 @@ module "create_us_ecs" {
   base_domain                       = var.base_domain
   alb_target_group_tester_view_arn  = module.create_us_alb.qatalyst_alb_target_group_tester_view_arn
   datacenter_codes                  = var.datacenter_codes
+  qatalyst_ecs_cluster_name         = local.qatalyst_ecs_cluster_name
   qatalyst_dashboard_service_name   = local.qatalyst_dashboard_service_name
   qatalyst_reports_service_name     = local.qatalyst_reports_service_name
   qatalyst_tester_view_service_name = local.qatalyst_tester_view_service_name

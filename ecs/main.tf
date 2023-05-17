@@ -24,8 +24,8 @@ locals {
 }
 resource "aws_ecs_cluster" "qatalyst_ecs_cluster" {
   provider = aws.ecs_region
-  name     = join("-", ["qatalyst-ecs-cluster", var.STAGE, local.datacenter_code])
-  tags     = merge(tomap({ "Name" : "qatalyst-ecs-cluster" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+  name     = join("-", [var.qatalyst_ecs_cluster_name, var.STAGE, local.datacenter_code])
+  tags     = merge(tomap({ "Name" : var.qatalyst_ecs_cluster_name }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
 resource "aws_ecs_cluster_capacity_providers" "qatalyst_ecs_cluster_capacity_provider" {

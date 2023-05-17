@@ -132,3 +132,8 @@ variable "qatalyst_tester_view_service_name" {
   type        = string
   description = " tester view service"
 }
+
+variable "qatalyst_ecs_cluster_name" {
+  type        = string
+  description = "ECS Cluster"
+}
