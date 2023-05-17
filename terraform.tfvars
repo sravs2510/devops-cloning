@@ -105,42 +105,53 @@ table_details = {
     hash_key       = "study_id"
     range_key      = "block_id"
     stream_enabled = false
+    gsi_1 : {}
   },
   "tester-details" : {
     table_name     = "qatalyst-tester-details"
     hash_key       = "study_id"
     range_key      = "tester_id"
     stream_enabled = false
+    gsi_1 : {}
   },
   "tester-response-details" : {
     table_name     = "qatalyst-tester-responses"
     hash_key       = "block_id"
     range_key      = "tester_id"
-    stream_enabled = false
+    stream_enabled = true
+    gsi_1 : {
+      name      = "qatalyst-tester-responses-tester-gsi"
+      hash_key  = "tester_id"
+      range_key = "block_id"
+    }
   },
   "tester-events-details" : {
     table_name     = "qatalyst-tester-events"
     hash_key       = "block_id"
     range_key      = "tester_id"
     stream_enabled = false
+    gsi_1 : {}
   },
   "workspace-configurations" : {
     table_name     = "qatalyst-workspace-configurations"
     hash_key       = "workspace_id"
     range_key      = "organisation_id"
     stream_enabled = false
+    gsi_1 : {}
   },
   "workspace-testers-email" : {
     table_name     = "qatalyst-workspace-testers-email"
     hash_key       = "workspace_id"
     range_key      = "tester_email_id"
     stream_enabled = false
+    gsi_1 : {}
   },
   "reports-collab-info" : {
     table_name     = "qatalyst-reports-collab"
     hash_key       = "report_id"
     range_key      = "user_id"
     stream_enabled = false
+    gsi_1 : {}
   }
 }
 
