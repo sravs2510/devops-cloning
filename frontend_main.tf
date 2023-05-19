@@ -1,6 +1,6 @@
 # Dashboard Resources
 module "create_dashboard_s3_bucket" {
-  source       = "./s3-fe"
+  source       = "./modules/s3-fe"
   bucket_name  = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.base_domain])
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
@@ -11,7 +11,7 @@ module "create_dashboard_s3_bucket" {
 }
 
 module "create_dashboard_cloudfront" {
-  source                      = "./cloudfront-fe-wc"
+  source                      = "./modules/cloudfront-fe-wc"
   base_domain                 = var.base_domain
   cf_domain_name              = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.base_domain])
   bucket_arn                  = module.create_dashboard_s3_bucket.s3_bucket_arn
@@ -33,7 +33,7 @@ locals {
 
 #Congito Custom Domain ACM
 module "create_cognito_custom_domain_acm" {
-  source       = "./acm-fe"
+  source       = "./modules/acm-fe"
   base_domain  = var.base_domain
   domain_name  = local.cognito_custom_domain
   DEFAULT_TAGS = var.DEFAULT_TAGS
@@ -46,7 +46,7 @@ module "create_cognito_custom_domain_acm" {
 
 #Cognito
 module "create_cognito_user_pool" {
-  source                        = "./cognito"
+  source                        = "./modules/cognito"
   user_pool_name                = var.user_pool_name
   user_pool_web_client_name     = var.user_pool_web_client_name
   cognito_custom_domain         = local.cognito_custom_domain
@@ -68,7 +68,7 @@ locals {
 
 # Tester view Resources
 module "create_tester_view_s3_bucket" {
-  source       = "./s3-fe"
+  source       = "./modules/s3-fe"
   bucket_name  = local.s3_bucket_name
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
@@ -79,7 +79,7 @@ module "create_tester_view_s3_bucket" {
 }
 
 module "create_tester_view_acm" {
-  source       = "./acm-fe"
+  source       = "./modules/acm-fe"
   base_domain  = var.base_domain
   domain_name  = var.STAGE == "prod" ? join(".", [var.tester_view_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.tester_view_sub_domain, var.base_domain])
   DEFAULT_TAGS = var.DEFAULT_TAGS
@@ -91,7 +91,7 @@ module "create_tester_view_acm" {
 }
 
 module "create_tester_view_cloudfront" {
-  source                      = "./cloudfront-fe"
+  source                      = "./modules/cloudfront-fe"
   base_domain                 = var.base_domain
   cf_domain_name              = var.STAGE == "prod" ? join(".", [var.tester_view_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.tester_view_sub_domain, var.base_domain])
   bucket_arn                  = module.create_tester_view_s3_bucket.s3_bucket_arn
@@ -109,7 +109,7 @@ module "create_tester_view_cloudfront" {
 
 #CDN
 module "create_cdn" {
-  source       = "./cdn"
+  source       = "./modules/cdn"
   count        = var.STAGE == "prod" ? 1 : 0
   base_domain  = var.base_domain
   DEFAULT_TAGS = var.DEFAULT_TAGS

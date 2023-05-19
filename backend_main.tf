@@ -12,7 +12,7 @@ locals {
 }
 
 module "create_eu_vpc" {
-  source          = "./vpc"
+  source          = "./modules/vpc"
   cidr_block      = var.cidr_block
   public_subnets  = var.public_subnets
   private_subnets = var.private_subnets
@@ -25,7 +25,7 @@ module "create_eu_vpc" {
 }
 
 module "create_eu_s3_bucket" {
-  source                     = "./s3"
+  source                     = "./modules/s3"
   bucket_prefix              = var.media_sub_domain
   DEFAULT_TAGS               = var.DEFAULT_TAGS
   STAGE                      = var.STAGE
@@ -41,7 +41,7 @@ module "create_eu_s3_bucket" {
 }
 
 module "create_eu_acm_media_cf" {
-  source           = "./acm"
+  source           = "./modules/acm"
   base_domain      = var.base_domain
   sub_domain       = var.media_sub_domain
   datacenter_codes = var.datacenter_codes
@@ -56,7 +56,7 @@ module "create_eu_acm_media_cf" {
 }
 
 module "create_eu_reports_acm" {
-  source           = "./acm"
+  source           = "./modules/acm"
   base_domain      = var.base_domain
   sub_domain       = var.reports_s3_sub_domain
   datacenter_codes = var.datacenter_codes
@@ -70,7 +70,7 @@ module "create_eu_reports_acm" {
   }
 }
 module "create_eu_media_cloudfront" {
-  source                      = "./cloudfront"
+  source                      = "./modules/cloudfront"
   base_domain                 = var.base_domain
   sub_domain                  = var.media_sub_domain
   datacenter_codes            = var.datacenter_codes
@@ -89,7 +89,7 @@ module "create_eu_media_cloudfront" {
 }
 
 module "create_eu_acm_api" {
-  source           = "./acm"
+  source           = "./modules/acm"
   base_domain      = var.base_domain
   sub_domain       = var.api_sub_domain
   datacenter_codes = var.datacenter_codes
@@ -104,7 +104,7 @@ module "create_eu_acm_api" {
 }
 
 module "create_eu_alb" {
-  source             = "./alb"
+  source             = "./modules/alb"
   vpc_id             = module.create_eu_vpc.vpc_id
   alb_subnets        = module.create_eu_vpc.public_subnets
   alb_certficate_arn = module.create_eu_acm_api.acm_arn
@@ -121,7 +121,7 @@ module "create_eu_alb" {
 }
 
 module "create_eu_ecs" {
-  source                            = "./ecs"
+  source                            = "./modules/ecs"
   fargate_cpu_memory                = var.fargate_cpu_memory
   vpc_id                            = module.create_eu_vpc.vpc_id
   alb_security_group                = module.create_eu_alb.qatalyst_alb_sg_id
@@ -157,7 +157,7 @@ module "create_eu_ecs" {
 }
 
 module "create_eu_dynamodb_gsi" {
-  source                 = "./dynamodb_gsi"
+  source                 = "./modules/dynamodb_gsi"
   DEFAULT_TAGS           = var.DEFAULT_TAGS
   STAGE                  = var.STAGE
   gsi_table_details      = var.gsi_table_details
@@ -169,7 +169,7 @@ module "create_eu_dynamodb_gsi" {
 }
 
 module "create_eu_dynamodb" {
-  source                   = "./dynamodb"
+  source                   = "./modules/dynamodb"
   DEFAULT_TAGS             = var.DEFAULT_TAGS
   STAGE                    = var.STAGE
   table_details            = var.table_details
@@ -182,7 +182,7 @@ module "create_eu_dynamodb" {
 }
 
 module "create_eu_cloudwatch_dashboard" {
-  source           = "./cloudwatch"
+  source           = "./modules/cloudwatch"
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
   ecs_service_name = local.qatalyst_dashboard_service_name
@@ -198,7 +198,7 @@ module "create_eu_cloudwatch_dashboard" {
 }
 
 module "create_eu_cloudwatch_reports_dashboard" {
-  source           = "./cloudwatch"
+  source           = "./modules/cloudwatch"
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
   ecs_service_name = local.qatalyst_reports_service_name
@@ -213,7 +213,7 @@ module "create_eu_cloudwatch_reports_dashboard" {
 }
 
 module "create_eu_cloudwatch_tester_view_dashboard" {
-  source           = "./cloudwatch"
+  source           = "./modules/cloudwatch"
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
   ecs_service_name = local.qatalyst_tester_view_service_name
@@ -229,7 +229,7 @@ module "create_eu_cloudwatch_tester_view_dashboard" {
 }
 
 module "create_eu_ssm" {
-  source       = "./ssm"
+  source       = "./modules/ssm"
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
   providers = {
@@ -239,7 +239,7 @@ module "create_eu_ssm" {
 
 # INDIA Resources
 module "create_in_vpc" {
-  source          = "./vpc"
+  source          = "./modules/vpc"
   cidr_block      = var.cidr_block
   public_subnets  = var.public_subnets
   private_subnets = var.private_subnets
@@ -252,7 +252,7 @@ module "create_in_vpc" {
 }
 
 module "create_in_s3_bucket" {
-  source                     = "./s3"
+  source                     = "./modules/s3"
   bucket_prefix              = var.media_sub_domain
   DEFAULT_TAGS               = var.DEFAULT_TAGS
   STAGE                      = var.STAGE
@@ -268,7 +268,7 @@ module "create_in_s3_bucket" {
 }
 
 module "create_in_acm_media_cf" {
-  source           = "./acm"
+  source           = "./modules/acm"
   base_domain      = var.base_domain
   sub_domain       = var.media_sub_domain
   datacenter_codes = var.datacenter_codes
@@ -283,7 +283,7 @@ module "create_in_acm_media_cf" {
 }
 
 module "create_in_reports_acm" {
-  source           = "./acm"
+  source           = "./modules/acm"
   base_domain      = var.base_domain
   sub_domain       = var.reports_s3_sub_domain
   datacenter_codes = var.datacenter_codes
@@ -297,7 +297,7 @@ module "create_in_reports_acm" {
   }
 }
 module "create_in_media_cloudfront" {
-  source                      = "./cloudfront"
+  source                      = "./modules/cloudfront"
   base_domain                 = var.base_domain
   sub_domain                  = var.media_sub_domain
   datacenter_codes            = var.datacenter_codes
@@ -316,7 +316,7 @@ module "create_in_media_cloudfront" {
 }
 
 module "create_in_acm_api" {
-  source           = "./acm"
+  source           = "./modules/acm"
   base_domain      = var.base_domain
   sub_domain       = var.api_sub_domain
   datacenter_codes = var.datacenter_codes
@@ -331,7 +331,7 @@ module "create_in_acm_api" {
 }
 
 module "create_in_alb" {
-  source             = "./alb"
+  source             = "./modules/alb"
   vpc_id             = module.create_in_vpc.vpc_id
   alb_subnets        = module.create_in_vpc.public_subnets
   alb_certficate_arn = module.create_in_acm_api.acm_arn
@@ -348,7 +348,7 @@ module "create_in_alb" {
 }
 
 module "create_in_ecs" {
-  source                            = "./ecs"
+  source                            = "./modules/ecs"
   fargate_cpu_memory                = var.fargate_cpu_memory
   vpc_id                            = module.create_in_vpc.vpc_id
   alb_security_group                = module.create_in_alb.qatalyst_alb_sg_id
@@ -384,7 +384,7 @@ module "create_in_ecs" {
 }
 
 module "create_in_dynamodb_gsi" {
-  source                 = "./dynamodb_gsi"
+  source                 = "./modules/dynamodb_gsi"
   DEFAULT_TAGS           = var.DEFAULT_TAGS
   STAGE                  = var.STAGE
   gsi_table_details      = var.gsi_table_details
@@ -396,7 +396,7 @@ module "create_in_dynamodb_gsi" {
 }
 
 module "create_in_dynamodb" {
-  source                   = "./dynamodb"
+  source                   = "./modules/dynamodb"
   DEFAULT_TAGS             = var.DEFAULT_TAGS
   STAGE                    = var.STAGE
   table_details            = var.table_details
@@ -409,7 +409,7 @@ module "create_in_dynamodb" {
 }
 
 module "create_in_cloudwatch_dashboard" {
-  source           = "./cloudwatch"
+  source           = "./modules/cloudwatch"
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
   ecs_service_name = local.qatalyst_dashboard_service_name
@@ -425,7 +425,7 @@ module "create_in_cloudwatch_dashboard" {
 }
 
 module "create_in_cloudwatch_reports_dashboard" {
-  source           = "./cloudwatch"
+  source           = "./modules/cloudwatch"
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
   ecs_service_name = local.qatalyst_reports_service_name
@@ -440,7 +440,7 @@ module "create_in_cloudwatch_reports_dashboard" {
 }
 
 module "create_in_cloudwatch_tester_view_dashboard" {
-  source           = "./cloudwatch"
+  source           = "./modules/cloudwatch"
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
   ecs_service_name = local.qatalyst_tester_view_service_name
@@ -456,7 +456,7 @@ module "create_in_cloudwatch_tester_view_dashboard" {
 }
 
 module "create_in_ssm" {
-  source       = "./ssm"
+  source       = "./modules/ssm"
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
   providers = {
@@ -466,7 +466,7 @@ module "create_in_ssm" {
 
 # SEA Resources
 module "create_sea_vpc" {
-  source          = "./vpc"
+  source          = "./modules/vpc"
   cidr_block      = var.cidr_block
   public_subnets  = var.public_subnets
   private_subnets = var.private_subnets
@@ -479,7 +479,7 @@ module "create_sea_vpc" {
 }
 
 module "create_sea_s3_bucket" {
-  source                     = "./s3"
+  source                     = "./modules/s3"
   bucket_prefix              = var.media_sub_domain
   DEFAULT_TAGS               = var.DEFAULT_TAGS
   STAGE                      = var.STAGE
@@ -495,7 +495,7 @@ module "create_sea_s3_bucket" {
 }
 
 module "create_sea_acm_media_cf" {
-  source           = "./acm"
+  source           = "./modules/acm"
   base_domain      = var.base_domain
   sub_domain       = var.media_sub_domain
   datacenter_codes = var.datacenter_codes
@@ -510,7 +510,7 @@ module "create_sea_acm_media_cf" {
 }
 
 module "create_sea_reports_acm" {
-  source           = "./acm"
+  source           = "./modules/acm"
   base_domain      = var.base_domain
   sub_domain       = var.reports_s3_sub_domain
   datacenter_codes = var.datacenter_codes
@@ -524,7 +524,7 @@ module "create_sea_reports_acm" {
   }
 }
 module "create_sea_media_cloudfront" {
-  source                      = "./cloudfront"
+  source                      = "./modules/cloudfront"
   base_domain                 = var.base_domain
   sub_domain                  = var.media_sub_domain
   datacenter_codes            = var.datacenter_codes
@@ -543,7 +543,7 @@ module "create_sea_media_cloudfront" {
 }
 
 module "create_sea_acm_api" {
-  source           = "./acm"
+  source           = "./modules/acm"
   base_domain      = var.base_domain
   sub_domain       = var.api_sub_domain
   datacenter_codes = var.datacenter_codes
@@ -558,7 +558,7 @@ module "create_sea_acm_api" {
 }
 
 module "create_sea_alb" {
-  source             = "./alb"
+  source             = "./modules/alb"
   vpc_id             = module.create_sea_vpc.vpc_id
   alb_subnets        = module.create_sea_vpc.public_subnets
   alb_certficate_arn = module.create_sea_acm_api.acm_arn
@@ -575,7 +575,7 @@ module "create_sea_alb" {
 }
 
 module "create_sea_ecs" {
-  source                            = "./ecs"
+  source                            = "./modules/ecs"
   fargate_cpu_memory                = var.fargate_cpu_memory
   vpc_id                            = module.create_sea_vpc.vpc_id
   alb_security_group                = module.create_sea_alb.qatalyst_alb_sg_id
@@ -611,7 +611,7 @@ module "create_sea_ecs" {
 }
 
 module "create_sea_dynamodb_gsi" {
-  source                 = "./dynamodb_gsi"
+  source                 = "./modules/dynamodb_gsi"
   DEFAULT_TAGS           = var.DEFAULT_TAGS
   STAGE                  = var.STAGE
   gsi_table_details      = var.gsi_table_details
@@ -623,7 +623,7 @@ module "create_sea_dynamodb_gsi" {
 }
 
 module "create_sea_dynamodb" {
-  source                   = "./dynamodb"
+  source                   = "./modules/dynamodb"
   DEFAULT_TAGS             = var.DEFAULT_TAGS
   STAGE                    = var.STAGE
   table_details            = var.table_details
@@ -636,7 +636,7 @@ module "create_sea_dynamodb" {
 }
 
 module "create_sea_cloudwatch_dashboard" {
-  source           = "./cloudwatch"
+  source           = "./modules/cloudwatch"
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
   ecs_service_name = local.qatalyst_dashboard_service_name
@@ -652,7 +652,7 @@ module "create_sea_cloudwatch_dashboard" {
 }
 
 module "create_sea_cloudwatch_reports_dashboard" {
-  source           = "./cloudwatch"
+  source           = "./modules/cloudwatch"
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
   ecs_service_name = local.qatalyst_reports_service_name
@@ -667,7 +667,7 @@ module "create_sea_cloudwatch_reports_dashboard" {
 }
 
 module "create_sea_cloudwatch_tester_view_dashboard" {
-  source           = "./cloudwatch"
+  source           = "./modules/cloudwatch"
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
   ecs_service_name = local.qatalyst_tester_view_service_name
@@ -683,7 +683,7 @@ module "create_sea_cloudwatch_tester_view_dashboard" {
 }
 
 module "create_sea_ssm" {
-  source       = "./ssm"
+  source       = "./modules/ssm"
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
   providers = {
@@ -693,7 +693,7 @@ module "create_sea_ssm" {
 
 # US Resources
 module "create_us_vpc" {
-  source          = "./vpc"
+  source          = "./modules/vpc"
   cidr_block      = var.cidr_block
   public_subnets  = var.public_subnets
   private_subnets = var.private_subnets
@@ -706,7 +706,7 @@ module "create_us_vpc" {
 }
 
 module "create_us_s3_bucket" {
-  source                     = "./s3"
+  source                     = "./modules/s3"
   bucket_prefix              = var.media_sub_domain
   DEFAULT_TAGS               = var.DEFAULT_TAGS
   STAGE                      = var.STAGE
@@ -722,7 +722,7 @@ module "create_us_s3_bucket" {
 }
 
 module "create_common_acm_cf" {
-  source           = "./acm"
+  source           = "./modules/acm"
   base_domain      = var.base_domain
   sub_domain       = var.common_s3_sub_domain
   datacenter_codes = var.datacenter_codes
@@ -737,7 +737,7 @@ module "create_common_acm_cf" {
 }
 
 module "create_common_s3_bucket" {
-  source                     = "./s3"
+  source                     = "./modules/s3"
   bucket_prefix              = var.common_s3_sub_domain
   DEFAULT_TAGS               = var.DEFAULT_TAGS
   STAGE                      = var.STAGE
@@ -753,7 +753,7 @@ module "create_common_s3_bucket" {
 }
 
 module "create_common_cloudfront" {
-  source                      = "./cloudfront"
+  source                      = "./modules/cloudfront"
   base_domain                 = var.base_domain
   sub_domain                  = var.common_s3_sub_domain
   datacenter_codes            = var.datacenter_codes
@@ -772,7 +772,7 @@ module "create_common_cloudfront" {
 }
 #ACM or cloudfront & ALB
 module "create_reports_acm_cf" {
-  source           = "./acm"
+  source           = "./modules/acm"
   base_domain      = var.base_domain
   sub_domain       = var.reports_s3_sub_domain
   datacenter_codes = var.datacenter_codes
@@ -786,7 +786,7 @@ module "create_reports_acm_cf" {
   }
 }
 module "create_reports_s3_sub_domain" {
-  source                     = "./s3"
+  source                     = "./modules/s3"
   bucket_prefix              = var.reports_s3_sub_domain
   DEFAULT_TAGS               = var.DEFAULT_TAGS
   STAGE                      = var.STAGE
@@ -802,7 +802,7 @@ module "create_reports_s3_sub_domain" {
 }
 
 module "create_cloudfront_reports" {
-  source                      = "./cloudfront-reports"
+  source                      = "./modules/cloudfront-reports"
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE
   base_domain                 = var.base_domain
@@ -822,7 +822,7 @@ module "create_cloudfront_reports" {
 }
 
 module "create_us_acm_media_cf" {
-  source           = "./acm"
+  source           = "./modules/acm"
   base_domain      = var.base_domain
   sub_domain       = var.media_sub_domain
   datacenter_codes = var.datacenter_codes
@@ -837,7 +837,7 @@ module "create_us_acm_media_cf" {
 }
 
 module "create_us_media_cloudfront" {
-  source                      = "./cloudfront"
+  source                      = "./modules/cloudfront"
   base_domain                 = var.base_domain
   sub_domain                  = var.media_sub_domain
   datacenter_codes            = var.datacenter_codes
@@ -856,7 +856,7 @@ module "create_us_media_cloudfront" {
 }
 
 module "create_us_acm_api" {
-  source           = "./acm"
+  source           = "./modules/acm"
   base_domain      = var.base_domain
   sub_domain       = var.api_sub_domain
   datacenter_codes = var.datacenter_codes
@@ -871,7 +871,7 @@ module "create_us_acm_api" {
 }
 
 module "create_us_alb" {
-  source             = "./alb"
+  source             = "./modules/alb"
   vpc_id             = module.create_us_vpc.vpc_id
   alb_subnets        = module.create_us_vpc.public_subnets
   alb_certficate_arn = module.create_us_acm_api.acm_arn
@@ -888,7 +888,7 @@ module "create_us_alb" {
 }
 
 module "create_us_ecs" {
-  source                            = "./ecs"
+  source                            = "./modules/ecs"
   fargate_cpu_memory                = var.fargate_cpu_memory
   vpc_id                            = module.create_us_vpc.vpc_id
   alb_security_group                = module.create_us_alb.qatalyst_alb_sg_id
@@ -924,7 +924,7 @@ module "create_us_ecs" {
 }
 
 module "create_us_dynamodb_gsi" {
-  source                 = "./dynamodb_gsi"
+  source                 = "./modules/dynamodb_gsi"
   DEFAULT_TAGS           = var.DEFAULT_TAGS
   STAGE                  = var.STAGE
   gsi_table_details      = var.gsi_table_details
@@ -936,7 +936,7 @@ module "create_us_dynamodb_gsi" {
 }
 
 module "create_us_dynamodb" {
-  source                   = "./dynamodb"
+  source                   = "./modules/dynamodb"
   DEFAULT_TAGS             = var.DEFAULT_TAGS
   STAGE                    = var.STAGE
   table_details            = var.table_details
@@ -950,7 +950,7 @@ module "create_us_dynamodb" {
 
 #Global DDB Tables
 module "create_global_dynamodb" {
-  source                                 = "./dynamodb_global"
+  source                                 = "./modules/dynamodb_global"
   DEFAULT_TAGS                           = var.DEFAULT_TAGS
   STAGE                                  = var.STAGE
   global_ddb_table_details               = var.global_ddb_table_details
@@ -967,7 +967,7 @@ module "create_global_dynamodb" {
 }
 
 module "create_us_cloudwatch_dashboard" {
-  source           = "./cloudwatch"
+  source           = "./modules/cloudwatch"
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
   ecs_service_name = local.qatalyst_dashboard_service_name
@@ -983,7 +983,7 @@ module "create_us_cloudwatch_dashboard" {
 }
 
 module "create_us_cloudwatch_reports_dashboard" {
-  source           = "./cloudwatch"
+  source           = "./modules/cloudwatch"
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
   ecs_service_name = local.qatalyst_reports_service_name
@@ -998,7 +998,7 @@ module "create_us_cloudwatch_reports_dashboard" {
 }
 
 module "create_us_cloudwatch_tester_view_dashboard" {
-  source           = "./cloudwatch"
+  source           = "./modules/cloudwatch"
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
   ecs_service_name = local.qatalyst_tester_view_service_name
@@ -1014,7 +1014,7 @@ module "create_us_cloudwatch_tester_view_dashboard" {
 }
 
 module "create_us_ssm" {
-  source       = "./ssm"
+  source       = "./modules/ssm"
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
   providers = {
@@ -1024,7 +1024,7 @@ module "create_us_ssm" {
 
 #ECR 
 module "create_ecr" {
-  source       = "./ecr"
+  source       = "./modules/ecr"
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
 
@@ -1035,7 +1035,7 @@ module "create_ecr" {
 
 #IAM
 module "create_iam" {
-  source       = "./iam"
+  source       = "./modules/iam"
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
   # Provider is not used as IAM is global service
@@ -1045,7 +1045,7 @@ module "create_iam" {
 }
 
 module "create_ses" {
-  source       = "./ses"
+  source       = "./modules/ses"
   STAGE        = var.STAGE
   DEFAULT_TAGS = var.DEFAULT_TAGS
   base_domain  = var.base_domain
