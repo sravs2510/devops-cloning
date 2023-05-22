@@ -133,3 +133,8 @@ variable "reports_s3_sub_domain" {
   type        = string
   description = "Sub domain to serve reports"
 }
+
+variable "ecr_repo_name" {
+  type        = string
+  description = "Repo name suffix"
+}

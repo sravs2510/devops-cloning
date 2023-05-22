@@ -237,6 +237,17 @@ module "create_eu_ssm" {
   }
 }
 
+module "create_eu_ecr" {
+  source        = "./modules/ecr"
+  ecr_repo_name = var.ecr_repo_name
+  DEFAULT_TAGS  = var.DEFAULT_TAGS
+  STAGE         = var.STAGE
+
+  providers = {
+    aws.ecr_region = aws.eu_region
+  }
+}
+
 # INDIA Resources
 module "create_in_vpc" {
   source          = "./modules/vpc"
@@ -464,6 +475,17 @@ module "create_in_ssm" {
   }
 }
 
+module "create_in_ecr" {
+  source        = "./modules/ecr"
+  ecr_repo_name = var.ecr_repo_name
+  DEFAULT_TAGS  = var.DEFAULT_TAGS
+  STAGE         = var.STAGE
+
+  providers = {
+    aws.ecr_region = aws.in_region
+  }
+}
+
 # SEA Resources
 module "create_sea_vpc" {
   source          = "./modules/vpc"
@@ -688,6 +710,17 @@ module "create_sea_ssm" {
   STAGE        = var.STAGE
   providers = {
     aws.ssm_region = aws.sea_region
+  }
+}
+
+module "create_sea_ecr" {
+  source        = "./modules/ecr"
+  ecr_repo_name = var.ecr_repo_name
+  DEFAULT_TAGS  = var.DEFAULT_TAGS
+  STAGE         = var.STAGE
+
+  providers = {
+    aws.ecr_region = aws.sea_region
   }
 }
 
@@ -1023,13 +1056,14 @@ module "create_us_ssm" {
 }
 
 #ECR 
-module "create_ecr" {
-  source       = "./modules/ecr"
-  DEFAULT_TAGS = var.DEFAULT_TAGS
-  STAGE        = var.STAGE
+module "create_us_ecr" {
+  source        = "./modules/ecr"
+  ecr_repo_name = var.ecr_repo_name
+  DEFAULT_TAGS  = var.DEFAULT_TAGS
+  STAGE         = var.STAGE
 
   providers = {
-    aws.ecr_region = aws.sea_region
+    aws.ecr_region = aws.us_region
   }
 }
 
