@@ -713,17 +713,6 @@ module "create_sea_ssm" {
   }
 }
 
-module "create_sea_ecr" {
-  source        = "./modules/ecr"
-  ecr_repo_name = var.ecr_repo_name
-  DEFAULT_TAGS  = var.DEFAULT_TAGS
-  STAGE         = var.STAGE
-
-  providers = {
-    aws.ecr_region = aws.sea_region
-  }
-}
-
 # US Resources
 module "create_us_vpc" {
   source          = "./modules/vpc"
@@ -1056,6 +1045,16 @@ module "create_us_ssm" {
 }
 
 #ECR 
+module "create_ecr" {
+  source        = "./modules/ecr"
+  ecr_repo_name = var.ecr_repo_name
+  DEFAULT_TAGS  = var.DEFAULT_TAGS
+  STAGE         = var.STAGE
+  providers = {
+    aws.ecr_region = aws.sea_region
+  }
+}
+
 module "create_us_ecr" {
   source        = "./modules/ecr"
   ecr_repo_name = var.ecr_repo_name
