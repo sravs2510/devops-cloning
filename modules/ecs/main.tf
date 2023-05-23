@@ -21,6 +21,10 @@ locals {
   ecr_repo              = join(".", [local.account_id, "dkr.ecr", data.aws_region.ecs_region.name, "amazonaws.com/qatalyst-backend:latest"])
   qatalyst_sender_email = var.STAGE == "prod" ? join("", ["noreply@", var.base_domain]) : join("", ["noreply@", var.STAGE, ".", var.base_domain])
   datacenter_code       = lookup(var.datacenter_codes, data.aws_region.ecs_region.name)
+  bitly_bearer_token    = join("-", ["qatalyst", var.STAGE, "bitly-bearer-token"])
+  sendgrid_key          = join("-", ["qatalyst", var.STAGE, "sendgrid-key"])
+  figma_access_token    = join("-", ["qatalyst", var.STAGE, "figma-access-token"])
+  sentry_dsn_value      = join("-", ["sentry", var.STAGE, "dsn-value"])
 }
 resource "aws_ecs_cluster" "qatalyst_ecs_cluster" {
   provider = aws.ecs_region
@@ -100,20 +104,20 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
         ],
         "secrets" : [
           {
-            "name" : "BITLY_BEARER"
+            "name" : local.bitly_bearer_token
             "valueFrom" : var.qatalyst_bitly_token
           },
           {
-            "name" : "FIGMA_ACCESS_TOKEN"
+            "name" : local.figma_access_token
             "valueFrom" : var.qatalyst_figma_token
           },
           {
-            "name" : "SENDGRID_KEY"
+            "name" : local.sendgrid_key
             "valueFrom" : var.qatalyst_sendgrid_key
           },
           {
-            "name" : "SENTRY_SDK_DSN"
-            "valueFrom" : "#SENTRY_DSN_VALUE"
+            "name" : local.sentry_dsn_value
+            "valueFrom" : var.sentry_dsn_value
           },
         ]
         "portMappings" : [

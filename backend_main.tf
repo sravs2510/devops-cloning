@@ -150,6 +150,7 @@ module "create_eu_ecs" {
   qatalyst_dashboard_service_name   = local.qatalyst_dashboard_service_name
   qatalyst_reports_service_name     = local.qatalyst_reports_service_name
   qatalyst_tester_view_service_name = local.qatalyst_tester_view_service_name
+  sentry_dsn_value                  = module.create_eu_ssm.sentry_dsn_value
 
   providers = {
     aws.ecs_region = aws.eu_region
@@ -388,7 +389,7 @@ module "create_in_ecs" {
   qatalyst_dashboard_service_name   = local.qatalyst_dashboard_service_name
   qatalyst_reports_service_name     = local.qatalyst_reports_service_name
   qatalyst_tester_view_service_name = local.qatalyst_tester_view_service_name
-
+  sentry_dsn_value                  = module.create_eu_ssm.sentry_dsn_value
   providers = {
     aws.ecs_region = aws.in_region
   }
@@ -626,7 +627,7 @@ module "create_sea_ecs" {
   qatalyst_dashboard_service_name   = local.qatalyst_dashboard_service_name
   qatalyst_reports_service_name     = local.qatalyst_reports_service_name
   qatalyst_tester_view_service_name = local.qatalyst_tester_view_service_name
-
+  sentry_dsn_value                  = module.create_eu_ssm.sentry_dsn_value
   providers = {
     aws.ecs_region = aws.sea_region
   }
@@ -939,7 +940,7 @@ module "create_us_ecs" {
   qatalyst_dashboard_service_name   = local.qatalyst_dashboard_service_name
   qatalyst_reports_service_name     = local.qatalyst_reports_service_name
   qatalyst_tester_view_service_name = local.qatalyst_tester_view_service_name
-
+  sentry_dsn_value                  = module.create_eu_ssm.sentry_dsn_value
   providers = {
     aws.ecs_region = aws.us_region
   }

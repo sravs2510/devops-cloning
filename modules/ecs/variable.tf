@@ -137,3 +137,8 @@ variable "qatalyst_ecs_cluster_name" {
   type        = string
   description = "ECS Cluster"
 }
+
+variable "sentry_dsn_value" {
+  type        = string
+  description = "Sentry DSN Value"
+}
