@@ -42,3 +42,12 @@ resource "aws_ssm_parameter" "datadog_api_key" {
   overwrite = true
   tags      = merge(tomap({ "Name" : join("-", ["datadog", var.STAGE, "api-key"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
+
+resource "aws_ssm_parameter" "qatalyst_sentry_dsn_value" {
+  provider  = aws.ssm_region
+  name      = join("-", ["qatalyst", var.STAGE, "sentry-dsn-value"])
+  type      = "SecureString"
+  value     = "#SENTRY_DSN_VALUE"
+  overwrite = true
+  tags      = merge(tomap({ "Name" : join("-", ["qatalyst", var.STAGE, "sentry-dsn-value"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+}

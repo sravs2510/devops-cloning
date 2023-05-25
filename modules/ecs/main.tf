@@ -21,6 +21,10 @@ locals {
   ecr_repo              = join(".", [local.account_id, "dkr.ecr", data.aws_region.ecs_region.name, "amazonaws.com/qatalyst-backend:latest"])
   qatalyst_sender_email = var.STAGE == "prod" ? join("", ["noreply@", var.base_domain]) : join("", ["noreply@", var.STAGE, ".", var.base_domain])
   datacenter_code       = lookup(var.datacenter_codes, data.aws_region.ecs_region.name)
+  bitly_bearer_token    = join("-", ["qatalyst", var.STAGE, "bitly-bearer-token"])
+  sendgrid_key          = join("-", ["qatalyst", var.STAGE, "sendgrid-key"])
+  figma_access_token    = join("-", ["qatalyst", var.STAGE, "figma-access-token"])
+  sentry_dsn_value      = join("-", ["qatalyst", var.STAGE, "sentry-dsn-value"])
 }
 resource "aws_ecs_cluster" "qatalyst_ecs_cluster" {
   provider = aws.ecs_region
@@ -82,28 +86,12 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
             "value" : var.qatalyst_domain
           },
           {
-            "name" : "SENTRY_SDK_DSN"
-            "value" : "#SENTRY_DSN_VALUE"
-          },
-          {
             "name" : "FE_TESTER_VIEW_DOMAIN_NAME"
             "value" : var.fe_tester_view_domain_name
           },
           {
             "name" : "REGION_NAME"
             "value" : data.aws_region.ecs_region.name
-          },
-          {
-            "name" : "BITLY_BEARER"
-            "value" : var.qatalyst_bitly_token
-          },
-          {
-            "name" : "FIGMA_ACCESS_TOKEN"
-            "value" : var.qatalyst_figma_token
-          },
-          {
-            "name" : "SENDGRID_KEY"
-            "value" : var.qatalyst_sendgrid_key
           },
           {
             "name" : "WEB_CONCURRENCY"
@@ -114,6 +102,25 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
             "value" : local.qatalyst_sender_email
           }
         ],
+
+        "secrets" : [
+          {
+            "name" : "BITLY_BEARER"
+            "valueFrom" : local.bitly_bearer_token
+          },
+          {
+            "name" : "FIGMA_ACCESS_TOKEN"
+            "valueFrom" : local.figma_access_token
+          },
+          {
+            "name" : "SENDGRID_KEY"
+            "valueFrom" : local.sendgrid_key
+          },
+          {
+            "name" : "SENTRY_SDK_DSN"
+            "valueFrom" : local.sentry_dsn_value
+          },
+        ]
         "portMappings" : [
           {
             "containerPort" : 80,

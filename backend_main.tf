@@ -125,9 +125,6 @@ module "create_eu_ecs" {
   fargate_cpu_memory                = var.fargate_cpu_memory
   vpc_id                            = module.create_eu_vpc.vpc_id
   alb_security_group                = module.create_eu_alb.qatalyst_alb_sg_id
-  qatalyst_bitly_token              = module.create_eu_ssm.qatalyst_bitly_bearer_token
-  qatalyst_sendgrid_key             = module.create_eu_ssm.qatalyst_sendgrid_key
-  qatalyst_figma_token              = module.create_eu_ssm.qatalyst_figma_access_token
   ecs_subnets                       = module.create_eu_vpc.private_subnets
   alb_target_group_arn              = module.create_eu_alb.qatalyst_alb_target_group_arn
   alb_target_group_reports_arn      = module.create_eu_alb.qatalyst_alb_target_group_reports_arn
@@ -363,9 +360,6 @@ module "create_in_ecs" {
   fargate_cpu_memory                = var.fargate_cpu_memory
   vpc_id                            = module.create_in_vpc.vpc_id
   alb_security_group                = module.create_in_alb.qatalyst_alb_sg_id
-  qatalyst_bitly_token              = module.create_in_ssm.qatalyst_bitly_bearer_token
-  qatalyst_sendgrid_key             = module.create_in_ssm.qatalyst_sendgrid_key
-  qatalyst_figma_token              = module.create_in_ssm.qatalyst_figma_access_token
   ecs_subnets                       = module.create_in_vpc.private_subnets
   alb_target_group_arn              = module.create_in_alb.qatalyst_alb_target_group_arn
   alb_target_group_reports_arn      = module.create_in_alb.qatalyst_alb_target_group_reports_arn
@@ -388,7 +382,6 @@ module "create_in_ecs" {
   qatalyst_dashboard_service_name   = local.qatalyst_dashboard_service_name
   qatalyst_reports_service_name     = local.qatalyst_reports_service_name
   qatalyst_tester_view_service_name = local.qatalyst_tester_view_service_name
-
   providers = {
     aws.ecs_region = aws.in_region
   }
@@ -601,9 +594,6 @@ module "create_sea_ecs" {
   fargate_cpu_memory                = var.fargate_cpu_memory
   vpc_id                            = module.create_sea_vpc.vpc_id
   alb_security_group                = module.create_sea_alb.qatalyst_alb_sg_id
-  qatalyst_bitly_token              = module.create_sea_ssm.qatalyst_bitly_bearer_token
-  qatalyst_sendgrid_key             = module.create_sea_ssm.qatalyst_sendgrid_key
-  qatalyst_figma_token              = module.create_sea_ssm.qatalyst_figma_access_token
   ecs_subnets                       = module.create_sea_vpc.private_subnets
   alb_target_group_arn              = module.create_sea_alb.qatalyst_alb_target_group_arn
   alb_target_group_reports_arn      = module.create_sea_alb.qatalyst_alb_target_group_reports_arn
@@ -626,7 +616,6 @@ module "create_sea_ecs" {
   qatalyst_dashboard_service_name   = local.qatalyst_dashboard_service_name
   qatalyst_reports_service_name     = local.qatalyst_reports_service_name
   qatalyst_tester_view_service_name = local.qatalyst_tester_view_service_name
-
   providers = {
     aws.ecs_region = aws.sea_region
   }
@@ -914,9 +903,6 @@ module "create_us_ecs" {
   fargate_cpu_memory                = var.fargate_cpu_memory
   vpc_id                            = module.create_us_vpc.vpc_id
   alb_security_group                = module.create_us_alb.qatalyst_alb_sg_id
-  qatalyst_bitly_token              = module.create_us_ssm.qatalyst_bitly_bearer_token
-  qatalyst_sendgrid_key             = module.create_us_ssm.qatalyst_sendgrid_key
-  qatalyst_figma_token              = module.create_us_ssm.qatalyst_figma_access_token
   ecs_subnets                       = module.create_us_vpc.private_subnets
   alb_target_group_arn              = module.create_us_alb.qatalyst_alb_target_group_arn
   alb_target_group_reports_arn      = module.create_us_alb.qatalyst_alb_target_group_reports_arn
@@ -939,7 +925,6 @@ module "create_us_ecs" {
   qatalyst_dashboard_service_name   = local.qatalyst_dashboard_service_name
   qatalyst_reports_service_name     = local.qatalyst_reports_service_name
   qatalyst_tester_view_service_name = local.qatalyst_tester_view_service_name
-
   providers = {
     aws.ecs_region = aws.us_region
   }

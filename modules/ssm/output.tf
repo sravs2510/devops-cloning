@@ -13,3 +13,7 @@ output "qatalyst_figma_access_token" {
 output "datadog_api_key" {
   value = aws_ssm_parameter.datadog_api_key.value
 }
+
+output "qatalyst_sentry_dsn_value" {
+  value = aws_ssm_parameter.qatalyst_sentry_dsn_value.value
+}
