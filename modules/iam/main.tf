@@ -33,6 +33,12 @@ resource "aws_iam_role_policy_attachment" "qatalyst_ecs_task_execution_service_r
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
+resource "aws_iam_role_policy_attachment" "qatalyst_ecs_task_execution_service_role_policy_attachment_2" {
+  provider   = aws.iam_region
+  role       = aws_iam_role.qatalyst_ecs_task_execution_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMReadOnlyAccess"
+}
+
 data "aws_caller_identity" "current" {
   provider = aws.iam_region
 }
