@@ -136,7 +136,7 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
         ]
         healthCheck = {
           retries     = 3
-          command     = ["CMD-SHELL", "curl -f http://localhost/ || exit 1"]
+          command     = ["CMD-SHELL", "curl -f http://localhost/health || exit 1"]
           timeout     = 30
           interval    = 60
           startPeriod = 30
