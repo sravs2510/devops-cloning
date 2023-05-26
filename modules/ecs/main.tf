@@ -26,6 +26,7 @@ locals {
   figma_access_token    = join("-", ["qatalyst", var.STAGE, "figma-access-token"])
   sentry_dsn_value      = join("-", ["qatalyst", var.STAGE, "sentry-dsn-value"])
   fingerprint_token     = join("-", ["qatalyst", var.STAGE, "fingerprint-token"])
+  datadog_api_key       = join("-", ["datadog", var.STAGE, "api-key"])
 }
 resource "aws_ecs_cluster" "qatalyst_ecs_cluster" {
   provider = aws.ecs_region
@@ -54,7 +55,7 @@ resource "aws_cloudwatch_log_group" "qatalyst_log_group" {
 
 resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
   provider                 = aws.ecs_region
-  family                   = "qatalyst-task-definition"
+  family                   = join("-", ["qatalyst-task-definition", var.STAGE, local.datacenter_code])
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   memory                   = var.fargate_cpu_memory.memory
@@ -64,121 +65,154 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
   container_definitions = jsonencode(
     [
       {
-        "name" : "qatalyst-ecs-container-definition",
-        "image" : local.ecr_repo,
-        "memory" : var.fargate_cpu_memory.memory,
-        "cpu" : var.fargate_cpu_memory.cpu,
-        "essential" : true,
-        "environment" : [
+        name      = "qatalyst-ecs-container-definition"
+        image     = local.ecr_repo
+        memory    = var.fargate_cpu_memory.memory
+        cpu       = var.fargate_cpu_memory.cpu
+        essential = true
+        environment = [
           {
-            "name" : "COGNITO_USER_POOL_ID",
-            "value" : var.cognito_user_pool_id
+            name  = "COGNITO_USER_POOL_ID"
+            value = var.cognito_user_pool_id
           },
           {
-            "name" : "STAGE",
-            "value" : var.STAGE
+            name  = "STAGE"
+            value = var.STAGE
           },
           {
-            "name" : "LOCAL_RUN",
-            "value" : "false"
+            name  = "LOCAL_RUN"
+            value = "false"
           },
           {
-            "name" : "QATALYST_DOMAIN"
-            "value" : var.qatalyst_domain
+            name  = "QATALYST_DOMAIN"
+            value = var.qatalyst_domain
           },
           {
-            "name" : "FE_TESTER_VIEW_DOMAIN_NAME"
-            "value" : var.fe_tester_view_domain_name
+            name  = "FE_TESTER_VIEW_DOMAIN_NAME"
+            value = var.fe_tester_view_domain_name
           },
           {
-            "name" : "REGION_NAME"
-            "value" : data.aws_region.ecs_region.name
+            name  = "REGION_NAME"
+            value = data.aws_region.ecs_region.name
           },
           {
-            "name" : "WEB_CONCURRENCY"
-            "value" : var.uvicorn_workers_count
+            name  = "WEB_CONCURRENCY"
+            value = var.uvicorn_workers_count
           },
           {
-            "name" : "QATALYST_SENDER_EMAIL"
-            "value" : local.qatalyst_sender_email
+            name  = "QATALYST_SENDER_EMAIL"
+            value = local.qatalyst_sender_email
           }
         ],
-
-        "secrets" : [
+        secrets = [
           {
-            "name" : "BITLY_BEARER"
-            "valueFrom" : local.bitly_bearer_token
+            name      = "BITLY_BEARER"
+            valueFrom = local.bitly_bearer_token
           },
           {
-            "name" : "FIGMA_ACCESS_TOKEN"
-            "valueFrom" : local.figma_access_token
+            name      = "FIGMA_ACCESS_TOKEN"
+            valueFrom = local.figma_access_token
           },
           {
-            "name" : "SENDGRID_KEY"
-            "valueFrom" : local.sendgrid_key
+            name      = "SENDGRID_KEY"
+            valueFrom = local.sendgrid_key
           },
           {
-            "name" : "FINGERPRINT_API_TOKEN"
-            "valueFrom" : local.fingerprint_token
+            name      = "FINGERPRINT_API_TOKEN"
+            valueFrom = local.fingerprint_token
           },
           {
-            "name" : "SENTRY_SDK_DSN"
-            "valueFrom" : local.sentry_dsn_value
+            name      = "SENTRY_SDK_DSN"
+            valueFrom = local.sentry_dsn_value
           },
         ]
-        "portMappings" : [
+        portMappings = [
           {
-            "containerPort" : 80,
-            "hostPort" : 80,
-            "protocol" : "tcp"
+            containerPort = 80
+            hostPort      = 80
+            protocol      = "tcp"
           }
         ]
-        "logConfiguration" : {
-          "logDriver" : "awsfirelens",
-          "options" : {
-            "Name" : "datadog",
-            "apikey" : var.datadog_api_key
-            "Host" : "http-intake.logs.datadoghq.com",
-            "dd_service" : "firelens-test",
-            "dd_source" : "redis",
-            "dd_message_key" : "log",
-            "dd_tags" : "project:fluentbit",
-            "TLS" : "on",
-            "provider" : "ecs"
+        healthCheck = {
+          retries     = 3
+          command     = ["CMD-SHELL", "curl -f http://localhost/ || exit 1"]
+          timeout     = 5
+          interval    = 30
+          startPeriod = 15
+        }
+        logConfiguration = {
+          logDriver = "awsfirelens"
+          options = {
+            name           = "datadog"
+            apikey         = var.datadog_api_key
+            Host           = "http-intake.logs.datadoghq.com"
+            dd_service     = join("-", ["qatalyst-backend", var.STAGE, local.datacenter_code])
+            dd_source      = join("-", ["qatalyst", var.STAGE])
+            dd_tags        = "project:qatalyst"
+            dd_message_key = "log"
+            TLS            = "on"
+            provider       = "ecs"
           }
-        },
-      },
-      {
-        "essential" : true,
-        "image" : "amazon/aws-for-fluent-bit:stable",
-        "name" : "log_router",
-        "firelensConfiguration" : {
-          "type" : "fluentbit",
-          "options" : { "enable-ecs-log-metadata" : "true" }
         }
       },
       {
-        "name" : "datadog-agent",
-        "image" : var.datadog_docker_image,
-        "essential" : true,
-        "environment" : [
+        name      = "log-router"
+        image     = "amazon/aws-for-fluent-bit:stable"
+        essential = true
+        firelensConfiguration = {
+          type    = "fluentbit",
+          options = { enable-ecs-log-metadata = "true" }
+        }
+      },
+      {
+        name      = "datadog-agent",
+        image     = var.datadog_docker_image,
+        essential = true,
+        environment = [
           {
-            "name" : "DD_APM_ENABLED",
-            "value" : "true"
+            name  = "DD_APM_ENABLED",
+            value = "true"
           },
           {
-            "name" : "ECS_FARGATE",
-            "value" : "true"
+            name  = "ECS_FARGATE",
+            value = "true"
           },
           {
-            "name" : "DD_LOGS_INJECTION",
-            "value" : "true"
+            name  = "DD_LOGS_INJECTION",
+            value = "true"
           },
           {
-            "name" : "DD_API_KEY",
-            "value" : var.datadog_api_key
+            name  = "DD_ENV",
+            value = var.STAGE
+          },
+          {
+            name  = "DD_SERVICE",
+            value = "qatalyst-backend"
           }
-        ],
+        ]
+        secrets = [
+          {
+            name      = "DD_API_KEY",
+            valueFrom = local.datadog_api_key
+          }
+        ]
+        healthCheck = {
+          retries     = 3
+          command     = ["CMD-SHELL", "agent health"]
+          timeout     = 5
+          interval    = 30
+          startPeriod = 15
+        }
+        dockerLabels = {
+          "com.datadoghq.tags.env"     = var.STAGE
+          "com.datadoghq.tags.region"  = data.aws_region.ecs_region.name
+          "com.datadoghq.tags.service" = "qatalyst-backend"
+        }
+        entryPoint = [
+          "sh",
+          "-c",
+          "export DD_AGENT_HOST=$(curl http://169.254.169.254/latest/meta-data/local-ipv4);"
+        ]
       }
   ])
   tags = merge(tomap({ "Name" : "qatalyst-ecs-td" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
