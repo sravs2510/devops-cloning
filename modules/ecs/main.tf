@@ -156,7 +156,7 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
           secretOptions = [
             {
               name      = "apikey"
-              valueFrom = var.datadog_api_key
+              valueFrom = local.datadog_api_key
             }
           ]
         }

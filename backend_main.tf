@@ -131,7 +131,6 @@ module "create_eu_ecs" {
   ecs_task_execution_role_arn       = module.create_iam.ecs_task_execution_role_arn
   ecs_task_role_arn                 = module.create_iam.ecs_task_role_arn
   cognito_user_pool_id              = module.create_cognito_user_pool.user_pool_id
-  datadog_api_key                   = module.create_eu_ssm.datadog_api_key
   qatalyst_domain                   = local.qatalyst_domain
   fe_tester_view_domain_name        = local.tester_view_domain
   cw_logs_retention_in_days         = var.cw_logs_retention_in_days
@@ -366,7 +365,6 @@ module "create_in_ecs" {
   ecs_task_execution_role_arn       = module.create_iam.ecs_task_execution_role_arn
   ecs_task_role_arn                 = module.create_iam.ecs_task_role_arn
   cognito_user_pool_id              = module.create_cognito_user_pool.user_pool_id
-  datadog_api_key                   = module.create_in_ssm.datadog_api_key
   qatalyst_domain                   = local.qatalyst_domain
   fe_tester_view_domain_name        = local.tester_view_domain
   cw_logs_retention_in_days         = var.cw_logs_retention_in_days
@@ -600,7 +598,6 @@ module "create_sea_ecs" {
   ecs_task_execution_role_arn       = module.create_iam.ecs_task_execution_role_arn
   ecs_task_role_arn                 = module.create_iam.ecs_task_role_arn
   cognito_user_pool_id              = module.create_cognito_user_pool.user_pool_id
-  datadog_api_key                   = module.create_sea_ssm.datadog_api_key
   qatalyst_domain                   = local.qatalyst_domain
   fe_tester_view_domain_name        = local.tester_view_domain
   cw_logs_retention_in_days         = var.cw_logs_retention_in_days
@@ -909,7 +906,6 @@ module "create_us_ecs" {
   ecs_task_execution_role_arn       = module.create_iam.ecs_task_execution_role_arn
   ecs_task_role_arn                 = module.create_iam.ecs_task_role_arn
   cognito_user_pool_id              = module.create_cognito_user_pool.user_pool_id
-  datadog_api_key                   = module.create_us_ssm.datadog_api_key
   qatalyst_domain                   = local.qatalyst_domain
   fe_tester_view_domain_name        = local.tester_view_domain
   cw_logs_retention_in_days         = var.cw_logs_retention_in_days
