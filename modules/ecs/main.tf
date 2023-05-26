@@ -65,7 +65,7 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
   container_definitions = jsonencode(
     [
       {
-        name      = "qatalyst-ecs-container-definition"
+        name      = join("-", ["qatalyst-ecs-container-definition", var.STAGE, local.datacenter_code])
         image     = local.ecr_repo
         memory    = var.fargate_cpu_memory.memory
         cpu       = var.fargate_cpu_memory.cpu
@@ -136,15 +136,14 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
         healthCheck = {
           retries     = 3
           command     = ["CMD-SHELL", "curl -f http://localhost/ || exit 1"]
-          timeout     = 5
-          interval    = 30
-          startPeriod = 15
+          timeout     = 30
+          interval    = 60
+          startPeriod = 30
         }
         logConfiguration = {
           logDriver = "awsfirelens"
           options = {
             Name           = "datadog"
-            apikey         = var.datadog_api_key
             Host           = "http-intake.logs.datadoghq.com"
             dd_service     = join("-", ["qatalyst-backend", var.STAGE, local.datacenter_code])
             dd_source      = join("-", ["qatalyst", var.STAGE])
@@ -153,6 +152,18 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
             TLS            = "on"
             provider       = "ecs"
           }
+          secretOptions = [
+            {
+              name      = "apikey"
+              valueFrom = var.datadog_api_key
+            }
+          ]
+        }
+        dockerLabels = {
+          "com.datadoghq.tags.env"     = var.STAGE
+          "com.datadoghq.tags.region"  = data.aws_region.ecs_region.name
+          "com.datadoghq.tags.service" = "qatalyst-backend"
+
         }
       },
       {
@@ -160,14 +171,16 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
         image     = "amazon/aws-for-fluent-bit:stable"
         essential = true
         firelensConfiguration = {
-          type    = "fluentbit",
-          options = { enable-ecs-log-metadata = "true" }
+          type = "fluentbit"
+          options = {
+            enable-ecs-log-metadata = "true"
+          }
         }
       },
       {
-        name      = "datadog-agent",
-        image     = var.datadog_docker_image,
-        essential = true,
+        name      = "datadog-agent"
+        image     = var.datadog_docker_image
+        essential = true
         environment = [
           {
             name  = "DD_APM_ENABLED",
@@ -203,16 +216,6 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
           interval    = 30
           startPeriod = 15
         }
-        dockerLabels = {
-          "com.datadoghq.tags.env"     = var.STAGE
-          "com.datadoghq.tags.region"  = data.aws_region.ecs_region.name
-          "com.datadoghq.tags.service" = "qatalyst-backend"
-        }
-        entryPoint = [
-          "sh",
-          "-c",
-          "export DD_AGENT_HOST=$(curl http://169.254.169.254/latest/meta-data/local-ipv4);"
-        ]
       }
   ])
   tags = merge(tomap({ "Name" : "qatalyst-ecs-td" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
