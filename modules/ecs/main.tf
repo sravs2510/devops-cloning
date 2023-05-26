@@ -25,6 +25,7 @@ locals {
   sendgrid_key          = join("-", ["qatalyst", var.STAGE, "sendgrid-key"])
   figma_access_token    = join("-", ["qatalyst", var.STAGE, "figma-access-token"])
   sentry_dsn_value      = join("-", ["qatalyst", var.STAGE, "sentry-dsn-value"])
+  fingerprint_token     = join("-", ["qatalyst", var.STAGE, "fingerprint-token"])
 }
 resource "aws_ecs_cluster" "qatalyst_ecs_cluster" {
   provider = aws.ecs_region
@@ -115,6 +116,10 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
           {
             "name" : "SENDGRID_KEY"
             "valueFrom" : local.sendgrid_key
+          },
+          {
+            "name" : "FINGERPRINT_API_TOKEN"
+            "valueFrom" : local.fingerprint_token
           },
           {
             "name" : "SENTRY_SDK_DSN"

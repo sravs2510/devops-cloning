@@ -17,3 +17,7 @@ output "datadog_api_key" {
 output "qatalyst_sentry_dsn_value" {
   value = aws_ssm_parameter.qatalyst_sentry_dsn_value.value
 }
+
+output "qatalyst_fingerprint_token" {
+  value = aws_ssm_parameter.qatalyst_fingerprint_token.value
+}
