@@ -27,6 +27,7 @@ locals {
   sentry_dsn_value      = join("-", ["qatalyst", var.STAGE, "sentry-dsn-value"])
   fingerprint_token     = join("-", ["qatalyst", var.STAGE, "fingerprint-token"])
   datadog_api_key       = join("-", ["datadog", var.STAGE, "api-key"])
+  container_name        = join("-", ["qatalyst-ecs-container-definition", var.STAGE, local.datacenter_code])
 }
 resource "aws_ecs_cluster" "qatalyst_ecs_cluster" {
   provider = aws.ecs_region
@@ -65,7 +66,7 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
   container_definitions = jsonencode(
     [
       {
-        name      = join("-", ["qatalyst-ecs-container-definition", var.STAGE, local.datacenter_code])
+        name      = local.container_name
         image     = local.ecr_repo
         memory    = var.fargate_cpu_memory.memory
         cpu       = var.fargate_cpu_memory.cpu
@@ -163,7 +164,6 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
           "com.datadoghq.tags.env"     = var.STAGE
           "com.datadoghq.tags.region"  = data.aws_region.ecs_region.name
           "com.datadoghq.tags.service" = "qatalyst-backend"
-
         }
       },
       {
@@ -263,7 +263,7 @@ resource "aws_ecs_service" "qatalyst_ecs_service" {
 
   load_balancer {
     target_group_arn = var.alb_target_group_arn
-    container_name   = "qatalyst-ecs-container-definition"
+    container_name   = local.container_name
     container_port   = 80
   }
   tags = merge(tomap({ "Name" : var.qatalyst_dashboard_service_name }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
@@ -287,7 +287,7 @@ resource "aws_ecs_service" "qatalyst_reports_service" {
 
   load_balancer {
     target_group_arn = var.alb_target_group_reports_arn
-    container_name   = "qatalyst-ecs-container-definition"
+    container_name   = local.container_name
     container_port   = 80
   }
   tags = merge(tomap({ "Name" : var.qatalyst_reports_service_name }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
@@ -311,7 +311,7 @@ resource "aws_ecs_service" "qatalyst_tester_view_service" {
 
   load_balancer {
     target_group_arn = var.alb_target_group_tester_view_arn
-    container_name   = "qatalyst-ecs-container-definition"
+    container_name   = local.container_name
     container_port   = 80
   }
   tags = merge(tomap({ "Name" : var.qatalyst_tester_view_service_name }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
