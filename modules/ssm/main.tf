@@ -51,3 +51,12 @@ resource "aws_ssm_parameter" "qatalyst_sentry_dsn_value" {
   overwrite = true
   tags      = merge(tomap({ "Name" : join("-", ["qatalyst", var.STAGE, "sentry-dsn-value"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
+
+resource "aws_ssm_parameter" "qatalyst_fingerprint_token" {
+  provider  = aws.ssm_region
+  name      = join("-", ["qatalyst", var.STAGE, "fingerprint_token"])
+  type      = "SecureString"
+  value     = "#FINGERPRINT_API_TOKEN"
+  overwrite = true
+  tags      = merge(tomap({ "Name" : join("-", ["qatalyst", var.STAGE, "fingerprint_token"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+}
