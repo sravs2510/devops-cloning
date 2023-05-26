@@ -77,11 +77,6 @@ variable "base_domain" {
   description = "base domain"
 }
 
-variable "datadog_api_key" {
-  type        = string
-  description = "Datadog Api Key"
-}
-
 variable "datadog_docker_image" {
   type        = string
   description = "Datadog Docker Image"
