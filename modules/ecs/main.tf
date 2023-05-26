@@ -143,7 +143,7 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
         logConfiguration = {
           logDriver = "awsfirelens"
           options = {
-            name           = "datadog"
+            Name           = "datadog"
             apikey         = var.datadog_api_key
             Host           = "http-intake.logs.datadoghq.com"
             dd_service     = join("-", ["qatalyst-backend", var.STAGE, local.datacenter_code])
