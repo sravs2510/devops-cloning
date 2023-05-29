@@ -152,6 +152,13 @@ table_details = {
     range_key      = "user_id"
     stream_enabled = false
     gsi_1 : {}
+  },
+  "workspace-metrics" : {
+    table_name     = "qatalyst-workspace-metrics"
+    hash_key       = "workspace_id"
+    range_key      = "organisation_id"
+    stream_enabled = false
+    gsi_1 : {}
   }
 }
 
