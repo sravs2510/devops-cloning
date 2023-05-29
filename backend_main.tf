@@ -230,6 +230,7 @@ module "create_eu_ssm" {
   STAGE        = var.STAGE
   providers = {
     aws.ssm_region = aws.eu_region
+    random.random  = random.random
   }
 }
 
@@ -463,6 +464,7 @@ module "create_in_ssm" {
   STAGE        = var.STAGE
   providers = {
     aws.ssm_region = aws.in_region
+    random.random  = random.random
   }
 }
 
@@ -696,6 +698,7 @@ module "create_sea_ssm" {
   STAGE        = var.STAGE
   providers = {
     aws.ssm_region = aws.sea_region
+    random.random  = random.random
   }
 }
 
@@ -1022,6 +1025,7 @@ module "create_us_ssm" {
   STAGE        = var.STAGE
   providers = {
     aws.ssm_region = aws.us_region
+    random.random  = random.random
   }
 }
 

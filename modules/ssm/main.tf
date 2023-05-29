@@ -4,6 +4,10 @@ terraform {
       source                = "hashicorp/aws"
       configuration_aliases = [aws.ssm_region]
     }
+    random = {
+      source                = "hashicorp/random"
+      configuration_aliases = [random.random]
+    }
   }
 }
 
@@ -62,8 +66,9 @@ resource "aws_ssm_parameter" "qatalyst_fingerprint_token" {
 }
 
 resource "random_uuid" "feature_flag_auth" {
+  provider = random.random
 }
-resource "aws_ssm_parameter" "feature_flag_auth" {
+resource "aws_ssm_parameter" "ssm_feature_flag_auth" {
   provider  = aws.ssm_region
   name      = join("-", ["qatalyst", var.STAGE, "feature-flag-auth"])
   type      = "SecureString"

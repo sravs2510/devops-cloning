@@ -22,3 +22,7 @@ provider "aws" {
   region = "us-west-2"
   alias  = "us_west_region"
 }
+
+provider "random" {
+  alias = "random"
+}
