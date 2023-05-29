@@ -60,3 +60,14 @@ resource "aws_ssm_parameter" "qatalyst_fingerprint_token" {
   overwrite = true
   tags      = merge(tomap({ "Name" : join("-", ["qatalyst", var.STAGE, "fingerprint-token"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
+
+resource "random_uuid" "feature_flag_auth" {
+}
+resource "aws_ssm_parameter" "feature_flag_auth" {
+  provider  = aws.ssm_region
+  name      = join("-", ["qatalyst", var.STAGE, "feature-flag-auth"])
+  type      = "SecureString"
+  value     = random_uuid.feature_flag_auth.result
+  overwrite = true
+  tags      = merge(tomap({ "Name" : join("-", ["qatalyst", var.STAGE, "feature-flag-auth"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+}
