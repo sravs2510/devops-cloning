@@ -32,7 +32,6 @@ locals {
   fingerprint_token     = join("-", ["qatalyst", var.STAGE, "fingerprint-token"])
   datadog_api_key       = join("-", ["datadog", var.STAGE, "api-key"])
   container_name        = join("-", ["qatalyst-ecs-container-definition", var.STAGE, local.datacenter_code])
-  feature_flag_auth     = join("-", ["qatalyst", var.STAGE, "feature-flag-auth"])
 }
 resource "aws_ecs_cluster" "qatalyst_ecs_cluster" {
   provider = aws.ecs_region
