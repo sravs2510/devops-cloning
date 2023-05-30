@@ -60,8 +60,8 @@ resource "aws_lb_target_group" "qatalyst_tg" {
 
   health_check {
     path                = "/health"
-    interval            = 10
-    timeout             = 5
+    interval            = 60
+    timeout             = 30
     healthy_threshold   = 5
     unhealthy_threshold = 2
   }
@@ -78,8 +78,8 @@ resource "aws_lb_target_group" "qatalyst_reports_tg" {
 
   health_check {
     path                = "/health"
-    interval            = 10
-    timeout             = 5
+    interval            = 60
+    timeout             = 30
     healthy_threshold   = 5
     unhealthy_threshold = 2
   }
@@ -96,8 +96,8 @@ resource "aws_lb_target_group" "qatalyst_tester_view_tg" {
 
   health_check {
     path                = "/health"
-    interval            = 10
-    timeout             = 5
+    interval            = 60
+    timeout             = 30
     healthy_threshold   = 5
     unhealthy_threshold = 2
   }
