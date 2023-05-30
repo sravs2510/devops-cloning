@@ -15,7 +15,6 @@ data "aws_caller_identity" "current" {
   provider = aws.ecs_region
 }
 
-
 locals {
   account_id            = data.aws_caller_identity.current.account_id
   ecr_repo              = join(".", [local.account_id, "dkr.ecr", data.aws_region.ecs_region.name, "amazonaws.com/qatalyst-backend:latest"])
@@ -28,6 +27,7 @@ locals {
   fingerprint_token     = join("-", ["qatalyst", var.STAGE, "fingerprint-token"])
   datadog_api_key       = join("-", ["datadog", var.STAGE, "api-key"])
   container_name        = join("-", ["qatalyst-ecs-container-definition", var.STAGE, local.datacenter_code])
+  feature_flag_auth     = join("-", ["qatalyst", var.STAGE, "feature-flag-auth"])
 }
 resource "aws_ecs_cluster" "qatalyst_ecs_cluster" {
   provider = aws.ecs_region
@@ -125,6 +125,10 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
           {
             name      = "SENTRY_SDK_DSN"
             valueFrom = local.sentry_dsn_value
+          },
+          {
+            name      = "FEATURE_FLAG_AUTH"
+            valueFrom = local.feature_flag_auth
           },
         ]
         portMappings = [
