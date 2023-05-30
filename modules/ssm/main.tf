@@ -4,10 +4,6 @@ terraform {
       source                = "hashicorp/aws"
       configuration_aliases = [aws.ssm_region]
     }
-    random = {
-      source                = "hashicorp/random"
-      configuration_aliases = [random.random]
-    }
   }
 }
 
@@ -63,16 +59,4 @@ resource "aws_ssm_parameter" "qatalyst_fingerprint_token" {
   value     = "#FINGERPRINT_API_TOKEN"
   overwrite = true
   tags      = merge(tomap({ "Name" : join("-", ["qatalyst", var.STAGE, "fingerprint-token"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
-}
-
-resource "random_uuid" "feature_flag_auth" {
-  provider = random.random
-}
-resource "aws_ssm_parameter" "ssm_feature_flag_auth" {
-  provider  = aws.ssm_region
-  name      = join("-", ["qatalyst", var.STAGE, "feature-flag-auth"])
-  type      = "SecureString"
-  value     = random_uuid.feature_flag_auth.result
-  overwrite = true
-  tags      = merge(tomap({ "Name" : join("-", ["qatalyst", var.STAGE, "feature-flag-auth"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }

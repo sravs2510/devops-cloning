@@ -4,6 +4,10 @@ terraform {
       source                = "hashicorp/aws"
       configuration_aliases = [aws.ecs_region]
     }
+    random = {
+      source                = "hashicorp/random"
+      configuration_aliases = [random.random]
+    }
   }
 }
 
@@ -28,6 +32,7 @@ locals {
   fingerprint_token     = join("-", ["qatalyst", var.STAGE, "fingerprint-token"])
   datadog_api_key       = join("-", ["datadog", var.STAGE, "api-key"])
   container_name        = join("-", ["qatalyst-ecs-container-definition", var.STAGE, local.datacenter_code])
+  feature_flag_auth     = join("-", ["qatalyst", var.STAGE, "feature-flag-auth"])
 }
 resource "aws_ecs_cluster" "qatalyst_ecs_cluster" {
   provider = aws.ecs_region
@@ -52,6 +57,18 @@ resource "aws_cloudwatch_log_group" "qatalyst_log_group" {
   name              = "qatalyst-backend-log-group"
   retention_in_days = var.cw_logs_retention_in_days
   tags              = merge(tomap({ "Name" : "qatalyst-backend-log-group" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+}
+
+resource "random_uuid" "feature_flag_auth" {
+  provider = random.random
+}
+resource "aws_ssm_parameter" "qatalyst_feature_flag_auth" {
+  provider  = aws.ecs_region
+  name      = "FEATURE_FLAG_AUTH"
+  type      = "SecureString"
+  value     = random_uuid.feature_flag_auth.result
+  overwrite = true
+  tags      = merge(tomap({ "Name" : join("-", ["qatalyst", var.STAGE, "feature-flag-auth"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
 resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
@@ -125,6 +142,10 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
           {
             name      = "SENTRY_SDK_DSN"
             valueFrom = local.sentry_dsn_value
+          },
+          {
+            name      = "FEATURE_FLAG_AUTH"
+            valueFrom = "FEATURE_FLAG_AUTH"
           },
         ]
         portMappings = [
