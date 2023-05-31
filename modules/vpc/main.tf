@@ -77,7 +77,7 @@ resource "aws_subnet" "private_subnet" {
 
 resource "aws_eip" "eip_nat_gateway" {
   provider         = aws.vpc_region
-  vpc              = true
+  domain           = "vpc"
   public_ipv4_pool = "amazon"
   tags             = merge(tomap({ "Name" : "qatalyst-nat-eip" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
