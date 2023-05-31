@@ -67,7 +67,7 @@ resource "aws_cognito_user_pool_client" "user_pool_web_client" {
   allowed_oauth_scopes                 = ["email", "openid"]
   supported_identity_providers         = ["COGNITO", "Google", "Microsoft"]
   access_token_validity                = 1  #hours
-  id_token_validity                    = 1  #housr
+  id_token_validity                    = 1  #hours
   refresh_token_validity               = 30 #days
   explicit_auth_flows                  = var.STAGE == "prod" ? local.default_auth_flows : concat(local.default_auth_flows, ["ALLOW_ADMIN_USER_PASSWORD_AUTH"])
 }
