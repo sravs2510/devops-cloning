@@ -1,37 +1,58 @@
 provider "aws" {
   region = "ap-southeast-1"
   alias  = "sea_region"
-}
-
-provider "aws" {
-  region = "ap-south-1"
-  alias  = "in_region"
-}
-
-provider "aws" {
-  region = "us-east-1"
-  alias  = "us_region"
-}
-
-provider "aws" {
-  region = "eu-north-1"
-  alias  = "eu_region"
-}
-
-provider "aws" {
-  region = "us-west-2"
-  alias  = "us_west_region"
-}
-
-provider "random" {
-  alias = "random"
-}
-
-provider "aws" {
   default_tags {
     tags = {
       Product   = "QATALYST"
       CreatedBy = "Terraform"
     }
   }
+}
+
+provider "aws" {
+  region = "ap-south-1"
+  alias  = "in_region"
+  default_tags {
+    tags = {
+      Product   = "QATALYST"
+      CreatedBy = "Terraform"
+    }
+  }
+}
+
+provider "aws" {
+  region = "us-east-1"
+  alias  = "us_region"
+  default_tags {
+    tags = {
+      Product   = "QATALYST"
+      CreatedBy = "Terraform"
+    }
+  }
+}
+
+provider "aws" {
+  region = "eu-north-1"
+  alias  = "eu_region"
+  default_tags {
+    tags = {
+      Product   = "QATALYST"
+      CreatedBy = "Terraform"
+    }
+  }
+}
+
+provider "aws" {
+  region = "us-west-2"
+  alias  = "us_west_region"
+  default_tags {
+    tags = {
+      Product   = "QATALYST"
+      CreatedBy = "Terraform"
+    }
+  }
+}
+
+provider "random" {
+  alias = "random"
 }
