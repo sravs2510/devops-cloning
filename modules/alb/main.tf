@@ -51,12 +51,13 @@ resource "aws_lb" "qatalyst_alb" {
 }
 
 resource "aws_lb_target_group" "qatalyst_tg" {
-  provider    = aws.alb_region
-  name        = "qatalyst-tg"
-  port        = 80
-  protocol    = "HTTP"
-  target_type = "ip"
-  vpc_id      = var.vpc_id
+  provider             = aws.alb_region
+  name                 = "qatalyst-tg"
+  port                 = 80
+  protocol             = "HTTP"
+  target_type          = "ip"
+  vpc_id               = var.vpc_id
+  deregistration_delay = 120 #sec
 
   health_check {
     path                = "/health"
@@ -69,12 +70,13 @@ resource "aws_lb_target_group" "qatalyst_tg" {
 }
 
 resource "aws_lb_target_group" "qatalyst_reports_tg" {
-  provider    = aws.alb_region
-  name        = "qatalyst-reports-tg"
-  port        = 80
-  protocol    = "HTTP"
-  target_type = "ip"
-  vpc_id      = var.vpc_id
+  provider             = aws.alb_region
+  name                 = "qatalyst-reports-tg"
+  port                 = 80
+  protocol             = "HTTP"
+  target_type          = "ip"
+  vpc_id               = var.vpc_id
+  deregistration_delay = 120 #sec
 
   health_check {
     path                = "/health"
@@ -87,12 +89,13 @@ resource "aws_lb_target_group" "qatalyst_reports_tg" {
 }
 
 resource "aws_lb_target_group" "qatalyst_tester_view_tg" {
-  provider    = aws.alb_region
-  name        = "qatalyst-tester-view-tg"
-  port        = 80
-  protocol    = "HTTP"
-  target_type = "ip"
-  vpc_id      = var.vpc_id
+  provider             = aws.alb_region
+  name                 = "qatalyst-tester-view-tg"
+  port                 = 80
+  protocol             = "HTTP"
+  target_type          = "ip"
+  vpc_id               = var.vpc_id
+  deregistration_delay = 120 #sec
 
   health_check {
     path                = "/health"
