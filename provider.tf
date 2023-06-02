@@ -26,3 +26,12 @@ provider "aws" {
 provider "random" {
   alias = "random"
 }
+
+provider "aws" {
+  default_tags {
+    tags = {
+      Product   = "QATALYST"
+      CreatedBy = "Terraform"
+    }
+  }
+}
