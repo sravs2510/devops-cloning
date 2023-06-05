@@ -35,6 +35,7 @@ resource "aws_dynamodb_table" "ddb_global_config_table" {
 
   stream_enabled   = true
   stream_view_type = "NEW_AND_OLD_IMAGES"
+  deletion_protection_enabled = var.STAGE == "prod" ? true : false
 
   point_in_time_recovery {
     enabled = var.point_in_time_recovery
@@ -77,6 +78,7 @@ resource "aws_dynamodb_table" "ddb_global_config_table_without_range" {
 
   stream_enabled   = true
   stream_view_type = "NEW_AND_OLD_IMAGES"
+  deletion_protection_enabled = var.STAGE == "prod" ? true : false
 
   point_in_time_recovery {
     enabled = var.point_in_time_recovery
@@ -113,6 +115,7 @@ resource "aws_dynamodb_table" "global_ddb_table_gsi_without_range" {
   billing_mode     = "PAY_PER_REQUEST"
   stream_enabled   = true
   stream_view_type = var.stream_view_type
+  deletion_protection_enabled = var.STAGE == "prod" ? true : false
 
   attribute {
     name = each.value.hash_key
