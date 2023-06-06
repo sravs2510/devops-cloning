@@ -33,8 +33,8 @@ resource "aws_dynamodb_table" "ddb_global_config_table" {
   range_key    = var.global_ddb_table_details[count.index].range_key
   billing_mode = "PAY_PER_REQUEST"
 
-  stream_enabled   = true
-  stream_view_type = "NEW_AND_OLD_IMAGES"
+  stream_enabled              = true
+  stream_view_type            = "NEW_AND_OLD_IMAGES"
   deletion_protection_enabled = var.STAGE == "prod" ? true : false
 
   point_in_time_recovery {
@@ -76,8 +76,8 @@ resource "aws_dynamodb_table" "ddb_global_config_table_without_range" {
   hash_key     = var.global_ddb_tables_without_range[count.index].hash_key
   billing_mode = "PAY_PER_REQUEST"
 
-  stream_enabled   = true
-  stream_view_type = "NEW_AND_OLD_IMAGES"
+  stream_enabled              = true
+  stream_view_type            = "NEW_AND_OLD_IMAGES"
   deletion_protection_enabled = var.STAGE == "prod" ? true : false
 
   point_in_time_recovery {
@@ -110,11 +110,11 @@ resource "aws_dynamodb_table" "global_ddb_table_gsi_without_range" {
 
   for_each = var.gsi_global_table_details_without_range
 
-  name             = each.value.table_name
-  hash_key         = each.value.hash_key
-  billing_mode     = "PAY_PER_REQUEST"
-  stream_enabled   = true
-  stream_view_type = var.stream_view_type
+  name                        = each.value.table_name
+  hash_key                    = each.value.hash_key
+  billing_mode                = "PAY_PER_REQUEST"
+  stream_enabled              = true
+  stream_view_type            = var.stream_view_type
   deletion_protection_enabled = var.STAGE == "prod" ? true : false
 
   attribute {
