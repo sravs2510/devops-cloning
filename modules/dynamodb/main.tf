@@ -12,12 +12,13 @@ resource "aws_dynamodb_table" "table" {
 
   for_each = var.table_details
 
-  name             = each.value.table_name
-  hash_key         = each.value.hash_key
-  range_key        = each.value.range_key
-  billing_mode     = "PAY_PER_REQUEST"
-  stream_enabled   = try(each.value.stream_enabled, var.stream_enabled)
-  stream_view_type = var.stream_view_type
+  name                        = each.value.table_name
+  hash_key                    = each.value.hash_key
+  range_key                   = each.value.range_key
+  billing_mode                = "PAY_PER_REQUEST"
+  stream_enabled              = try(each.value.stream_enabled, var.stream_enabled)
+  stream_view_type            = var.stream_view_type
+  deletion_protection_enabled = var.STAGE == "prod" ? true : false
 
   point_in_time_recovery {
     enabled = var.point_in_time_recovery
@@ -51,12 +52,12 @@ resource "aws_dynamodb_table" "tables_without_range_key" {
 
   for_each = var.tables_without_range_key
 
-  name             = each.value.table_name
-  hash_key         = each.value.hash_key
-  billing_mode     = "PAY_PER_REQUEST"
-  stream_enabled   = try(each.value.stream_enabled, var.stream_enabled)
-  stream_view_type = var.stream_view_type
-
+  name                        = each.value.table_name
+  hash_key                    = each.value.hash_key
+  billing_mode                = "PAY_PER_REQUEST"
+  stream_enabled              = try(each.value.stream_enabled, var.stream_enabled)
+  stream_view_type            = var.stream_view_type
+  deletion_protection_enabled = var.STAGE == "prod" ? true : false
   point_in_time_recovery {
     enabled = var.point_in_time_recovery
   }
