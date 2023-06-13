@@ -95,6 +95,13 @@ resource "aws_iam_policy" "qatalyst_ecs_task_iam_policy" {
       },
       {
         Action = [
+          "s3:GetObject"
+        ],
+        Effect   = "Allow",
+        Resource = "*"
+      },
+      {
+        Action = [
           "ses:SendEmail"
         ],
         Effect   = "Allow",
