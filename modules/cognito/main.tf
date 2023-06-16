@@ -134,6 +134,6 @@ resource "aws_cognito_identity_provider" "amazon_provider" {
 
   attribute_mapping = {
     email    = "email"
-    username = "sub"
+    username = "user_id"
   }
 }
