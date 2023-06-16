@@ -118,3 +118,22 @@ resource "aws_cognito_user_pool_domain" "cognito_custom_domain" {
   certificate_arn = var.cognito_custom_domain_acm_arn
   user_pool_id    = aws_cognito_user_pool.user_pool.id
 }
+
+#Login with Amazon
+resource "aws_cognito_identity_provider" "amazon_provider" {
+  provider      = aws.cognito_region
+  user_pool_id  = aws_cognito_user_pool.user_pool.id
+  provider_name = "LoginWithAmazon"
+  provider_type = "LoginWithAmazon"
+
+  provider_details = {
+    authorize_scopes = "profile"
+    client_id        = "#QATALYST_AMAZON_CLIENT_ID"
+    client_secret    = "#QATALYST_AMAZON_CLIENT_SECRET"
+  }
+
+  attribute_mapping = {
+    email    = "email"
+    username = "sub"
+  }
+}
