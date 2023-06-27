@@ -64,8 +64,8 @@ resource "aws_cognito_user_pool_client" "user_pool_web_client" {
   callback_urls                        = [var.cognito_callback_url]
   allowed_oauth_flows_user_pool_client = true
   allowed_oauth_flows                  = ["code"]
-  allowed_oauth_scopes                 = ["email", "openid"]
-  supported_identity_providers         = ["COGNITO", "Google", "Microsoft"]
+  allowed_oauth_scopes                 = ["email", "openid", "profile"]
+  supported_identity_providers         = ["COGNITO", "Google", "Microsoft", "LoginWithAmazon"]
   access_token_validity                = 1  #hours
   id_token_validity                    = 1  #hours
   refresh_token_validity               = 30 #days
