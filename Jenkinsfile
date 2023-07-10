@@ -28,7 +28,7 @@ pipeline {
                     string(credentialsId: "$QATALYST_AMAZON_CLIENT_SECRET_STAGE", variable: 'QATALYST_AMAZON_CLIENT_SECRET'),
                     string(credentialsId: 'SENTRY_DSN_QATALYST_BACKEND', variable: 'SENTRY_DSN_VALUE'),
                     string(credentialsId: 'QATALYST_BITLY', variable: 'QATALYST_BITLY'),
-                    string(credentialsId: 'QATALYST_SENDGRID_KEY_STAGE', variable: 'QATALYST_SENDGRID_KEY_STAGE'),
+                    string(credentialsId: "$QATALYST_SENDGRID_KEY_STAGE", variable: 'QATALYST_SENDGRID_KEY'),
                     string(credentialsId: 'QATALYST_FIGMA_ACCESS_TOKEN', variable: 'QATALYST_FIGMA_ACCESS_TOKEN'),
                     string(credentialsId: 'DD_API_KEY', variable: 'DD_API_KEY'),
                     string(credentialsId: 'FINGERPRINT_API_TOKEN', variable: 'FINGERPRINT_API_TOKEN')
