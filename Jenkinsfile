@@ -7,7 +7,7 @@ pipeline {
     }
     parameters {
         string(name: 'TAG', defaultValue: 'master', description: 'Tag / Branch name to be used for deployment', trim: true)
-        
+        choice choices: ['dev', 'qa', 'staging', 'prod'], name: 'STAGE'
     }
     environment{
         QATALYST_GOOGLE_CLIENT_ID_STAGE = "QATALYST_GOOGLE_CLIENT_ID_${params.STAGE.toUpperCase()}"
