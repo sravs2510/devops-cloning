@@ -57,7 +57,7 @@ resource "aws_lb_target_group" "qatalyst_tg" {
   protocol             = "HTTP"
   target_type          = "ip"
   vpc_id               = var.vpc_id
-  deregistration_delay = 120 #sec
+  deregistration_delay = 90 #sec
 
   health_check {
     path                = "/health"
@@ -76,7 +76,7 @@ resource "aws_lb_target_group" "qatalyst_reports_tg" {
   protocol             = "HTTP"
   target_type          = "ip"
   vpc_id               = var.vpc_id
-  deregistration_delay = 120 #sec
+  deregistration_delay = 90 #sec
 
   health_check {
     path                = "/health"
@@ -95,7 +95,7 @@ resource "aws_lb_target_group" "qatalyst_tester_view_tg" {
   protocol             = "HTTP"
   target_type          = "ip"
   vpc_id               = var.vpc_id
-  deregistration_delay = 120 #sec
+  deregistration_delay = 90 #sec
 
   health_check {
     path                = "/health"
