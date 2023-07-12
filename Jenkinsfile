@@ -6,7 +6,7 @@ pipeline {
     buildDiscarder(logRotator(numToKeepStr: '5'))
     }
     parameters {
-        string(name: 'TAG', defaultValue: 'master', description: 'Tag / Branch name to be used for deployment', trim: true)
+        string(name: 'TAG', defaultValue: 'master', description: 'Tag / Branch name to be used for deployment')
         choice(name: 'STAGE', choices: ['dev', 'qa', 'staging', 'prod'], description: 'Select the stage')
     }
     environment{
@@ -18,6 +18,14 @@ pipeline {
         
     }
     stages {
+       stage('Print Job Name') {
+            steps {
+                script {
+                    def jobName = env.JOB_NAME
+                    echo "Jenkins job name: ${jobName}"
+                }
+            }
+        }
         stage('Get Secret Values') {
             steps {
                 echo "$QATALYST_GOOGLE_CLIENT_ID_STAGE"
@@ -36,10 +44,21 @@ pipeline {
                 {
                     sh '''
                      echo "$QATALYST_GOOGLE_CLIENT_ID"
-                     chmod +x scripts -R
+                     chmod +x scripts -R  
+                     if [[ $(echo $jobName | grep -i "infra-dev" ) ]]; then
+                       stage="dev"
+                     elif [[ $(echo $jobName | grep -i "infra-qa" ) ]]; then
+                       stage="qa"
+                     elif [[ $(echo $jobName | grep -i "infra-staging" ) ]]; then
+                       stage="staging"
+                     elif [[ $(echo $jobName | grep -i "infra-master" ) ]]; then
+                       stage="master"
+                     fi
+                     echo "TAG value is : ${TAG}"
+                     echo "STAGE value is : ${STAGE}"
                      ./scripts/deploy.sh $STAGE
 
-                   '''
+                    '''
                 }
             }
         }  
