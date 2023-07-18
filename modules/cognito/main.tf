@@ -147,7 +147,7 @@ resource "aws_cognito_identity_provider" "cognito_auth0_provider" {
     authorize_scopes         = "openid profile email"
     client_id                = "#QATALYST_AUTH0_CLIENT_ID"
     client_secret            = "#QATALYST_AUTH0_CLIENT_SECRET"
-    attribute_request_method = "GET"
+    attributes_request_method = "GET"
     oidc_issuer              = "https://getqatalyst.us.auth0.com"
   }
   attribute_mapping = {
