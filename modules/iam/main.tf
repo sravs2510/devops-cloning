@@ -79,7 +79,8 @@ resource "aws_iam_policy" "qatalyst_ecs_task_iam_policy" {
         Action = [
           "s3:PutObject",
           "s3:GetObject",
-          "s3:DeleteObject"
+          "s3:DeleteObject",
+          "s3:ListObjects"
         ],
         Effect   = "Allow",
         Resource = local.s3_media_bucket_arn
