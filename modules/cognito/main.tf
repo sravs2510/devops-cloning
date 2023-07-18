@@ -143,13 +143,13 @@ resource "aws_cognito_identity_provider" "cognito_auth0_provider" {
   user_pool_id  = aws_cognito_user_pool.user_pool.id
   provider_name = "Auth0"
   provider_type = "OIDC"
-
   provider_details = {
-    authorize_scopes = "openid"
-    client_id        = "#QATALYST_AUTH0_CLIENT_ID"
-    client_secret    = "#QATALYST_AUTH0_CLIENT_SECRET"
+    authorize_scopes         = "openid profile email"
+    client_id                = "#QATALYST_AUTH0_CLIENT_ID"
+    client_secret            = "#QATALYST_AUTH0_CLIENT_SECRET"
+    attribute_request_method = "GET"
+    oidc_issuer              = "https://getqatalyst.us.auth0.com"
   }
-
   attribute_mapping = {
     email    = "email"
     username = "sub"
