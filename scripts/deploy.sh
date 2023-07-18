@@ -25,6 +25,11 @@ fi
 # Google SSO
 sed -i "s/#QATALYST_GOOGLE_CLIENT_ID/$QATALYST_GOOGLE_CLIENT_ID/g" modules/cognito/main.tf
 sed -i "s/#QATALYST_GOOGLE_CLIENT_SECRET/$QATALYST_GOOGLE_CLIENT_SECRET/g" modules/cognito/main.tf
+sed -i "s/#QATALYST_AMAZON_CLIENT_ID/$QATALYST_AMAZON_CLIENT_ID/g" modules/cognito/main.tf
+sed -i "s/#QATALYST_AMAZON_CLIENT_SECRET/$QATALYST_AMAZON_CLIENT_SECRET/g" modules/cognito/main.tf
+sed -i "s/#QQATALYST_AUTH0_CLIENT_ID/$QQATALYST_AUTH0_CLIENT_ID/g" modules/cognito/main.tf
+sed -i "s/#QATALYST_AUTH0_CLIENT_SECRET/$QQATALYST_AUTH0_CLIENT_SECRET/g" modules/cognito/main.tf
+
 
 #SENTRY_DSN_VALUE
 sed -i "s/#SENTRY_DSN_VALUE/$SENTRY_DSN_VALUE/g" modules/ssm/main.tf
@@ -41,4 +46,4 @@ terraform validate
 terraform workspace list
 terraform workspace select qatalyst-${stage}
 terraform plan -var-file=tfvars/${stage}.tfvars
-#terraform apply -var-file=tfvars/${stage}.tfvars -auto-approve 
+terraform apply -var-file=tfvars/${stage}.tfvars -auto-approve 
