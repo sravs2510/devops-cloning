@@ -48,6 +48,11 @@ variable "tester_view_sub_domain" {
   description = "Tester View Domain Name"
 }
 
+variable "meet_sub_domain" {
+  type        = string
+  description = "Meet Domain Name"
+}
+
 variable "user_pool_name" {
   type        = string
   description = "Cognito user pool name"
@@ -134,7 +139,18 @@ variable "reports_s3_sub_domain" {
   description = "Sub domain to serve reports"
 }
 
+variable "meet_s3_sub_domain" {
+  type        = string
+  description = "Sub domain to meet"
+}
+
 variable "ecr_repo_name" {
   type        = string
   description = "Repo name suffix"
+}
+
+variable "enable_cors_configuration" {
+  type        = bool
+  description = "Enable CORS configuration for the S3 bucket"
+  default     = true
 }
