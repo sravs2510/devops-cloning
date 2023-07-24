@@ -42,3 +42,8 @@ variable "reports_acm_arn" {
   type        = string
   description = "Reports ACM "
 }
+
+variable "meet_acm_arn" {
+  type        = string
+  description = "Meet ACM"
+}

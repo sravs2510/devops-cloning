@@ -34,6 +34,7 @@ base_domain            = "getqatalyst.io"
 api_sub_domain         = "api"
 media_sub_domain       = "media"
 tester_view_sub_domain = "studyview"
+meet_sub_domain         = "meet"
 
 user_pool_name            = "qatalyst-user-pool"
 user_pool_web_client_name = "qatalyst-web-app"
@@ -179,6 +180,7 @@ uvicorn_workers_count = 4
 
 common_s3_sub_domain  = "common"
 reports_s3_sub_domain = "reports"
+meet_s3_sub_domain    = "meet"
 
 # Datadog
 datadog_docker_image = "public.ecr.aws/datadog/agent:latest"
