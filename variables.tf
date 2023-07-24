@@ -148,9 +148,3 @@ variable "ecr_repo_name" {
   type        = string
   description = "Repo name suffix"
 }
-
-variable "enable_cors_configuration" {
-  type        = bool
-  description = "Enable CORS configuration for the S3 bucket"
-  default     = true
-}

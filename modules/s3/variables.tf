@@ -37,9 +37,3 @@ variable "is_multi_region" {
   type        = bool
   description = "Flag to indicate multi region S3 buckets"
 }
-
-variable "enable_cors_configuration" {
-  type        = bool
-  description = "Enable CORS configuration for the S3 bucket"
-  default     = true
-}
