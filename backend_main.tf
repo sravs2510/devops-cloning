@@ -130,7 +130,7 @@ module "create_eu_alb" {
   sub_domain         = var.api_sub_domain
   DEFAULT_TAGS       = var.DEFAULT_TAGS
   STAGE              = var.STAGE
-  meet_acm_arn       = module.create_sea_acm_meet_alb.acm_arn
+  meet_acm_arn       = module.create_eu_acm_meet_alb.acm_arn
 
   providers = {
     aws.alb_region = aws.eu_region
@@ -382,7 +382,7 @@ module "create_in_alb" {
   sub_domain         = var.api_sub_domain
   DEFAULT_TAGS       = var.DEFAULT_TAGS
   STAGE              = var.STAGE
-  meet_acm_arn       = module.create_sea_acm_meet_alb.acm_arn
+  meet_acm_arn       = module.create_in_acm_meet_alb.acm_arn
 
   providers = {
     aws.alb_region = aws.in_region
@@ -1013,7 +1013,7 @@ module "create_us_alb" {
   sub_domain         = var.api_sub_domain
   DEFAULT_TAGS       = var.DEFAULT_TAGS
   STAGE              = var.STAGE
-  meet_acm_arn       = module.create_sea_acm_meet_alb.acm_arn
+  meet_acm_arn       = module.create_us_acm_meet_alb.acm_arn
 
   providers = {
     aws.alb_region = aws.us_region
