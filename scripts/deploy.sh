@@ -40,6 +40,7 @@ sed -i "s/#SENDGRID_KEY/$QATALYST_SENDGRID_KEY/g" modules/ssm/main.tf
 sed -i "s/#FIGMA_ACCESS_TOKEN/$QATALYST_FIGMA_ACCESS_TOKEN/g" modules/ssm/main.tf
 sed -i "s/#DD_API_KEY/$DD_API_KEY/g" modules/ssm/main.tf
 sed -i "s/#FINGERPRINT_API_TOKEN/$FINGERPRINT_API_TOKEN/g" modules/ssm/main.tf
+sed -i "s/#QATALYST_100MS_ACCESS_KEY/$QATALYST_100MS_ACCESS_KEY/g" modules/ssm/main.tf
 
 terraform init
 terraform validate

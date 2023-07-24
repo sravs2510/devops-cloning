@@ -28,6 +28,7 @@ locals {
   datadog_api_key       = join("-", ["datadog", var.STAGE, "api-key"])
   container_name        = join("-", ["qatalyst-ecs-container-definition", var.STAGE, local.datacenter_code])
   feature_flag_auth     = join("-", ["qatalyst", var.STAGE, "feature-flag-auth"])
+  _100ms_access_key     = join("-", ["qatalyst", var.STAGE, "100ms-access-key"])
 }
 resource "aws_ecs_cluster" "qatalyst_ecs_cluster" {
   provider = aws.ecs_region
@@ -129,6 +130,10 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
           {
             name      = "FEATURE_FLAG_AUTH"
             valueFrom = local.feature_flag_auth
+          },
+          {
+            name      = "100MS_ACCESS_KEY"
+            valueFrom = local._100ms_access_key
           },
         ]
         portMappings = [
