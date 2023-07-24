@@ -162,8 +162,8 @@ table_details = {
   },
   "session-meetings" : {
     table_name     = "qatalyst-session-meetings"
-    hash_key       = "meeting_id"
-    range_key      = "email_id"
+    hash_key       = "block_id"
+    range_key      = "meeting_id"
     stream_enabled = false
     gsi_1 : {}
   }
