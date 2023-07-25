@@ -17,7 +17,7 @@ pipeline {
         QATALYST_SENDGRID_KEY_STAGE = "QATALYST_SENDGRID_KEY_${params.STAGE.toUpperCase()}"
         QATALYST_AUTH0_CLIENT_ID_STAGE = "QATALYST_AUTH0_CLIENT_ID_${params.STAGE.toUpperCase()}"
         QATALYST_AUTH0_CLIENT_SECRET_STAGE = "QATALYST_AUTH0_CLIENT_SECRET_${params.STAGE.toUpperCase()}"
-        
+        QATALYST_100MS_ACCESS_KEY_STAGE = "QATALYST_100MS_ACCESS_KEY_${params.STAGE.toUpperCase()}"
     }
     stages {
        stage('Print Job Name') {
@@ -44,7 +44,8 @@ pipeline {
                     string(credentialsId: 'FINGERPRINT_API_TOKEN', variable: 'FINGERPRINT_API_TOKEN'),
                     string(credentialsId: "$QATALYST_AUTH0_CLIENT_SECRET_STAGE", variable: 'QATALYST_AUTH0_CLIENT_SECRET'),
                     string(credentialsId: "$QATALYST_AUTH0_CLIENT_ID_STAGE", variable: 'QATALYST_AUTH0_CLIENT_ID')
-                ]) 
+                    string(credentialsId: "$QATALYST_100MS_ACCESS_KEY_STAGE", variable: 'QATALYST_100MS_ACCESS_KEY'),
+                ])
                 {
                     sh '''
                      echo "$QATALYST_GOOGLE_CLIENT_ID"
