@@ -69,6 +69,22 @@ module "create_eu_reports_acm" {
     aws.datacenter_region = aws.eu_region
   }
 }
+
+module "create_eu_acm_meet_alb" {
+  source           = "./modules/acm"
+  base_domain      = var.base_domain
+  sub_domain       = var.meet_sub_domain
+  datacenter_codes = var.datacenter_codes
+  is_multi_region  = true
+  DEFAULT_TAGS     = var.DEFAULT_TAGS
+  STAGE            = var.STAGE
+
+  providers = {
+    aws.acm_region        = aws.eu_region
+    aws.datacenter_region = aws.eu_region
+  }
+}
+
 module "create_eu_media_cloudfront" {
   source                      = "./modules/cloudfront"
   base_domain                 = var.base_domain
@@ -114,6 +130,7 @@ module "create_eu_alb" {
   sub_domain         = var.api_sub_domain
   DEFAULT_TAGS       = var.DEFAULT_TAGS
   STAGE              = var.STAGE
+  meet_acm_arn       = module.create_eu_acm_meet_alb.acm_arn
 
   providers = {
     aws.alb_region = aws.eu_region
@@ -304,6 +321,22 @@ module "create_in_reports_acm" {
     aws.datacenter_region = aws.in_region
   }
 }
+
+module "create_in_acm_meet_alb" {
+  source           = "./modules/acm"
+  base_domain      = var.base_domain
+  sub_domain       = var.meet_sub_domain
+  datacenter_codes = var.datacenter_codes
+  is_multi_region  = true
+  DEFAULT_TAGS     = var.DEFAULT_TAGS
+  STAGE            = var.STAGE
+
+  providers = {
+    aws.acm_region        = aws.in_region
+    aws.datacenter_region = aws.in_region
+  }
+}
+
 module "create_in_media_cloudfront" {
   source                      = "./modules/cloudfront"
   base_domain                 = var.base_domain
@@ -349,6 +382,7 @@ module "create_in_alb" {
   sub_domain         = var.api_sub_domain
   DEFAULT_TAGS       = var.DEFAULT_TAGS
   STAGE              = var.STAGE
+  meet_acm_arn       = module.create_in_acm_meet_alb.acm_arn
 
   providers = {
     aws.alb_region = aws.in_region
@@ -538,6 +572,22 @@ module "create_sea_reports_acm" {
     aws.datacenter_region = aws.sea_region
   }
 }
+
+module "create_sea_acm_meet_alb" {
+  source           = "./modules/acm"
+  base_domain      = var.base_domain
+  sub_domain       = var.meet_sub_domain
+  datacenter_codes = var.datacenter_codes
+  is_multi_region  = true
+  DEFAULT_TAGS     = var.DEFAULT_TAGS
+  STAGE            = var.STAGE
+
+  providers = {
+    aws.acm_region        = aws.sea_region
+    aws.datacenter_region = aws.sea_region
+  }
+}
+
 module "create_sea_media_cloudfront" {
   source                      = "./modules/cloudfront"
   base_domain                 = var.base_domain
@@ -583,6 +633,7 @@ module "create_sea_alb" {
   sub_domain         = var.api_sub_domain
   DEFAULT_TAGS       = var.DEFAULT_TAGS
   STAGE              = var.STAGE
+  meet_acm_arn       = module.create_sea_acm_meet_alb.acm_arn
 
   providers = {
     aws.alb_region = aws.sea_region
@@ -796,6 +847,7 @@ module "create_reports_acm_cf" {
     aws.datacenter_region = aws.us_region
   }
 }
+
 module "create_reports_s3_sub_domain" {
   source                     = "./modules/s3"
   bucket_prefix              = var.reports_s3_sub_domain
@@ -813,7 +865,7 @@ module "create_reports_s3_sub_domain" {
 }
 
 module "create_cloudfront_reports" {
-  source                      = "./modules/cloudfront-reports"
+  source                      = "./modules/cloudfront-fe-be"
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE
   base_domain                 = var.base_domain
@@ -829,6 +881,60 @@ module "create_cloudfront_reports" {
   providers = {
     aws.cloudfront_region = aws.us_region
     aws.bucket_region     = aws.us_region
+  }
+}
+
+module "create_cloudfront_meet" {
+  source                      = "./modules/cloudfront-fe-be"
+  DEFAULT_TAGS                = var.DEFAULT_TAGS
+  STAGE                       = var.STAGE
+  base_domain                 = var.base_domain
+  sub_domain                  = var.meet_s3_sub_domain
+  bucket_id                   = module.create_meet_s3_sub_domain.s3_bucket_id
+  bucket_arn                  = module.create_meet_s3_sub_domain.s3_bucket_arn
+  acm_certificate_arn         = module.create_meet_acm_cf.acm_arn
+  bucket_regional_domain_name = module.create_meet_s3_sub_domain.s3_bucket_regional_domain_name
+  qatalyst_eu_alb_dns_name    = module.create_eu_alb.qatalyst_alb_dns_name
+  qatalyst_in_alb_dns_name    = module.create_in_alb.qatalyst_alb_dns_name
+  qatalyst_sea_alb_dns_name   = module.create_sea_alb.qatalyst_alb_dns_name
+  qatalyst_us_alb_dns_name    = module.create_us_alb.qatalyst_alb_dns_name
+
+  providers = {
+    aws.cloudfront_region = aws.us_region
+    aws.bucket_region     = aws.us_region
+  }
+}
+
+module "create_meet_s3_sub_domain" {
+  source                     = "./modules/s3"
+  bucket_prefix              = var.meet_s3_sub_domain
+  DEFAULT_TAGS               = var.DEFAULT_TAGS
+  STAGE                      = var.STAGE
+  datacenter_codes           = var.datacenter_codes
+  tester_view_sub_domain     = var.meet_s3_sub_domain
+  base_domain                = var.base_domain
+  object_expiration_duration = var.object_expiration_duration
+  is_multi_region            = false
+
+  providers = {
+    aws.s3_region = aws.us_region
+  }
+}
+
+#Meet ACM or cloudfront & ALB
+
+module "create_meet_acm_cf" {
+  source           = "./modules/acm"
+  base_domain      = var.base_domain
+  sub_domain       = var.meet_s3_sub_domain
+  datacenter_codes = var.datacenter_codes
+  is_multi_region  = false
+  DEFAULT_TAGS     = var.DEFAULT_TAGS
+  STAGE            = var.STAGE
+
+  providers = {
+    aws.acm_region        = aws.us_region
+    aws.datacenter_region = aws.us_region
   }
 }
 
@@ -881,6 +987,21 @@ module "create_us_acm_api" {
   }
 }
 
+module "create_us_acm_meet_alb" {
+  source           = "./modules/acm"
+  base_domain      = var.base_domain
+  sub_domain       = var.meet_sub_domain
+  datacenter_codes = var.datacenter_codes
+  is_multi_region  = true
+  DEFAULT_TAGS     = var.DEFAULT_TAGS
+  STAGE            = var.STAGE
+
+  providers = {
+    aws.acm_region        = aws.us_region
+    aws.datacenter_region = aws.us_region
+  }
+}
+
 module "create_us_alb" {
   source             = "./modules/alb"
   vpc_id             = module.create_us_vpc.vpc_id
@@ -892,6 +1013,7 @@ module "create_us_alb" {
   sub_domain         = var.api_sub_domain
   DEFAULT_TAGS       = var.DEFAULT_TAGS
   STAGE              = var.STAGE
+  meet_acm_arn       = module.create_us_acm_meet_alb.acm_arn
 
   providers = {
     aws.alb_region = aws.us_region

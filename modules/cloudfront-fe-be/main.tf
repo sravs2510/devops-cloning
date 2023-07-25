@@ -176,7 +176,7 @@ resource "aws_cloudfront_distribution" "reports_cf_distribution" {
     response_headers_policy_id = data.aws_cloudfront_response_headers_policy.response_headers_policy.id
   }
   custom_error_response {
-    error_caching_min_ttl = 86400
+    error_caching_min_ttl = 3600
     error_code            = 403
     response_code         = 200
     response_page_path    = "/index.html"
