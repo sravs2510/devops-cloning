@@ -34,7 +34,7 @@ module "create_eu_s3_bucket" {
   base_domain                = var.base_domain
   object_expiration_duration = var.object_expiration_duration
   is_multi_region            = true
-  
+
   providers = {
     aws.s3_region = aws.eu_region
   }
@@ -286,7 +286,7 @@ module "create_in_s3_bucket" {
   base_domain                = var.base_domain
   object_expiration_duration = var.object_expiration_duration
   is_multi_region            = true
- 
+
   providers = {
     aws.s3_region = aws.in_region
   }
@@ -537,7 +537,7 @@ module "create_sea_s3_bucket" {
   base_domain                = var.base_domain
   object_expiration_duration = var.object_expiration_duration
   is_multi_region            = true
-  
+
   providers = {
     aws.s3_region = aws.sea_region
   }
@@ -777,7 +777,7 @@ module "create_us_s3_bucket" {
   base_domain                = var.base_domain
   object_expiration_duration = var.object_expiration_duration
   is_multi_region            = true
-  
+
   providers = {
     aws.s3_region = aws.us_region
   }
@@ -808,7 +808,7 @@ module "create_common_s3_bucket" {
   base_domain                = var.base_domain
   object_expiration_duration = var.object_expiration_duration
   is_multi_region            = false
-  
+
   providers = {
     aws.s3_region = aws.us_region
   }
@@ -858,7 +858,7 @@ module "create_reports_s3_sub_domain" {
   base_domain                = var.base_domain
   object_expiration_duration = var.object_expiration_duration
   is_multi_region            = false
- 
+
   providers = {
     aws.s3_region = aws.us_region
   }
@@ -898,7 +898,7 @@ module "create_cloudfront_meet" {
   qatalyst_in_alb_dns_name    = module.create_in_alb.qatalyst_alb_dns_name
   qatalyst_sea_alb_dns_name   = module.create_sea_alb.qatalyst_alb_dns_name
   qatalyst_us_alb_dns_name    = module.create_us_alb.qatalyst_alb_dns_name
-  
+
   providers = {
     aws.cloudfront_region = aws.us_region
     aws.bucket_region     = aws.us_region
@@ -915,7 +915,7 @@ module "create_meet_s3_sub_domain" {
   base_domain                = var.base_domain
   object_expiration_duration = var.object_expiration_duration
   is_multi_region            = false
-  
+
   providers = {
     aws.s3_region = aws.us_region
   }
