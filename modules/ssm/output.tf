@@ -21,3 +21,11 @@ output "qatalyst_sentry_dsn_value" {
 output "qatalyst_fingerprint_token" {
   value = aws_ssm_parameter.qatalyst_fingerprint_token.value
 }
+
+output "qatalyst_100ms_access_key" {
+  value = aws_ssm_parameter.qatalyst_100ms_access_key.value
+}
+
+output "qatalyst_100ms_secret_key" {
+  value = aws_ssm_parameter.qatalyst_100ms_secret_key.value
+}

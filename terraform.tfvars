@@ -34,7 +34,7 @@ base_domain            = "getqatalyst.io"
 api_sub_domain         = "api"
 media_sub_domain       = "media"
 tester_view_sub_domain = "studyview"
-meet_sub_domain         = "meet"
+meet_sub_domain        = "meet"
 
 user_pool_name            = "qatalyst-user-pool"
 user_pool_web_client_name = "qatalyst-web-app"
@@ -158,6 +158,13 @@ table_details = {
     table_name     = "qatalyst-workspace-metrics"
     hash_key       = "workspace_id"
     range_key      = "organisation_id"
+    stream_enabled = false
+    gsi_1 : {}
+  },
+  "session-meetings" : {
+    table_name     = "qatalyst-session-meetings"
+    hash_key       = "block_id"
+    range_key      = "meeting_id"
     stream_enabled = false
     gsi_1 : {}
   }

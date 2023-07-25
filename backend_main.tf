@@ -35,7 +35,7 @@ module "create_eu_s3_bucket" {
   object_expiration_duration = var.object_expiration_duration
   is_multi_region            = true
   meet_reports               = var.meet_reports 
-  
+
   providers = {
     aws.s3_region = aws.eu_region
   }
@@ -884,6 +884,7 @@ module "create_cloudfront_reports" {
   qatalyst_in_alb_dns_name    = module.create_in_alb.qatalyst_alb_dns_name
   qatalyst_sea_alb_dns_name   = module.create_sea_alb.qatalyst_alb_dns_name
   qatalyst_us_alb_dns_name    = module.create_us_alb.qatalyst_alb_dns_name
+  
   providers = {
     aws.cloudfront_region = aws.us_region
     aws.bucket_region     = aws.us_region
@@ -904,7 +905,7 @@ module "create_cloudfront_meet" {
   qatalyst_in_alb_dns_name    = module.create_in_alb.qatalyst_alb_dns_name
   qatalyst_sea_alb_dns_name   = module.create_sea_alb.qatalyst_alb_dns_name
   qatalyst_us_alb_dns_name    = module.create_us_alb.qatalyst_alb_dns_name
-  
+
   providers = {
     aws.cloudfront_region = aws.us_region
     aws.bucket_region     = aws.us_region
@@ -1127,6 +1128,7 @@ module "create_us_cloudwatch_reports_dashboard" {
   tg_arn_suffix    = module.create_us_alb.qatalyst_alb_target_group_reports_arn_suffix
   datacenter_codes = var.datacenter_codes
   dashboard_name   = local.qatalyst_cloudwatch_dashboard_name_reports
+  
   providers = {
     aws.cw_region = aws.us_region
   }
@@ -1152,6 +1154,7 @@ module "create_us_ssm" {
   source       = "./modules/ssm"
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
+  
   providers = {
     aws.ssm_region = aws.us_region
     random.random  = random.random
@@ -1164,6 +1167,7 @@ module "create_ecr" {
   ecr_repo_name = var.ecr_repo_name
   DEFAULT_TAGS  = var.DEFAULT_TAGS
   STAGE         = var.STAGE
+  
   providers = {
     aws.ecr_region = aws.sea_region
   }
@@ -1186,6 +1190,7 @@ module "create_iam" {
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
   # Provider is not used as IAM is global service
+  
   providers = {
     aws.iam_region = aws.us_region
   }

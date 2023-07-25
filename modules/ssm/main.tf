@@ -69,3 +69,19 @@ resource "aws_ssm_parameter" "qatalyst_feature_flag_auth" {
   value    = random_uuid.feature_flag_auth.result
   tags     = merge(tomap({ "Name" : join("-", ["qatalyst", var.STAGE, "feature-flag-auth"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
+
+resource "aws_ssm_parameter" "qatalyst_100ms_access_key" {
+  provider = aws.ssm_region
+  name     = join("-", ["qatalyst", var.STAGE, "100ms-access-key"])
+  type     = "SecureString"
+  value    = "#QATALYST_100MS_ACCESS_KEY"
+  tags     = merge(tomap({ "Name" : join("-", ["qatalyst", var.STAGE, "100ms-access-key"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+}
+
+resource "aws_ssm_parameter" "qatalyst_100ms_secret_key" {
+  provider = aws.ssm_region
+  name     = join("-", ["qatalyst", var.STAGE, "100ms-secret-key"])
+  type     = "SecureString"
+  value    = "#QATALYST_100MS_SECRET_KEY"
+  tags     = merge(tomap({ "Name" : join("-", ["qatalyst", var.STAGE, "100ms-secret-key"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+}
