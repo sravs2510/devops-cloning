@@ -1066,7 +1066,7 @@ module "create_us_alb" {
   sub_domain         = var.api_sub_domain
   DEFAULT_TAGS       = var.DEFAULT_TAGS
   STAGE              = var.STAGE
-  meet_acm_arn       = module.create_meet_acm_cf.acm_arn
+  meet_acm_arn       = module.create_us_meet_acm_cf.acm_arn
 
   providers = {
     aws.alb_region = aws.us_region
