@@ -63,7 +63,7 @@ resource "aws_cloudfront_distribution" "media_cf_distribution" {
   }
 
   custom_error_response {
-    error_caching_min_ttl = 86400
+    error_caching_min_ttl = 3600
     error_code            = 403
     response_code         = 200
     response_page_path    = "/index.html"
