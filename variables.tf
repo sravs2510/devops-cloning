@@ -148,3 +148,9 @@ variable "ecr_repo_name" {
   type        = string
   description = "Repo name suffix"
 }
+
+variable "meet_reports" {
+  type    = bool
+  default = false
+  description = "Flag to apply cors rule"
+}
