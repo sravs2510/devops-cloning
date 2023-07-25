@@ -34,6 +34,7 @@ module "create_eu_s3_bucket" {
   base_domain                = var.base_domain
   object_expiration_duration = var.object_expiration_duration
   is_multi_region            = true
+  meet_reports               = var.meet_reports 
   
   providers = {
     aws.s3_region = aws.eu_region
@@ -130,7 +131,7 @@ module "create_eu_alb" {
   sub_domain         = var.api_sub_domain
   DEFAULT_TAGS       = var.DEFAULT_TAGS
   STAGE              = var.STAGE
-  meet_acm_arn       = module.create_eu_acm_meet_alb.acm_arn
+  meet_acm_arn       = module.create_meet_acm_cf.acm_arn
 
   providers = {
     aws.alb_region = aws.eu_region
@@ -286,7 +287,8 @@ module "create_in_s3_bucket" {
   base_domain                = var.base_domain
   object_expiration_duration = var.object_expiration_duration
   is_multi_region            = true
- 
+  meet_reports               = var.meet_reports 
+
   providers = {
     aws.s3_region = aws.in_region
   }
@@ -382,7 +384,7 @@ module "create_in_alb" {
   sub_domain         = var.api_sub_domain
   DEFAULT_TAGS       = var.DEFAULT_TAGS
   STAGE              = var.STAGE
-  meet_acm_arn       = module.create_in_acm_meet_alb.acm_arn
+  meet_acm_arn       = module.create_meet_acm_cf.acm_arn
 
   providers = {
     aws.alb_region = aws.in_region
@@ -537,7 +539,8 @@ module "create_sea_s3_bucket" {
   base_domain                = var.base_domain
   object_expiration_duration = var.object_expiration_duration
   is_multi_region            = true
-  
+  meet_reports               = var.meet_reports 
+
   providers = {
     aws.s3_region = aws.sea_region
   }
@@ -633,7 +636,7 @@ module "create_sea_alb" {
   sub_domain         = var.api_sub_domain
   DEFAULT_TAGS       = var.DEFAULT_TAGS
   STAGE              = var.STAGE
-  meet_acm_arn       = module.create_sea_acm_meet_alb.acm_arn
+  meet_acm_arn       = module.create_meet_acm_cf.acm_arn
 
   providers = {
     aws.alb_region = aws.sea_region
@@ -777,7 +780,8 @@ module "create_us_s3_bucket" {
   base_domain                = var.base_domain
   object_expiration_duration = var.object_expiration_duration
   is_multi_region            = true
-  
+  meet_reports               = var.meet_reports 
+
   providers = {
     aws.s3_region = aws.us_region
   }
@@ -808,7 +812,8 @@ module "create_common_s3_bucket" {
   base_domain                = var.base_domain
   object_expiration_duration = var.object_expiration_duration
   is_multi_region            = false
-  
+  meet_reports               = var.meet_reports 
+
   providers = {
     aws.s3_region = aws.us_region
   }
@@ -858,6 +863,7 @@ module "create_reports_s3_sub_domain" {
   base_domain                = var.base_domain
   object_expiration_duration = var.object_expiration_duration
   is_multi_region            = false
+  meet_reports               = true
  
   providers = {
     aws.s3_region = aws.us_region
@@ -915,6 +921,7 @@ module "create_meet_s3_sub_domain" {
   base_domain                = var.base_domain
   object_expiration_duration = var.object_expiration_duration
   is_multi_region            = false
+  meet_reports               = true
   
   providers = {
     aws.s3_region = aws.us_region
@@ -1013,7 +1020,7 @@ module "create_us_alb" {
   sub_domain         = var.api_sub_domain
   DEFAULT_TAGS       = var.DEFAULT_TAGS
   STAGE              = var.STAGE
-  meet_acm_arn       = module.create_us_acm_meet_alb.acm_arn
+  meet_acm_arn       = module.create_meet_acm_cf.acm_arn
 
   providers = {
     aws.alb_region = aws.us_region

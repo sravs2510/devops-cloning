@@ -19,6 +19,8 @@ locals {
   multi_region_bucket_name = var.STAGE == "prod" ? join(".", [local.datacenter_code, local.bucket_prefix]) : join(".", [local.datacenter_code, var.STAGE, local.bucket_prefix])
   global_bucket_name       = var.STAGE == "prod" ? local.bucket_prefix : join(".", [var.STAGE, local.bucket_prefix])
   bucket_name              = var.is_multi_region ? local.multi_region_bucket_name : local.global_bucket_name
+  cors_rule_meet_report    = var.STAGE != "dev" ? [] : ["http://localhost:3000", "http://*.localhost:3000"]
+  common_cors_rule         = var.STAGE != "dev" ? [local.studyview_domain, local.dashboard_domain] : [local.studyview_domain, local.dashboard_domain, "http://localhost:3000", "http://*.localhost:3000"]
 }
 
 resource "aws_s3_bucket" "s3_bucket" {
@@ -53,15 +55,15 @@ resource "aws_s3_bucket_public_access_block" "s3_bucket_public_access_block" {
 resource "aws_s3_bucket_cors_configuration" "aws_cors_config" {
   provider = aws.s3_region
   bucket   = aws_s3_bucket.s3_bucket.id
-
   cors_rule {
-    allowed_headers = ["*"]
-    allowed_methods = ["PUT", "POST", "GET"]
-    allowed_origins = var.STAGE != "dev" ? [local.studyview_domain, local.dashboard_domain] : [local.studyview_domain, local.dashboard_domain, "http://localhost:3000", "http://*.localhost:3000"]
-    expose_headers  = []
-    max_age_seconds = 3600
+     allowed_headers = ["*"]
+      allowed_methods = ["PUT", "POST", "GET"]
+      allowed_origins = var.meet_reports == true ? local.cors_rule_meet_report : local.common_cors_rule
+      expose_headers  = []
+      max_age_seconds = 3600
+     }
   }
-}
+
 
 resource "aws_s3_bucket_lifecycle_configuration" "s3_bucket_lifecycle" {
   provider = aws.s3_region

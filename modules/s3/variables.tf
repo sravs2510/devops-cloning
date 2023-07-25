@@ -37,3 +37,8 @@ variable "is_multi_region" {
   type        = bool
   description = "Flag to indicate multi region S3 buckets"
 }
+
+variable "meet_reports" {
+  type        = bool
+  description = "Flag to apply cors rule"
+}
