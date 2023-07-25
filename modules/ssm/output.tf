@@ -25,3 +25,7 @@ output "qatalyst_fingerprint_token" {
 output "qatalyst_100ms_access_key" {
   value = aws_ssm_parameter.qatalyst_100ms_access_key.value
 }
+
+output "qatalyst_100ms_secret_key" {
+  value = aws_ssm_parameter.qatalyst_100ms_secret_key.value
+}
