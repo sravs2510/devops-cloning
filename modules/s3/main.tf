@@ -19,7 +19,7 @@ locals {
   multi_region_bucket_name = var.STAGE == "prod" ? join(".", [local.datacenter_code, local.bucket_prefix]) : join(".", [local.datacenter_code, var.STAGE, local.bucket_prefix])
   global_bucket_name       = var.STAGE == "prod" ? local.bucket_prefix : join(".", [var.STAGE, local.bucket_prefix])
   bucket_name              = var.is_multi_region ? local.multi_region_bucket_name : local.global_bucket_name
-  cors_rule_meet_report    = var.STAGE != "dev" ? [] : ["http://localhost:3000", "http://*.localhost:3000"]
+  cors_rule_meet_report    = var.STAGE != "dev" ? [""] : ["http://localhost:3000", "http://*.localhost:3000"]
   common_cors_rule         = var.STAGE != "dev" ? [local.studyview_domain, local.dashboard_domain] : [local.studyview_domain, local.dashboard_domain, "http://localhost:3000", "http://*.localhost:3000"]
 }
 
