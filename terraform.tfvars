@@ -166,7 +166,11 @@ table_details = {
     hash_key       = "block_id"
     range_key      = "meeting_id"
     stream_enabled = false
-    gsi_1 : {}
+    gsi_1 : {
+      name  = "qatalyst-meeting-id-gsi"
+      hash_key  = "meeting_id"
+      range_key = "block_id"
+    }
   }
 }
 
