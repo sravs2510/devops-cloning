@@ -150,7 +150,12 @@ variable "ecr_repo_name" {
 }
 
 variable "meet_reports" {
-  type    = bool
-  default = false
+  type        = bool
+  default     = false
   description = "Flag to apply cors rule"
+}
+
+variable "mediaconvert_queues" {
+  type        = map(any)
+  description = "Mediaconvert Queues"
 }

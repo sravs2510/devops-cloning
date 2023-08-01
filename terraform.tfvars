@@ -167,7 +167,7 @@ table_details = {
     range_key      = "meeting_id"
     stream_enabled = false
     gsi_1 : {
-      name  = "qatalyst-meeting-id-gsi"
+      name      = "qatalyst-meeting-id-gsi"
       hash_key  = "meeting_id"
       range_key = "block_id"
     }
@@ -196,3 +196,11 @@ meet_s3_sub_domain    = "meet"
 # Datadog
 datadog_docker_image = "public.ecr.aws/datadog/agent:latest"
 ecr_repo_name        = "qatalyst-backend"
+
+mediaconvert_queues = {
+  "qatalyst" : {
+    name         = "qatalyst"
+    pricing_plan = "ON_DEMAND"
+    status       = "ACTIVE"
+  }
+}
