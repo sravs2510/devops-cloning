@@ -34,7 +34,7 @@ module "create_eu_s3_bucket" {
   base_domain                = var.base_domain
   object_expiration_duration = var.object_expiration_duration
   is_multi_region            = true
-  meet_reports               = var.meet_reports 
+  meet_reports               = var.meet_reports
 
   providers = {
     aws.s3_region = aws.eu_region
@@ -278,6 +278,15 @@ module "create_eu_ecr" {
   }
 }
 
+module "create_eu_media_convert_queue" {
+  source              = "./modules/mediaconvert"
+  mediaconvert_queues = var.mediaconvert_queues
+  DEFAULT_TAGS        = var.DEFAULT_TAGS
+  providers = {
+    aws.mediaconvert_region = aws.eu_region
+  }
+}
+
 # INDIA Resources
 module "create_in_vpc" {
   source          = "./modules/vpc"
@@ -302,7 +311,7 @@ module "create_in_s3_bucket" {
   base_domain                = var.base_domain
   object_expiration_duration = var.object_expiration_duration
   is_multi_region            = true
-  meet_reports               = var.meet_reports 
+  meet_reports               = var.meet_reports
 
   providers = {
     aws.s3_region = aws.in_region
@@ -545,6 +554,15 @@ module "create_in_ecr" {
   }
 }
 
+module "create_in_media_convert_queue" {
+  source              = "./modules/mediaconvert"
+  mediaconvert_queues = var.mediaconvert_queues
+  DEFAULT_TAGS        = var.DEFAULT_TAGS
+  providers = {
+    aws.mediaconvert_region = aws.in_region
+  }
+}
+
 # SEA Resources
 module "create_sea_vpc" {
   source          = "./modules/vpc"
@@ -569,7 +587,7 @@ module "create_sea_s3_bucket" {
   base_domain                = var.base_domain
   object_expiration_duration = var.object_expiration_duration
   is_multi_region            = true
-  meet_reports               = var.meet_reports 
+  meet_reports               = var.meet_reports
 
   providers = {
     aws.s3_region = aws.sea_region
@@ -801,6 +819,15 @@ module "create_sea_ssm" {
   }
 }
 
+module "create_sea_media_convert_queue" {
+  source              = "./modules/mediaconvert"
+  mediaconvert_queues = var.mediaconvert_queues
+  DEFAULT_TAGS        = var.DEFAULT_TAGS
+  providers = {
+    aws.mediaconvert_region = aws.sea_region
+  }
+}
+
 # US Resources
 module "create_us_vpc" {
   source          = "./modules/vpc"
@@ -825,7 +852,7 @@ module "create_us_s3_bucket" {
   base_domain                = var.base_domain
   object_expiration_duration = var.object_expiration_duration
   is_multi_region            = true
-  meet_reports               = var.meet_reports 
+  meet_reports               = var.meet_reports
 
   providers = {
     aws.s3_region = aws.us_region
@@ -857,7 +884,7 @@ module "create_common_s3_bucket" {
   base_domain                = var.base_domain
   object_expiration_duration = var.object_expiration_duration
   is_multi_region            = false
-  meet_reports               = var.meet_reports 
+  meet_reports               = var.meet_reports
 
   providers = {
     aws.s3_region = aws.us_region
@@ -909,7 +936,7 @@ module "create_reports_s3_sub_domain" {
   object_expiration_duration = var.object_expiration_duration
   is_multi_region            = false
   meet_reports               = true
- 
+
   providers = {
     aws.s3_region = aws.us_region
   }
@@ -929,7 +956,7 @@ module "create_cloudfront_reports" {
   qatalyst_in_alb_dns_name    = module.create_in_alb.qatalyst_alb_dns_name
   qatalyst_sea_alb_dns_name   = module.create_sea_alb.qatalyst_alb_dns_name
   qatalyst_us_alb_dns_name    = module.create_us_alb.qatalyst_alb_dns_name
-  
+
   providers = {
     aws.cloudfront_region = aws.us_region
     aws.bucket_region     = aws.us_region
@@ -968,7 +995,7 @@ module "create_meet_s3_sub_domain" {
   object_expiration_duration = var.object_expiration_duration
   is_multi_region            = false
   meet_reports               = true
-  
+
   providers = {
     aws.s3_region = aws.us_region
   }
@@ -1173,7 +1200,7 @@ module "create_us_cloudwatch_reports_dashboard" {
   tg_arn_suffix    = module.create_us_alb.qatalyst_alb_target_group_reports_arn_suffix
   datacenter_codes = var.datacenter_codes
   dashboard_name   = local.qatalyst_cloudwatch_dashboard_name_reports
-  
+
   providers = {
     aws.cw_region = aws.us_region
   }
@@ -1199,7 +1226,7 @@ module "create_us_ssm" {
   source       = "./modules/ssm"
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
-  
+
   providers = {
     aws.ssm_region = aws.us_region
     random.random  = random.random
@@ -1212,7 +1239,7 @@ module "create_ecr" {
   ecr_repo_name = var.ecr_repo_name
   DEFAULT_TAGS  = var.DEFAULT_TAGS
   STAGE         = var.STAGE
-  
+
   providers = {
     aws.ecr_region = aws.sea_region
   }
@@ -1229,13 +1256,22 @@ module "create_us_ecr" {
   }
 }
 
+module "create_us_media_convert_queue" {
+  source              = "./modules/mediaconvert"
+  mediaconvert_queues = var.mediaconvert_queues
+  DEFAULT_TAGS        = var.DEFAULT_TAGS
+  providers = {
+    aws.mediaconvert_region = aws.us_region
+  }
+}
+
 #IAM
 module "create_iam" {
   source       = "./modules/iam"
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
   # Provider is not used as IAM is global service
-  
+
   providers = {
     aws.iam_region = aws.us_region
   }
