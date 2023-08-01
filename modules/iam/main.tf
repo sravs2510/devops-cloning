@@ -169,3 +169,56 @@ resource "aws_iam_role_policy_attachment" "qatalyst_ecs_autoscale_policy" {
   role       = aws_iam_role.qatalyst_ecs_autoscale_role.id
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceAutoscaleRole"
 }
+
+resource "aws_iam_policy" "media_convert_policy" {
+  provider    = aws.iam_region
+  name        = "qatalyst-media-convert-policy"
+  description = "qatalyst media convert Policy"
+
+  policy = jsonencode({
+    Version   = "2012-10-17"
+    Statement = [
+      {
+        Action = [
+          "s3:ListBucket"
+        ],
+        Effect   = "Allow",
+        Resource = local.s3_media_bucket_arn
+      },
+      {
+        Action = [
+          "s3:PutObject",
+          "s3:GetObject",
+          "s3:DeleteObject"
+        ],
+        Effect   = "Allow",
+        Resource = local.s3_media_bucket_object_arn
+      },
+    ]
+  })
+}
+
+resource "aws_iam_role" "media_convert_role" {
+  provider           = aws.iam_region
+  name               = "qatalyst-media-convert-role"
+  assume_role_policy = jsonencode(
+    {
+      "Version" : "2012-10-17",
+      "Statement" : [
+        {
+          "Sid" : "",
+          "Effect" : "Allow",
+          "Principal" : {
+            "Service" : "mediaconvert.amazonaws.com"
+          },
+          "Action" : "sts:AssumeRole"
+        }
+      ]
+    })
+}
+
+resource "aws_iam_role_policy_attachment" "qatalyst_media_convert_role" {
+  provider   = aws.iam_region
+  role       = aws_iam_role.media_convert_role.id
+  policy_arn = aws_iam_policy.media_convert_policy.arn
+}
