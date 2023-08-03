@@ -171,6 +171,13 @@ table_details = {
       hash_key  = "meeting_id"
       range_key = "block_id"
     }
+  },
+  "tester-track" : {
+    table_name     = "qatalyst-tester-tracking"
+    hash_key       = "block_id"
+    range_key      = "tester_id"
+    stream_enabled = false
+    gsi_1 : {}
   }
 }
 
