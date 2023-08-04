@@ -1,14 +1,103 @@
 # EU Resources
 locals {
-  qatalyst_domain                                = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.base_domain])
+  dasboard_domain                                = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.base_domain])
   tester_view_domain                             = var.STAGE == "prod" ? join(".", [var.tester_view_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.tester_view_sub_domain, var.base_domain])
-  qatalyst_dashboard_service_name                = "qatalyst-dashboard-service"
   qatalyst_ecs_cluster_name                      = "qatalyst-ecs-cluster"
+  qatalyst_dashboard_service_name                = "qatalyst-dashboard-service"
   qatalyst_reports_service_name                  = "qatalyst-reports-service"
+  qatalyst_tester_view_service_name              = "qatalyst-tester-view-service"
   qatalyst_cloudwatch_dashboard_name_dashboard   = "Qatalyst-Dashboard"
   qatalyst_cloudwatch_dashboard_name_reports     = "Qatalyst-Reports"
   qatalyst_cloudwatch_dashboard_name_tester_view = "Qatalyst-Tester-View"
-  qatalyst_tester_view_service_name              = "qatalyst-tester-view-service"
+  qatalyst_sender_email                          = var.STAGE == "prod" ? join("", ["noreply@", var.base_domain]) : join("", ["noreply@", var.STAGE, ".", var.base_domain])
+  qatalyst_ecs_task_environment_variables = [
+    {
+      name  = "COGNITO_USER_POOL_ID"
+      value = module.create_cognito_user_pool.user_pool_id
+    },
+    {
+      name  = "STAGE"
+      value = var.STAGE
+    },
+    {
+      name  = "LOCAL_RUN"
+      value = "false"
+    },
+    {
+      name  = "QATALYST_DOMAIN"
+      value = local.dasboard_domain
+    },
+    {
+      name  = "FE_TESTER_VIEW_DOMAIN_NAME"
+      value = local.tester_view_domain
+    },
+    {
+      name  = "WEB_CONCURRENCY"
+      value = var.uvicorn_workers_count
+    },
+    {
+      name  = "QATALYST_SENDER_EMAIL"
+      value = local.qatalyst_sender_email
+    }
+  ]
+  qatalyst_ecs_task_environment_secrets = [
+    {
+      name      = "BITLY_BEARER"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "bitly-bearer-token"])
+    },
+    {
+      name      = "FIGMA_ACCESS_TOKEN"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "figma-access-token"])
+    },
+    {
+      name      = "SENDGRID_KEY"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "sendgrid-key"])
+    },
+    {
+      name      = "FINGERPRINT_API_TOKEN"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "fingerprint-token"])
+    },
+    {
+      name      = "SENTRY_SDK_DSN"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "sentry-dsn-value"])
+    },
+    {
+      name      = "FEATURE_FLAG_AUTH"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "feature-flag-auth"])
+    },
+    {
+      name      = "100MS_ACCESS_KEY"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "100ms-access-key"])
+    },
+    {
+      name      = "100MS_SECRET_KEY"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "100ms-secret-key"])
+    },
+  ]
+  qatalyst_datadog_environment_variables = [
+    {
+      name  = "DD_APM_ENABLED",
+      value = "true"
+    },
+    {
+      name  = "ECS_FARGATE",
+      value = "true"
+    },
+    {
+      name  = "DD_LOGS_INJECTION",
+      value = "true"
+    },
+    {
+      name  = "DD_ENV",
+      value = var.STAGE
+    }
+  ]
+  qatalyst_datadog_environment_secrets = [
+    {
+      name      = "DD_API_KEY",
+      valueFrom = join("-", ["datadog", var.STAGE, "api-key"])
+    }
+  ]
 }
 
 module "create_eu_vpc" {
@@ -154,31 +243,91 @@ module "create_eu_alb" {
 }
 
 module "create_eu_ecs" {
-  source                            = "./modules/ecs"
-  fargate_cpu_memory                = var.fargate_cpu_memory
-  vpc_id                            = module.create_eu_vpc.vpc_id
-  alb_security_group                = module.create_eu_alb.qatalyst_alb_sg_id
-  ecs_subnets                       = module.create_eu_vpc.private_subnets
-  alb_target_group_arn              = module.create_eu_alb.qatalyst_alb_target_group_arn
-  alb_target_group_reports_arn      = module.create_eu_alb.qatalyst_alb_target_group_reports_arn
-  ecs_task_execution_role_arn       = module.create_iam.ecs_task_execution_role_arn
-  ecs_task_role_arn                 = module.create_iam.ecs_task_role_arn
-  cognito_user_pool_id              = module.create_cognito_user_pool.user_pool_id
-  qatalyst_domain                   = local.qatalyst_domain
-  fe_tester_view_domain_name        = local.tester_view_domain
-  cw_logs_retention_in_days         = var.cw_logs_retention_in_days
-  qatalyst_ecs_autoscale_role_arn   = module.create_iam.qatalyst_ecs_autoscale_role_arn
-  uvicorn_workers_count             = var.uvicorn_workers_count
-  datadog_docker_image              = var.datadog_docker_image
-  DEFAULT_TAGS                      = var.DEFAULT_TAGS
-  STAGE                             = var.STAGE
-  base_domain                       = var.base_domain
-  alb_target_group_tester_view_arn  = module.create_eu_alb.qatalyst_alb_target_group_tester_view_arn
-  datacenter_codes                  = var.datacenter_codes
-  qatalyst_ecs_cluster_name         = local.qatalyst_ecs_cluster_name
-  qatalyst_dashboard_service_name   = local.qatalyst_dashboard_service_name
-  qatalyst_reports_service_name     = local.qatalyst_reports_service_name
-  qatalyst_tester_view_service_name = local.qatalyst_tester_view_service_name
+  source             = "./modules/ecs-cluster"
+  ecs_cluster_name   = local.qatalyst_ecs_cluster_name
+  vpc_id             = module.create_eu_vpc.vpc_id
+  alb_security_group = module.create_eu_alb.qatalyst_alb_sg_id
+  datacenter_codes   = var.datacenter_codes
+  DEFAULT_TAGS       = var.DEFAULT_TAGS
+  STAGE              = var.STAGE
+
+  providers = {
+    aws.ecs_region = aws.eu_region
+  }
+}
+
+module "create_eu_ecs_dashboard_service" {
+  source                        = "./modules/ecs-service"
+  ecs_service_name              = local.qatalyst_dashboard_service_name
+  ecs_cluster_id                = module.create_eu_ecs.ecs_cluster_id
+  ecs_cluster_name              = module.create_eu_ecs.ecs_cluster_name
+  ecs_security_groups           = module.create_eu_ecs.ecs_security_group_ids
+  ecs_subnets                   = module.create_eu_vpc.private_subnets
+  alb_target_group_arn          = module.create_eu_alb.qatalyst_alb_target_group_arn
+  ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
+  ecs_task_role_arn             = module.create_iam.ecs_task_role_arn
+  ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
+  fargate_cpu_memory            = var.fargate_cpu_memory
+  service_environment_variables = local.qatalyst_ecs_task_environment_variables
+  service_environment_secrets   = local.qatalyst_ecs_task_environment_secrets
+  dd_environment_variables      = local.qatalyst_datadog_environment_variables
+  dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
+  datadog_docker_image          = var.datadog_docker_image
+  datacenter_codes              = var.datacenter_codes
+  DEFAULT_TAGS                  = var.DEFAULT_TAGS
+  STAGE                         = var.STAGE
+
+  providers = {
+    aws.ecs_region = aws.eu_region
+  }
+}
+
+module "create_eu_ecs_testerview_service" {
+  source                        = "./modules/ecs-service"
+  ecs_service_name              = local.qatalyst_tester_view_service_name
+  ecs_cluster_id                = module.create_eu_ecs.ecs_cluster_id
+  ecs_cluster_name              = module.create_eu_ecs.ecs_cluster_name
+  ecs_security_groups           = module.create_eu_ecs.ecs_security_group_ids
+  ecs_subnets                   = module.create_eu_vpc.private_subnets
+  alb_target_group_arn          = module.create_eu_alb.qatalyst_alb_target_group_tester_view_arn
+  ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
+  ecs_task_role_arn             = module.create_iam.ecs_task_role_arn
+  ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
+  fargate_cpu_memory            = var.fargate_cpu_memory
+  service_environment_variables = local.qatalyst_ecs_task_environment_variables
+  service_environment_secrets   = local.qatalyst_ecs_task_environment_secrets
+  dd_environment_variables      = local.qatalyst_datadog_environment_variables
+  dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
+  datadog_docker_image          = var.datadog_docker_image
+  datacenter_codes              = var.datacenter_codes
+  DEFAULT_TAGS                  = var.DEFAULT_TAGS
+  STAGE                         = var.STAGE
+
+  providers = {
+    aws.ecs_region = aws.eu_region
+  }
+}
+
+module "create_eu_ecs_reports_service" {
+  source                        = "./modules/ecs-service"
+  ecs_service_name              = local.qatalyst_reports_service_name
+  ecs_cluster_id                = module.create_eu_ecs.ecs_cluster_id
+  ecs_cluster_name              = module.create_eu_ecs.ecs_cluster_name
+  ecs_security_groups           = module.create_eu_ecs.ecs_security_group_ids
+  ecs_subnets                   = module.create_eu_vpc.private_subnets
+  alb_target_group_arn          = module.create_eu_alb.qatalyst_alb_target_group_reports_arn
+  ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
+  ecs_task_role_arn             = module.create_iam.ecs_task_role_arn
+  ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
+  fargate_cpu_memory            = var.fargate_cpu_memory
+  service_environment_variables = local.qatalyst_ecs_task_environment_variables
+  service_environment_secrets   = local.qatalyst_ecs_task_environment_secrets
+  dd_environment_variables      = local.qatalyst_datadog_environment_variables
+  dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
+  datadog_docker_image          = var.datadog_docker_image
+  datacenter_codes              = var.datacenter_codes
+  DEFAULT_TAGS                  = var.DEFAULT_TAGS
+  STAGE                         = var.STAGE
 
   providers = {
     aws.ecs_region = aws.eu_region
@@ -431,31 +580,92 @@ module "create_in_alb" {
 }
 
 module "create_in_ecs" {
-  source                            = "./modules/ecs"
-  fargate_cpu_memory                = var.fargate_cpu_memory
-  vpc_id                            = module.create_in_vpc.vpc_id
-  alb_security_group                = module.create_in_alb.qatalyst_alb_sg_id
-  ecs_subnets                       = module.create_in_vpc.private_subnets
-  alb_target_group_arn              = module.create_in_alb.qatalyst_alb_target_group_arn
-  alb_target_group_reports_arn      = module.create_in_alb.qatalyst_alb_target_group_reports_arn
-  ecs_task_execution_role_arn       = module.create_iam.ecs_task_execution_role_arn
-  ecs_task_role_arn                 = module.create_iam.ecs_task_role_arn
-  cognito_user_pool_id              = module.create_cognito_user_pool.user_pool_id
-  qatalyst_domain                   = local.qatalyst_domain
-  fe_tester_view_domain_name        = local.tester_view_domain
-  cw_logs_retention_in_days         = var.cw_logs_retention_in_days
-  qatalyst_ecs_autoscale_role_arn   = module.create_iam.qatalyst_ecs_autoscale_role_arn
-  uvicorn_workers_count             = var.uvicorn_workers_count
-  datadog_docker_image              = var.datadog_docker_image
-  DEFAULT_TAGS                      = var.DEFAULT_TAGS
-  STAGE                             = var.STAGE
-  base_domain                       = var.base_domain
-  alb_target_group_tester_view_arn  = module.create_in_alb.qatalyst_alb_target_group_tester_view_arn
-  datacenter_codes                  = var.datacenter_codes
-  qatalyst_ecs_cluster_name         = local.qatalyst_ecs_cluster_name
-  qatalyst_dashboard_service_name   = local.qatalyst_dashboard_service_name
-  qatalyst_reports_service_name     = local.qatalyst_reports_service_name
-  qatalyst_tester_view_service_name = local.qatalyst_tester_view_service_name
+  source             = "./modules/ecs-cluster"
+  ecs_cluster_name   = local.qatalyst_ecs_cluster_name
+  vpc_id             = module.create_in_vpc.vpc_id
+  alb_security_group = module.create_in_alb.qatalyst_alb_sg_id
+  datacenter_codes   = var.datacenter_codes
+  DEFAULT_TAGS       = var.DEFAULT_TAGS
+  STAGE              = var.STAGE
+
+  providers = {
+    aws.ecs_region = aws.in_region
+  }
+}
+
+module "create_in_ecs_dashboard_service" {
+  source                        = "./modules/ecs-service"
+  ecs_service_name              = local.qatalyst_dashboard_service_name
+  ecs_cluster_id                = module.create_in_ecs.ecs_cluster_id
+  ecs_cluster_name              = module.create_in_ecs.ecs_cluster_name
+  ecs_security_groups           = module.create_in_ecs.ecs_security_group_ids
+  ecs_subnets                   = module.create_in_vpc.private_subnets
+  alb_target_group_arn          = module.create_in_alb.qatalyst_alb_target_group_arn
+  ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
+  ecs_task_role_arn             = module.create_iam.ecs_task_role_arn
+  ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
+  fargate_cpu_memory            = var.fargate_cpu_memory
+  service_environment_variables = local.qatalyst_ecs_task_environment_variables
+  service_environment_secrets   = local.qatalyst_ecs_task_environment_secrets
+  dd_environment_variables      = local.qatalyst_datadog_environment_variables
+  dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
+  datadog_docker_image          = var.datadog_docker_image
+  datacenter_codes              = var.datacenter_codes
+  DEFAULT_TAGS                  = var.DEFAULT_TAGS
+  STAGE                         = var.STAGE
+
+  providers = {
+    aws.ecs_region = aws.in_region
+  }
+}
+
+module "create_in_ecs_testerview_service" {
+  source                        = "./modules/ecs-service"
+  ecs_service_name              = local.qatalyst_tester_view_service_name
+  ecs_cluster_id                = module.create_in_ecs.ecs_cluster_id
+  ecs_cluster_name              = module.create_in_ecs.ecs_cluster_name
+  ecs_security_groups           = module.create_in_ecs.ecs_security_group_ids
+  ecs_subnets                   = module.create_in_vpc.private_subnets
+  alb_target_group_arn          = module.create_in_alb.qatalyst_alb_target_group_tester_view_arn
+  ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
+  ecs_task_role_arn             = module.create_iam.ecs_task_role_arn
+  ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
+  fargate_cpu_memory            = var.fargate_cpu_memory
+  service_environment_variables = local.qatalyst_ecs_task_environment_variables
+  service_environment_secrets   = local.qatalyst_ecs_task_environment_secrets
+  dd_environment_variables      = local.qatalyst_datadog_environment_variables
+  dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
+  datadog_docker_image          = var.datadog_docker_image
+  datacenter_codes              = var.datacenter_codes
+  DEFAULT_TAGS                  = var.DEFAULT_TAGS
+  STAGE                         = var.STAGE
+
+  providers = {
+    aws.ecs_region = aws.in_region
+  }
+}
+
+module "create_in_ecs_reports_service" {
+  source                        = "./modules/ecs-service"
+  ecs_service_name              = local.qatalyst_reports_service_name
+  ecs_cluster_id                = module.create_in_ecs.ecs_cluster_id
+  ecs_cluster_name              = module.create_in_ecs.ecs_cluster_name
+  ecs_security_groups           = module.create_in_ecs.ecs_security_group_ids
+  ecs_subnets                   = module.create_in_vpc.private_subnets
+  alb_target_group_arn          = module.create_in_alb.qatalyst_alb_target_group_reports_arn
+  ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
+  ecs_task_role_arn             = module.create_iam.ecs_task_role_arn
+  ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
+  fargate_cpu_memory            = var.fargate_cpu_memory
+  service_environment_variables = local.qatalyst_ecs_task_environment_variables
+  service_environment_secrets   = local.qatalyst_ecs_task_environment_secrets
+  dd_environment_variables      = local.qatalyst_datadog_environment_variables
+  dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
+  datadog_docker_image          = var.datadog_docker_image
+  datacenter_codes              = var.datacenter_codes
+  DEFAULT_TAGS                  = var.DEFAULT_TAGS
+  STAGE                         = var.STAGE
+
   providers = {
     aws.ecs_region = aws.in_region
   }
@@ -707,33 +917,94 @@ module "create_sea_alb" {
 }
 
 module "create_sea_ecs" {
-  source                            = "./modules/ecs"
-  fargate_cpu_memory                = var.fargate_cpu_memory
-  vpc_id                            = module.create_sea_vpc.vpc_id
-  alb_security_group                = module.create_sea_alb.qatalyst_alb_sg_id
-  ecs_subnets                       = module.create_sea_vpc.private_subnets
-  alb_target_group_arn              = module.create_sea_alb.qatalyst_alb_target_group_arn
-  alb_target_group_reports_arn      = module.create_sea_alb.qatalyst_alb_target_group_reports_arn
-  ecs_task_execution_role_arn       = module.create_iam.ecs_task_execution_role_arn
-  ecs_task_role_arn                 = module.create_iam.ecs_task_role_arn
-  cognito_user_pool_id              = module.create_cognito_user_pool.user_pool_id
-  qatalyst_domain                   = local.qatalyst_domain
-  fe_tester_view_domain_name        = local.tester_view_domain
-  cw_logs_retention_in_days         = var.cw_logs_retention_in_days
-  qatalyst_ecs_autoscale_role_arn   = module.create_iam.qatalyst_ecs_autoscale_role_arn
-  uvicorn_workers_count             = var.uvicorn_workers_count
-  datadog_docker_image              = var.datadog_docker_image
-  DEFAULT_TAGS                      = var.DEFAULT_TAGS
-  STAGE                             = var.STAGE
-  base_domain                       = var.base_domain
-  alb_target_group_tester_view_arn  = module.create_sea_alb.qatalyst_alb_target_group_tester_view_arn
-  datacenter_codes                  = var.datacenter_codes
-  qatalyst_ecs_cluster_name         = local.qatalyst_ecs_cluster_name
-  qatalyst_dashboard_service_name   = local.qatalyst_dashboard_service_name
-  qatalyst_reports_service_name     = local.qatalyst_reports_service_name
-  qatalyst_tester_view_service_name = local.qatalyst_tester_view_service_name
+  source             = "./modules/ecs-cluster"
+  ecs_cluster_name   = local.qatalyst_ecs_cluster_name
+  vpc_id             = module.create_sea_vpc.vpc_id
+  alb_security_group = module.create_sea_alb.qatalyst_alb_sg_id
+  datacenter_codes   = var.datacenter_codes
+  DEFAULT_TAGS       = var.DEFAULT_TAGS
+  STAGE              = var.STAGE
+
   providers = {
     aws.ecs_region = aws.sea_region
+  }
+}
+
+module "create_sea_ecs_dashboard_service" {
+  source                        = "./modules/ecs-service"
+  ecs_service_name              = local.qatalyst_dashboard_service_name
+  ecs_cluster_id                = module.create_sea_ecs.ecs_cluster_id
+  ecs_cluster_name              = module.create_sea_ecs.ecs_cluster_name
+  ecs_security_groups           = module.create_sea_ecs.ecs_security_group_ids
+  ecs_subnets                   = module.create_sea_vpc.private_subnets
+  alb_target_group_arn          = module.create_sea_alb.qatalyst_alb_target_group_arn
+  ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
+  ecs_task_role_arn             = module.create_iam.ecs_task_role_arn
+  ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
+  fargate_cpu_memory            = var.fargate_cpu_memory
+  service_environment_variables = local.qatalyst_ecs_task_environment_variables
+  service_environment_secrets   = local.qatalyst_ecs_task_environment_secrets
+  dd_environment_variables      = local.qatalyst_datadog_environment_variables
+  dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
+  datadog_docker_image          = var.datadog_docker_image
+  datacenter_codes              = var.datacenter_codes
+  DEFAULT_TAGS                  = var.DEFAULT_TAGS
+  STAGE                         = var.STAGE
+
+  providers = {
+    aws.ecs_region = aws.sea_region
+  }
+}
+
+module "create_sea_ecs_testerview_service" {
+  source                        = "./modules/ecs-service"
+  ecs_service_name              = local.qatalyst_tester_view_service_name
+  ecs_cluster_id                = module.create_sea_ecs.ecs_cluster_id
+  ecs_cluster_name              = module.create_sea_ecs.ecs_cluster_name
+  ecs_security_groups           = module.create_sea_ecs.ecs_security_group_ids
+  ecs_subnets                   = module.create_sea_vpc.private_subnets
+  alb_target_group_arn          = module.create_sea_alb.qatalyst_alb_target_group_tester_view_arn
+  ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
+  ecs_task_role_arn             = module.create_iam.ecs_task_role_arn
+  ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
+  fargate_cpu_memory            = var.fargate_cpu_memory
+  service_environment_variables = local.qatalyst_ecs_task_environment_variables
+  service_environment_secrets   = local.qatalyst_ecs_task_environment_secrets
+  dd_environment_variables      = local.qatalyst_datadog_environment_variables
+  dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
+  datadog_docker_image          = var.datadog_docker_image
+  datacenter_codes              = var.datacenter_codes
+  DEFAULT_TAGS                  = var.DEFAULT_TAGS
+  STAGE                         = var.STAGE
+
+  providers = {
+    aws.ecs_region = aws.eu_region
+  }
+}
+
+module "create_sea_ecs_reports_service" {
+  source                        = "./modules/ecs-service"
+  ecs_service_name              = local.qatalyst_reports_service_name
+  ecs_cluster_id                = module.create_sea_ecs.ecs_cluster_id
+  ecs_cluster_name              = module.create_sea_ecs.ecs_cluster_name
+  ecs_security_groups           = module.create_sea_ecs.ecs_security_group_ids
+  ecs_subnets                   = module.create_sea_vpc.private_subnets
+  alb_target_group_arn          = module.create_sea_alb.qatalyst_alb_target_group_reports_arn
+  ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
+  ecs_task_role_arn             = module.create_iam.ecs_task_role_arn
+  ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
+  fargate_cpu_memory            = var.fargate_cpu_memory
+  service_environment_variables = local.qatalyst_ecs_task_environment_variables
+  service_environment_secrets   = local.qatalyst_ecs_task_environment_secrets
+  dd_environment_variables      = local.qatalyst_datadog_environment_variables
+  dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
+  datadog_docker_image          = var.datadog_docker_image
+  datacenter_codes              = var.datacenter_codes
+  DEFAULT_TAGS                  = var.DEFAULT_TAGS
+  STAGE                         = var.STAGE
+
+  providers = {
+    aws.ecs_region = aws.eu_region
   }
 }
 
@@ -1101,33 +1372,94 @@ module "create_us_alb" {
 }
 
 module "create_us_ecs" {
-  source                            = "./modules/ecs"
-  fargate_cpu_memory                = var.fargate_cpu_memory
-  vpc_id                            = module.create_us_vpc.vpc_id
-  alb_security_group                = module.create_us_alb.qatalyst_alb_sg_id
-  ecs_subnets                       = module.create_us_vpc.private_subnets
-  alb_target_group_arn              = module.create_us_alb.qatalyst_alb_target_group_arn
-  alb_target_group_reports_arn      = module.create_us_alb.qatalyst_alb_target_group_reports_arn
-  ecs_task_execution_role_arn       = module.create_iam.ecs_task_execution_role_arn
-  ecs_task_role_arn                 = module.create_iam.ecs_task_role_arn
-  cognito_user_pool_id              = module.create_cognito_user_pool.user_pool_id
-  qatalyst_domain                   = local.qatalyst_domain
-  fe_tester_view_domain_name        = local.tester_view_domain
-  cw_logs_retention_in_days         = var.cw_logs_retention_in_days
-  qatalyst_ecs_autoscale_role_arn   = module.create_iam.qatalyst_ecs_autoscale_role_arn
-  uvicorn_workers_count             = var.uvicorn_workers_count
-  datadog_docker_image              = var.datadog_docker_image
-  DEFAULT_TAGS                      = var.DEFAULT_TAGS
-  STAGE                             = var.STAGE
-  base_domain                       = var.base_domain
-  alb_target_group_tester_view_arn  = module.create_us_alb.qatalyst_alb_target_group_tester_view_arn
-  datacenter_codes                  = var.datacenter_codes
-  qatalyst_ecs_cluster_name         = local.qatalyst_ecs_cluster_name
-  qatalyst_dashboard_service_name   = local.qatalyst_dashboard_service_name
-  qatalyst_reports_service_name     = local.qatalyst_reports_service_name
-  qatalyst_tester_view_service_name = local.qatalyst_tester_view_service_name
+  source             = "./modules/ecs-cluster"
+  ecs_cluster_name   = local.qatalyst_ecs_cluster_name
+  vpc_id             = module.create_us_vpc.vpc_id
+  alb_security_group = module.create_us_alb.qatalyst_alb_sg_id
+  datacenter_codes   = var.datacenter_codes
+  DEFAULT_TAGS       = var.DEFAULT_TAGS
+  STAGE              = var.STAGE
+
   providers = {
     aws.ecs_region = aws.us_region
+  }
+}
+
+module "create_us_ecs_dashboard_service" {
+  source                        = "./modules/ecs-service"
+  ecs_service_name              = local.qatalyst_dashboard_service_name
+  ecs_cluster_id                = module.create_us_ecs.ecs_cluster_id
+  ecs_cluster_name              = module.create_us_ecs.ecs_cluster_name
+  ecs_security_groups           = module.create_us_ecs.ecs_security_group_ids
+  ecs_subnets                   = module.create_us_vpc.private_subnets
+  alb_target_group_arn          = module.create_us_alb.qatalyst_alb_target_group_arn
+  ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
+  ecs_task_role_arn             = module.create_iam.ecs_task_role_arn
+  ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
+  fargate_cpu_memory            = var.fargate_cpu_memory
+  service_environment_variables = local.qatalyst_ecs_task_environment_variables
+  service_environment_secrets   = local.qatalyst_ecs_task_environment_secrets
+  dd_environment_variables      = local.qatalyst_datadog_environment_variables
+  dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
+  datadog_docker_image          = var.datadog_docker_image
+  datacenter_codes              = var.datacenter_codes
+  DEFAULT_TAGS                  = var.DEFAULT_TAGS
+  STAGE                         = var.STAGE
+
+  providers = {
+    aws.ecs_region = aws.us_region
+  }
+}
+
+module "create_us_ecs_testerview_service" {
+  source                        = "./modules/ecs-service"
+  ecs_service_name              = local.qatalyst_tester_view_service_name
+  ecs_cluster_id                = module.create_us_ecs.ecs_cluster_id
+  ecs_cluster_name              = module.create_us_ecs.ecs_cluster_name
+  ecs_security_groups           = module.create_us_ecs.ecs_security_group_ids
+  ecs_subnets                   = module.create_us_vpc.private_subnets
+  alb_target_group_arn          = module.create_us_alb.qatalyst_alb_target_group_tester_view_arn
+  ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
+  ecs_task_role_arn             = module.create_iam.ecs_task_role_arn
+  ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
+  fargate_cpu_memory            = var.fargate_cpu_memory
+  service_environment_variables = local.qatalyst_ecs_task_environment_variables
+  service_environment_secrets   = local.qatalyst_ecs_task_environment_secrets
+  dd_environment_variables      = local.qatalyst_datadog_environment_variables
+  dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
+  datadog_docker_image          = var.datadog_docker_image
+  datacenter_codes              = var.datacenter_codes
+  DEFAULT_TAGS                  = var.DEFAULT_TAGS
+  STAGE                         = var.STAGE
+
+  providers = {
+    aws.ecs_region = aws.eu_region
+  }
+}
+
+module "create_us_ecs_reports_service" {
+  source                        = "./modules/ecs-service"
+  ecs_service_name              = local.qatalyst_reports_service_name
+  ecs_cluster_id                = module.create_us_ecs.ecs_cluster_id
+  ecs_cluster_name              = module.create_us_ecs.ecs_cluster_name
+  ecs_security_groups           = module.create_us_ecs.ecs_security_group_ids
+  ecs_subnets                   = module.create_us_vpc.private_subnets
+  alb_target_group_arn          = module.create_us_alb.qatalyst_alb_target_group_reports_arn
+  ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
+  ecs_task_role_arn             = module.create_iam.ecs_task_role_arn
+  ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
+  fargate_cpu_memory            = var.fargate_cpu_memory
+  service_environment_variables = local.qatalyst_ecs_task_environment_variables
+  service_environment_secrets   = local.qatalyst_ecs_task_environment_secrets
+  dd_environment_variables      = local.qatalyst_datadog_environment_variables
+  dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
+  datadog_docker_image          = var.datadog_docker_image
+  datacenter_codes              = var.datacenter_codes
+  DEFAULT_TAGS                  = var.DEFAULT_TAGS
+  STAGE                         = var.STAGE
+
+  providers = {
+    aws.ecs_region = aws.eu_region
   }
 }
 
