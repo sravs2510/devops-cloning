@@ -978,7 +978,7 @@ module "create_sea_ecs_testerview_service" {
   STAGE                         = var.STAGE
 
   providers = {
-    aws.ecs_region = aws.eu_region
+    aws.ecs_region = aws.sea_region
   }
 }
 
@@ -1004,7 +1004,7 @@ module "create_sea_ecs_reports_service" {
   STAGE                         = var.STAGE
 
   providers = {
-    aws.ecs_region = aws.eu_region
+    aws.ecs_region = aws.sea_region
   }
 }
 
@@ -1433,7 +1433,7 @@ module "create_us_ecs_testerview_service" {
   STAGE                         = var.STAGE
 
   providers = {
-    aws.ecs_region = aws.eu_region
+    aws.ecs_region = aws.us_region
   }
 }
 
@@ -1459,7 +1459,7 @@ module "create_us_ecs_reports_service" {
   STAGE                         = var.STAGE
 
   providers = {
-    aws.ecs_region = aws.eu_region
+    aws.ecs_region = aws.us_region
   }
 }
 
