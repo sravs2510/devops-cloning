@@ -172,6 +172,13 @@ table_details = {
       range_key = "block_id"
     }
   },
+  "tester-logs" : {
+    table_name     = "qatalyst-tester-logs"
+    hash_key       = "block_id"
+    range_key      = "tester_id"
+    stream_enabled = false
+    gsi_1 : {}
+  }
   "media-details" : {
     table_name     = "qatalyst-media-details"
     hash_key       = "block_id"
