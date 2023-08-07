@@ -179,6 +179,20 @@ table_details = {
     stream_enabled = false
     gsi_1 : {}
   }
+  "media-details" : {
+    table_name     = "qatalyst-media-details"
+    hash_key       = "block_id"
+    range_key      = "media_id"
+    stream_enabled = false
+    gsi_1 : {}
+  },
+  "transcripts-details" : {
+    table_name     = "qatalyst-transcripts-details"
+    hash_key       = "media_id"
+    range_key      = "transcript_id"
+    stream_enabled = false
+    gsi_1 : {}
+  }
 }
 
 tables_without_range_key = {

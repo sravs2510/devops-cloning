@@ -51,7 +51,7 @@ module "create_cognito_user_pool" {
   user_pool_web_client_name     = var.user_pool_web_client_name
   cognito_custom_domain         = local.cognito_custom_domain
   cognito_custom_domain_acm_arn = module.create_cognito_custom_domain_acm.acm_arn
-  cognito_callback_url          = join("", ["https://", local.qatalyst_domain, "/callback?"])
+  cognito_callback_url          = join("", ["https://", local.dasboard_domain, "/callback?"])
   base_domain                   = var.base_domain
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
