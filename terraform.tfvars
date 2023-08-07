@@ -171,6 +171,20 @@ table_details = {
       hash_key  = "meeting_id"
       range_key = "block_id"
     }
+  },
+  "media-details" : {
+    table_name     = "qatalyst-media-details"
+    hash_key       = "block_id"
+    range_key      = "media_id"
+    stream_enabled = false
+    gsi_1 : {}
+  },
+  "transcripts-details" : {
+    table_name     = "qatalyst-transcripts-details"
+    hash_key       = "media_id"
+    range_key      = "transcript_id"
+    stream_enabled = false
+    gsi_1 : {}
   }
 }
 
