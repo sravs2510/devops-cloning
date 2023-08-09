@@ -225,3 +225,10 @@ mediaconvert_queues = {
     status       = "ACTIVE"
   }
 }
+
+lb_target_health = {
+  "lb_target_interval" : "30"
+  "lb_target_timeout" : "25"
+  "lb_target_healthy_threshold" : "2"
+  "lb_target_unhealthy_threshold" : "2"
+}

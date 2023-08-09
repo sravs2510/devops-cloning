@@ -47,3 +47,8 @@ variable "meet_acm_arn" {
   type        = string
   description = "Meet ACM"
 }
+
+variable "lb_target_health" {
+  type        = map(string)
+  description = "ALB target health checks"
+}

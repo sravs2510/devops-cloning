@@ -11,6 +11,12 @@ data "aws_region" "current" {
   provider = aws.alb_region
 }
 
+locals {
+  lb_target_interval            = lookup(var.lb_target_health, "lb_target_interval")
+  lb_target_timeout             = lookup(var.lb_target_health, "lb_target_timeout")
+  lb_target_healthy_threshold   = lookup(var.lb_target_health, "lb_target_healthy_threshold")
+  lb_target_unhealthy_threshold = lookup(var.lb_target_health, "lb_target_unhealthy_threshold")
+}
 resource "aws_security_group" "qatalyst_alb_sg" {
   provider    = aws.alb_region
   name        = "qatalyst-alb-sg"
@@ -61,10 +67,10 @@ resource "aws_lb_target_group" "qatalyst_tg" {
 
   health_check {
     path                = "/health"
-    interval            = 60
-    timeout             = 30
-    healthy_threshold   = 5
-    unhealthy_threshold = 2
+    interval            = local.lb_target_interval
+    timeout             = local.lb_target_timeout
+    healthy_threshold   = local.lb_target_healthy_threshold
+    unhealthy_threshold = local.lb_target_unhealthy_threshold
   }
   tags = merge(tomap({ "Name" : "qatalyst-dashboard-tg" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
@@ -80,10 +86,10 @@ resource "aws_lb_target_group" "qatalyst_reports_tg" {
 
   health_check {
     path                = "/health"
-    interval            = 60
-    timeout             = 30
-    healthy_threshold   = 5
-    unhealthy_threshold = 2
+    interval            = local.lb_target_interval
+    timeout             = local.lb_target_timeout
+    healthy_threshold   = local.lb_target_healthy_threshold
+    unhealthy_threshold = local.lb_target_unhealthy_threshold
   }
   tags = merge(tomap({ "Name" : "qatalyst-reports-tg" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
@@ -99,10 +105,10 @@ resource "aws_lb_target_group" "qatalyst_tester_view_tg" {
 
   health_check {
     path                = "/health"
-    interval            = 60
-    timeout             = 30
-    healthy_threshold   = 5
-    unhealthy_threshold = 2
+    interval            = local.lb_target_interval
+    timeout             = local.lb_target_timeout
+    healthy_threshold   = local.lb_target_healthy_threshold
+    unhealthy_threshold = local.lb_target_unhealthy_threshold
   }
   tags = merge(tomap({ "Name" : "qatalyst-tester-view-tg" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
