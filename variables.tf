@@ -159,3 +159,8 @@ variable "mediaconvert_queues" {
   type        = map(any)
   description = "Mediaconvert Queues"
 }
+
+variable "lb_target_health" {
+  type        = map(string)
+  description = "ALB target health checks"
+}

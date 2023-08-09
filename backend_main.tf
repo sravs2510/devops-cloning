@@ -236,6 +236,7 @@ module "create_eu_alb" {
   DEFAULT_TAGS       = var.DEFAULT_TAGS
   STAGE              = var.STAGE
   meet_acm_arn       = module.create_eu_meet_acm_cf.acm_arn
+  lb_target_health   = var.lb_target_health
 
   providers = {
     aws.alb_region = aws.eu_region
@@ -573,6 +574,7 @@ module "create_in_alb" {
   DEFAULT_TAGS       = var.DEFAULT_TAGS
   STAGE              = var.STAGE
   meet_acm_arn       = module.create_in_meet_acm_cf.acm_arn
+  lb_target_health   = var.lb_target_health
 
   providers = {
     aws.alb_region = aws.in_region
@@ -910,6 +912,7 @@ module "create_sea_alb" {
   DEFAULT_TAGS       = var.DEFAULT_TAGS
   STAGE              = var.STAGE
   meet_acm_arn       = module.create_sea_meet_acm_cf.acm_arn
+  lb_target_health   = var.lb_target_health
 
   providers = {
     aws.alb_region = aws.sea_region
@@ -1365,6 +1368,7 @@ module "create_us_alb" {
   DEFAULT_TAGS       = var.DEFAULT_TAGS
   STAGE              = var.STAGE
   meet_acm_arn       = module.create_us_meet_acm_cf.acm_arn
+  lb_target_health   = var.lb_target_health
 
   providers = {
     aws.alb_region = aws.us_region
