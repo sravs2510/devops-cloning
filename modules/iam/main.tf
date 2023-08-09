@@ -43,14 +43,20 @@ data "aws_caller_identity" "current" {
   provider = aws.iam_region
 }
 
+data "aws_region" "current" {
+  provider = aws.iam_region
+}
+
 locals {
   account_id                 = data.aws_caller_identity.current.account_id
+  region                     = data.aws_region.current.name
   media_bucket_name          = var.STAGE == "prod" ? join(".", ["*", "media.getqatalyst.io"]) : join(".", ["*", var.STAGE, "media.getqatalyst.io"])
   s3_media_bucket_arn        = join(":", ["arn:aws:s3::", local.media_bucket_name])
   s3_media_bucket_object_arn = join("", ["arn:aws:s3:::", local.media_bucket_name, "/*"])
   common_bucket_name         = var.STAGE == "prod" ? "common.getqatalyst.io/*" : join(".", [var.STAGE, "common.getqatalyst.io/*"])
   s3_common_bucket_arn       = join(":", ["arn:aws:s3::", local.common_bucket_name])
   ses_arn                    = join(":", ["arn:aws:ses", "us-west-2", local.account_id, "identity/*"])
+  qatalyst_lambdas_arn       = join(":", ["arn:aws:lambda", local.region, local.account_id, "function", "qatalyst-*"])
 }
 
 # add the required permission to the policy below
@@ -114,6 +120,11 @@ resource "aws_iam_policy" "qatalyst_ecs_task_iam_policy" {
         ],
         Effect   = "Allow",
         Resource = local.ses_arn
+      },
+      {
+        Action = ["lambda:InvokeFunction"],
+        Effect = "Allow",
+        Resource = local.qatalyst_lambdas_arn
       }
     ]
   })
