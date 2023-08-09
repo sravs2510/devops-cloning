@@ -11,6 +11,12 @@ terraform {
   }
 }
 
+data "aws_region" "ssm_region" {
+  provider = aws.ssm_region
+}
+locals {
+  datacenter_code = lookup(var.datacenter_codes, data.aws_region.ssm_region.name)
+}
 resource "aws_ssm_parameter" "qatalyst_bitly_bearer_token" {
   provider = aws.ssm_region
   name     = join("-", ["qatalyst", var.STAGE, "bitly-bearer-token"])
@@ -84,4 +90,76 @@ resource "aws_ssm_parameter" "qatalyst_100ms_secret_key" {
   type     = "SecureString"
   value    = "#QATALYST_100MS_SECRET_KEY"
   tags     = merge(tomap({ "Name" : join("-", ["qatalyst", var.STAGE, "100ms-secret-key"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+}
+
+resource "aws_ssm_parameter" "platform_client_id_in" {
+  provider = aws.ssm_region
+  count    = local.datacenter_code == "in" ? 1 : 0
+  name     = join("-", ["platform", var.STAGE, "client-id-in"])
+  type     = "SecureString"
+  value    = "#PLATFORM_CLIENT_ID_IN"
+  tags     = merge(tomap({ "Name" : join("-", ["platform", var.STAGE, "client-id-in"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+}
+
+resource "aws_ssm_parameter" "platform_client_id_us" {
+  provider = aws.ssm_region
+  count    = local.datacenter_code == "us" ? 1 : 0
+  name     = join("-", ["platform", var.STAGE, "client-id-us"])
+  type     = "SecureString"
+  value    = "#PLATFORM_CLIENT_ID_US"
+  tags     = merge(tomap({ "Name" : join("-", ["platform", var.STAGE, "client-id-us"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+}
+
+resource "aws_ssm_parameter" "platform_client_id_eu" {
+  provider = aws.ssm_region
+  count    = local.datacenter_code == "eu" ? 1 : 0
+  name     = join("-", ["platform", var.STAGE, "client-id-eu"])
+  type     = "SecureString"
+  value    = "#PLATFORM_CLIENT_ID_EU"
+  tags     = merge(tomap({ "Name" : join("-", ["platform", var.STAGE, "client-id-eu"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+}
+
+resource "aws_ssm_parameter" "platform_client_id_sea" {
+  provider = aws.ssm_region
+  count    = local.datacenter_code == "sea" ? 1 : 0
+  name     = join("-", ["platform", var.STAGE, "client-id-sea"])
+  type     = "SecureString"
+  value    = "#PLATFORM_CLIENT_ID_SEA"
+  tags     = merge(tomap({ "Name" : join("-", ["platform", var.STAGE, "client-id-sea"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+}
+
+resource "aws_ssm_parameter" "platform_secret_in" {
+  provider = aws.ssm_region
+  count    = local.datacenter_code == "in" ? 1 : 0
+  name     = join("-", ["platform", var.STAGE, "secret-in"])
+  type     = "SecureString"
+  value    = "#PLATFORM_SECRET_IN"
+  tags     = merge(tomap({ "Name" : join("-", ["platform", var.STAGE, "secret-in"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+}
+
+resource "aws_ssm_parameter" "platform_secret_us" {
+  provider = aws.ssm_region
+  count    = local.datacenter_code == "us" ? 1 : 0
+  name     = join("-", ["platform", var.STAGE, "secret-us"])
+  type     = "SecureString"
+  value    = "#PLATFORM_SECRET_US"
+  tags     = merge(tomap({ "Name" : join("-", ["platform", var.STAGE, "secret-us"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+}
+
+resource "aws_ssm_parameter" "platform_secret_eu" {
+  provider = aws.ssm_region
+  count    = local.datacenter_code == "eu" ? 1 : 0
+  name     = join("-", ["platform", var.STAGE, "secret-eu"])
+  type     = "SecureString"
+  value    = "#PLATFORM_SECRET_EU"
+  tags     = merge(tomap({ "Name" : join("-", ["platform", var.STAGE, "secret-eu"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+}
+
+resource "aws_ssm_parameter" "platform_secret_sea" {
+  provider = aws.ssm_region
+  count    = local.datacenter_code == "sea" ? 1 : 0
+  name     = join("-", ["platform", var.STAGE, "secret-sea"])
+  type     = "SecureString"
+  value    = "#PLATFORM_SECRET_SEA"
+  tags     = merge(tomap({ "Name" : join("-", ["platform", var.STAGE, "secret-sea"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }

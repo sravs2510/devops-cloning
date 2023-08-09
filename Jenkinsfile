@@ -19,6 +19,10 @@ pipeline {
         QATALYST_AUTH0_CLIENT_SECRET_STAGE = "QATALYST_AUTH0_CLIENT_SECRET_${params.STAGE.toUpperCase()}"
         QATALYST_100MS_ACCESS_KEY_STAGE = "QATALYST_100MS_ACCESS_KEY_${params.STAGE.toUpperCase()}"
         QATALYST_100MS_SECRET_KEY_STAGE = "QATALYST_100MS_SECRET_KEY_${params.STAGE.toUpperCase()}"
+        PLATFORM_CLIENT_ID_US_STAGE = "PLATFORM_CLIENT_ID_US_${params.STAGE.toUpperCase()}"
+        PLATFORM_CLIENT_ID_SEA_STAGE = "PLATFORM_CLIENT_ID_SEA_${params.STAGE.toUpperCase()}"
+        PLATFORM_CLIENT_ID_IN_STAGE = "PLATFORM_CLIENT_ID_IN_${params.STAGE.toUpperCase()}"
+        PLATFORM_CLIENT_ID_EU_STAGE = "PLATFORM_CLIENT_ID_EU_${params.STAGE.toUpperCase()}"
     }
     stages {
        stage('Print Job Name') {
