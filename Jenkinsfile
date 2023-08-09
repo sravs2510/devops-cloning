@@ -19,10 +19,15 @@ pipeline {
         QATALYST_AUTH0_CLIENT_SECRET_STAGE = "QATALYST_AUTH0_CLIENT_SECRET_${params.STAGE.toUpperCase()}"
         QATALYST_100MS_ACCESS_KEY_STAGE = "QATALYST_100MS_ACCESS_KEY_${params.STAGE.toUpperCase()}"
         QATALYST_100MS_SECRET_KEY_STAGE = "QATALYST_100MS_SECRET_KEY_${params.STAGE.toUpperCase()}"
-        PLATFORM_CLIENT_ID_US_STAGE = "PLATFORM_CLIENT_ID_US_${params.STAGE.toUpperCase()}"
-        PLATFORM_CLIENT_ID_SEA_STAGE = "PLATFORM_CLIENT_ID_SEA_${params.STAGE.toUpperCase()}"
-        PLATFORM_CLIENT_ID_IN_STAGE = "PLATFORM_CLIENT_ID_IN_${params.STAGE.toUpperCase()}"
-        PLATFORM_CLIENT_ID_EU_STAGE = "PLATFORM_CLIENT_ID_EU_${params.STAGE.toUpperCase()}"
+        platform_client_id_in_stage = "platform_client_id_in_${params.STAGE.toLowerCase()}"
+        platform_client_id_us_stage = "platform_client_id_us_${params.STAGE.toLowerCase()}"  
+        platform_client_id_sea_stage = "platform_client_id_sea_${params.STAGE.toLowerCase()}"
+        platform_client_id_eu_stage = "platform_client_id_eu_${params.STAGE.toLowerCase()}"
+        platform_secret_eu_stage = "platform_secret_eu_${params.STAGE.toLowerCase()}"
+        platform_secret_in_stage = "platform_secret_in_${params.STAGE.toLowerCase()}"
+        platform_secret_sea_stage = "platform_secret_sea_${params.STAGE.toLowerCase()}"
+        platform_secret_us_stage = "platform_secret_us_${params.STAGE.toLowerCase()}"
+        
     }
     stages {
        stage('Print Job Name') {
@@ -50,7 +55,16 @@ pipeline {
                     string(credentialsId: "$QATALYST_AUTH0_CLIENT_SECRET_STAGE", variable: 'QATALYST_AUTH0_CLIENT_SECRET'),
                     string(credentialsId: "$QATALYST_AUTH0_CLIENT_ID_STAGE", variable: 'QATALYST_AUTH0_CLIENT_ID')
                     string(credentialsId: "$QATALYST_100MS_ACCESS_KEY_STAGE", variable: 'QATALYST_100MS_ACCESS_KEY'),
-                    string(credentialsId: "$QATALYST_100MS_SECRET_KEY_STAGE", variable: 'QATALYST_100MS_SECRET_KEY')
+                    string(credentialsId: "$QATALYST_100MS_SECRET_KEY_STAGE", variable: 'QATALYST_100MS_SECRET_KEY'),
+                    string(credentialsId: "$platform_client_id_eu_stage", variable: 'platform_client_id_eu')
+                    string(credentialsId: "$platform_client_id_in_stage", variable: 'platform_client_id_in')
+                    string(credentialsId: "$platform_client_id_sea_stage", variable: 'platform_client_id_sea')
+                    string(credentialsId: "$platform_client_id_us_stage", variable: 'platform_client_id_us')
+                    string(credentialsId: "$platform_secret_us_stage", variable: 'platform_secret_us')
+                    string(credentialsId: "$platform_secret_eu_stage", variable: 'platform_secret_eu')
+                    string(credentialsId: "$platform_secret_sea_stage", variable: 'platform_secret_sea')
+                    string(credentialsId: "$platform_secret_in_stage", variable: 'platform_secret_in')
+
                 ])
                 {
                     sh '''

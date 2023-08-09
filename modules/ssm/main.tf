@@ -97,7 +97,7 @@ resource "aws_ssm_parameter" "platform_client_id_in" {
   count    = local.datacenter_code == "in" ? 1 : 0
   name     = join("-", ["platform", var.STAGE, "client-id-in"])
   type     = "SecureString"
-  value    = "#PLATFORM_CLIENT_ID_IN"
+  value    = "#platform_client_id_in"
   tags     = merge(tomap({ "Name" : join("-", ["platform", var.STAGE, "client-id-in"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
@@ -106,7 +106,7 @@ resource "aws_ssm_parameter" "platform_client_id_us" {
   count    = local.datacenter_code == "us" ? 1 : 0
   name     = join("-", ["platform", var.STAGE, "client-id-us"])
   type     = "SecureString"
-  value    = "#PLATFORM_CLIENT_ID_US"
+  value    = "#platform_client_id_us"
   tags     = merge(tomap({ "Name" : join("-", ["platform", var.STAGE, "client-id-us"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
@@ -115,7 +115,7 @@ resource "aws_ssm_parameter" "platform_client_id_eu" {
   count    = local.datacenter_code == "eu" ? 1 : 0
   name     = join("-", ["platform", var.STAGE, "client-id-eu"])
   type     = "SecureString"
-  value    = "#PLATFORM_CLIENT_ID_EU"
+  value    = "#platform_client_id_eu"
   tags     = merge(tomap({ "Name" : join("-", ["platform", var.STAGE, "client-id-eu"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
@@ -124,7 +124,7 @@ resource "aws_ssm_parameter" "platform_client_id_sea" {
   count    = local.datacenter_code == "sea" ? 1 : 0
   name     = join("-", ["platform", var.STAGE, "client-id-sea"])
   type     = "SecureString"
-  value    = "#PLATFORM_CLIENT_ID_SEA"
+  value    = "#platform_client_id_sea"
   tags     = merge(tomap({ "Name" : join("-", ["platform", var.STAGE, "client-id-sea"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
@@ -133,7 +133,7 @@ resource "aws_ssm_parameter" "platform_secret_in" {
   count    = local.datacenter_code == "in" ? 1 : 0
   name     = join("-", ["platform", var.STAGE, "secret-in"])
   type     = "SecureString"
-  value    = "#PLATFORM_SECRET_IN"
+  value    = "#platform_secret_in"
   tags     = merge(tomap({ "Name" : join("-", ["platform", var.STAGE, "secret-in"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
@@ -142,7 +142,7 @@ resource "aws_ssm_parameter" "platform_secret_us" {
   count    = local.datacenter_code == "us" ? 1 : 0
   name     = join("-", ["platform", var.STAGE, "secret-us"])
   type     = "SecureString"
-  value    = "#PLATFORM_SECRET_US"
+  value    = "#platform_secret_us"
   tags     = merge(tomap({ "Name" : join("-", ["platform", var.STAGE, "secret-us"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
@@ -151,7 +151,7 @@ resource "aws_ssm_parameter" "platform_secret_eu" {
   count    = local.datacenter_code == "eu" ? 1 : 0
   name     = join("-", ["platform", var.STAGE, "secret-eu"])
   type     = "SecureString"
-  value    = "#PLATFORM_SECRET_EU"
+  value    = "#platform_secret_eu"
   tags     = merge(tomap({ "Name" : join("-", ["platform", var.STAGE, "secret-eu"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
@@ -160,6 +160,6 @@ resource "aws_ssm_parameter" "platform_secret_sea" {
   count    = local.datacenter_code == "sea" ? 1 : 0
   name     = join("-", ["platform", var.STAGE, "secret-sea"])
   type     = "SecureString"
-  value    = "#PLATFORM_SECRET_SEA"
+  value    = "#platform_secret_sea"
   tags     = merge(tomap({ "Name" : join("-", ["platform", var.STAGE, "secret-sea"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }

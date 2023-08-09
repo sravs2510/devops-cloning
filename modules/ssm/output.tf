@@ -34,30 +34,30 @@ output "platform_client_id_in" {
   value = aws_ssm_parameter.platform_client_id_in.*.value
 }
 
- output "platform_client_id_sea" {
-   value = aws_ssm_parameter.platform_client_id_sea.*.value
- }
+output "platform_client_id_sea" {
+  value = aws_ssm_parameter.platform_client_id_sea.*.value
+}
 
- output "platform_client_id_us" {
-   value = aws_ssm_parameter.platform_client_id_us.*.value
- }
+output "platform_client_id_us" {
+  value = aws_ssm_parameter.platform_client_id_us.*.value
+}
 
- output "platform_client_id_eu" {
-   value = aws_ssm_parameter.platform_client_id_eu.*.value
- }
+output "platform_client_id_eu" {
+  value = aws_ssm_parameter.platform_client_id_eu.*.value
+}
 
- output "platform_secret_in" {
-   value = aws_ssm_parameter.platform_secret_in.*.value
- }
+output "platform_secret_in" {
+  value = aws_ssm_parameter.platform_secret_in.*.value
+}
 
- output "platform_secret_sea" {
-   value = aws_ssm_parameter.platform_secret_sea.*.value
- }
+output "platform_secret_sea" {
+  value = aws_ssm_parameter.platform_secret_sea.*.value
+}
 
- output "platform_secret_eu" {
-   value = aws_ssm_parameter.platform_secret_eu.*.value
- }
+output "platform_secret_eu" {
+  value = aws_ssm_parameter.platform_secret_eu.*.value
+}
 
- output "platform_secret_us" {
-   value = aws_ssm_parameter.platform_secret_us.*.value
- }
+output "platform_secret_us" {
+  value = aws_ssm_parameter.platform_secret_us.*.value
+}

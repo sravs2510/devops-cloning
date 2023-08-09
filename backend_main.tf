@@ -74,35 +74,35 @@ locals {
       valueFrom = join("-", ["qatalyst", var.STAGE, "100ms-secret-key"])
     },
     {
-      name      = "PLATFORM_CLIENT_ID_IN"
+      name      = "platform_client_id_in"
       valueFrom = join("-", ["platform", var.STAGE, "client-id-in"])
     },
     {
-      name      = "PLATFORM_CLIENT_ID_SEA"
+      name      = "platform_client_id_sea"
       valueFrom = join("-", ["platform", var.STAGE, "client-id-sea"])
     },
     {
-      name      = "PLATFORM_CLIENT_ID_US"
+      name      = "platform_client_id_us"
       valueFrom = join("-", ["platform", var.STAGE, "client-id-us"])
     },
     {
-      name      = "PLATFORM_CLIENT_ID_EU"
+      name      = "platform_client_id_eu"
       valueFrom = join("-", ["platform", var.STAGE, "client-id-eu"])
     },
     {
-      name      = "PLATFORM_SECRET_IN"
+      name      = "platform_secret_in"
       valueFrom = join("-", ["platform", var.STAGE, "secret-in"])
     },
     {
-      name      = "PLATFORM_SECRET_SEA"
+      name      = "Pplatform_secret_sea"
       valueFrom = join("-", ["platform", var.STAGE, "secret-sea"])
     },
     {
-      name      = "PLATFORM_SECRET_US"
+      name      = "platform_secret_us"
       valueFrom = join("-", ["platform", var.STAGE, "secret-us"])
     },
     {
-      name      = "PLATFORM_SECRET_EU"
+      name      = "platform_secret_eu"
       valueFrom = join("-", ["platform", var.STAGE, "secret-eu"])
     }
   ]
@@ -439,9 +439,9 @@ module "create_eu_cloudwatch_tester_view_dashboard" {
 }
 
 module "create_eu_ssm" {
-  source       = "./modules/ssm"
-  DEFAULT_TAGS = var.DEFAULT_TAGS
-  STAGE        = var.STAGE
+  source           = "./modules/ssm"
+  DEFAULT_TAGS     = var.DEFAULT_TAGS
+  STAGE            = var.STAGE
   datacenter_codes = var.datacenter_codes
   providers = {
     aws.ssm_region = aws.eu_region
@@ -777,9 +777,9 @@ module "create_in_cloudwatch_tester_view_dashboard" {
 }
 
 module "create_in_ssm" {
-  source       = "./modules/ssm"
-  DEFAULT_TAGS = var.DEFAULT_TAGS
-  STAGE        = var.STAGE
+  source           = "./modules/ssm"
+  DEFAULT_TAGS     = var.DEFAULT_TAGS
+  STAGE            = var.STAGE
   datacenter_codes = var.datacenter_codes
   providers = {
     aws.ssm_region = aws.in_region
@@ -1115,9 +1115,9 @@ module "create_sea_cloudwatch_tester_view_dashboard" {
 }
 
 module "create_sea_ssm" {
-  source       = "./modules/ssm"
-  DEFAULT_TAGS = var.DEFAULT_TAGS
-  STAGE        = var.STAGE
+  source           = "./modules/ssm"
+  DEFAULT_TAGS     = var.DEFAULT_TAGS
+  STAGE            = var.STAGE
   datacenter_codes = var.datacenter_codes
   providers = {
     aws.ssm_region = aws.sea_region
@@ -1590,9 +1590,9 @@ module "create_us_cloudwatch_tester_view_dashboard" {
 }
 
 module "create_us_ssm" {
-  source       = "./modules/ssm"
-  DEFAULT_TAGS = var.DEFAULT_TAGS
-  STAGE        = var.STAGE
+  source           = "./modules/ssm"
+  DEFAULT_TAGS     = var.DEFAULT_TAGS
+  STAGE            = var.STAGE
   datacenter_codes = var.datacenter_codes
 
   providers = {
