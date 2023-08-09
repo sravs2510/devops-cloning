@@ -171,7 +171,7 @@ resource "aws_appautoscaling_policy" "qatalyst_ecs_asp_cpu_average" {
     predefined_metric_specification {
       predefined_metric_type = "ECSServiceAverageCPUUtilization"
     }
-    target_value       = 50
+    target_value       = 70
     scale_in_cooldown  = 300
     scale_out_cooldown = 300
   }
@@ -189,7 +189,7 @@ resource "aws_appautoscaling_policy" "qatalyst_ecs_asp_memory_average" {
     predefined_metric_specification {
       predefined_metric_type = "ECSServiceAverageMemoryUtilization"
     }
-    target_value       = 50
+    target_value       = 70
     scale_in_cooldown  = 300
     scale_out_cooldown = 300
   }
