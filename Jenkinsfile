@@ -19,6 +19,16 @@ pipeline {
         QATALYST_AUTH0_CLIENT_SECRET_STAGE = "QATALYST_AUTH0_CLIENT_SECRET_${params.STAGE.toUpperCase()}"
         QATALYST_100MS_ACCESS_KEY_STAGE = "QATALYST_100MS_ACCESS_KEY_${params.STAGE.toUpperCase()}"
         QATALYST_100MS_SECRET_KEY_STAGE = "QATALYST_100MS_SECRET_KEY_${params.STAGE.toUpperCase()}"
+        PLATFORM_CLIENT_ID_IN_STAGE = "PLATFORM_CLIENT_ID_IN_${params.STAGE.toUpperCase()}"
+        PLATFORM_CLIENT_ID_US_STAGE = "PLATFORM_CLIENT_ID_US_${params.STAGE.toUpperCase()}"  
+        PLATFORM_CLIENT_ID_SEA_STAGE = "PLATFORM_CLIENT_ID_SEA_${params.STAGE.toUpperCase()}"
+        PLATFORM_CLIENT_ID_EU_STAGE = "PLATFORM_CLIENT_ID_EU_${params.STAGE.toUpperCase()}"
+        PLATFORM_SECRET_EU_STAGE = "PLATFORM_SECRET_EU_${params.STAGE.toUpperCase()}"
+        PLATFORM_SECRET_IN_STAGE = "PLATFORM_SECRET_IN_${params.STAGE.toUpperCase()}"
+        PLATFORM_SECRET_SEA_STAGE = "PLATFORM_SECRET_SEA_${params.STAGE.toUpperCase()}"
+        PLATFORM_SECRET_US_STAGE = "PLATFORM_SECRET_US_${params.STAGE.toUpperCase()}"
+        PLATFORM_REALM_ID_STAGE = "PLATFORM_REALM_ID_${params.STAGE.toUpperCase()}"
+        
     }
     stages {
        stage('Print Job Name') {
@@ -46,7 +56,16 @@ pipeline {
                     string(credentialsId: "$QATALYST_AUTH0_CLIENT_SECRET_STAGE", variable: 'QATALYST_AUTH0_CLIENT_SECRET'),
                     string(credentialsId: "$QATALYST_AUTH0_CLIENT_ID_STAGE", variable: 'QATALYST_AUTH0_CLIENT_ID')
                     string(credentialsId: "$QATALYST_100MS_ACCESS_KEY_STAGE", variable: 'QATALYST_100MS_ACCESS_KEY'),
-                    string(credentialsId: "$QATALYST_100MS_SECRET_KEY_STAGE", variable: 'QATALYST_100MS_SECRET_KEY')
+                    string(credentialsId: "$QATALYST_100MS_SECRET_KEY_STAGE", variable: 'QATALYST_100MS_SECRET_KEY'),
+                    string(credentialsId: "$PLATFORM_CLIENT_ID_IN_STAGE", variable: 'PLATFORM_CLIENT_ID_IN'),
+                    string(credentialsId: "$PLATFORM_CLIENT_ID_EU_STAGE", variable: 'PLATFORM_CLIENT_ID_EU'),
+                    string(credentialsId: "$PLATFORM_CLIENT_ID_SEA_STAGE", variable: 'PLATFORM_CLIENT_ID_SEA'),
+                    string(credentialsId: "$PLATFORM_CLIENT_ID_US_STAGE", variable: 'PLATFORM_CLIENT_ID_US'),
+                    string(credentialsId: "$PLATFORM_SECRET_US_STAGE", variable: 'PLATFORM_SECRET_US'),
+                    string(credentialsId: "$PLATFORM_SECRET_SEA_STAGE", variable: 'PLATFORM_SECRET_SEA'),
+                    string(credentialsId: "$PLATFORM_SECRET_EU_STAGE", variable: 'PLATFORM_SECRET_EU'),
+                    string(credentialsId: "$PLATFORM_SECRET_IN_STAGE", variable: 'PLATFORM_SECRET_IN'),
+                    string(credentialsId: "$PLATFORM_REALM_ID_STAGE", variable: 'PLATFORM_REALM_ID')  
                 ])
                 {
                     sh '''
