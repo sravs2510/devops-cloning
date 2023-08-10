@@ -87,40 +87,78 @@ gsi_global_table_details_without_range = {
 
 gsi_table_details = {
   "study_details" : {
-    table_name     = "qatalyst-study-details"
-    hash_key       = "workspace_id"
-    range_key      = "study_id"
-    attribute_1    = "last_modified_date"
+    table_name = "qatalyst-study-details"
+    hash_key   = "workspace_id"
+    range_key  = "study_id"
+    attributes = [
+      {
+        name = "last_modified_date"
+        type = "S"
+      }
+    ]
     stream_enabled = false
-    "gsi_1" : {
-      name      = "qatalyst-study-details-date-gsi"
-      hash_key  = "workspace_id"
-      range_key = "last_modified_date"
-    }
+    global_secondary_indexes = [
+      {
+        name            = "qatalyst-study-details-date-gsi"
+        hash_key        = "workspace_id"
+        range_key       = "last_modified_date"
+        projection_type = "ALL"
+      }
+    ]
   },
   "transcripts_highlights" : {
-    table_name     = "qatalyst-transcripts-highlights"
-    hash_key       = "transcript_id"
-    range_key      = "highlight_id"
-    attribute_1    = "media_id"
+    table_name = "qatalyst-transcripts-highlights"
+    hash_key   = "transcript_id"
+    range_key  = "highlight_id"
+    attributes = [
+      {
+        name = "media_id"
+        type = "S"
+      }
+    ]
     stream_enabled = false
-    "gsi_1" : {
-      name      = "qatalyst-highlights-media-id-gsi"
-      hash_key  = "media_id"
-      range_key = "transcript_id"
-    }
+    global_secondary_indexes = [
+      {
+        name            = "qatalyst-highlights-media-id-gsi"
+        hash_key        = "media_id"
+        range_key       = "transcript_id"
+        projection_type = "ALL"
+      },
+    ]
   },
   "transcripts_tags" : {
-    table_name     = "qatalyst-transcripts-tags"
-    hash_key       = "highlight_id"
-    range_key      = "tag_id"
-    attribute_1    = "media_id"
+    table_name = "qatalyst-transcripts-tags"
+    hash_key   = "highlight_id"
+    range_key  = "tag_id"
+    attributes = [
+      {
+        name = "workspace_id"
+        type = "S"
+      },
+      {
+        name = "lower_tag_text"
+        type = "S"
+      },
+      {
+        name = "media_id"
+        type = "S"
+      }
+    ]
     stream_enabled = false
-    "gsi_1" : {
-      name      = "qatalyst-tags-media-id-gsi"
-      hash_key  = "media_id"
-      range_key = "tag_id"
-    }
+    global_secondary_indexes = [
+      {
+        name            = "qatalyst-tags-media-id-gsi"
+        hash_key        = "media_id"
+        range_key       = "tag_id"
+        projection_type = "ALL"
+      },
+      {
+        name            = "qatalyst-tags-search-gsi"
+        hash_key        = "workspace_id"
+        range_key       = "lower_tag_text"
+        projection_type = "ALL"
+      },
+    ]
   }
 }
 
