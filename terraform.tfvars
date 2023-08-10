@@ -97,6 +97,30 @@ gsi_table_details = {
       hash_key  = "workspace_id"
       range_key = "last_modified_date"
     }
+  },
+  "transcripts_highlights" : {
+    table_name     = "qatalyst-transcripts-highlights"
+    hash_key       = "transcript_id"
+    range_key      = "highlight_id"
+    attribute_1    = "media_id"
+    stream_enabled = false
+    "gsi_1" : {
+      name      = "qatalyst-highlights-media-id-gsi"
+      hash_key  = "media_id"
+      range_key = "transcript_id"
+    }
+  },
+  "transcripts_tags" : {
+    table_name     = "qatalyst-transcripts-tags"
+    hash_key       = "highlight_id"
+    range_key      = "tag_id"
+    attribute_1    = "media_id"
+    stream_enabled = false
+    "gsi_1" : {
+      name      = "qatalyst-tags-media-id-gsi"
+      hash_key  = "media_id"
+      range_key = "tag_id"
+    }
   }
 }
 
