@@ -74,40 +74,40 @@ locals {
       valueFrom = join("-", ["qatalyst", var.STAGE, "100ms-secret-key"])
     },
     {
-      name      = "platform_client_id_in"
+      name      = "PLATFORM_CLIENT_ID_IN"
       valueFrom = join("-", ["platform", var.STAGE, "client-id-in"])
     },
     {
-      name      = "platform_client_id_sea"
+      name      = "PLATFORM_CLIENT_ID_SEA"
       valueFrom = join("-", ["platform", var.STAGE, "client-id-sea"])
     },
     {
-      name      = "platform_client_id_us"
+      name      = "PLATFORM_CLIENT_ID_US"
       valueFrom = join("-", ["platform", var.STAGE, "client-id-us"])
     },
     {
-      name      = "platform_client_id_eu"
+      name      = "PLATFORM_CLIENT_ID_EU"
       valueFrom = join("-", ["platform", var.STAGE, "client-id-eu"])
     },
     {
-      name      = "platform_secret_in"
+      name      = "PLATFORM_SECRET_IN"
       valueFrom = join("-", ["platform", var.STAGE, "secret-in"])
     },
     {
-      name      = "platform_secret_sea"
+      name      = "PLATFORM_SECRET_SEA"
       valueFrom = join("-", ["platform", var.STAGE, "secret-sea"])
     },
     {
-      name      = "platform_secret_us"
+      name      = "PLATFORM_SECRET_US"
       valueFrom = join("-", ["platform", var.STAGE, "secret-us"])
     },
     {
-      name      = "platform_secret_eu"
+      name      = "PLATFORM_SECRET_EU"
       valueFrom = join("-", ["platform", var.STAGE, "secret-eu"])
     },
     {
-      name      = "realm_id"
-      valueFrom = join("-", ["realm", var.STAGE, "id"])
+      name      = "PLATFORM_REALM_ID"
+      valueFrom = join("-", ["platform", var.STAGE, "realm-id"])
     }
   ]
   qatalyst_datadog_environment_variables = [
