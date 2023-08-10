@@ -94,7 +94,7 @@ locals {
       valueFrom = join("-", ["platform", var.STAGE, "secret-in"])
     },
     {
-      name      = "Pplatform_secret_sea"
+      name      = "platform_secret_sea"
       valueFrom = join("-", ["platform", var.STAGE, "secret-sea"])
     },
     {
@@ -104,6 +104,10 @@ locals {
     {
       name      = "platform_secret_eu"
       valueFrom = join("-", ["platform", var.STAGE, "secret-eu"])
+    },
+    {
+      name      = "realm_id"
+      valueFrom = join("-", ["realm", var.STAGE, "id"])
     }
   ]
   qatalyst_datadog_environment_variables = [

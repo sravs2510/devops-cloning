@@ -163,3 +163,11 @@ resource "aws_ssm_parameter" "platform_secret_sea" {
   value    = "#platform_secret_sea"
   tags     = merge(tomap({ "Name" : join("-", ["platform", var.STAGE, "secret-sea"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
+
+resource "aws_ssm_parameter" "realm_id" {
+  provider = aws.ssm_region
+  name     = join("-", ["realm", var.STAGE, "id"])
+  type     = "SecureString"
+  value    = "#realm_id"
+  tags     = merge(tomap({ "Name" : join("-", ["realm", var.STAGE, "id"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+}

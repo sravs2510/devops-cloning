@@ -61,3 +61,7 @@ output "platform_secret_eu" {
 output "platform_secret_us" {
   value = aws_ssm_parameter.platform_secret_us.*.value
 }
+
+output "realm_id" {
+  value = aws_ssm_parameter.realm_id.value
+}
