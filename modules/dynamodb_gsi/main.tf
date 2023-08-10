@@ -34,18 +34,23 @@ resource "aws_dynamodb_table" "ddb_table_gsi" {
     type = "S"
   }
 
-  attribute {
-    name = each.value.attribute_1
-    type = "S"
+  dynamic "attribute" {
+    for_each = try(each.value.attributes, null) != null ? each.value.attributes : []
+    content {
+      name = attribute.value.name
+      type = attribute.value.type
+    }
   }
 
-  global_secondary_index {
-    name            = each.value.gsi_1.name
-    hash_key        = each.value.gsi_1.hash_key
-    range_key       = each.value.gsi_1.range_key
-    projection_type = "ALL"
+  dynamic "global_secondary_index" {
+    for_each = try(each.value.global_secondary_indexes, null) != null ? each.value.global_secondary_indexes : []
+    content {
+      name            = global_secondary_index.value.name
+      hash_key        = global_secondary_index.value.hash_key
+      range_key       = try(global_secondary_index.value.range_key, null)
+      projection_type = try(global_secondary_index.value.projection_type, "ALL")
+    }
   }
-
 
   tags = merge(tomap({ "Name" : each.value.table_name }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
