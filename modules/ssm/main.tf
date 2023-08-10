@@ -133,7 +133,7 @@ resource "aws_ssm_parameter" "platform_secret_in" {
   count    = local.datacenter_code == "in" ? 1 : 0
   name     = join("-", ["platform", var.STAGE, "secret-in"])
   type     = "SecureString"
-  value    = "#PLATFORM_SECRET_in"
+  value    = "#PLATFORM_SECRET_IN"
   tags     = merge(tomap({ "Name" : join("-", ["platform", var.STAGE, "secret-in"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
