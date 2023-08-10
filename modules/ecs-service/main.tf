@@ -49,7 +49,16 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
             value = data.aws_region.ecs_region.name
           }
         ]),
-        secrets = var.service_environment_secrets
+        secrets = concat(var.service_environment_secrets, [
+          {
+            name      = join("_", ["PLATFORM_CLIENT_ID", upper(local.datacenter_code)])
+            valueFrom = join("-", ["platform", var.STAGE, "client-id",local.datacenter_code])
+          },
+          {
+            name      = join("_", ["PLATFORM_SECRET", upper(local.datacenter_code)])
+            valueFrom = join("-", ["platform", var.STAGE, "secret",local.datacenter_code])
+          },
+        ]),
         portMappings = [
           {
             containerPort = 80

@@ -74,38 +74,6 @@ locals {
       valueFrom = join("-", ["qatalyst", var.STAGE, "100ms-secret-key"])
     },
     {
-      name      = "PLATFORM_CLIENT_ID_IN"
-      valueFrom = join("-", ["platform", var.STAGE, "client-id-in"])
-    },
-    {
-      name      = "PLATFORM_CLIENT_ID_SEA"
-      valueFrom = join("-", ["platform", var.STAGE, "client-id-sea"])
-    },
-    {
-      name      = "PLATFORM_CLIENT_ID_US"
-      valueFrom = join("-", ["platform", var.STAGE, "client-id-us"])
-    },
-    {
-      name      = "PLATFORM_CLIENT_ID_EU"
-      valueFrom = join("-", ["platform", var.STAGE, "client-id-eu"])
-    },
-    {
-      name      = "PLATFORM_SECRET_IN"
-      valueFrom = join("-", ["platform", var.STAGE, "secret-in"])
-    },
-    {
-      name      = "PLATFORM_SECRET_SEA"
-      valueFrom = join("-", ["platform", var.STAGE, "secret-sea"])
-    },
-    {
-      name      = "PLATFORM_SECRET_US"
-      valueFrom = join("-", ["platform", var.STAGE, "secret-us"])
-    },
-    {
-      name      = "PLATFORM_SECRET_EU"
-      valueFrom = join("-", ["platform", var.STAGE, "secret-eu"])
-    },
-    {
       name      = "PLATFORM_REALM_ID"
       valueFrom = join("-", ["platform", var.STAGE, "realm-id"])
     }
