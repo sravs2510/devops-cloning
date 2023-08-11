@@ -24,6 +24,9 @@ locals {
   datacenter_code      = lookup(var.datacenter_codes, data.aws_region.ecs_region.name)
   dd_api_key_ssm_param = join("-", ["datadog", var.STAGE, "api-key"])
   dd_service_name      = join("-", [var.ecs_service_name, var.STAGE, local.datacenter_code])
+  memory               = var.STAGE == "prod" ? lookup(var.fargate_cpu_memory, "memory_prod") : lookup(var.fargate_cpu_memory, "memory")
+  cpu                  = var.STAGE == "prod" ? lookup(var.fargate_cpu_memory, "cpu_prod") : lookup(var.fargate_cpu_memory, "cpu")
+
 }
 
 resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
@@ -31,8 +34,8 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
   family                   = local.task_definition_name
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  memory                   = var.fargate_cpu_memory.memory
-  cpu                      = var.fargate_cpu_memory.cpu
+  memory                   = local.memory
+  cpu                      = local.cpu
   execution_role_arn       = var.ecs_task_execution_role_arn
   task_role_arn            = var.ecs_task_role_arn
   container_definitions = jsonencode(
@@ -40,8 +43,8 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
       {
         name      = local.container_name
         image     = local.ecr_repo
-        memory    = var.fargate_cpu_memory.memory
-        cpu       = var.fargate_cpu_memory.cpu
+        memory    = local.memory
+        cpu       = local.cpu
         essential = true
         environment = concat(var.service_environment_variables, [
           {
@@ -52,11 +55,11 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
         secrets = concat(var.service_environment_secrets, [
           {
             name      = join("_", ["PLATFORM_CLIENT_ID", upper(local.datacenter_code)])
-            valueFrom = join("-", ["platform", var.STAGE, "client-id",local.datacenter_code])
+            valueFrom = join("-", ["platform", var.STAGE, "client-id", local.datacenter_code])
           },
           {
             name      = join("_", ["PLATFORM_SECRET", upper(local.datacenter_code)])
-            valueFrom = join("-", ["platform", var.STAGE, "secret",local.datacenter_code])
+            valueFrom = join("-", ["platform", var.STAGE, "secret", local.datacenter_code])
           },
         ]),
         portMappings = [
