@@ -265,10 +265,10 @@ tables_without_range_key = {
   }
 }
 
-fargate_cpu_memory = {
-  "cpu" : 1024
-  "memory" : 2048
-}
+ fargate_cpu_memory = {
+   "cpu" : 1024
+   "memory" : 2048
+ }
 
 uvicorn_workers_count = 4
 

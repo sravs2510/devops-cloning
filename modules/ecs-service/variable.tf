@@ -87,5 +87,4 @@ variable "dd_environment_variables" {
 variable "dd_environment_secrets" {
   type        = list(any)
   description = "DataDog Environment Secrets"
-
 }
