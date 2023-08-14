@@ -89,7 +89,7 @@ variable "cw_logs_retention_in_days" {
 }
 
 variable "table_details" {
-  type        = map(any)
+  type        = any
   description = "DDB Tables details"
 }
 

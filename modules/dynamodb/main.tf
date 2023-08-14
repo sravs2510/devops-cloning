@@ -34,13 +34,21 @@ resource "aws_dynamodb_table" "table" {
     type = "S"
   }
 
+  dynamic "attribute" {
+    for_each = try(each.value.attributes, null) != null ? each.value.attributes : []
+    content {
+      name = attribute.value.name
+      type = attribute.value.type
+    }
+  }
+
   dynamic "global_secondary_index" {
-    for_each = length(each.value.gsi_1) == 0 ? [] : [each.value.gsi_1]
+    for_each = try(each.value.global_secondary_indexes, null) != null ? each.value.global_secondary_indexes : []
     content {
       name            = global_secondary_index.value.name
       hash_key        = global_secondary_index.value.hash_key
-      range_key       = global_secondary_index.value.range_key
-      projection_type = "ALL"
+      range_key       = try(global_secondary_index.value.range_key, null)
+      projection_type = try(global_secondary_index.value.projection_type, "ALL")
     }
   }
 
