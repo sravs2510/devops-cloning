@@ -1,5 +1,5 @@
 variable "table_details" {
-  type        = map(any)
+  type        = any
   description = "List of tables and properties"
 }
 
