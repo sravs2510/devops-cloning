@@ -253,7 +253,11 @@ table_details = {
     hash_key       = "media_id"
     range_key      = "transcript_id"
     stream_enabled = false
-    gsi_1 : {}
+    gsi_1 : {
+      name      = "qatalyst-created-date-gsi"
+      hash_key  = "created_date"
+      range_key = "media_id"
+    }
   }
 }
 
