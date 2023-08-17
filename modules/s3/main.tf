@@ -15,6 +15,7 @@ locals {
   datacenter_code          = lookup(var.datacenter_codes, data.aws_region.current.name)
   studyview_domain         = format("%s%s", "https://", var.STAGE == "prod" ? join(".", [var.tester_view_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.tester_view_sub_domain, var.base_domain]))
   dashboard_domain         = format("%s%s", "https://", var.STAGE == "prod" ? join(".", ["*", var.base_domain]) : join(".", ["*", var.STAGE, var.base_domain]))
+  reports_domain           = format("%s%s", "https://", var.STAGE == "prod" ? join(".", [var.reports_s3_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.reports_s3_sub_domain, var.base_domain]))
   bucket_prefix            = join(".", [var.bucket_prefix, var.base_domain])
   multi_region_bucket_name = var.STAGE == "prod" ? join(".", [local.datacenter_code, local.bucket_prefix]) : join(".", [local.datacenter_code, var.STAGE, local.bucket_prefix])
   global_bucket_name       = var.STAGE == "prod" ? local.bucket_prefix : join(".", [var.STAGE, local.bucket_prefix])
@@ -57,7 +58,7 @@ resource "aws_s3_bucket_cors_configuration" "aws_cors_config" {
   cors_rule {
     allowed_headers = ["*"]
     allowed_methods = ["PUT", "POST", "GET"]
-    allowed_origins = var.STAGE != "dev" ? [local.studyview_domain, local.dashboard_domain] : [local.studyview_domain, local.dashboard_domain, "http://localhost:3000", "http://*.localhost:3000"]
+    allowed_origins = var.STAGE != "dev" ? [local.studyview_domain, local.dashboard_domain, local.reports_domain] : [local.studyview_domain, local.dashboard_domain, local.reports_domain, "http://localhost:3000", "http://*.localhost:3000"]
     expose_headers  = []
     max_age_seconds = 3600
   }
