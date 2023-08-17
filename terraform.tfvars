@@ -263,6 +263,12 @@ table_details = {
       projection_type = "ALL"
       }
     ]
+  },
+  "panel_testers" : {
+    table_name     = "qatalyst-panel-testers"
+    hash_key       = "workspace_id"
+    range_key      = "email_id"
+    stream_enabled = false
   }
 }
 
