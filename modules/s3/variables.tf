@@ -42,3 +42,8 @@ variable "meet_reports" {
   type        = bool
   description = "Flag to apply cors rule"
 }
+
+variable "reports_s3_sub_domain" {
+  type        = string
+  description = "Reports S3 Sub Domain Name"
+}
