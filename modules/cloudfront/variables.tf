@@ -47,3 +47,8 @@ variable "is_multi_region" {
   type        = bool
   description = "Flag to indicate multi region cloudfront"
 }
+
+variable "cache_policy_id" {
+  type        = string
+  description = "cdn custom policy id"
+}

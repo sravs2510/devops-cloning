@@ -204,6 +204,7 @@ module "create_eu_media_cloudfront" {
   bucket_id                   = module.create_eu_s3_bucket.s3_bucket_id
   bucket_regional_domain_name = module.create_eu_s3_bucket.s3_bucket_regional_domain_name
   acm_certificate_arn         = module.create_eu_acm_media_cf.acm_arn
+  cache_policy_id             = module.create_cdn_cache_policy.cdn_cache_policy_id
   is_multi_region             = true
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE
@@ -544,6 +545,7 @@ module "create_in_media_cloudfront" {
   bucket_id                   = module.create_in_s3_bucket.s3_bucket_id
   bucket_regional_domain_name = module.create_in_s3_bucket.s3_bucket_regional_domain_name
   acm_certificate_arn         = module.create_in_acm_media_cf.acm_arn
+  cache_policy_id             = module.create_cdn_cache_policy.cdn_cache_policy_id
   is_multi_region             = true
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE
@@ -884,6 +886,7 @@ module "create_sea_media_cloudfront" {
   bucket_id                   = module.create_sea_s3_bucket.s3_bucket_id
   bucket_regional_domain_name = module.create_sea_s3_bucket.s3_bucket_regional_domain_name
   acm_certificate_arn         = module.create_sea_acm_media_cf.acm_arn
+  cache_policy_id             = module.create_cdn_cache_policy.cdn_cache_policy_id
   is_multi_region             = true
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE
@@ -1186,6 +1189,7 @@ module "create_common_cloudfront" {
   bucket_id                   = module.create_common_s3_bucket.s3_bucket_id
   bucket_regional_domain_name = module.create_common_s3_bucket.s3_bucket_regional_domain_name
   acm_certificate_arn         = module.create_common_acm_cf.acm_arn
+  cache_policy_id             = module.create_cdn_cache_policy.cdn_cache_policy_id
   is_multi_region             = false
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE
@@ -1330,6 +1334,7 @@ module "create_us_media_cloudfront" {
   bucket_id                   = module.create_us_s3_bucket.s3_bucket_id
   bucket_regional_domain_name = module.create_us_s3_bucket.s3_bucket_regional_domain_name
   acm_certificate_arn         = module.create_us_acm_media_cf.acm_arn
+  cache_policy_id             = module.create_cdn_cache_policy.cdn_cache_policy_id
   is_multi_region             = true
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE
@@ -1636,5 +1641,13 @@ module "create_ses" {
 
   providers = {
     aws.ses_region = aws.us_west_region
+  }
+}
+
+module "create_cdn_cache_policy" {
+  source = "./modules/cdn-cache-policy"
+
+  providers = {
+    aws.cloudfront_region = aws.us_region
   }
 }
