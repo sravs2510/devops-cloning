@@ -20,11 +20,6 @@ locals {
   cf_domain_name              = var.is_multi_region ? local.multi_region_domain : local.global_domain
 }
 
-data "aws_cloudfront_cache_policy" "cache_policy" {
-  provider = aws.cloudfront_region
-  name     = "Managed-CachingOptimized"
-}
-
 data "aws_cloudfront_response_headers_policy" "response_headers_policy" {
   provider = aws.cloudfront_region
   name     = "Managed-SecurityHeadersPolicy"
@@ -60,7 +55,7 @@ resource "aws_cloudfront_distribution" "media_cf_distribution" {
     viewer_protocol_policy     = "redirect-to-https"
     compress                   = true
     target_origin_id           = local.cf_domain_name
-    cache_policy_id            = data.aws_cloudfront_cache_policy.cache_policy.id
+    cache_policy_id            = var.cache_policy_id
     response_headers_policy_id = data.aws_cloudfront_response_headers_policy.response_headers_policy.id
   }
 
