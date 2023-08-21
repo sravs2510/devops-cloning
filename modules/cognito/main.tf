@@ -65,31 +65,11 @@ resource "aws_cognito_user_pool_client" "user_pool_web_client" {
   allowed_oauth_flows_user_pool_client = true
   allowed_oauth_flows                  = ["code"]
   allowed_oauth_scopes                 = ["email", "openid", "profile"]
-  supported_identity_providers         = ["COGNITO", "Google", "Microsoft", "LoginWithAmazon", "Auth0"]
+  supported_identity_providers         = ["COGNITO", "Google", "LoginWithAmazon", "Auth0"]
   access_token_validity                = 1  #hours
   id_token_validity                    = 1  #hours
   refresh_token_validity               = 30 #days
   explicit_auth_flows                  = var.STAGE == "prod" ? local.default_auth_flows : concat(local.default_auth_flows, ["ALLOW_ADMIN_USER_PASSWORD_AUTH"])
-}
-
-#Microsoft
-resource "aws_cognito_identity_provider" "microsoft_saml_provider" {
-  provider      = aws.cognito_region
-  user_pool_id  = aws_cognito_user_pool.user_pool.id
-  provider_name = "Microsoft"
-  provider_type = "SAML"
-
-  provider_details = {
-    MetadataURL           = "https://login.microsoftonline.com/c47dcff4-6b21-4de3-931a-058aa60a9629/federationmetadata/2007-06/federationmetadata.xml"
-    SSORedirectBindingURI = "https://login.microsoftonline.com/c47dcff4-6b21-4de3-931a-058aa60a9629/saml2"
-    SLORedirectBindingURI = "https://login.microsoftonline.com/c47dcff4-6b21-4de3-931a-058aa60a9629/saml2"
-  }
-
-  attribute_mapping = {
-    email   = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"
-    name    = "http://schemas.microsoft.com/identity/claims/displayname"
-    website = "http://schemas.microsoft.com/ws/2008/06/identity/claims/windowsaccountname"
-  }
 }
 
 #Google
