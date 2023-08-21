@@ -72,26 +72,6 @@ resource "aws_cognito_user_pool_client" "user_pool_web_client" {
   explicit_auth_flows                  = var.STAGE == "prod" ? local.default_auth_flows : concat(local.default_auth_flows, ["ALLOW_ADMIN_USER_PASSWORD_AUTH"])
 }
 
-#Microsoft
-resource "aws_cognito_identity_provider" "microsoft_saml_provider" {
-  provider      = aws.cognito_region
-  user_pool_id  = aws_cognito_user_pool.user_pool.id
-  provider_name = "Microsoft"
-  provider_type = "SAML"
-
-  provider_details = {
-    MetadataURL           = "https://login.microsoftonline.com/c47dcff4-6b21-4de3-931a-058aa60a9629/federationmetadata/2007-06/federationmetadata.xml"
-    SSORedirectBindingURI = "https://login.microsoftonline.com/c47dcff4-6b21-4de3-931a-058aa60a9629/saml2"
-    SLORedirectBindingURI = "https://login.microsoftonline.com/c47dcff4-6b21-4de3-931a-058aa60a9629/saml2"
-  }
-
-  attribute_mapping = {
-    email   = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"
-    name    = "http://schemas.microsoft.com/identity/claims/displayname"
-    website = "http://schemas.microsoft.com/ws/2008/06/identity/claims/windowsaccountname"
-  }
-}
-
 #Google
 resource "aws_cognito_identity_provider" "google_sso_provider" {
   provider      = aws.cognito_region
