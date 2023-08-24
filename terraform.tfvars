@@ -279,7 +279,7 @@ table_details = {
   "study_custom_insights" : {
     table_name     = "qatalyst-custom-insights"
     hash_key       = "study_id"
-    range_key      = "custom-insight_id"
+    range_key      = "custom_insight_id"
     stream_enabled = false
   }
 }
