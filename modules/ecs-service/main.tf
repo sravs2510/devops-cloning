@@ -47,6 +47,10 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
           {
             name  = "REGION_NAME"
             value = data.aws_region.ecs_region.name
+          },
+          {
+            name  = "DD_SERVICE"
+            value = var.dd_apm_service_name
           }
         ]),
         secrets = concat(var.service_environment_secrets, [
