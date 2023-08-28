@@ -52,11 +52,11 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
         secrets = concat(var.service_environment_secrets, [
           {
             name      = join("_", ["PLATFORM_CLIENT_ID", upper(local.datacenter_code)])
-            valueFrom = join("-", ["platform", var.STAGE, "client-id",local.datacenter_code])
+            valueFrom = join("-", ["platform", var.STAGE, "client-id", local.datacenter_code])
           },
           {
             name      = join("_", ["PLATFORM_SECRET", upper(local.datacenter_code)])
-            valueFrom = join("-", ["platform", var.STAGE, "secret",local.datacenter_code])
+            valueFrom = join("-", ["platform", var.STAGE, "secret", local.datacenter_code])
           },
         ]),
         portMappings = [
@@ -110,16 +110,11 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
         }
       },
       {
-        name      = "datadog-agent"
-        image     = var.datadog_docker_image
-        essential = true
-        environment = concat(var.dd_environment_variables, [
-          {
-            name  = "DD_SERVICE",
-            value = local.dd_service_name
-          }
-        ])
-        secrets = var.dd_environment_secrets
+        name        = "datadog-agent"
+        image       = var.datadog_docker_image
+        essential   = true
+        environment = var.dd_environment_variables
+        secrets     = var.dd_environment_secrets
         healthCheck = {
           retries     = 3
           command     = ["CMD-SHELL", "agent health"]
