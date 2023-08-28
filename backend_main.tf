@@ -84,6 +84,10 @@ locals {
       value = "true"
     },
     {
+      name  = "DD_SERVICE",
+      value = var.dd_apm_service_name
+    },
+    {
       name  = "ECS_FARGATE",
       value = "true"
     },

@@ -39,6 +39,8 @@ meet_sub_domain        = "meet"
 user_pool_name            = "qatalyst-user-pool"
 user_pool_web_client_name = "qatalyst-web-app"
 
+dd_apm_service_name = "qatalyst_app"
+
 global_ddb_table_details = [
   {
     table_name = "qatalyst-configurations"
