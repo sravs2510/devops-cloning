@@ -95,7 +95,7 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
         dockerLabels = {
           "com.datadoghq.tags.env"     = var.STAGE
           "com.datadoghq.tags.region"  = data.aws_region.ecs_region.name
-          "com.datadoghq.tags.service" = local.dd_service_name
+          "com.datadoghq.tags.service" = var.dd_apm_service_name
         }
       },
       {

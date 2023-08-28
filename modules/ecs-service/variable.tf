@@ -88,3 +88,8 @@ variable "dd_environment_secrets" {
   type        = list(any)
   description = "DataDog Environment Secrets"
 }
+
+variable "dd_apm_service_name" {
+  type        = string
+  description = "Datadog APM service name"
+}
