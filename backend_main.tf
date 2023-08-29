@@ -84,10 +84,6 @@ locals {
       value = "true"
     },
     {
-      name  = "DD_SERVICE",
-      value = var.dd_apm_service_name
-    },
-    {
       name  = "ECS_FARGATE",
       value = "true"
     },
@@ -287,7 +283,6 @@ module "create_eu_ecs_dashboard_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
-  dd_apm_service_name           = var.dd_apm_service_name
   providers = {
     aws.ecs_region = aws.eu_region
   }
@@ -313,7 +308,6 @@ module "create_eu_ecs_testerview_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
-  dd_apm_service_name           = var.dd_apm_service_name
 
   providers = {
     aws.ecs_region = aws.eu_region
@@ -340,7 +334,6 @@ module "create_eu_ecs_reports_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
-  dd_apm_service_name           = var.dd_apm_service_name
 
   providers = {
     aws.ecs_region = aws.eu_region
@@ -630,7 +623,6 @@ module "create_in_ecs_dashboard_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
-  dd_apm_service_name           = var.dd_apm_service_name
 
   providers = {
     aws.ecs_region = aws.in_region
@@ -657,7 +649,6 @@ module "create_in_ecs_testerview_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
-  dd_apm_service_name           = var.dd_apm_service_name
 
   providers = {
     aws.ecs_region = aws.in_region
@@ -684,7 +675,6 @@ module "create_in_ecs_reports_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
-  dd_apm_service_name           = var.dd_apm_service_name
 
   providers = {
     aws.ecs_region = aws.in_region
@@ -974,7 +964,6 @@ module "create_sea_ecs_dashboard_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
-  dd_apm_service_name           = var.dd_apm_service_name
 
   providers = {
     aws.ecs_region = aws.sea_region
@@ -1001,7 +990,6 @@ module "create_sea_ecs_testerview_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
-  dd_apm_service_name           = var.dd_apm_service_name
 
   providers = {
     aws.ecs_region = aws.sea_region
@@ -1028,7 +1016,6 @@ module "create_sea_ecs_reports_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
-  dd_apm_service_name           = var.dd_apm_service_name
 
   providers = {
     aws.ecs_region = aws.sea_region
@@ -1440,7 +1427,6 @@ module "create_us_ecs_dashboard_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
-  dd_apm_service_name           = var.dd_apm_service_name
 
   providers = {
     aws.ecs_region = aws.us_region
@@ -1467,7 +1453,6 @@ module "create_us_ecs_testerview_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
-  dd_apm_service_name           = var.dd_apm_service_name
 
   providers = {
     aws.ecs_region = aws.us_region
@@ -1494,7 +1479,6 @@ module "create_us_ecs_reports_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
-  dd_apm_service_name           = var.dd_apm_service_name
 
   providers = {
     aws.ecs_region = aws.us_region

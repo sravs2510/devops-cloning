@@ -164,8 +164,3 @@ variable "lb_target_health" {
   type        = map(string)
   description = "ALB target health checks"
 }
-
-variable "dd_apm_service_name" {
-  type        = string
-  description = "Datadog APM service name"
-}

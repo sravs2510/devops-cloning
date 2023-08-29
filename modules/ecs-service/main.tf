@@ -50,7 +50,7 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
           },
           {
             name  = "DD_SERVICE"
-            value = var.dd_apm_service_name
+            value = local.dd_service_name
           }
         ]),
         secrets = concat(var.service_environment_secrets, [
@@ -99,7 +99,7 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
         dockerLabels = {
           "com.datadoghq.tags.env"     = var.STAGE
           "com.datadoghq.tags.region"  = data.aws_region.ecs_region.name
-          "com.datadoghq.tags.service" = var.dd_apm_service_name
+          "com.datadoghq.tags.service" = local.dd_service_name
         }
       },
       {
@@ -114,11 +114,16 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
         }
       },
       {
-        name        = "datadog-agent"
-        image       = var.datadog_docker_image
-        essential   = true
-        environment = var.dd_environment_variables
-        secrets     = var.dd_environment_secrets
+        name      = "datadog-agent"
+        image     = var.datadog_docker_image
+        essential = true
+        environment = concat(var.dd_environment_variables, [
+          {
+            name  = "DD_SERVICE",
+            value = local.dd_service_name
+          }
+        ])
+        secrets = var.dd_environment_secrets
         healthCheck = {
           retries     = 3
           command     = ["CMD-SHELL", "agent health"]
