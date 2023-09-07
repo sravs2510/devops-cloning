@@ -258,7 +258,7 @@ module "create_eu_alb" {
   STAGE              = var.STAGE
   meet_acm_arn       = module.create_eu_meet_acm_cf.acm_arn
   lb_target_health   = var.lb_target_health
-  invite_acm_arn     = module.create_eu_invite_acm_cf.acm_arn
+  invite_acm_arn     = module.create_eu_acm_invite_alb.acm_arn
 
   providers = {
     aws.alb_region = aws.eu_region
@@ -615,6 +615,7 @@ module "create_in_alb" {
   STAGE              = var.STAGE
   meet_acm_arn       = module.create_in_meet_acm_cf.acm_arn
   lb_target_health   = var.lb_target_health
+  invite_acm_arn     = module.create_in_acm_invite_alb.acm_arn
 
   providers = {
     aws.alb_region = aws.in_region
@@ -969,6 +970,7 @@ module "create_sea_alb" {
   DEFAULT_TAGS       = var.DEFAULT_TAGS
   STAGE              = var.STAGE
   meet_acm_arn       = module.create_sea_meet_acm_cf.acm_arn
+  invite_acm_arn     = module.create_sea_acm_invite_alb.acm_arn
   lb_target_health   = var.lb_target_health
 
   providers = {
@@ -1351,6 +1353,7 @@ module "create_invite_s3_sub_domain" {
   is_multi_region            = false
   reports_s3_sub_domain      = var.reports_s3_sub_domain
   invite_s3_sub_domain       = var.invite_s3_sub_domain
+  meet_reports               = true
   providers = {
     aws.s3_region = aws.us_region
   }
@@ -1364,7 +1367,7 @@ module "create_cloudfront_invite" {
   sub_domain                  = var.invite_s3_sub_domain
   bucket_id                   = module.create_invite_s3_sub_domain.s3_bucket_id
   bucket_arn                  = module.create_invite_s3_sub_domain.s3_bucket_arn
-  acm_certificate_arn         = module.create_us_invite_acm_cf.acm_arn
+  acm_certificate_arn         = module.create_us_invite_acm_cf_alb.acm_arn
   bucket_regional_domain_name = module.create_invite_s3_sub_domain.s3_bucket_regional_domain_name
   qatalyst_eu_alb_dns_name    = module.create_eu_alb.qatalyst_alb_dns_name
   qatalyst_in_alb_dns_name    = module.create_in_alb.qatalyst_alb_dns_name
