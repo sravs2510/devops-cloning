@@ -37,3 +37,11 @@ output "qatalyst_alb_target_group_tester_view_arn" {
 output "qatalyst_alb_target_group_tester_view_arn_suffix" {
   value = aws_lb_target_group.qatalyst_tester_view_tg.arn_suffix
 }
+
+output "qatalyst_alb_target_group_invite_arn" {
+  value = aws_lb_target_group.qatalyst_invite_tg.arn
+}
+
+output "qatalyst_alb_target_group_invite_arn_suffix" {
+  value = aws_lb_target_group.qatalyst_invite_tg.arn_suffix
+}

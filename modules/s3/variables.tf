@@ -47,3 +47,8 @@ variable "reports_s3_sub_domain" {
   type        = string
   description = "Reports S3 Sub Domain Name"
 }
+
+variable "invite_s3_sub_domain" {
+  type        = string
+  description = "Invite S3 Sub Domain Name"
+}

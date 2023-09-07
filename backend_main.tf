@@ -129,6 +129,7 @@ module "create_eu_s3_bucket" {
   is_multi_region            = true
   meet_reports               = var.meet_reports
   reports_s3_sub_domain      = var.reports_s3_sub_domain
+  invite_s3_sub_domain       = var.invite_s3_sub_domain
 
   providers = {
     aws.s3_region = aws.eu_region
@@ -195,6 +196,34 @@ module "create_eu_acm_meet_alb" {
   }
 }
 
+module "create_eu_invite_acm_cf" {
+  source           = "./modules/acm"
+  base_domain      = var.base_domain
+  sub_domain       = var.invite_s3_sub_domain
+  datacenter_codes = var.datacenter_codes
+  is_multi_region  = false
+  DEFAULT_TAGS     = var.DEFAULT_TAGS
+  STAGE            = var.STAGE
+
+  providers = {
+    aws.acm_region        = aws.eu_region
+    aws.datacenter_region = aws.eu_region
+  }
+}
+module "create_eu_acm_invite_alb" {
+  source           = "./modules/acm"
+  base_domain      = var.base_domain
+  sub_domain       = var.invite_sub_domain
+  datacenter_codes = var.datacenter_codes
+  is_multi_region  = true
+  DEFAULT_TAGS     = var.DEFAULT_TAGS
+  STAGE            = var.STAGE
+
+  providers = {
+    aws.acm_region        = aws.eu_region
+    aws.datacenter_region = aws.eu_region
+  }
+}
 module "create_eu_media_cloudfront" {
   source                      = "./modules/cloudfront"
   base_domain                 = var.base_domain
@@ -243,6 +272,7 @@ module "create_eu_alb" {
   STAGE              = var.STAGE
   meet_acm_arn       = module.create_eu_meet_acm_cf.acm_arn
   lb_target_health   = var.lb_target_health
+  invite_acm_arn     = module.create_eu_invite_acm_cf.acm_arn
 
   providers = {
     aws.alb_region = aws.eu_region
@@ -469,6 +499,8 @@ module "create_in_s3_bucket" {
   object_expiration_duration = var.object_expiration_duration
   is_multi_region            = true
   meet_reports               = var.meet_reports
+  invite_s3_sub_domain       = var.invite_s3_sub_domain
+
 
   providers = {
     aws.s3_region = aws.in_region
@@ -509,6 +541,21 @@ module "create_in_meet_acm_cf" {
   source           = "./modules/acm"
   base_domain      = var.base_domain
   sub_domain       = var.meet_s3_sub_domain
+  datacenter_codes = var.datacenter_codes
+  is_multi_region  = false
+  DEFAULT_TAGS     = var.DEFAULT_TAGS
+  STAGE            = var.STAGE
+
+  providers = {
+    aws.acm_region        = aws.in_region
+    aws.datacenter_region = aws.in_region
+  }
+}
+
+module "create_in_invite_acm_cf" {
+  source           = "./modules/acm"
+  base_domain      = var.base_domain
+  sub_domain       = var.invite_s3_sub_domain
   datacenter_codes = var.datacenter_codes
   is_multi_region  = false
   DEFAULT_TAGS     = var.DEFAULT_TAGS
@@ -583,6 +630,7 @@ module "create_in_alb" {
   STAGE              = var.STAGE
   meet_acm_arn       = module.create_in_meet_acm_cf.acm_arn
   lb_target_health   = var.lb_target_health
+  invite_acm_arn     = module.create_in_invite_acm_cf.acm_arn
 
   providers = {
     aws.alb_region = aws.in_region
@@ -810,6 +858,7 @@ module "create_sea_s3_bucket" {
   is_multi_region            = true
   meet_reports               = var.meet_reports
   reports_s3_sub_domain      = var.reports_s3_sub_domain
+  invite_s3_sub_domain       = var.invite_s3_sub_domain
 
   providers = {
     aws.s3_region = aws.sea_region
@@ -861,6 +910,20 @@ module "create_sea_meet_acm_cf" {
   }
 }
 
+module "create_sea_invite_acm_cf" {
+  source           = "./modules/acm"
+  base_domain      = var.base_domain
+  sub_domain       = var.invite_s3_sub_domain
+  datacenter_codes = var.datacenter_codes
+  is_multi_region  = false
+  DEFAULT_TAGS     = var.DEFAULT_TAGS
+  STAGE            = var.STAGE
+
+  providers = {
+    aws.acm_region        = aws.sea_region
+    aws.datacenter_region = aws.sea_region
+  }
+}
 module "create_sea_acm_meet_alb" {
   source           = "./modules/acm"
   base_domain      = var.base_domain
@@ -924,6 +987,7 @@ module "create_sea_alb" {
   STAGE              = var.STAGE
   meet_acm_arn       = module.create_sea_meet_acm_cf.acm_arn
   lb_target_health   = var.lb_target_health
+  invite_acm_arn     = module.create_sea_invite_acm_cf.acm_arn
 
   providers = {
     aws.alb_region = aws.sea_region
@@ -1140,7 +1204,7 @@ module "create_us_s3_bucket" {
   is_multi_region            = true
   meet_reports               = var.meet_reports
   reports_s3_sub_domain      = var.reports_s3_sub_domain
-
+  invite_s3_sub_domain       = var.invite_s3_sub_domain
   providers = {
     aws.s3_region = aws.us_region
   }
@@ -1173,6 +1237,7 @@ module "create_common_s3_bucket" {
   is_multi_region            = false
   meet_reports               = var.meet_reports
   reports_s3_sub_domain      = var.reports_s3_sub_domain
+  invite_s3_sub_domain       = var.invite_s3_sub_domain
 
   providers = {
     aws.s3_region = aws.us_region
@@ -1226,7 +1291,7 @@ module "create_reports_s3_sub_domain" {
   is_multi_region            = false
   meet_reports               = true
   reports_s3_sub_domain      = var.reports_s3_sub_domain
-
+  invite_s3_sub_domain       = var.invite_s3_sub_domain
   providers = {
     aws.s3_region = aws.us_region
   }
@@ -1286,9 +1351,62 @@ module "create_meet_s3_sub_domain" {
   is_multi_region            = false
   meet_reports               = true
   reports_s3_sub_domain      = var.reports_s3_sub_domain
-
+  invite_s3_sub_domain       = var.invite_s3_sub_domain
   providers = {
     aws.s3_region = aws.us_region
+  }
+}
+
+module "create_invite_s3_sub_domain" {
+  source                     = "./modules/s3"
+  bucket_prefix              = var.invite_s3_sub_domain
+  DEFAULT_TAGS               = var.DEFAULT_TAGS
+  STAGE                      = var.STAGE
+  datacenter_codes           = var.datacenter_codes
+  tester_view_sub_domain     = var.tester_view_sub_domain
+  base_domain                = var.base_domain
+  object_expiration_duration = var.object_expiration_duration
+  is_multi_region            = false
+  meet_reports               = true
+  reports_s3_sub_domain      = var.reports_s3_sub_domain
+  invite_s3_sub_domain       = var.invite_s3_sub_domain
+  providers = {
+    aws.s3_region = aws.us_region
+  }
+}
+
+module "create_cloudfront_invite" {
+  source                      = "./modules/cloudfront-fe-be"
+  DEFAULT_TAGS                = var.DEFAULT_TAGS
+  STAGE                       = var.STAGE
+  base_domain                 = var.base_domain
+  sub_domain                  = var.invite_s3_sub_domain
+  bucket_id                   = module.create_invite_s3_sub_domain.s3_bucket_id
+  bucket_arn                  = module.create_invite_s3_sub_domain.s3_bucket_arn
+  acm_certificate_arn         = module.create_us_invite_acm_cf.acm_arn
+  bucket_regional_domain_name = module.create_invite_s3_sub_domain.s3_bucket_regional_domain_name
+  qatalyst_eu_alb_dns_name    = module.create_eu_alb.qatalyst_alb_dns_name
+  qatalyst_in_alb_dns_name    = module.create_in_alb.qatalyst_alb_dns_name
+  qatalyst_sea_alb_dns_name   = module.create_sea_alb.qatalyst_alb_dns_name
+  qatalyst_us_alb_dns_name    = module.create_us_alb.qatalyst_alb_dns_name
+
+  providers = {
+    aws.cloudfront_region = aws.us_region
+    aws.bucket_region     = aws.us_region
+  }
+}
+module "create_us_invite_acm_cf" {
+  source           = "./modules/acm"
+  base_domain      = var.base_domain
+  sub_domain       = var.invite_s3_sub_domain
+  datacenter_codes = var.datacenter_codes
+  is_multi_region  = false
+  DEFAULT_TAGS     = var.DEFAULT_TAGS
+  STAGE            = var.STAGE
+
+  providers = {
+    aws.acm_region        = aws.us_region
+    aws.datacenter_region = aws.us_region
   }
 }
 
@@ -1387,6 +1505,7 @@ module "create_us_alb" {
   STAGE              = var.STAGE
   meet_acm_arn       = module.create_us_meet_acm_cf.acm_arn
   lb_target_health   = var.lb_target_health
+  invite_acm_arn     = module.create_us_invite_acm_cf.acm_arn
 
   providers = {
     aws.alb_region = aws.us_region
