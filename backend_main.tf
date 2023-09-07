@@ -215,7 +215,7 @@ module "create_eu_acm_invite_alb" {
   base_domain      = var.base_domain
   sub_domain       = var.invite_sub_domain
   datacenter_codes = var.datacenter_codes
-  is_multi_region  = true
+  is_multi_region  = false
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
 
@@ -567,26 +567,12 @@ module "create_in_acm_meet_alb" {
   }
 }
 
-module "create_in_invite_acm_cf" {
-  source           = "./modules/acm"
-  base_domain      = var.base_domain
-  sub_domain       = var.invite_s3_sub_domain
-  datacenter_codes = var.datacenter_codes
-  is_multi_region  = false
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
-
-  providers = {
-    aws.acm_region        = aws.in_region
-    aws.datacenter_region = aws.in_region
-  }
-}
 module "create_in_acm_invite_alb" {
   source           = "./modules/acm"
   base_domain      = var.base_domain
   sub_domain       = var.invite_sub_domain
   datacenter_codes = var.datacenter_codes
-  is_multi_region  = true
+  is_multi_region  = false
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
 
@@ -643,8 +629,7 @@ module "create_in_alb" {
   STAGE              = var.STAGE
   meet_acm_arn       = module.create_in_meet_acm_cf.acm_arn
   lb_target_health   = var.lb_target_health
-  invite_acm_arn     = module.create_in_invite_acm_cf.acm_arn
-
+  invite_acm_arn    = module.create_in_invite_acm.acm_arn
   providers = {
     aws.alb_region = aws.in_region
   }
@@ -937,26 +922,12 @@ module "create_sea_acm_meet_alb" {
   }
 }
 
-module "create_sea_invite_acm_cf" {
-  source           = "./modules/acm"
-  base_domain      = var.base_domain
-  sub_domain       = var.invite_s3_sub_domain
-  datacenter_codes = var.datacenter_codes
-  is_multi_region  = false
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
-
-  providers = {
-    aws.acm_region        = aws.sea_region
-    aws.datacenter_region = aws.sea_region
-  }
-}
 module "create_sea_acm_invite_alb" {
   source           = "./modules/acm"
   base_domain      = var.base_domain
   sub_domain       = var.invite_sub_domain
   datacenter_codes = var.datacenter_codes
-  is_multi_region  = true
+  is_multi_region  = false
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
 
@@ -1013,7 +984,6 @@ module "create_sea_alb" {
   STAGE              = var.STAGE
   meet_acm_arn       = module.create_sea_meet_acm_cf.acm_arn
   lb_target_health   = var.lb_target_health
-  invite_acm_arn     = module.create_sea_invite_acm_cf.acm_arn
 
   providers = {
     aws.alb_region = aws.sea_region
@@ -1393,7 +1363,6 @@ module "create_invite_s3_sub_domain" {
   base_domain                = var.base_domain
   object_expiration_duration = var.object_expiration_duration
   is_multi_region            = false
-  meet_reports               = true
   reports_s3_sub_domain      = var.reports_s3_sub_domain
   invite_s3_sub_domain       = var.invite_s3_sub_domain
   providers = {
@@ -1421,7 +1390,7 @@ module "create_cloudfront_invite" {
     aws.bucket_region     = aws.us_region
   }
 }
-module "create_us_invite_acm_cf" {
+module "create_us_invite_acm_cf_alb" {
   source           = "./modules/acm"
   base_domain      = var.base_domain
   sub_domain       = var.invite_s3_sub_domain
@@ -1436,20 +1405,6 @@ module "create_us_invite_acm_cf" {
   }
 }
 
-module "create_us_acm_invite_alb" {
-  source           = "./modules/acm"
-  base_domain      = var.base_domain
-  sub_domain       = var.invite_sub_domain
-  datacenter_codes = var.datacenter_codes
-  is_multi_region  = true
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
-
-  providers = {
-    aws.acm_region        = aws.us_region
-    aws.datacenter_region = aws.us_region
-  }
-}
 #Meet ACM or cloudfront & ALB
 
 module "create_us_meet_acm_cf" {
@@ -1545,7 +1500,7 @@ module "create_us_alb" {
   STAGE              = var.STAGE
   meet_acm_arn       = module.create_us_meet_acm_cf.acm_arn
   lb_target_health   = var.lb_target_health
-  invite_acm_arn     = module.create_us_invite_acm_cf.acm_arn
+  invite_acm_arn     = module.create_us_invite_acm_cf_alb.acm_arn
 
   providers = {
     aws.alb_region = aws.us_region
