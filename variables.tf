@@ -53,6 +53,11 @@ variable "meet_sub_domain" {
   description = "Meet Domain Name"
 }
 
+variable "invite_sub_domain" {
+  type        = string
+  description = "Invite Domain Name"
+}
+
 variable "user_pool_name" {
   type        = string
   description = "Cognito user pool name"
@@ -144,15 +149,13 @@ variable "meet_s3_sub_domain" {
   description = "Sub domain to meet"
 }
 
+variable "invite_s3_sub_domain" {
+  type        = string
+  description = "Sub domain to invite"
+}
 variable "ecr_repo_name" {
   type        = string
   description = "Repo name suffix"
-}
-
-variable "meet_reports" {
-  type        = bool
-  default     = false
-  description = "Flag to apply cors rule"
 }
 
 variable "mediaconvert_queues" {

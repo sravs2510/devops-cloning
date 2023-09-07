@@ -139,6 +139,12 @@ resource "aws_lb_listener_certificate" "qatalyst_meet_listener_certificate" {
   certificate_arn = var.meet_acm_arn
 }
 
+resource "aws_lb_listener_certificate" "qatalyst_invite_listener_certificate" {
+  provider        = aws.alb_region
+  listener_arn    = aws_lb_listener.qatalyst_alb_listener.arn
+  certificate_arn = var.invite_acm_arn
+}
+
 resource "aws_lb_listener_rule" "qatalyst_alb_listener_reports_rule" {
   listener_arn = aws_lb_listener.qatalyst_alb_listener.arn
   provider     = aws.alb_region

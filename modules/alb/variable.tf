@@ -52,3 +52,8 @@ variable "lb_target_health" {
   type        = map(string)
   description = "ALB target health checks"
 }
+
+variable "invite_acm_arn" {
+  type        = string
+  description = "Invite ACM "
+}
