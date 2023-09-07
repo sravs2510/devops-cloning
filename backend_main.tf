@@ -127,7 +127,6 @@ module "create_eu_s3_bucket" {
   base_domain                = var.base_domain
   object_expiration_duration = var.object_expiration_duration
   is_multi_region            = true
-  meet_reports               = var.meet_reports
   reports_s3_sub_domain      = var.reports_s3_sub_domain
   invite_s3_sub_domain       = var.invite_s3_sub_domain
 
@@ -484,7 +483,6 @@ module "create_in_s3_bucket" {
   reports_s3_sub_domain      = var.reports_s3_sub_domain
   object_expiration_duration = var.object_expiration_duration
   is_multi_region            = true
-  meet_reports               = var.meet_reports
   invite_s3_sub_domain       = var.invite_s3_sub_domain
 
 
@@ -841,7 +839,6 @@ module "create_sea_s3_bucket" {
   base_domain                = var.base_domain
   object_expiration_duration = var.object_expiration_duration
   is_multi_region            = true
-  meet_reports               = var.meet_reports
   reports_s3_sub_domain      = var.reports_s3_sub_domain
   invite_s3_sub_domain       = var.invite_s3_sub_domain
 
@@ -1186,7 +1183,6 @@ module "create_us_s3_bucket" {
   base_domain                = var.base_domain
   object_expiration_duration = var.object_expiration_duration
   is_multi_region            = true
-  meet_reports               = var.meet_reports
   reports_s3_sub_domain      = var.reports_s3_sub_domain
   invite_s3_sub_domain       = var.invite_s3_sub_domain
   providers = {
@@ -1219,7 +1215,6 @@ module "create_common_s3_bucket" {
   base_domain                = var.base_domain
   object_expiration_duration = var.object_expiration_duration
   is_multi_region            = false
-  meet_reports               = var.meet_reports
   reports_s3_sub_domain      = var.reports_s3_sub_domain
   invite_s3_sub_domain       = var.invite_s3_sub_domain
 
@@ -1273,7 +1268,6 @@ module "create_reports_s3_sub_domain" {
   base_domain                = var.base_domain
   object_expiration_duration = var.object_expiration_duration
   is_multi_region            = false
-  meet_reports               = true
   reports_s3_sub_domain      = var.reports_s3_sub_domain
   invite_s3_sub_domain       = var.invite_s3_sub_domain
   providers = {
@@ -1333,7 +1327,6 @@ module "create_meet_s3_sub_domain" {
   base_domain                = var.base_domain
   object_expiration_duration = var.object_expiration_duration
   is_multi_region            = false
-  meet_reports               = true
   reports_s3_sub_domain      = var.reports_s3_sub_domain
   invite_s3_sub_domain       = var.invite_s3_sub_domain
   providers = {
@@ -1353,7 +1346,6 @@ module "create_invite_s3_sub_domain" {
   is_multi_region            = false
   reports_s3_sub_domain      = var.reports_s3_sub_domain
   invite_s3_sub_domain       = var.invite_s3_sub_domain
-  meet_reports               = true
   providers = {
     aws.s3_region = aws.us_region
   }
