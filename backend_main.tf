@@ -1389,7 +1389,7 @@ module "create_invite_s3_sub_domain" {
   DEFAULT_TAGS               = var.DEFAULT_TAGS
   STAGE                      = var.STAGE
   datacenter_codes           = var.datacenter_codes
-  tester_view_sub_domain     = var.tester_view_sub_domain
+  tester_view_sub_domain     = var.invite_s3_sub_domain
   base_domain                = var.base_domain
   object_expiration_duration = var.object_expiration_duration
   is_multi_region            = false
@@ -1436,6 +1436,20 @@ module "create_us_invite_acm_cf" {
   }
 }
 
+module "create_us_acm_invite_alb" {
+  source           = "./modules/acm"
+  base_domain      = var.base_domain
+  sub_domain       = var.invite_sub_domain
+  datacenter_codes = var.datacenter_codes
+  is_multi_region  = true
+  DEFAULT_TAGS     = var.DEFAULT_TAGS
+  STAGE            = var.STAGE
+
+  providers = {
+    aws.acm_region        = aws.us_region
+    aws.datacenter_region = aws.us_region
+  }
+}
 #Meet ACM or cloudfront & ALB
 
 module "create_us_meet_acm_cf" {
