@@ -629,7 +629,7 @@ module "create_in_alb" {
   STAGE              = var.STAGE
   meet_acm_arn       = module.create_in_meet_acm_cf.acm_arn
   lb_target_health   = var.lb_target_health
-  invite_acm_arn    = module.create_in_invite_acm.acm_arn
+
   providers = {
     aws.alb_region = aws.in_region
   }
