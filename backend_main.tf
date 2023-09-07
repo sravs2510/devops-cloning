@@ -552,21 +552,6 @@ module "create_in_meet_acm_cf" {
   }
 }
 
-module "create_in_invite_acm_cf" {
-  source           = "./modules/acm"
-  base_domain      = var.base_domain
-  sub_domain       = var.invite_s3_sub_domain
-  datacenter_codes = var.datacenter_codes
-  is_multi_region  = false
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
-
-  providers = {
-    aws.acm_region        = aws.in_region
-    aws.datacenter_region = aws.in_region
-  }
-}
-
 module "create_in_acm_meet_alb" {
   source           = "./modules/acm"
   base_domain      = var.base_domain
@@ -582,6 +567,34 @@ module "create_in_acm_meet_alb" {
   }
 }
 
+module "create_in_invite_acm_cf" {
+  source           = "./modules/acm"
+  base_domain      = var.base_domain
+  sub_domain       = var.invite_s3_sub_domain
+  datacenter_codes = var.datacenter_codes
+  is_multi_region  = false
+  DEFAULT_TAGS     = var.DEFAULT_TAGS
+  STAGE            = var.STAGE
+
+  providers = {
+    aws.acm_region        = aws.in_region
+    aws.datacenter_region = aws.in_region
+  }
+}
+module "create_in_acm_invite_alb" {
+  source           = "./modules/acm"
+  base_domain      = var.base_domain
+  sub_domain       = var.invite_sub_domain
+  datacenter_codes = var.datacenter_codes
+  is_multi_region  = true
+  DEFAULT_TAGS     = var.DEFAULT_TAGS
+  STAGE            = var.STAGE
+
+  providers = {
+    aws.acm_region        = aws.in_region
+    aws.datacenter_region = aws.in_region
+  }
+}
 module "create_in_media_cloudfront" {
   source                      = "./modules/cloudfront"
   base_domain                 = var.base_domain
@@ -909,21 +922,6 @@ module "create_sea_meet_acm_cf" {
     aws.datacenter_region = aws.sea_region
   }
 }
-
-module "create_sea_invite_acm_cf" {
-  source           = "./modules/acm"
-  base_domain      = var.base_domain
-  sub_domain       = var.invite_s3_sub_domain
-  datacenter_codes = var.datacenter_codes
-  is_multi_region  = false
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
-
-  providers = {
-    aws.acm_region        = aws.sea_region
-    aws.datacenter_region = aws.sea_region
-  }
-}
 module "create_sea_acm_meet_alb" {
   source           = "./modules/acm"
   base_domain      = var.base_domain
@@ -939,6 +937,34 @@ module "create_sea_acm_meet_alb" {
   }
 }
 
+module "create_sea_invite_acm_cf" {
+  source           = "./modules/acm"
+  base_domain      = var.base_domain
+  sub_domain       = var.invite_s3_sub_domain
+  datacenter_codes = var.datacenter_codes
+  is_multi_region  = false
+  DEFAULT_TAGS     = var.DEFAULT_TAGS
+  STAGE            = var.STAGE
+
+  providers = {
+    aws.acm_region        = aws.sea_region
+    aws.datacenter_region = aws.sea_region
+  }
+}
+module "create_sea_acm_invite_alb" {
+  source           = "./modules/acm"
+  base_domain      = var.base_domain
+  sub_domain       = var.invite_sub_domain
+  datacenter_codes = var.datacenter_codes
+  is_multi_region  = true
+  DEFAULT_TAGS     = var.DEFAULT_TAGS
+  STAGE            = var.STAGE
+
+  providers = {
+    aws.acm_region        = aws.sea_region
+    aws.datacenter_region = aws.sea_region
+  }
+}
 module "create_sea_media_cloudfront" {
   source                      = "./modules/cloudfront"
   base_domain                 = var.base_domain

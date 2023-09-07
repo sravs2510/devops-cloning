@@ -55,5 +55,5 @@ variable "lb_target_health" {
 
 variable "invite_acm_arn" {
   type        = string
-  description = "Reports ACM "
+  description = "Invite ACM "
 }
