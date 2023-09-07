@@ -196,20 +196,6 @@ module "create_eu_acm_meet_alb" {
   }
 }
 
-module "create_eu_invite_acm_cf" {
-  source           = "./modules/acm"
-  base_domain      = var.base_domain
-  sub_domain       = var.invite_s3_sub_domain
-  datacenter_codes = var.datacenter_codes
-  is_multi_region  = false
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
-
-  providers = {
-    aws.acm_region        = aws.eu_region
-    aws.datacenter_region = aws.eu_region
-  }
-}
 module "create_eu_acm_invite_alb" {
   source           = "./modules/acm"
   base_domain      = var.base_domain
