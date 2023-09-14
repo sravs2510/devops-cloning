@@ -167,7 +167,7 @@ resource "aws_cloudfront_distribution" "reports_cf_distribution" {
     viewer_protocol_policy   = "https-only"
   }
   default_cache_behavior {
-    allowed_methods            = ["GET", "HEAD", "OPTIONS"]
+    allowed_methods            = ["GET", "HEAD"]
     cached_methods             = ["GET", "HEAD"]
     viewer_protocol_policy     = "redirect-to-https"
     compress                   = true
