@@ -442,6 +442,16 @@ module "create_eu_media_convert_queue" {
     aws.mediaconvert_region = aws.eu_region
   }
 }
+module "create_eu_sqs" {
+  source       = "./modules/sqs"
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
+  sqs_details  = var.sqs_details
+
+  providers = {
+    aws.sqs_region = aws.eu_region
+  }
+}
 
 # INDIA Resources
 module "create_in_vpc" {
@@ -784,6 +794,16 @@ module "create_in_media_convert_queue" {
     aws.mediaconvert_region = aws.in_region
   }
 }
+module "create_in_sqs" {
+  source       = "./modules/sqs"
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
+  sqs_details  = var.sqs_details
+
+  providers = {
+    aws.sqs_region = aws.in_region
+  }
+}
 
 # SEA Resources
 module "create_sea_vpc" {
@@ -1115,6 +1135,16 @@ module "create_sea_media_convert_queue" {
   }
 }
 
+module "create_sea_sqs" {
+  source       = "./modules/sqs"
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
+  sqs_details  = var.sqs_details
+
+  providers = {
+    aws.sqs_region = aws.sea_region
+  }
+}
 # US Resources
 module "create_us_vpc" {
   source          = "./modules/vpc"
@@ -1684,5 +1714,16 @@ module "create_cdn_cache_policy" {
 
   providers = {
     aws.cloudfront_region = aws.us_region
+  }
+}
+
+module "create_us_sqs" {
+  source       = "./modules/sqs"
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
+  sqs_details  = var.sqs_details
+
+  providers = {
+    aws.sqs_region = aws.us_region
   }
 }
