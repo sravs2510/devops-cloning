@@ -171,3 +171,11 @@ variable "sqs_details" {
   type        = map(any)
   description = "SQS details"
 }
+variable "cyborg_repo_name" {
+  type        = string
+  description = "Repo name suffix"
+}
+variable "cyborg_efs_configurations" {
+  type        = any
+  description = "EFS Configurations"
+}

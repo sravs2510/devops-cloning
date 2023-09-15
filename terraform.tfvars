@@ -308,6 +308,7 @@ invite_s3_sub_domain  = "invite"
 # Datadog
 datadog_docker_image = "public.ecr.aws/datadog/agent:latest"
 ecr_repo_name        = "qatalyst-backend"
+cyborg_repo_name     = "qatalyst-cyborg"
 
 mediaconvert_queues = {
   "qatalyst" : {
@@ -325,12 +326,17 @@ lb_target_health = {
 }
 
 sqs_details = {
-  "qatalyst-send-email" : {
-    queue_name                 = "qatalyst-send-email"
+  "cyborg-send-email" : {
+    queue_name                 = "cyborg-send-email"
     delay_seconds              = "0"
     max_message_size           = "2048"
     message_retention_seconds  = "86400"
     receive_wait_time_seconds  = "20"
     visibility_timeout_seconds = "1200"
   }
+}
+# EFS
+cyborg_efs_configurations = {
+  "name" = "cyborg",
+  "path" = "/cyborg",
 }
