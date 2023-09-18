@@ -132,11 +132,11 @@ resource "aws_vpc_endpoint" "efs_endpoint" {
   subnet_ids         = toset([for subnet in aws_subnet.private_subnet : subnet.id])
   security_group_ids = [aws_security_group.cyborg_security_group.id]
 
-  tags = merge(tomap({ "Name" : "cyborg-efs-gateway-endpoint" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+  tags = merge(tomap({ "Name" : "qatalyst-cyborg-efs-gateway-endpoint" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 resource "aws_security_group" "cyborg_security_group" {
   provider    = aws.vpc_region
-  name        = "cyborg-lambda-sg"
+  name        = "qatalyst-cyborg-ecs-sg"
   description = "cyborg Group for Lambda to Deploy in VPC"
   vpc_id      = aws_vpc.main.id
 
@@ -156,5 +156,5 @@ resource "aws_security_group" "cyborg_security_group" {
     description = "Outbound All Traffic"
   }
 
-  tags = merge(tomap({ "Name" : "cyborg-lambda-sg" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+  tags = merge(tomap({ "Name" : "qatalyst-cyborg-ecs-sg" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }

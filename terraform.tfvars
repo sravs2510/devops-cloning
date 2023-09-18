@@ -326,8 +326,8 @@ lb_target_health = {
 }
 
 sqs_details = {
-  "cyborg-send-email" : {
-    queue_name                 = "cyborg-send-email"
+  "qatalyst-cyborg-processing-sqs" : {
+    queue_name                 = "qatalyst-cyborg-processing-queue"
     delay_seconds              = "0"
     max_message_size           = "2048"
     message_retention_seconds  = "86400"

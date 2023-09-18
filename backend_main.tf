@@ -10,7 +10,7 @@ locals {
   qatalyst_cloudwatch_dashboard_name_reports     = "Qatalyst-Reports"
   qatalyst_cloudwatch_dashboard_name_tester_view = "Qatalyst-Tester-View"
   qatalyst_sender_email                          = var.STAGE == "prod" ? join("", ["noreply@", var.base_domain]) : join("", ["noreply@", var.STAGE, ".", var.base_domain])
-  qatalyst_cyborg_service_name                   = "cyborg"
+  qatalyst_cyborg_service_name                   = "qatalyst-cyborg"
   qatalyst_ecs_task_environment_variables = [
     {
       name  = "COGNITO_USER_POOL_ID"

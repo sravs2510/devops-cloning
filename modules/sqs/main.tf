@@ -29,7 +29,7 @@ resource "aws_sqs_queue" "cyborg_queue" {
     aws_sqs_queue.cyborg_queue_deadletter
   ]
 
-  tags = merge(tomap({ "Name" : "cyborg-sqs" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+  tags = merge(tomap({ "Name" : each.value.queue_name }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
 resource "aws_sqs_queue" "cyborg_queue_deadletter" {
@@ -37,7 +37,7 @@ resource "aws_sqs_queue" "cyborg_queue_deadletter" {
 
   for_each                  = var.sqs_details
   name                      = "${each.value.queue_name}-dl"
-  message_retention_seconds = 1209600
+  message_retention_seconds = 1209600 #14 days
 
-  tags = merge(tomap({ "Name" : "cyborg-sqs-dl" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+  tags = merge(tomap({ "Name" : "${each.value.queue_name}-dl" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
