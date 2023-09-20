@@ -153,6 +153,7 @@ variable "invite_s3_sub_domain" {
   type        = string
   description = "Sub domain to invite"
 }
+
 variable "ecr_repo_name" {
   type        = string
   description = "Repo name suffix"
@@ -166,4 +167,19 @@ variable "mediaconvert_queues" {
 variable "lb_target_health" {
   type        = map(string)
   description = "ALB target health checks"
+}
+
+variable "sqs_details" {
+  type        = map(any)
+  description = "SQS details"
+}
+
+variable "cyborg_repo_name" {
+  type        = string
+  description = "Repo name suffix"
+}
+
+variable "cyborg_efs_configurations" {
+  type        = any
+  description = "EFS Configurations"
 }

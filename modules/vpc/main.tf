@@ -123,3 +123,38 @@ resource "aws_vpc_endpoint" "s3_endpoint" {
   route_table_ids   = [aws_route_table.private_route_table.id]
   tags              = merge(tomap({ "Name" : "qatalyst-s3-gateway-endpoint" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
+
+resource "aws_vpc_endpoint" "efs_endpoint" {
+  provider           = aws.vpc_region
+  vpc_id             = aws_vpc.main.id
+  service_name       = "com.amazonaws.${data.aws_region.current.name}.elasticfilesystem"
+  vpc_endpoint_type  = "Interface"
+  subnet_ids         = toset([for subnet in aws_subnet.private_subnet : subnet.id])
+  security_group_ids = [aws_security_group.cyborg_security_group.id]
+
+  tags = merge(tomap({ "Name" : "qatalyst-cyborg-efs-gateway-endpoint" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+}
+resource "aws_security_group" "cyborg_security_group" {
+  provider    = aws.vpc_region
+  name        = "qatalyst-cyborg-ecs-sg"
+  description = "cyborg Group for Lambda to Deploy in VPC"
+  vpc_id      = aws_vpc.main.id
+
+  ingress {
+    from_port   = 2049
+    to_port     = 2049
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "EFS Mount"
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "Outbound All Traffic"
+  }
+
+  tags = merge(tomap({ "Name" : "qatalyst-cyborg-ecs-sg" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+}
