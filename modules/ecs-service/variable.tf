@@ -88,3 +88,8 @@ variable "dd_environment_secrets" {
   type        = list(any)
   description = "DataDog Environment Secrets"
 }
+
+variable "repo_name" {
+  type        = string
+  description = "Repo name suffix"
+}

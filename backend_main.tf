@@ -284,6 +284,7 @@ module "create_eu_ecs_dashboard_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
+  repo_name                     = var.ecr_repo_name
   providers = {
     aws.ecs_region = aws.eu_region
   }
@@ -309,6 +310,7 @@ module "create_eu_ecs_testerview_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
+  repo_name                     = var.ecr_repo_name
 
   providers = {
     aws.ecs_region = aws.eu_region
@@ -335,12 +337,13 @@ module "create_eu_ecs_reports_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
+  repo_name                     = var.ecr_repo_name
 
   providers = {
     aws.ecs_region = aws.eu_region
   }
 }
-
+/*
 module "create_eu_ecs_cyborg_service" {
   source                        = "./modules/ecs-service"
   ecs_service_name              = local.qatalyst_cyborg_service_name
@@ -361,11 +364,12 @@ module "create_eu_ecs_cyborg_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
-
+  repo_name                     = var.cyborg_repo_name
   providers = {
     aws.ecs_region = aws.eu_region
   }
 }
+*/
 module "create_eu_dynamodb_gsi" {
   source                 = "./modules/dynamodb_gsi"
   DEFAULT_TAGS           = var.DEFAULT_TAGS
@@ -683,6 +687,7 @@ module "create_in_ecs_dashboard_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
+  repo_name                     = var.ecr_repo_name
 
   providers = {
     aws.ecs_region = aws.in_region
@@ -709,6 +714,7 @@ module "create_in_ecs_testerview_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
+  repo_name                     = var.ecr_repo_name
 
   providers = {
     aws.ecs_region = aws.in_region
@@ -735,12 +741,13 @@ module "create_in_ecs_reports_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
+  repo_name                     = var.ecr_repo_name
 
   providers = {
     aws.ecs_region = aws.in_region
   }
 }
-
+/*
 module "create_in_ecs_cyborg_service" {
   source                        = "./modules/ecs-service"
   ecs_service_name              = local.qatalyst_cyborg_service_name
@@ -761,11 +768,13 @@ module "create_in_ecs_cyborg_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
+  repo_name                     = var.cyborg_repo_name
 
   providers = {
     aws.ecs_region = aws.in_region
   }
 }
+*/
 module "create_in_dynamodb_gsi" {
   source                 = "./modules/dynamodb_gsi"
   DEFAULT_TAGS           = var.DEFAULT_TAGS
@@ -1082,6 +1091,7 @@ module "create_sea_ecs_dashboard_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
+  repo_name                     = var.ecr_repo_name
 
   providers = {
     aws.ecs_region = aws.sea_region
@@ -1108,6 +1118,7 @@ module "create_sea_ecs_testerview_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
+  repo_name                     = var.ecr_repo_name
 
   providers = {
     aws.ecs_region = aws.sea_region
@@ -1134,12 +1145,13 @@ module "create_sea_ecs_reports_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
+  repo_name                     = var.ecr_repo_name
 
   providers = {
     aws.ecs_region = aws.sea_region
   }
 }
-
+/*
 module "create_sea_ecs_cyborg_service" {
   source                        = "./modules/ecs-service"
   ecs_service_name              = local.qatalyst_cyborg_service_name
@@ -1160,11 +1172,13 @@ module "create_sea_ecs_cyborg_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
+  repo_name                     = var.cyborg_repo_name
 
   providers = {
     aws.ecs_region = aws.sea_region
   }
 }
+*/
 module "create_sea_dynamodb_gsi" {
   source                 = "./modules/dynamodb_gsi"
   DEFAULT_TAGS           = var.DEFAULT_TAGS
@@ -1615,6 +1629,7 @@ module "create_us_ecs_dashboard_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
+  repo_name                     = var.ecr_repo_name
 
   providers = {
     aws.ecs_region = aws.us_region
@@ -1641,6 +1656,7 @@ module "create_us_ecs_testerview_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
+  repo_name                     = var.ecr_repo_name
 
   providers = {
     aws.ecs_region = aws.us_region
@@ -1667,12 +1683,13 @@ module "create_us_ecs_reports_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
+  repo_name                     = var.ecr_repo_name
 
   providers = {
     aws.ecs_region = aws.us_region
   }
 }
-
+/*
 module "create_us_ecs_cyborg_service" {
   source                        = "./modules/ecs-service"
   ecs_service_name              = local.qatalyst_cyborg_service_name
@@ -1693,12 +1710,13 @@ module "create_us_ecs_cyborg_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
+  repo_name                     = var.cyborg_repo_name
 
   providers = {
     aws.ecs_region = aws.us_region
   }
 }
-
+*/
 module "create_us_dynamodb_gsi" {
   source                 = "./modules/dynamodb_gsi"
   DEFAULT_TAGS           = var.DEFAULT_TAGS
