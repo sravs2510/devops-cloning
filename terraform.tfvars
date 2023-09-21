@@ -282,6 +282,12 @@ table_details = {
     hash_key       = "study_id"
     range_key      = "custom_insight_id"
     stream_enabled = false
+  },
+  "subscription_orders" : {
+    table_name     = "qatalyst-subscription-orders"
+    hash_key       = "workspace_id"
+    range_key      = "order_id"
+    stream_enabled = false
   }
 }
 
