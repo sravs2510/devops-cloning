@@ -343,7 +343,7 @@ module "create_eu_ecs_reports_service" {
     aws.ecs_region = aws.eu_region
   }
 }
-/*
+
 module "create_eu_ecs_cyborg_service" {
   source                        = "./modules/ecs-service"
   ecs_service_name              = local.qatalyst_cyborg_service_name
@@ -369,7 +369,6 @@ module "create_eu_ecs_cyborg_service" {
     aws.ecs_region = aws.eu_region
   }
 }
-*/
 module "create_eu_dynamodb_gsi" {
   source                 = "./modules/dynamodb_gsi"
   DEFAULT_TAGS           = var.DEFAULT_TAGS
@@ -454,10 +453,10 @@ module "create_eu_ssm" {
 }
 
 module "create_eu_ecr" {
-  source        = "./modules/ecr"
-  ecr_repo_name = var.ecr_repo_name
-  DEFAULT_TAGS  = var.DEFAULT_TAGS
-  STAGE         = var.STAGE
+  source       = "./modules/ecr"
+  repo_name    = var.ecr_repo_name
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
 
   providers = {
     aws.ecr_region = aws.eu_region
@@ -465,10 +464,10 @@ module "create_eu_ecr" {
 }
 
 module "create_eu_cyborg_ecr" {
-  source        = "./modules/ecr"
-  ecr_repo_name = var.cyborg_repo_name
-  DEFAULT_TAGS  = var.DEFAULT_TAGS
-  STAGE         = var.STAGE
+  source       = "./modules/ecr"
+  repo_name    = var.cyborg_repo_name
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
 
   providers = {
     aws.ecr_region = aws.eu_region
@@ -747,7 +746,7 @@ module "create_in_ecs_reports_service" {
     aws.ecs_region = aws.in_region
   }
 }
-/*
+
 module "create_in_ecs_cyborg_service" {
   source                        = "./modules/ecs-service"
   ecs_service_name              = local.qatalyst_cyborg_service_name
@@ -774,7 +773,6 @@ module "create_in_ecs_cyborg_service" {
     aws.ecs_region = aws.in_region
   }
 }
-*/
 module "create_in_dynamodb_gsi" {
   source                 = "./modules/dynamodb_gsi"
   DEFAULT_TAGS           = var.DEFAULT_TAGS
@@ -859,10 +857,10 @@ module "create_in_ssm" {
 }
 
 module "create_in_ecr" {
-  source        = "./modules/ecr"
-  ecr_repo_name = var.ecr_repo_name
-  DEFAULT_TAGS  = var.DEFAULT_TAGS
-  STAGE         = var.STAGE
+  source       = "./modules/ecr"
+  repo_name    = var.ecr_repo_name
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
 
   providers = {
     aws.ecr_region = aws.in_region
@@ -870,10 +868,10 @@ module "create_in_ecr" {
 }
 
 module "create_in_cyborg_ecr" {
-  source        = "./modules/ecr"
-  ecr_repo_name = var.cyborg_repo_name
-  DEFAULT_TAGS  = var.DEFAULT_TAGS
-  STAGE         = var.STAGE
+  source       = "./modules/ecr"
+  repo_name    = var.cyborg_repo_name
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
 
   providers = {
     aws.ecr_region = aws.in_region
@@ -1151,7 +1149,7 @@ module "create_sea_ecs_reports_service" {
     aws.ecs_region = aws.sea_region
   }
 }
-/*
+
 module "create_sea_ecs_cyborg_service" {
   source                        = "./modules/ecs-service"
   ecs_service_name              = local.qatalyst_cyborg_service_name
@@ -1178,7 +1176,6 @@ module "create_sea_ecs_cyborg_service" {
     aws.ecs_region = aws.sea_region
   }
 }
-*/
 module "create_sea_dynamodb_gsi" {
   source                 = "./modules/dynamodb_gsi"
   DEFAULT_TAGS           = var.DEFAULT_TAGS
@@ -1689,7 +1686,7 @@ module "create_us_ecs_reports_service" {
     aws.ecs_region = aws.us_region
   }
 }
-/*
+
 module "create_us_ecs_cyborg_service" {
   source                        = "./modules/ecs-service"
   ecs_service_name              = local.qatalyst_cyborg_service_name
@@ -1716,7 +1713,7 @@ module "create_us_ecs_cyborg_service" {
     aws.ecs_region = aws.us_region
   }
 }
-*/
+
 module "create_us_dynamodb_gsi" {
   source                 = "./modules/dynamodb_gsi"
   DEFAULT_TAGS           = var.DEFAULT_TAGS
@@ -1822,10 +1819,10 @@ module "create_us_ssm" {
 
 #ECR 
 module "create_ecr" {
-  source        = "./modules/ecr"
-  ecr_repo_name = var.ecr_repo_name
-  DEFAULT_TAGS  = var.DEFAULT_TAGS
-  STAGE         = var.STAGE
+  source       = "./modules/ecr"
+  repo_name    = var.ecr_repo_name
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
 
   providers = {
     aws.ecr_region = aws.sea_region
@@ -1833,10 +1830,10 @@ module "create_ecr" {
 }
 #Repo for CYBORG
 module "create_sea_cyborg_ecr" {
-  source        = "./modules/ecr"
-  ecr_repo_name = var.cyborg_repo_name
-  DEFAULT_TAGS  = var.DEFAULT_TAGS
-  STAGE         = var.STAGE
+  source       = "./modules/ecr"
+  repo_name    = var.cyborg_repo_name
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
 
   providers = {
     aws.ecr_region = aws.sea_region
@@ -1856,10 +1853,10 @@ module "create_sea_cyborg_efs" {
   }
 }
 module "create_us_ecr" {
-  source        = "./modules/ecr"
-  ecr_repo_name = var.ecr_repo_name
-  DEFAULT_TAGS  = var.DEFAULT_TAGS
-  STAGE         = var.STAGE
+  source       = "./modules/ecr"
+  repo_name    = var.ecr_repo_name
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
 
   providers = {
     aws.ecr_region = aws.us_region
@@ -1867,10 +1864,10 @@ module "create_us_ecr" {
 }
 
 module "create_us_cyborg_ecr" {
-  source        = "./modules/ecr"
-  ecr_repo_name = var.cyborg_repo_name
-  DEFAULT_TAGS  = var.DEFAULT_TAGS
-  STAGE         = var.STAGE
+  source       = "./modules/ecr"
+  repo_name    = var.cyborg_repo_name
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
 
   providers = {
     aws.ecr_region = aws.us_region
