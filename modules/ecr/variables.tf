@@ -8,7 +8,7 @@ variable "STAGE" {
   description = "Stage for deployment"
 }
 
-variable "ecr_repo_name" {
+variable "repo_name" {
   type        = string
   description = "Repo name suffix"
 }
