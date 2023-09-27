@@ -286,7 +286,7 @@ table_details = {
   "subscription_orders" : {
     table_name     = "qatalyst-subscription-orders"
     hash_key       = "workspace_id"
-    range_key      = "order_id"
+    range_key      = "SK"
     stream_enabled = false
   }
 }
