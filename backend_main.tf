@@ -1,6 +1,5 @@
 # EU Resources
 data "aws_caller_identity" "current" {
-  # provider = aws.in_region
 }
 locals {
   dasboard_domain                                = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.base_domain])
