@@ -51,14 +51,6 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
           {
             name  = "DD_SERVICE"
             value = local.dd_service_name
-          },
-          {
-            name  = "LOG_LEVEL"
-            value = "INFO"
-          },
-          {
-            name  = "AWS_ACCOUNT_ID"
-            value = local.account_id
           }
         ]),
         secrets = concat(var.service_environment_secrets, [

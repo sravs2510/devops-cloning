@@ -1,4 +1,6 @@
 # EU Resources
+data "aws_caller_identity" "current" {
+}
 locals {
   dasboard_domain                                = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.base_domain])
   tester_view_domain                             = var.STAGE == "prod" ? join(".", [var.tester_view_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.tester_view_sub_domain, var.base_domain])
@@ -11,6 +13,7 @@ locals {
   qatalyst_cloudwatch_dashboard_name_tester_view = "Qatalyst-Tester-View"
   qatalyst_sender_email                          = var.STAGE == "prod" ? join("", ["noreply@", var.base_domain]) : join("", ["noreply@", var.STAGE, ".", var.base_domain])
   qatalyst_cyborg_service_name                   = "qatalyst-cyborg"
+  account_id                                     = data.aws_caller_identity.current.account_id
   qatalyst_ecs_task_environment_variables = [
     {
       name  = "COGNITO_USER_POOL_ID"
@@ -41,7 +44,20 @@ locals {
       value = local.qatalyst_sender_email
     }
   ]
-
+  qatalyst_cyborg_ecs_task_environment_variables = [
+    {
+      name  = "STAGE"
+      value = var.STAGE
+    },
+    {
+      name  = "LOG_LEVEL"
+      value = "INFO"
+    },
+    {
+      name  = "AWS_ACCOUNT_ID"
+      value = local.account_id
+    }
+  ]
   qatalyst_ecs_task_environment_secrets = [
     {
       name      = "BITLY_BEARER"
@@ -354,10 +370,10 @@ module "create_eu_ecs_cyborg_service" {
   ecs_subnets                   = module.create_eu_vpc.private_subnets
   alb_target_group_arn          = module.create_eu_alb.qatalyst_alb_target_group_tester_view_arn
   ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
-  ecs_task_role_arn             = module.create_iam.ecs_task_role_arn
+  ecs_task_role_arn             = module.create_iam.cyborg_ecs_task_role_arn
   ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
   fargate_cpu_memory            = var.fargate_cpu_memory
-  service_environment_variables = local.qatalyst_ecs_task_environment_variables
+  service_environment_variables = local.qatalyst_cyborg_ecs_task_environment_variables
   service_environment_secrets   = var.service_environment_secrets
   dd_environment_variables      = local.qatalyst_datadog_environment_variables
   dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
@@ -757,10 +773,10 @@ module "create_in_ecs_cyborg_service" {
   ecs_subnets                   = module.create_in_vpc.private_subnets
   alb_target_group_arn          = module.create_in_alb.qatalyst_alb_target_group_arn
   ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
-  ecs_task_role_arn             = module.create_iam.ecs_task_role_arn
+  ecs_task_role_arn             = module.create_iam.cyborg_ecs_task_role_arn
   ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
   fargate_cpu_memory            = var.fargate_cpu_memory
-  service_environment_variables = local.qatalyst_ecs_task_environment_variables
+  service_environment_variables = local.qatalyst_cyborg_ecs_task_environment_variables
   service_environment_secrets   = var.service_environment_secrets
   dd_environment_variables      = local.qatalyst_datadog_environment_variables
   dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
@@ -1160,10 +1176,10 @@ module "create_sea_ecs_cyborg_service" {
   ecs_subnets                   = module.create_sea_vpc.private_subnets
   alb_target_group_arn          = module.create_sea_alb.qatalyst_alb_target_group_reports_arn
   ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
-  ecs_task_role_arn             = module.create_iam.ecs_task_role_arn
+  ecs_task_role_arn             = module.create_iam.cyborg_ecs_task_role_arn
   ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
   fargate_cpu_memory            = var.fargate_cpu_memory
-  service_environment_variables = local.qatalyst_ecs_task_environment_variables
+  service_environment_variables = local.qatalyst_cyborg_ecs_task_environment_variables
   service_environment_secrets   = var.service_environment_secrets
   dd_environment_variables      = local.qatalyst_datadog_environment_variables
   dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
@@ -1697,10 +1713,10 @@ module "create_us_ecs_cyborg_service" {
   ecs_subnets                   = module.create_us_vpc.private_subnets
   alb_target_group_arn          = module.create_us_alb.qatalyst_alb_target_group_reports_arn
   ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
-  ecs_task_role_arn             = module.create_iam.ecs_task_role_arn
+  ecs_task_role_arn             = module.create_iam.cyborg_ecs_task_role_arn
   ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
   fargate_cpu_memory            = var.fargate_cpu_memory
-  service_environment_variables = local.qatalyst_ecs_task_environment_variables
+  service_environment_variables = local.qatalyst_cyborg_ecs_task_environment_variables
   service_environment_secrets   = var.service_environment_secrets
   dd_environment_variables      = local.qatalyst_datadog_environment_variables
   dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
