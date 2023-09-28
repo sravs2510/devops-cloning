@@ -52,6 +52,7 @@ locals {
   s3_common_bucket_arn       = join(":", ["arn:aws:s3::", local.common_bucket_name])
   ses_arn                    = join(":", ["arn:aws:ses", "us-west-2", local.account_id, "identity/*"])
   qatalyst_lambdas_arn       = join(":", ["arn:aws:lambda", "*", local.account_id, "function", "qatalyst-*"])
+  qatalyst_sqs_arn           = join(":", ["arn:aws:sqs", "*", local.account_id, "qatalyst-*"])
 }
 
 # add the required permission to the policy below
@@ -117,8 +118,15 @@ resource "aws_iam_policy" "qatalyst_ecs_task_iam_policy" {
         Resource = local.ses_arn
       },
       {
-        Action = ["lambda:InvokeFunction"],
-        Effect = "Allow",
+        Action = [
+          "sqs:*"
+        ],
+        Effect   = "Allow",
+        Resource = local.qatalyst_sqs_arn
+      },
+      {
+        Action   = ["lambda:InvokeFunction"],
+        Effect   = "Allow",
         Resource = local.qatalyst_lambdas_arn
       }
     ]
@@ -182,7 +190,7 @@ resource "aws_iam_policy" "media_convert_policy" {
   description = "qatalyst media convert Policy"
 
   policy = jsonencode({
-    Version   = "2012-10-17"
+    Version = "2012-10-17"
     Statement = [
       {
         Action = [
@@ -205,8 +213,8 @@ resource "aws_iam_policy" "media_convert_policy" {
 }
 
 resource "aws_iam_role" "media_convert_role" {
-  provider           = aws.iam_region
-  name               = "qatalyst-media-convert-role"
+  provider = aws.iam_region
+  name     = "qatalyst-media-convert-role"
   assume_role_policy = jsonencode(
     {
       "Version" : "2012-10-17",
@@ -220,7 +228,7 @@ resource "aws_iam_role" "media_convert_role" {
           "Action" : "sts:AssumeRole"
         }
       ]
-    })
+  })
 }
 
 resource "aws_iam_role_policy_attachment" "qatalyst_media_convert_role" {
