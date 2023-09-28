@@ -9,3 +9,7 @@ output "ecs_task_role_arn" {
 output "qatalyst_ecs_autoscale_role_arn" {
   value = aws_iam_role.qatalyst_ecs_autoscale_role.arn
 }
+
+output "cyborg_ecs_task_role_arn" {
+  value = aws_iam_role.qatalyst_ecs_cyborg_task_role.arn
+}
