@@ -118,16 +118,16 @@ resource "aws_iam_policy" "qatalyst_ecs_task_iam_policy" {
         Resource = local.ses_arn
       },
       {
+        Action = ["lambda:InvokeFunction"],
+        Effect = "Allow",
+        Resource = local.qatalyst_lambdas_arn
+      },
+      {
         Action = [
           "sqs:*"
         ],
         Effect   = "Allow",
         Resource = local.qatalyst_sqs_arn
-      },
-      {
-        Action   = ["lambda:InvokeFunction"],
-        Effect   = "Allow",
-        Resource = local.qatalyst_lambdas_arn
       }
     ]
   })
@@ -190,7 +190,7 @@ resource "aws_iam_policy" "media_convert_policy" {
   description = "qatalyst media convert Policy"
 
   policy = jsonencode({
-    Version = "2012-10-17"
+    Version   = "2012-10-17"
     Statement = [
       {
         Action = [
@@ -213,8 +213,8 @@ resource "aws_iam_policy" "media_convert_policy" {
 }
 
 resource "aws_iam_role" "media_convert_role" {
-  provider = aws.iam_region
-  name     = "qatalyst-media-convert-role"
+  provider           = aws.iam_region
+  name               = "qatalyst-media-convert-role"
   assume_role_policy = jsonencode(
     {
       "Version" : "2012-10-17",
@@ -228,7 +228,7 @@ resource "aws_iam_role" "media_convert_role" {
           "Action" : "sts:AssumeRole"
         }
       ]
-  })
+    })
 }
 
 resource "aws_iam_role_policy_attachment" "qatalyst_media_convert_role" {
