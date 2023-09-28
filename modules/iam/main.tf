@@ -52,6 +52,7 @@ locals {
   s3_common_bucket_arn       = join(":", ["arn:aws:s3::", local.common_bucket_name])
   ses_arn                    = join(":", ["arn:aws:ses", "us-west-2", local.account_id, "identity/*"])
   qatalyst_lambdas_arn       = join(":", ["arn:aws:lambda", "*", local.account_id, "function", "qatalyst-*"])
+  qatalyst_sqs_arn           = join(":", ["arn:aws:sqs", "*", local.account_id, "qatalyst-*"])
 }
 
 # add the required permission to the policy below
@@ -120,6 +121,13 @@ resource "aws_iam_policy" "qatalyst_ecs_task_iam_policy" {
         Action = ["lambda:InvokeFunction"],
         Effect = "Allow",
         Resource = local.qatalyst_lambdas_arn
+      },
+      {
+        Action = [
+          "sqs:*"
+        ],
+        Effect   = "Allow",
+        Resource = local.qatalyst_sqs_arn
       }
     ]
   })
