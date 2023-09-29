@@ -288,6 +288,14 @@ table_details = {
     hash_key       = "workspace_id"
     range_key      = "SK"
     stream_enabled = false
+    global_secondary_indexes = [
+      {
+        name            = "qatalyst-subscription-latest-gsi"
+        hash_key        = "workspace_id"
+        range_key       = "latest"
+        projection_type = "ALL"
+      }
+    ]
   }
 }
 
