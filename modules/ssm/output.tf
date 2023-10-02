@@ -65,3 +65,11 @@ output "platform_secret_us" {
 output "platform_realm_id" {
   value = aws_ssm_parameter.platform_realm_id.value
 }
+
+output "stripe_api_key" {
+  value = aws_ssm_parameter.stripe_api_key.value
+}
+
+output "stripe_webhook_secret" {
+  value = aws_ssm_parameter.stripe_webhook_secret.value
+}
