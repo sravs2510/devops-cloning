@@ -304,6 +304,11 @@ tables_without_range_key = {
     table_name     = "qatalyst-report-details"
     hash_key       = "report_id"
     stream_enabled = false
+  },
+  "stripe-events" : {
+    table_name     = "qatalyst-stripe-events"
+    hash_key       = "event_id"
+    stream_enabled = false
   }
 }
 
