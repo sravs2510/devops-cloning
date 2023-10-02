@@ -54,6 +54,12 @@ resource "aws_cognito_user_pool" "user_pool" {
     custom_message    = join("", ["arn:aws:lambda:", local.cognito_region_name, ":", local.account_id, ":function:qatalyst-", var.STAGE, "-custom-message"])
   }
 
+  mfa_configuration = "OPTIONAL"
+
+  software_token_mfa_configuration {
+    enabled = true
+  }
+
   tags = merge(tomap({ "Name" : var.user_pool_name, "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
@@ -124,11 +130,11 @@ resource "aws_cognito_identity_provider" "cognito_auth0_provider" {
   provider_name = "Auth0"
   provider_type = "OIDC"
   provider_details = {
-    authorize_scopes         = "openid profile email"
-    client_id                = "#QATALYST_AUTH0_CLIENT_ID"
-    client_secret            = "#QATALYST_AUTH0_CLIENT_SECRET"
+    authorize_scopes          = "openid profile email"
+    client_id                 = "#QATALYST_AUTH0_CLIENT_ID"
+    client_secret             = "#QATALYST_AUTH0_CLIENT_SECRET"
     attributes_request_method = "GET"
-    oidc_issuer              = "https://getqatalyst.us.auth0.com"
+    oidc_issuer               = "https://getqatalyst.us.auth0.com"
   }
   attribute_mapping = {
     email    = "email"
