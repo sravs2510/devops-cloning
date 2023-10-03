@@ -94,7 +94,15 @@ locals {
     {
       name      = "PLATFORM_REALM_ID"
       valueFrom = join("-", ["platform", var.STAGE, "realm-id"])
-    }
+    },
+    {
+      name      = "STRIPE_API_KEY"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "stripe-api-key"])
+    },
+    {
+      name      = "STRIPE_WEBHOOK_SECRET"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "stripe-webhook-secret"])
+    },
   ]
   qatalyst_datadog_environment_variables = [
     {

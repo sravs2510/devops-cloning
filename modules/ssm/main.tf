@@ -171,3 +171,19 @@ resource "aws_ssm_parameter" "platform_realm_id" {
   value    = "#PLATFORM_REALM_ID"
   tags     = merge(tomap({ "Name" : join("-", ["platform", var.STAGE, "realm-id"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
+
+resource "aws_ssm_parameter" "stripe_api_key" {
+  provider = aws.ssm_region
+  name     = join("-", ["qatalyst", var.STAGE, "stripe-api-key"])
+  type     = "SecureString"
+  value    = "#QATALYST_STRIPE_API_KEY"
+  tags     = merge(tomap({ "Name" : join("-", ["qatalyst", var.STAGE, "stripe-api-key"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+}
+
+resource "aws_ssm_parameter" "stripe_webhook_secret" {
+  provider = aws.ssm_region
+  name     = join("-", ["qatalyst", var.STAGE, "stripe-webhook-secret"])
+  type     = "SecureString"
+  value    = "#QATALYST_STRIPE_WEBHOOK_SECRET"
+  tags     = merge(tomap({ "Name" : join("-", ["qatalyst", var.STAGE, "stripe-webhook-secret"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+}
