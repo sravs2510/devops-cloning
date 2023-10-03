@@ -104,6 +104,21 @@ locals {
       valueFrom = join("-", ["qatalyst", var.STAGE, "stripe-webhook-secret"])
     },
   ]
+  qatalyst_cyborg_ecs_task_environment_secrets = [
+
+    {
+      name      = "100MS_ACCESS_KEY"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "100ms-access-key"])
+    },
+    {
+      name      = "100MS_SECRET_KEY"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "100ms-secret-key"])
+    },
+    {
+      name      = "PLATFORM_REALM_ID"
+      valueFrom = join("-", ["platform", var.STAGE, "realm-id"])
+    }
+  ]
   qatalyst_datadog_environment_variables = [
     {
       name  = "DD_APM_ENABLED",
@@ -382,7 +397,7 @@ module "create_eu_ecs_cyborg_service" {
   ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
   fargate_cpu_memory            = var.fargate_cpu_memory
   service_environment_variables = local.qatalyst_cyborg_ecs_task_environment_variables
-  service_environment_secrets   = var.service_environment_secrets
+  service_environment_secrets   = local.qatalyst_cyborg_ecs_task_environment_secrets
   dd_environment_variables      = local.qatalyst_datadog_environment_variables
   dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
   datadog_docker_image          = var.datadog_docker_image
@@ -785,7 +800,7 @@ module "create_in_ecs_cyborg_service" {
   ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
   fargate_cpu_memory            = var.fargate_cpu_memory
   service_environment_variables = local.qatalyst_cyborg_ecs_task_environment_variables
-  service_environment_secrets   = var.service_environment_secrets
+  service_environment_secrets   = local.qatalyst_cyborg_ecs_task_environment_secrets
   dd_environment_variables      = local.qatalyst_datadog_environment_variables
   dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
   datadog_docker_image          = var.datadog_docker_image
@@ -1188,7 +1203,7 @@ module "create_sea_ecs_cyborg_service" {
   ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
   fargate_cpu_memory            = var.fargate_cpu_memory
   service_environment_variables = local.qatalyst_cyborg_ecs_task_environment_variables
-  service_environment_secrets   = var.service_environment_secrets
+  service_environment_secrets   = local.qatalyst_cyborg_ecs_task_environment_secrets
   dd_environment_variables      = local.qatalyst_datadog_environment_variables
   dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
   datadog_docker_image          = var.datadog_docker_image
@@ -1725,7 +1740,7 @@ module "create_us_ecs_cyborg_service" {
   ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
   fargate_cpu_memory            = var.fargate_cpu_memory
   service_environment_variables = local.qatalyst_cyborg_ecs_task_environment_variables
-  service_environment_secrets   = var.service_environment_secrets
+  service_environment_secrets   = local.qatalyst_cyborg_ecs_task_environment_secrets
   dd_environment_variables      = local.qatalyst_datadog_environment_variables
   dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
   datadog_docker_image          = var.datadog_docker_image

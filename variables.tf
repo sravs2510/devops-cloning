@@ -183,9 +183,3 @@ variable "cyborg_efs_configurations" {
   type        = any
   description = "EFS Configurations"
 }
-
-variable "service_environment_secrets" {
-  type        = list(any)
-  default     = []
-  description = "ECS Service Environment Secrets"
-}
