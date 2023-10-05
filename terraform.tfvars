@@ -344,20 +344,20 @@ mediaconvert_queues = {
 }
 
 lb_target_health = {
-  "lb_target_interval" : "30"
-  "lb_target_timeout" : "25"
-  "lb_target_healthy_threshold" : "2"
-  "lb_target_unhealthy_threshold" : "2"
+  "lb_target_interval"            = 30
+  "lb_target_timeout"             = 25
+  "lb_target_healthy_threshold"   = 2
+  "lb_target_unhealthy_threshold" = 2
 }
 
 sqs_details = {
   "qatalyst-cyborg-processing-sqs" : {
     queue_name                 = "qatalyst-cyborg-processing-queue"
-    delay_seconds              = "0"
-    max_message_size           = "2048"
-    message_retention_seconds  = "86400"
-    receive_wait_time_seconds  = "20"
-    visibility_timeout_seconds = "1200"
+    delay_seconds              = 0
+    max_message_size           = 262144 # 256KB
+    message_retention_seconds  = 86400
+    receive_wait_time_seconds  = 20   #Long Polling
+    visibility_timeout_seconds = 1200 # 20 Minutes
   }
 }
 # EFS
