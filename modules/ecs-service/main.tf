@@ -70,7 +70,7 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
             protocol      = "tcp"
           }
         ]
-        healthCheck = {
+        healthCheck = var.service == "cyborg" ? null : {
           retries     = 3
           command     = ["CMD-SHELL", "curl -f http://localhost/health || exit 1"]
           timeout     = 30

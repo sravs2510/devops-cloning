@@ -365,3 +365,10 @@ cyborg_efs_configurations = {
   "name" = "cyborg",
   "path" = "/cyborg",
 }
+
+service_names = {
+  dashboard  = "dashboard"
+  reports    = "reports"
+  testerview = "testerview"
+  cyborg     = "cyborg"
+}
