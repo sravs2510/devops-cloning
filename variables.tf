@@ -183,3 +183,8 @@ variable "cyborg_efs_configurations" {
   type        = any
   description = "EFS Configurations"
 }
+
+variable "service_names" {
+  type        = map(string)
+  description = "Map of service names"
+}

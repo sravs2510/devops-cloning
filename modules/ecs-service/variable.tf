@@ -93,3 +93,8 @@ variable "repo_name" {
   type        = string
   description = "Repo name suffix"
 }
+
+variable "service" {
+  type        = string
+  description = "name of the services"
+}
