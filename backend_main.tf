@@ -394,7 +394,7 @@ module "create_eu_ecs_cyborg_service" {
   ecs_cluster_name              = module.create_eu_ecs.ecs_cluster_name
   ecs_security_groups           = module.create_eu_ecs.ecs_security_group_ids
   ecs_subnets                   = module.create_eu_vpc.private_subnets
-  alb_target_group_arn          = module.create_eu_alb.qatalyst_alb_target_group_tester_view_arn
+  alb_target_group_arn          = ""
   ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
   ecs_task_role_arn             = module.create_iam.cyborg_ecs_task_role_arn
   ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
@@ -802,7 +802,7 @@ module "create_in_ecs_cyborg_service" {
   ecs_cluster_name              = module.create_in_ecs.ecs_cluster_name
   ecs_security_groups           = module.create_in_ecs.ecs_security_group_ids
   ecs_subnets                   = module.create_in_vpc.private_subnets
-  alb_target_group_arn          = module.create_in_alb.qatalyst_alb_target_group_arn
+  alb_target_group_arn          = ""
   ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
   ecs_task_role_arn             = module.create_iam.cyborg_ecs_task_role_arn
   ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
@@ -1209,7 +1209,7 @@ module "create_sea_ecs_cyborg_service" {
   ecs_cluster_name              = module.create_sea_ecs.ecs_cluster_name
   ecs_security_groups           = module.create_sea_ecs.ecs_security_group_ids
   ecs_subnets                   = module.create_sea_vpc.private_subnets
-  alb_target_group_arn          = module.create_sea_alb.qatalyst_alb_target_group_reports_arn
+  alb_target_group_arn          = ""
   ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
   ecs_task_role_arn             = module.create_iam.cyborg_ecs_task_role_arn
   ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
@@ -1750,7 +1750,7 @@ module "create_us_ecs_cyborg_service" {
   ecs_cluster_name              = module.create_us_ecs.ecs_cluster_name
   ecs_security_groups           = module.create_us_ecs.ecs_security_group_ids
   ecs_subnets                   = module.create_us_vpc.private_subnets
-  alb_target_group_arn          = module.create_us_alb.qatalyst_alb_target_group_reports_arn
+  alb_target_group_arn          = ""
   ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
   ecs_task_role_arn             = module.create_iam.cyborg_ecs_task_role_arn
   ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
