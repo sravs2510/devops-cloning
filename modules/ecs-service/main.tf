@@ -153,13 +153,13 @@ resource "aws_ecs_service" "qatalyst_ecs_service" {
   }
 
   dynamic "load_balancer" {
-   for_each = var.service != "cyborg" ? [1] : []
+    for_each = var.service != "cyborg" ? [1] : []
 
-   content {
-    target_group_arn = var.alb_target_group_arn
-    container_name   = local.container_name
-    container_port   = 80
-   }
+    content {
+      target_group_arn = var.alb_target_group_arn
+      container_name   = local.container_name
+      container_port   = 80
+    }
   }
   tags = merge(tomap({ "Name" : var.ecs_service_name }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }

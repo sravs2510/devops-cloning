@@ -187,9 +187,3 @@ variable "service_names" {
   type        = map(string)
   description = "Map of service names"
 }
-
-variable "alb_target_group_arn" {
-  type        = string
-  default     = ""
-  description = "ALB Security Group"
-}
