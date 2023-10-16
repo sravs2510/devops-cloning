@@ -245,6 +245,13 @@ table_details = {
     hash_key       = "block_id"
     range_key      = "media_id"
     stream_enabled = false
+    global_secondary_indexes = [
+      {
+        name            = "qatalyst-media-id-gsi"
+        hash_key        = "media_id"
+        projection_type = "ALL"
+      }
+    ]
   },
   "transcripts-details" : {
     table_name     = "qatalyst-transcripts-details"
