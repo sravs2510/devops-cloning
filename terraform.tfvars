@@ -309,6 +309,12 @@ table_details = {
         projection_type = "ALL"
       }
     ]
+  },
+  "external-panel-project" : {
+    table_name     = "qatalyst-external-panel-project"
+    hash_key       = "study_id"
+    range_key      = "project_id"
+    stream_enabled = false
   }
 }
 
