@@ -131,17 +131,7 @@ locals {
       valueFrom = join("-", ["platform", var.STAGE, "realm-id"])
     }
   ]
-  qatalyst_furyblade_ecs_task_environment_secrets = [
 
-    {
-      name      = "100MS_ACCESS_KEY"
-      valueFrom = join("-", ["qatalyst", var.STAGE, "100ms-access-key"])
-    },
-    {
-      name      = "100MS_SECRET_KEY"
-      valueFrom = join("-", ["qatalyst", var.STAGE, "100ms-secret-key"])
-    }
-  ]
   qatalyst_datadog_environment_variables = [
     {
       name  = "DD_APM_ENABLED",
