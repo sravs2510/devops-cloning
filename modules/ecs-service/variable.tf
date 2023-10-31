@@ -76,7 +76,6 @@ variable "service_environment_variables" {
 
 variable "service_environment_secrets" {
   type        = list(any)
-  default     = []
   description = "ECS Service Environment Secrets"
 }
 
