@@ -347,6 +347,7 @@ invite_s3_sub_domain  = "invite"
 datadog_docker_image = "public.ecr.aws/datadog/agent:latest"
 ecr_repo_name        = "qatalyst-backend"
 cyborg_repo_name     = "qatalyst-cyborg"
+furyblade_repo_name  = "qatalyst-furyblade"
 
 mediaconvert_queues = {
   "qatalyst" : {
@@ -371,6 +372,14 @@ sqs_details = {
     message_retention_seconds  = 86400
     receive_wait_time_seconds  = 20   #Long Polling
     visibility_timeout_seconds = 1200 # 20 Minutes
+  },
+  "qatalyst-furyblade-processing-sqs" : {
+    queue_name                 = "qatalyst-furyblade-processing-queue"
+    delay_seconds              = 0
+    max_message_size           = 262144 # 256KB
+    message_retention_seconds  = 86400
+    receive_wait_time_seconds  = 20   #Long Polling
+    visibility_timeout_seconds = 1200 # 20 Minutes
   }
 }
 # EFS
@@ -379,9 +388,15 @@ cyborg_efs_configurations = {
   "path" = "/cyborg",
 }
 
+furyblade_efs_configurations = {
+  "name" = "furyblade",
+  "path" = "/furyblade",
+}
+
 service_names = {
   dashboard  = "dashboard"
   reports    = "reports"
   testerview = "testerview"
   cyborg     = "cyborg"
+  furyblade  = "furyblade"
 }

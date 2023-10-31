@@ -205,6 +205,94 @@ resource "aws_iam_policy" "qatalyst_ecs_cyborg_task_iam_policy" {
   tags = merge(tomap({ "Name" : "qatalyst-ecs-cyborg-task-iam-policy" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
+resource "aws_iam_policy" "qatalyst_ecs_furyblade_task_iam_policy" {
+  provider    = aws.iam_region
+  name        = "qatalyst_ecs_furyblade_task_iam_policy"
+  path        = "/"
+  description = "Qatalyst ECS Task IAM Policy"
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = [
+          "dynamodb:BatchGetItem",
+          "dynamodb:BatchWriteItem",
+          "dynamodb:PutItem",
+          "dynamodb:DescribeTable",
+          "dynamodb:DeleteItem",
+          "dynamodb:GetItem",
+          "dynamodb:Query",
+          "dynamodb:UpdateItem"
+        ]
+        Effect   = "Allow"
+        Resource = join(":", ["arn:aws:dynamodb:*", local.account_id, "table/qatalyst-*"])
+      },
+      {
+        Action = [
+          "s3:ListBucket"
+        ],
+        Effect   = "Allow",
+        Resource = local.s3_media_bucket_arn
+      },
+      {
+        Action = [
+          "s3:PutObject",
+          "s3:GetObject",
+          "s3:DeleteObject"
+        ],
+        Effect   = "Allow",
+        Resource = local.s3_media_bucket_object_arn
+      },
+      {
+        Action = [
+          "s3:PutObject",
+          "s3:GetObject",
+          "s3:DeleteObject"
+        ],
+        Effect   = "Allow",
+        Resource = local.s3_common_bucket_arn
+      },
+      {
+        Action = [
+          "s3:GetObject"
+        ],
+        Effect   = "Allow",
+        Resource = "*"
+      },
+      {
+        Action = [
+          "ses:SendEmail"
+        ],
+        Effect   = "Allow",
+        Resource = local.ses_arn
+      },
+      {
+        Action   = ["lambda:InvokeFunction"],
+        Effect   = "Allow",
+        Resource = local.qatalyst_lambdas_arn
+      },
+      {
+        Action = [
+          "sqs:SendMessage",
+          "sqs:ReceiveMessage",
+          "sqs:DeleteMessage",
+        ],
+        Effect   = "Allow",
+        Resource = local.qatalyst_sqs_arn
+      },
+      {
+        Action = [
+          "elasticfilesystem:CreateFileSystem",
+          "elasticfilesystem:CreateMountTarget"
+        ],
+        Effect   = "Allow",
+        Resource = "*"
+      }
+    ]
+  })
+  tags = merge(tomap({ "Name" : "qatalyst-ecs-furyblade-task-iam-policy" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+}
+
 resource "aws_iam_role" "qatalyst_ecs_task_role" {
   provider = aws.iam_region
   name     = "qatalyst-ecs-task-iam-role"
@@ -244,6 +332,26 @@ resource "aws_iam_role" "qatalyst_ecs_cyborg_task_role" {
   tags = merge(tomap({ "Name" : "qatalyst-ecs-cyborg-task-role" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
+resource "aws_iam_role" "qatalyst_ecs_furyblade_task_role" {
+  provider = aws.iam_region
+  name     = "qatalyst-ecs-furyblade-task-iam-role"
+  assume_role_policy = jsonencode(
+    {
+      "Version" : "2012-10-17",
+      "Statement" : [
+        {
+          "Action" : "sts:AssumeRole",
+          "Principal" : {
+            "Service" : "ecs-tasks.amazonaws.com"
+          },
+          "Effect" : "Allow",
+          "Sid" : ""
+        }
+      ]
+  })
+  tags = merge(tomap({ "Name" : "qatalyst-ecs-furyblade-task-role" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+}
+
 resource "aws_iam_role_policy_attachment" "qatalyst_ecs_task_role_policy_attachment" {
   provider   = aws.iam_region
   role       = aws_iam_role.qatalyst_ecs_task_role.name
@@ -253,6 +361,12 @@ resource "aws_iam_role_policy_attachment" "qatalyst_ecs_cyborg_task_role_policy_
   provider   = aws.iam_region
   role       = aws_iam_role.qatalyst_ecs_cyborg_task_role.name
   policy_arn = aws_iam_policy.qatalyst_ecs_cyborg_task_iam_policy.arn
+}
+
+resource "aws_iam_role_policy_attachment" "qatalyst_ecs_furyblade_task_role_policy_attachment" {
+  provider   = aws.iam_region
+  role       = aws_iam_role.qatalyst_ecs_furyblade_task_role.name
+  policy_arn = aws_iam_policy.qatalyst_ecs_furyblade_task_iam_policy.arn
 }
 
 resource "aws_iam_role" "qatalyst_ecs_autoscale_role" {
