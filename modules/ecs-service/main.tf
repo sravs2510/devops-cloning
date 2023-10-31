@@ -70,7 +70,7 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
             protocol      = "tcp"
           }
         ]
-        healthCheck = var.service == "cyborg" ? null : {
+        healthCheck = var.service == "cyborg" || var.service == "furyblade"  ? null : {
           retries     = 3
           command     = ["CMD-SHELL", "curl -f http://localhost/health || exit 1"]
           timeout     = 30
@@ -153,7 +153,7 @@ resource "aws_ecs_service" "qatalyst_ecs_service" {
   }
 
   dynamic "load_balancer" {
-    for_each = var.service != "cyborg" ? [1] : []
+    for_each = var.service != "cyborg" || var.service == "furyblade" ? [1] : []
 
     content {
       target_group_arn = var.alb_target_group_arn

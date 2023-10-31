@@ -183,7 +183,18 @@ variable "cyborg_efs_configurations" {
   type        = any
   description = "EFS Configurations"
 }
+
+variable "furyblade_efs_configurations" {
+  type        = any
+  description = "EFS Configurations"
+}
+
 variable "service_names" {
   type        = map(string)
   description = "Map of service names"
+}
+
+variable "furyblade_repo_name" {
+  type        = string
+  description = "Repo name suffix"
 }
