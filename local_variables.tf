@@ -11,6 +11,7 @@ locals {
   qatalyst_sender_email                          = var.STAGE == "prod" ? join("", ["noreply@", var.base_domain]) : join("", ["noreply@", var.STAGE, ".", var.base_domain])
   qatalyst_cyborg_service_name                   = "qatalyst-cyborg"
   qatalyst_furyblade_service_name                = "qatalyst-furyblade"
+  qatalyst_furyblade_secrets                     = []
   account_id                                     = data.aws_caller_identity.current.account_id
   qatalyst_ecs_task_environment_variables = [
     {

@@ -198,9 +198,3 @@ variable "furyblade_repo_name" {
   type        = string
   description = "Repo name suffix"
 }
-
-variable "service_environment_secrets" {
-  type        = list(any)
-  default     = []
-  description = "ECS Service Environment Secrets"
-}
