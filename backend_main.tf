@@ -171,7 +171,7 @@ module "create_eu_ecs_dashboard_service" {
   ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
   ecs_task_role_arn             = module.create_iam.ecs_task_role_arn
   ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
-  fargate_cpu_memory            = var.fargate_cpu_memory
+  fargate_cpu_memory            = local.fargate_cpu_memory
   service_environment_variables = local.qatalyst_ecs_task_environment_variables
   service_environment_secrets   = local.qatalyst_ecs_task_environment_secrets
   dd_environment_variables      = local.qatalyst_datadog_environment_variables
@@ -198,7 +198,7 @@ module "create_eu_ecs_testerview_service" {
   ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
   ecs_task_role_arn             = module.create_iam.ecs_task_role_arn
   ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
-  fargate_cpu_memory            = var.fargate_cpu_memory
+  fargate_cpu_memory            = local.fargate_cpu_memory
   service_environment_variables = local.qatalyst_ecs_task_environment_variables
   service_environment_secrets   = local.qatalyst_ecs_task_environment_secrets
   dd_environment_variables      = local.qatalyst_datadog_environment_variables
@@ -226,7 +226,7 @@ module "create_eu_ecs_reports_service" {
   ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
   ecs_task_role_arn             = module.create_iam.ecs_task_role_arn
   ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
-  fargate_cpu_memory            = var.fargate_cpu_memory
+  fargate_cpu_memory            = local.fargate_cpu_memory
   service_environment_variables = local.qatalyst_ecs_task_environment_variables
   service_environment_secrets   = local.qatalyst_ecs_task_environment_secrets
   dd_environment_variables      = local.qatalyst_datadog_environment_variables
@@ -254,7 +254,7 @@ module "create_eu_ecs_cyborg_service" {
   ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
   ecs_task_role_arn             = module.create_iam.cyborg_ecs_task_role_arn
   ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
-  fargate_cpu_memory            = var.fargate_cpu_memory
+  fargate_cpu_memory            = local.fargate_cpu_memory
   service_environment_variables = local.qatalyst_cyborg_ecs_task_environment_variables
   service_environment_secrets   = local.qatalyst_cyborg_ecs_task_environment_secrets
   dd_environment_variables      = local.qatalyst_datadog_environment_variables
