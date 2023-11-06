@@ -45,7 +45,7 @@ resource "aws_s3_bucket_cors_configuration" "cdn_s3_cors_config" {
     allowed_headers = ["*"]
     allowed_methods = ["GET"]
     allowed_origins = ["*"]
-    expose_headers  = []
+    expose_headers  = ["ETag"]
     max_age_seconds = 3600
   }
 }

@@ -89,7 +89,9 @@ resource "aws_iam_policy" "qatalyst_ecs_task_iam_policy" {
         Action = [
           "s3:PutObject",
           "s3:GetObject",
-          "s3:DeleteObject"
+          "s3:DeleteObject",
+          "s3:AbortMultipartUpload",
+          "s3:ListMultipartUploadParts"
         ],
         Effect   = "Allow",
         Resource = local.s3_media_bucket_object_arn
@@ -98,7 +100,9 @@ resource "aws_iam_policy" "qatalyst_ecs_task_iam_policy" {
         Action = [
           "s3:PutObject",
           "s3:GetObject",
-          "s3:DeleteObject"
+          "s3:DeleteObject",
+          "s3:AbortMultipartUpload",
+          "s3:ListMultipartUploadParts"
         ],
         Effect   = "Allow",
         Resource = local.s3_common_bucket_arn
@@ -160,7 +164,9 @@ resource "aws_iam_policy" "qatalyst_ecs_cyborg_task_iam_policy" {
         Action = [
           "s3:PutObject",
           "s3:GetObject",
-          "s3:DeleteObject"
+          "s3:DeleteObject",
+          "s3:AbortMultipartUpload",
+          "s3:ListMultipartUploadParts"
         ],
         Effect   = "Allow",
         Resource = local.s3_media_bucket_object_arn
@@ -169,7 +175,9 @@ resource "aws_iam_policy" "qatalyst_ecs_cyborg_task_iam_policy" {
         Action = [
           "s3:PutObject",
           "s3:GetObject",
-          "s3:DeleteObject"
+          "s3:DeleteObject",
+          "s3:AbortMultipartUpload",
+          "s3:ListMultipartUploadParts"
         ],
         Effect   = "Allow",
         Resource = local.s3_common_bucket_arn
@@ -238,7 +246,9 @@ resource "aws_iam_policy" "qatalyst_ecs_furyblade_task_iam_policy" {
         Action = [
           "s3:PutObject",
           "s3:GetObject",
-          "s3:DeleteObject"
+          "s3:DeleteObject",
+          "s3:AbortMultipartUpload",
+          "s3:ListMultipartUploadParts"
         ],
         Effect   = "Allow",
         Resource = local.s3_media_bucket_object_arn
@@ -385,7 +395,9 @@ resource "aws_iam_policy" "media_convert_policy" {
         Action = [
           "s3:PutObject",
           "s3:GetObject",
-          "s3:DeleteObject"
+          "s3:DeleteObject",
+          "s3:AbortMultipartUpload",
+          "s3:ListMultipartUploadParts"
         ],
         Effect   = "Allow",
         Resource = local.s3_media_bucket_object_arn
