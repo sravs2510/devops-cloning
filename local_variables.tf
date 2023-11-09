@@ -1,3 +1,7 @@
+data "aws_caller_identity" "current" {
+  provider = aws.in_region
+}
+
 locals {
   dasboard_domain                                = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.base_domain])
   tester_view_domain                             = var.STAGE == "prod" ? join(".", [var.tester_view_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.tester_view_sub_domain, var.base_domain])
@@ -9,8 +13,9 @@ locals {
   qatalyst_cloudwatch_dashboard_name_reports     = "Qatalyst-Reports"
   qatalyst_cloudwatch_dashboard_name_tester_view = "Qatalyst-Tester-View"
   qatalyst_sender_email                          = var.STAGE == "prod" ? join("", ["noreply@", var.base_domain]) : join("", ["noreply@", var.STAGE, ".", var.base_domain])
-  qatalyst_cyborg_service_name                   = "qatalyst-cyborg"
-  qatalyst_furyblade_service_name                = "qatalyst-furyblade"
+  qatalyst_cyborg_service_name                   = "qatalyst-cyborg-service"
+  qatalyst_furyblade_service_name                = "qatalyst-furyblade-service"
+  qatalyst_prototype_service_name                = "qatalyst-prototype-service"
   qatalyst_furyblade_secrets                     = []
   fargate_cpu_memory                             = var.STAGE == "qa" ? var.fargate_cpu_memory_qa_eu : var.fargate_cpu_memory
   account_id                                     = data.aws_caller_identity.current.account_id
@@ -72,6 +77,25 @@ locals {
       value = local.account_id
     }
   ]
+  qatalyst_prototype_ecs_task_environment_variables = [
+    {
+      name  = "STAGE"
+      value = var.STAGE
+    },
+    {
+      name  = "LOG_LEVEL"
+      value = "INFO"
+    },
+    {
+      name  = "AWS_ACCOUNT_ID"
+      value = local.account_id
+    },
+    {
+      name  = "WEB_CONCURRENCY"
+      value = var.uvicorn_workers_count
+    }
+  ]
+
   qatalyst_ecs_task_environment_secrets = [
     {
       name      = "BITLY_BEARER"
@@ -134,6 +158,12 @@ locals {
     }
   ]
 
+  qatalyst_prototype_ecs_task_environment_secrets = [
+    {
+      name      = "FIGMA_ACCESS_TOKEN"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "figma-access-token"])
+    }
+  ]
   qatalyst_datadog_environment_variables = [
     {
       name  = "DD_APM_ENABLED",

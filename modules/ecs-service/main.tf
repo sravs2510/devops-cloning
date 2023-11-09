@@ -16,7 +16,7 @@ data "aws_caller_identity" "current" {
 }
 
 locals {
-  ecs_service_name     = join("-", [var.ecs_service_name, var.STAGE, local.datacenter_code])
+  ecs_service_name     = join("-", [var.ecs_service_name, var.STAGE])
   container_name       = join("-", [var.ecs_service_name, var.STAGE, local.datacenter_code, "container"])
   task_definition_name = join("-", [var.ecs_service_name, var.STAGE, local.datacenter_code, "td"])
   account_id           = data.aws_caller_identity.current.account_id

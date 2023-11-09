@@ -404,4 +404,5 @@ service_names = {
   testerview = "testerview"
   cyborg     = "cyborg"
   furyblade  = "furyblade"
+  prototype  = "prototype"
 }

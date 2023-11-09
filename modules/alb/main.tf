@@ -112,6 +112,25 @@ resource "aws_lb_target_group" "qatalyst_tester_view_tg" {
   }
   tags = merge(tomap({ "Name" : "qatalyst-tester-view-tg" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
+
+resource "aws_lb_target_group" "qatalyst_prototype_tg" {
+  provider             = aws.alb_region
+  name                 = "qatalyst-prototype-tg"
+  port                 = 80
+  protocol             = "HTTP"
+  target_type          = "ip"
+  vpc_id               = var.vpc_id
+  deregistration_delay = 90 #sec
+
+  health_check {
+    path                = "/health"
+    interval            = local.lb_target_interval
+    timeout             = local.lb_target_timeout
+    healthy_threshold   = local.lb_target_healthy_threshold
+    unhealthy_threshold = local.lb_target_unhealthy_threshold
+  }
+  tags = merge(tomap({ "Name" : "qatalyst-prototype" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+}
 resource "aws_lb_listener" "qatalyst_alb_listener" {
   provider          = aws.alb_region
   certificate_arn   = var.alb_certficate_arn
@@ -171,6 +190,21 @@ resource "aws_lb_listener_rule" "qatalyst_alb_listener_tester_view_rule" {
   condition {
     path_pattern {
       values = [local.path_pattern_test, local.path_pattern_testers]
+    }
+  }
+}
+
+resource "aws_lb_listener_rule" "qatalyst_alb_listener_prototype_rule" {
+  listener_arn = aws_lb_listener.qatalyst_alb_listener.arn
+  provider     = aws.alb_region
+  priority     = 100
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.qatalyst_prototype_tg.arn
+  }
+  condition {
+    path_pattern {
+      values = [local.path_pattern]
     }
   }
 }
