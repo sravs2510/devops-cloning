@@ -60,7 +60,7 @@ resource "aws_s3_bucket_cors_configuration" "aws_cors_config" {
     allowed_headers = ["*"]
     allowed_methods = ["PUT", "POST", "GET"]
     allowed_origins = var.STAGE != "dev" ? [local.studyview_domain, local.dashboard_domain, local.reports_domain, local.invite_domain] : [local.studyview_domain, local.dashboard_domain, local.reports_domain, local.invite_domain, "http://localhost:3000", "http://*.localhost:3000"]
-    expose_headers  = []
+    expose_headers  = ["ETag"]
     max_age_seconds = 3600
   }
 }

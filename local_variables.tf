@@ -12,6 +12,7 @@ locals {
   qatalyst_cyborg_service_name                   = "qatalyst-cyborg"
   qatalyst_furyblade_service_name                = "qatalyst-furyblade"
   qatalyst_furyblade_secrets                     = []
+  fargate_cpu_memory                             = var.STAGE == "qa" ? var.fargate_cpu_memory_qa_eu : var.fargate_cpu_memory
   account_id                                     = data.aws_caller_identity.current.account_id
   qatalyst_ecs_task_environment_variables = [
     {

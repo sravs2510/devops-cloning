@@ -336,6 +336,11 @@ fargate_cpu_memory = {
   "memory" : 2048
 }
 
+fargate_cpu_memory_qa_eu = {
+  "cpu" : 2048
+  "memory" : 4096
+}
+
 uvicorn_workers_count = 4
 
 common_s3_sub_domain  = "common"

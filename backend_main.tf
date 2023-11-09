@@ -145,6 +145,7 @@ module "create_eu_ecs" {
   }
 }
 
+
 module "create_eu_dynamodb_gsi" {
   source                 = "./modules/dynamodb_gsi"
   DEFAULT_TAGS           = var.DEFAULT_TAGS
