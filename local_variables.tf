@@ -17,7 +17,6 @@ locals {
   qatalyst_furyblade_service_name                = "qatalyst-furyblade-service"
   qatalyst_prototype_service_name                = "qatalyst-prototype-service"
   qatalyst_furyblade_secrets                     = []
-  qatalyst_prototype_secrets                     = []
   fargate_cpu_memory                             = var.STAGE == "qa" ? var.fargate_cpu_memory_qa_eu : var.fargate_cpu_memory
   account_id                                     = data.aws_caller_identity.current.account_id
   qatalyst_ecs_task_environment_variables = [
@@ -155,6 +154,12 @@ locals {
     }
   ]
 
+  qatalyst_prototype_ecs_task_environment_secrets = [
+    {
+      name      = "FIGMA_ACCESS_TOKEN"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "figma-access-token"])
+    }
+  ]
   qatalyst_datadog_environment_variables = [
     {
       name  = "DD_APM_ENABLED",
