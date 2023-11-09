@@ -89,6 +89,10 @@ locals {
     {
       name  = "AWS_ACCOUNT_ID"
       value = local.account_id
+    },
+    {
+      name  = "WEB_CONCURRENCY"
+      value = var.uvicorn_workers_count
     }
   ]
 
