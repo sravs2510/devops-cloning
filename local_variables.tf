@@ -9,9 +9,11 @@ locals {
   qatalyst_cloudwatch_dashboard_name_reports     = "Qatalyst-Reports"
   qatalyst_cloudwatch_dashboard_name_tester_view = "Qatalyst-Tester-View"
   qatalyst_sender_email                          = var.STAGE == "prod" ? join("", ["noreply@", var.base_domain]) : join("", ["noreply@", var.STAGE, ".", var.base_domain])
-  qatalyst_cyborg_service_name                   = "qatalyst-cyborg"
-  qatalyst_furyblade_service_name                = "qatalyst-furyblade"
+  qatalyst_cyborg_service_name                   = "qatalyst-cyborg-service"
+  qatalyst_furyblade_service_name                = "qatalyst-furyblade-service"
+  qatalyst_prototype_service_name                = "qatalyst-prototype-service"
   qatalyst_furyblade_secrets                     = []
+  qatalyst_prototype_secrets                     = []
   fargate_cpu_memory                             = var.STAGE == "qa" ? var.fargate_cpu_memory_qa_eu : var.fargate_cpu_memory
   account_id                                     = data.aws_caller_identity.current.account_id
   qatalyst_ecs_task_environment_variables = [
@@ -72,6 +74,21 @@ locals {
       value = local.account_id
     }
   ]
+  qatalyst_prototype_ecs_task_environment_variables = [
+    {
+      name  = "STAGE"
+      value = var.STAGE
+    },
+    {
+      name  = "LOG_LEVEL"
+      value = "INFO"
+    },
+    {
+      name  = "AWS_ACCOUNT_ID"
+      value = local.account_id
+    }
+  ]
+
   qatalyst_ecs_task_environment_secrets = [
     {
       name      = "BITLY_BEARER"
