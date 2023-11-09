@@ -21,7 +21,7 @@ module "create_eu_ecs_prototype_service" {
   STAGE                         = var.STAGE
   repo_name                     = var.ecr_repo_name
   service                       = var.service_names["prototype"]
-  
+
   providers = {
     aws.ecs_region = aws.eu_region
   }
