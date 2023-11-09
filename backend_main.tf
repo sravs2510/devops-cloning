@@ -1,6 +1,5 @@
 # EU Resources
-data "aws_caller_identity" "current" {
-}
+
 module "create_eu_vpc" {
   source          = "./modules/vpc"
   cidr_block      = var.cidr_block
