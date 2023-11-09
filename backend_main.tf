@@ -47,21 +47,6 @@ module "create_eu_acm_media_cf" {
   }
 }
 
-module "create_eu_reports_acm" {
-  source           = "./modules/acm"
-  base_domain      = var.base_domain
-  sub_domain       = var.reports_s3_sub_domain
-  datacenter_codes = var.datacenter_codes
-  is_multi_region  = false
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
-
-  providers = {
-    aws.acm_region        = aws.eu_region
-    aws.datacenter_region = aws.eu_region
-  }
-}
-
 module "create_eu_meet_acm_cf" {
   source           = "./modules/acm"
   base_domain      = var.base_domain
@@ -160,116 +145,7 @@ module "create_eu_ecs" {
   }
 }
 
-module "create_eu_ecs_dashboard_service" {
-  source                        = "./modules/ecs-service"
-  ecs_service_name              = local.qatalyst_dashboard_service_name
-  ecs_cluster_id                = module.create_eu_ecs.ecs_cluster_id
-  ecs_cluster_name              = module.create_eu_ecs.ecs_cluster_name
-  ecs_security_groups           = module.create_eu_ecs.ecs_security_group_ids
-  ecs_subnets                   = module.create_eu_vpc.private_subnets
-  alb_target_group_arn          = module.create_eu_alb.qatalyst_alb_target_group_arn
-  ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
-  ecs_task_role_arn             = module.create_iam.ecs_task_role_arn
-  ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
-  fargate_cpu_memory            = local.fargate_cpu_memory
-  service_environment_variables = local.qatalyst_ecs_task_environment_variables
-  service_environment_secrets   = local.qatalyst_ecs_task_environment_secrets
-  dd_environment_variables      = local.qatalyst_datadog_environment_variables
-  dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
-  datadog_docker_image          = var.datadog_docker_image
-  datacenter_codes              = var.datacenter_codes
-  DEFAULT_TAGS                  = var.DEFAULT_TAGS
-  STAGE                         = var.STAGE
-  repo_name                     = var.ecr_repo_name
-  service                       = var.service_names["dashboard"]
-  providers = {
-    aws.ecs_region = aws.eu_region
-  }
-}
 
-module "create_eu_ecs_testerview_service" {
-  source                        = "./modules/ecs-service"
-  ecs_service_name              = local.qatalyst_tester_view_service_name
-  ecs_cluster_id                = module.create_eu_ecs.ecs_cluster_id
-  ecs_cluster_name              = module.create_eu_ecs.ecs_cluster_name
-  ecs_security_groups           = module.create_eu_ecs.ecs_security_group_ids
-  ecs_subnets                   = module.create_eu_vpc.private_subnets
-  alb_target_group_arn          = module.create_eu_alb.qatalyst_alb_target_group_tester_view_arn
-  ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
-  ecs_task_role_arn             = module.create_iam.ecs_task_role_arn
-  ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
-  fargate_cpu_memory            = local.fargate_cpu_memory
-  service_environment_variables = local.qatalyst_ecs_task_environment_variables
-  service_environment_secrets   = local.qatalyst_ecs_task_environment_secrets
-  dd_environment_variables      = local.qatalyst_datadog_environment_variables
-  dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
-  datadog_docker_image          = var.datadog_docker_image
-  datacenter_codes              = var.datacenter_codes
-  DEFAULT_TAGS                  = var.DEFAULT_TAGS
-  STAGE                         = var.STAGE
-  repo_name                     = var.ecr_repo_name
-  service                       = var.service_names["testerview"]
-
-  providers = {
-    aws.ecs_region = aws.eu_region
-  }
-}
-
-module "create_eu_ecs_reports_service" {
-  source                        = "./modules/ecs-service"
-  ecs_service_name              = local.qatalyst_reports_service_name
-  ecs_cluster_id                = module.create_eu_ecs.ecs_cluster_id
-  ecs_cluster_name              = module.create_eu_ecs.ecs_cluster_name
-  ecs_security_groups           = module.create_eu_ecs.ecs_security_group_ids
-  ecs_subnets                   = module.create_eu_vpc.private_subnets
-  alb_target_group_arn          = module.create_eu_alb.qatalyst_alb_target_group_reports_arn
-  ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
-  ecs_task_role_arn             = module.create_iam.ecs_task_role_arn
-  ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
-  fargate_cpu_memory            = local.fargate_cpu_memory
-  service_environment_variables = local.qatalyst_ecs_task_environment_variables
-  service_environment_secrets   = local.qatalyst_ecs_task_environment_secrets
-  dd_environment_variables      = local.qatalyst_datadog_environment_variables
-  dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
-  datadog_docker_image          = var.datadog_docker_image
-  datacenter_codes              = var.datacenter_codes
-  DEFAULT_TAGS                  = var.DEFAULT_TAGS
-  STAGE                         = var.STAGE
-  repo_name                     = var.ecr_repo_name
-  service                       = var.service_names["reports"]
-
-  providers = {
-    aws.ecs_region = aws.eu_region
-  }
-}
-
-module "create_eu_ecs_cyborg_service" {
-  source                        = "./modules/ecs-service"
-  ecs_service_name              = local.qatalyst_cyborg_service_name
-  ecs_cluster_id                = module.create_eu_ecs.ecs_cluster_id
-  ecs_cluster_name              = module.create_eu_ecs.ecs_cluster_name
-  ecs_security_groups           = module.create_eu_ecs.ecs_security_group_ids
-  ecs_subnets                   = module.create_eu_vpc.private_subnets
-  alb_target_group_arn          = ""
-  ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
-  ecs_task_role_arn             = module.create_iam.cyborg_ecs_task_role_arn
-  ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
-  fargate_cpu_memory            = local.fargate_cpu_memory
-  service_environment_variables = local.qatalyst_cyborg_ecs_task_environment_variables
-  service_environment_secrets   = local.qatalyst_cyborg_ecs_task_environment_secrets
-  dd_environment_variables      = local.qatalyst_datadog_environment_variables
-  dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
-  datadog_docker_image          = var.datadog_docker_image
-  datacenter_codes              = var.datacenter_codes
-  DEFAULT_TAGS                  = var.DEFAULT_TAGS
-  STAGE                         = var.STAGE
-  repo_name                     = var.cyborg_repo_name
-  service                       = var.service_names["cyborg"]
-
-  providers = {
-    aws.ecs_region = aws.eu_region
-  }
-}
 module "create_eu_dynamodb_gsi" {
   source                 = "./modules/dynamodb_gsi"
   DEFAULT_TAGS           = var.DEFAULT_TAGS
@@ -295,53 +171,6 @@ module "create_eu_dynamodb" {
   }
 }
 
-module "create_eu_cloudwatch_dashboard" {
-  source           = "./modules/cloudwatch"
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
-  ecs_service_name = local.qatalyst_dashboard_service_name
-  ecs_cluster_name = local.qatalyst_ecs_cluster_name
-  alb_arn_suffix   = module.create_eu_alb.qatalyst_alb_arn_suffix
-  tg_arn_suffix    = module.create_eu_alb.qatalyst_tg_arn_suffix
-  datacenter_codes = var.datacenter_codes
-  dashboard_name   = local.qatalyst_cloudwatch_dashboard_name_dashboard
-
-  providers = {
-    aws.cw_region = aws.eu_region
-  }
-}
-
-module "create_eu_cloudwatch_reports_dashboard" {
-  source           = "./modules/cloudwatch"
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
-  ecs_service_name = local.qatalyst_reports_service_name
-  ecs_cluster_name = local.qatalyst_ecs_cluster_name
-  alb_arn_suffix   = module.create_eu_alb.qatalyst_alb_arn_suffix
-  tg_arn_suffix    = module.create_eu_alb.qatalyst_alb_target_group_reports_arn_suffix
-  datacenter_codes = var.datacenter_codes
-  dashboard_name   = local.qatalyst_cloudwatch_dashboard_name_reports
-  providers = {
-    aws.cw_region = aws.eu_region
-  }
-}
-
-module "create_eu_cloudwatch_tester_view_dashboard" {
-  source           = "./modules/cloudwatch"
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
-  ecs_service_name = local.qatalyst_tester_view_service_name
-  ecs_cluster_name = local.qatalyst_ecs_cluster_name
-  alb_arn_suffix   = module.create_eu_alb.qatalyst_alb_arn_suffix
-  tg_arn_suffix    = module.create_eu_alb.qatalyst_alb_target_group_tester_view_arn_suffix
-  datacenter_codes = var.datacenter_codes
-  dashboard_name   = local.qatalyst_cloudwatch_dashboard_name_tester_view
-
-  providers = {
-    aws.cw_region = aws.eu_region
-  }
-}
-
 module "create_eu_ssm" {
   source           = "./modules/ssm"
   DEFAULT_TAGS     = var.DEFAULT_TAGS
@@ -364,29 +193,6 @@ module "create_eu_ecr" {
   }
 }
 
-module "create_eu_cyborg_ecr" {
-  source       = "./modules/ecr"
-  repo_name    = var.cyborg_repo_name
-  DEFAULT_TAGS = var.DEFAULT_TAGS
-  STAGE        = var.STAGE
-
-  providers = {
-    aws.ecr_region = aws.eu_region
-  }
-}
-
-module "create_eu_cyborg_efs" {
-  source            = "./modules/efs"
-  STAGE             = var.STAGE
-  DEFAULT_TAGS      = var.DEFAULT_TAGS
-  EFS_CONFIGURATION = var.cyborg_efs_configurations
-  private_subnets   = module.create_eu_vpc.private_subnets
-  sg_id             = module.create_eu_vpc.security_group_id
-
-  providers = {
-    aws.efs_region = aws.eu_region
-  }
-}
 module "create_eu_media_convert_queue" {
   source              = "./modules/mediaconvert"
   mediaconvert_queues = var.mediaconvert_queues
@@ -454,20 +260,7 @@ module "create_in_acm_media_cf" {
   }
 }
 
-module "create_in_reports_acm" {
-  source           = "./modules/acm"
-  base_domain      = var.base_domain
-  sub_domain       = var.reports_s3_sub_domain
-  datacenter_codes = var.datacenter_codes
-  is_multi_region  = false
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
 
-  providers = {
-    aws.acm_region        = aws.in_region
-    aws.datacenter_region = aws.in_region
-  }
-}
 
 module "create_in_meet_acm_cf" {
   source           = "./modules/acm"
@@ -567,117 +360,6 @@ module "create_in_ecs" {
   }
 }
 
-module "create_in_ecs_dashboard_service" {
-  source                        = "./modules/ecs-service"
-  ecs_service_name              = local.qatalyst_dashboard_service_name
-  ecs_cluster_id                = module.create_in_ecs.ecs_cluster_id
-  ecs_cluster_name              = module.create_in_ecs.ecs_cluster_name
-  ecs_security_groups           = module.create_in_ecs.ecs_security_group_ids
-  ecs_subnets                   = module.create_in_vpc.private_subnets
-  alb_target_group_arn          = module.create_in_alb.qatalyst_alb_target_group_arn
-  ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
-  ecs_task_role_arn             = module.create_iam.ecs_task_role_arn
-  ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
-  fargate_cpu_memory            = var.fargate_cpu_memory
-  service_environment_variables = local.qatalyst_ecs_task_environment_variables
-  service_environment_secrets   = local.qatalyst_ecs_task_environment_secrets
-  dd_environment_variables      = local.qatalyst_datadog_environment_variables
-  dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
-  datadog_docker_image          = var.datadog_docker_image
-  datacenter_codes              = var.datacenter_codes
-  DEFAULT_TAGS                  = var.DEFAULT_TAGS
-  STAGE                         = var.STAGE
-  repo_name                     = var.ecr_repo_name
-  service                       = var.service_names["dashboard"]
-
-  providers = {
-    aws.ecs_region = aws.in_region
-  }
-}
-
-module "create_in_ecs_testerview_service" {
-  source                        = "./modules/ecs-service"
-  ecs_service_name              = local.qatalyst_tester_view_service_name
-  ecs_cluster_id                = module.create_in_ecs.ecs_cluster_id
-  ecs_cluster_name              = module.create_in_ecs.ecs_cluster_name
-  ecs_security_groups           = module.create_in_ecs.ecs_security_group_ids
-  ecs_subnets                   = module.create_in_vpc.private_subnets
-  alb_target_group_arn          = module.create_in_alb.qatalyst_alb_target_group_tester_view_arn
-  ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
-  ecs_task_role_arn             = module.create_iam.ecs_task_role_arn
-  ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
-  fargate_cpu_memory            = var.fargate_cpu_memory
-  service_environment_variables = local.qatalyst_ecs_task_environment_variables
-  service_environment_secrets   = local.qatalyst_ecs_task_environment_secrets
-  dd_environment_variables      = local.qatalyst_datadog_environment_variables
-  dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
-  datadog_docker_image          = var.datadog_docker_image
-  datacenter_codes              = var.datacenter_codes
-  DEFAULT_TAGS                  = var.DEFAULT_TAGS
-  STAGE                         = var.STAGE
-  repo_name                     = var.ecr_repo_name
-  service                       = var.service_names["testerview"]
-
-  providers = {
-    aws.ecs_region = aws.in_region
-  }
-}
-
-module "create_in_ecs_reports_service" {
-  source                        = "./modules/ecs-service"
-  ecs_service_name              = local.qatalyst_reports_service_name
-  ecs_cluster_id                = module.create_in_ecs.ecs_cluster_id
-  ecs_cluster_name              = module.create_in_ecs.ecs_cluster_name
-  ecs_security_groups           = module.create_in_ecs.ecs_security_group_ids
-  ecs_subnets                   = module.create_in_vpc.private_subnets
-  alb_target_group_arn          = module.create_in_alb.qatalyst_alb_target_group_reports_arn
-  ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
-  ecs_task_role_arn             = module.create_iam.ecs_task_role_arn
-  ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
-  fargate_cpu_memory            = var.fargate_cpu_memory
-  service_environment_variables = local.qatalyst_ecs_task_environment_variables
-  service_environment_secrets   = local.qatalyst_ecs_task_environment_secrets
-  dd_environment_variables      = local.qatalyst_datadog_environment_variables
-  dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
-  datadog_docker_image          = var.datadog_docker_image
-  datacenter_codes              = var.datacenter_codes
-  DEFAULT_TAGS                  = var.DEFAULT_TAGS
-  STAGE                         = var.STAGE
-  repo_name                     = var.ecr_repo_name
-  service                       = var.service_names["reports"]
-
-  providers = {
-    aws.ecs_region = aws.in_region
-  }
-}
-
-module "create_in_ecs_cyborg_service" {
-  source                        = "./modules/ecs-service"
-  ecs_service_name              = local.qatalyst_cyborg_service_name
-  ecs_cluster_id                = module.create_in_ecs.ecs_cluster_id
-  ecs_cluster_name              = module.create_in_ecs.ecs_cluster_name
-  ecs_security_groups           = module.create_in_ecs.ecs_security_group_ids
-  ecs_subnets                   = module.create_in_vpc.private_subnets
-  alb_target_group_arn          = ""
-  ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
-  ecs_task_role_arn             = module.create_iam.cyborg_ecs_task_role_arn
-  ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
-  fargate_cpu_memory            = var.fargate_cpu_memory
-  service_environment_variables = local.qatalyst_cyborg_ecs_task_environment_variables
-  service_environment_secrets   = local.qatalyst_cyborg_ecs_task_environment_secrets
-  dd_environment_variables      = local.qatalyst_datadog_environment_variables
-  dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
-  datadog_docker_image          = var.datadog_docker_image
-  datacenter_codes              = var.datacenter_codes
-  DEFAULT_TAGS                  = var.DEFAULT_TAGS
-  STAGE                         = var.STAGE
-  repo_name                     = var.cyborg_repo_name
-  service                       = var.service_names["cyborg"]
-
-  providers = {
-    aws.ecs_region = aws.in_region
-  }
-}
 module "create_in_dynamodb_gsi" {
   source                 = "./modules/dynamodb_gsi"
   DEFAULT_TAGS           = var.DEFAULT_TAGS
@@ -703,53 +385,6 @@ module "create_in_dynamodb" {
   }
 }
 
-module "create_in_cloudwatch_dashboard" {
-  source           = "./modules/cloudwatch"
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
-  ecs_service_name = local.qatalyst_dashboard_service_name
-  ecs_cluster_name = local.qatalyst_ecs_cluster_name
-  alb_arn_suffix   = module.create_in_alb.qatalyst_alb_arn_suffix
-  tg_arn_suffix    = module.create_in_alb.qatalyst_tg_arn_suffix
-  datacenter_codes = var.datacenter_codes
-  dashboard_name   = local.qatalyst_cloudwatch_dashboard_name_dashboard
-
-  providers = {
-    aws.cw_region = aws.in_region
-  }
-}
-
-module "create_in_cloudwatch_reports_dashboard" {
-  source           = "./modules/cloudwatch"
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
-  ecs_service_name = local.qatalyst_reports_service_name
-  ecs_cluster_name = local.qatalyst_ecs_cluster_name
-  alb_arn_suffix   = module.create_in_alb.qatalyst_alb_arn_suffix
-  tg_arn_suffix    = module.create_in_alb.qatalyst_alb_target_group_reports_arn_suffix
-  datacenter_codes = var.datacenter_codes
-  dashboard_name   = local.qatalyst_cloudwatch_dashboard_name_reports
-  providers = {
-    aws.cw_region = aws.in_region
-  }
-}
-
-module "create_in_cloudwatch_tester_view_dashboard" {
-  source           = "./modules/cloudwatch"
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
-  ecs_service_name = local.qatalyst_tester_view_service_name
-  ecs_cluster_name = local.qatalyst_ecs_cluster_name
-  alb_arn_suffix   = module.create_in_alb.qatalyst_alb_arn_suffix
-  tg_arn_suffix    = module.create_in_alb.qatalyst_alb_target_group_tester_view_arn_suffix
-  datacenter_codes = var.datacenter_codes
-  dashboard_name   = local.qatalyst_cloudwatch_dashboard_name_tester_view
-
-  providers = {
-    aws.cw_region = aws.in_region
-  }
-}
-
 module "create_in_ssm" {
   source           = "./modules/ssm"
   DEFAULT_TAGS     = var.DEFAULT_TAGS
@@ -772,29 +407,6 @@ module "create_in_ecr" {
   }
 }
 
-module "create_in_cyborg_ecr" {
-  source       = "./modules/ecr"
-  repo_name    = var.cyborg_repo_name
-  DEFAULT_TAGS = var.DEFAULT_TAGS
-  STAGE        = var.STAGE
-
-  providers = {
-    aws.ecr_region = aws.in_region
-  }
-}
-
-module "create_in_cyborg_efs" {
-  source            = "./modules/efs"
-  STAGE             = var.STAGE
-  DEFAULT_TAGS      = var.DEFAULT_TAGS
-  EFS_CONFIGURATION = var.cyborg_efs_configurations
-  private_subnets   = module.create_in_vpc.private_subnets
-  sg_id             = module.create_in_vpc.security_group_id
-
-  providers = {
-    aws.efs_region = aws.in_region
-  }
-}
 module "create_in_media_convert_queue" {
   source              = "./modules/mediaconvert"
   mediaconvert_queues = var.mediaconvert_queues
@@ -861,20 +473,7 @@ module "create_sea_acm_media_cf" {
   }
 }
 
-module "create_sea_reports_acm" {
-  source           = "./modules/acm"
-  base_domain      = var.base_domain
-  sub_domain       = var.reports_s3_sub_domain
-  datacenter_codes = var.datacenter_codes
-  is_multi_region  = false
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
 
-  providers = {
-    aws.acm_region        = aws.sea_region
-    aws.datacenter_region = aws.sea_region
-  }
-}
 
 module "create_sea_meet_acm_cf" {
   source           = "./modules/acm"
@@ -974,117 +573,6 @@ module "create_sea_ecs" {
   }
 }
 
-module "create_sea_ecs_dashboard_service" {
-  source                        = "./modules/ecs-service"
-  ecs_service_name              = local.qatalyst_dashboard_service_name
-  ecs_cluster_id                = module.create_sea_ecs.ecs_cluster_id
-  ecs_cluster_name              = module.create_sea_ecs.ecs_cluster_name
-  ecs_security_groups           = module.create_sea_ecs.ecs_security_group_ids
-  ecs_subnets                   = module.create_sea_vpc.private_subnets
-  alb_target_group_arn          = module.create_sea_alb.qatalyst_alb_target_group_arn
-  ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
-  ecs_task_role_arn             = module.create_iam.ecs_task_role_arn
-  ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
-  fargate_cpu_memory            = var.fargate_cpu_memory
-  service_environment_variables = local.qatalyst_ecs_task_environment_variables
-  service_environment_secrets   = local.qatalyst_ecs_task_environment_secrets
-  dd_environment_variables      = local.qatalyst_datadog_environment_variables
-  dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
-  datadog_docker_image          = var.datadog_docker_image
-  datacenter_codes              = var.datacenter_codes
-  DEFAULT_TAGS                  = var.DEFAULT_TAGS
-  STAGE                         = var.STAGE
-  repo_name                     = var.ecr_repo_name
-  service                       = var.service_names["dashboard"]
-
-  providers = {
-    aws.ecs_region = aws.sea_region
-  }
-}
-
-module "create_sea_ecs_testerview_service" {
-  source                        = "./modules/ecs-service"
-  ecs_service_name              = local.qatalyst_tester_view_service_name
-  ecs_cluster_id                = module.create_sea_ecs.ecs_cluster_id
-  ecs_cluster_name              = module.create_sea_ecs.ecs_cluster_name
-  ecs_security_groups           = module.create_sea_ecs.ecs_security_group_ids
-  ecs_subnets                   = module.create_sea_vpc.private_subnets
-  alb_target_group_arn          = module.create_sea_alb.qatalyst_alb_target_group_tester_view_arn
-  ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
-  ecs_task_role_arn             = module.create_iam.ecs_task_role_arn
-  ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
-  fargate_cpu_memory            = var.fargate_cpu_memory
-  service_environment_variables = local.qatalyst_ecs_task_environment_variables
-  service_environment_secrets   = local.qatalyst_ecs_task_environment_secrets
-  dd_environment_variables      = local.qatalyst_datadog_environment_variables
-  dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
-  datadog_docker_image          = var.datadog_docker_image
-  datacenter_codes              = var.datacenter_codes
-  DEFAULT_TAGS                  = var.DEFAULT_TAGS
-  STAGE                         = var.STAGE
-  repo_name                     = var.ecr_repo_name
-  service                       = var.service_names["testerview"]
-
-  providers = {
-    aws.ecs_region = aws.sea_region
-  }
-}
-
-module "create_sea_ecs_reports_service" {
-  source                        = "./modules/ecs-service"
-  ecs_service_name              = local.qatalyst_reports_service_name
-  ecs_cluster_id                = module.create_sea_ecs.ecs_cluster_id
-  ecs_cluster_name              = module.create_sea_ecs.ecs_cluster_name
-  ecs_security_groups           = module.create_sea_ecs.ecs_security_group_ids
-  ecs_subnets                   = module.create_sea_vpc.private_subnets
-  alb_target_group_arn          = module.create_sea_alb.qatalyst_alb_target_group_reports_arn
-  ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
-  ecs_task_role_arn             = module.create_iam.ecs_task_role_arn
-  ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
-  fargate_cpu_memory            = var.fargate_cpu_memory
-  service_environment_variables = local.qatalyst_ecs_task_environment_variables
-  service_environment_secrets   = local.qatalyst_ecs_task_environment_secrets
-  dd_environment_variables      = local.qatalyst_datadog_environment_variables
-  dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
-  datadog_docker_image          = var.datadog_docker_image
-  datacenter_codes              = var.datacenter_codes
-  DEFAULT_TAGS                  = var.DEFAULT_TAGS
-  STAGE                         = var.STAGE
-  repo_name                     = var.ecr_repo_name
-  service                       = var.service_names["reports"]
-
-  providers = {
-    aws.ecs_region = aws.sea_region
-  }
-}
-
-module "create_sea_ecs_cyborg_service" {
-  source                        = "./modules/ecs-service"
-  ecs_service_name              = local.qatalyst_cyborg_service_name
-  ecs_cluster_id                = module.create_sea_ecs.ecs_cluster_id
-  ecs_cluster_name              = module.create_sea_ecs.ecs_cluster_name
-  ecs_security_groups           = module.create_sea_ecs.ecs_security_group_ids
-  ecs_subnets                   = module.create_sea_vpc.private_subnets
-  alb_target_group_arn          = ""
-  ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
-  ecs_task_role_arn             = module.create_iam.cyborg_ecs_task_role_arn
-  ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
-  fargate_cpu_memory            = var.fargate_cpu_memory
-  service_environment_variables = local.qatalyst_cyborg_ecs_task_environment_variables
-  service_environment_secrets   = local.qatalyst_cyborg_ecs_task_environment_secrets
-  dd_environment_variables      = local.qatalyst_datadog_environment_variables
-  dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
-  datadog_docker_image          = var.datadog_docker_image
-  datacenter_codes              = var.datacenter_codes
-  DEFAULT_TAGS                  = var.DEFAULT_TAGS
-  STAGE                         = var.STAGE
-  repo_name                     = var.cyborg_repo_name
-  service                       = var.service_names["cyborg"]
-
-  providers = {
-    aws.ecs_region = aws.sea_region
-  }
-}
 module "create_sea_dynamodb_gsi" {
   source                 = "./modules/dynamodb_gsi"
   DEFAULT_TAGS           = var.DEFAULT_TAGS
@@ -1107,53 +595,6 @@ module "create_sea_dynamodb" {
 
   providers = {
     aws.dynamo_region = aws.sea_region
-  }
-}
-
-module "create_sea_cloudwatch_dashboard" {
-  source           = "./modules/cloudwatch"
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
-  ecs_service_name = local.qatalyst_dashboard_service_name
-  ecs_cluster_name = local.qatalyst_ecs_cluster_name
-  alb_arn_suffix   = module.create_sea_alb.qatalyst_alb_arn_suffix
-  tg_arn_suffix    = module.create_sea_alb.qatalyst_tg_arn_suffix
-  datacenter_codes = var.datacenter_codes
-  dashboard_name   = local.qatalyst_cloudwatch_dashboard_name_dashboard
-
-  providers = {
-    aws.cw_region = aws.sea_region
-  }
-}
-
-module "create_sea_cloudwatch_reports_dashboard" {
-  source           = "./modules/cloudwatch"
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
-  ecs_service_name = local.qatalyst_reports_service_name
-  ecs_cluster_name = local.qatalyst_ecs_cluster_name
-  alb_arn_suffix   = module.create_sea_alb.qatalyst_alb_arn_suffix
-  tg_arn_suffix    = module.create_sea_alb.qatalyst_alb_target_group_reports_arn_suffix
-  datacenter_codes = var.datacenter_codes
-  dashboard_name   = local.qatalyst_cloudwatch_dashboard_name_reports
-  providers = {
-    aws.cw_region = aws.sea_region
-  }
-}
-
-module "create_sea_cloudwatch_tester_view_dashboard" {
-  source           = "./modules/cloudwatch"
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
-  ecs_service_name = local.qatalyst_tester_view_service_name
-  ecs_cluster_name = local.qatalyst_ecs_cluster_name
-  alb_arn_suffix   = module.create_sea_alb.qatalyst_alb_arn_suffix
-  tg_arn_suffix    = module.create_sea_alb.qatalyst_alb_target_group_tester_view_arn_suffix
-  datacenter_codes = var.datacenter_codes
-  dashboard_name   = local.qatalyst_cloudwatch_dashboard_name_tester_view
-
-  providers = {
-    aws.cw_region = aws.sea_region
   }
 }
 
@@ -1271,59 +712,6 @@ module "create_common_cloudfront" {
   }
 }
 #ACM or cloudfront & ALB
-module "create_reports_acm_cf" {
-  source           = "./modules/acm"
-  base_domain      = var.base_domain
-  sub_domain       = var.reports_s3_sub_domain
-  datacenter_codes = var.datacenter_codes
-  is_multi_region  = false
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
-
-  providers = {
-    aws.acm_region        = aws.us_region
-    aws.datacenter_region = aws.us_region
-  }
-}
-
-module "create_reports_s3_sub_domain" {
-  source                     = "./modules/s3"
-  bucket_prefix              = var.reports_s3_sub_domain
-  DEFAULT_TAGS               = var.DEFAULT_TAGS
-  STAGE                      = var.STAGE
-  datacenter_codes           = var.datacenter_codes
-  tester_view_sub_domain     = var.tester_view_sub_domain
-  base_domain                = var.base_domain
-  object_expiration_duration = var.object_expiration_duration
-  is_multi_region            = false
-  reports_s3_sub_domain      = var.reports_s3_sub_domain
-  invite_s3_sub_domain       = var.invite_s3_sub_domain
-  providers = {
-    aws.s3_region = aws.us_region
-  }
-}
-
-module "create_cloudfront_reports" {
-  source                      = "./modules/cloudfront-fe-be"
-  DEFAULT_TAGS                = var.DEFAULT_TAGS
-  STAGE                       = var.STAGE
-  base_domain                 = var.base_domain
-  sub_domain                  = var.reports_s3_sub_domain
-  bucket_id                   = module.create_reports_s3_sub_domain.s3_bucket_id
-  bucket_arn                  = module.create_reports_s3_sub_domain.s3_bucket_arn
-  acm_certificate_arn         = module.create_reports_acm_cf.acm_arn
-  bucket_regional_domain_name = module.create_reports_s3_sub_domain.s3_bucket_regional_domain_name
-  qatalyst_eu_alb_dns_name    = module.create_eu_alb.qatalyst_alb_dns_name
-  qatalyst_in_alb_dns_name    = module.create_in_alb.qatalyst_alb_dns_name
-  qatalyst_sea_alb_dns_name   = module.create_sea_alb.qatalyst_alb_dns_name
-  qatalyst_us_alb_dns_name    = module.create_us_alb.qatalyst_alb_dns_name
-
-  providers = {
-    aws.cloudfront_region = aws.us_region
-    aws.bucket_region     = aws.us_region
-  }
-}
-
 module "create_cloudfront_meet" {
   source                      = "./modules/cloudfront-fe-be"
   DEFAULT_TAGS                = var.DEFAULT_TAGS
@@ -1415,7 +803,6 @@ module "create_us_invite_acm_cf_alb" {
 }
 
 #Meet ACM or cloudfront & ALB
-
 module "create_us_meet_acm_cf" {
   source           = "./modules/acm"
   base_domain      = var.base_domain
@@ -1515,118 +902,6 @@ module "create_us_ecs" {
   }
 }
 
-module "create_us_ecs_dashboard_service" {
-  source                        = "./modules/ecs-service"
-  ecs_service_name              = local.qatalyst_dashboard_service_name
-  ecs_cluster_id                = module.create_us_ecs.ecs_cluster_id
-  ecs_cluster_name              = module.create_us_ecs.ecs_cluster_name
-  ecs_security_groups           = module.create_us_ecs.ecs_security_group_ids
-  ecs_subnets                   = module.create_us_vpc.private_subnets
-  alb_target_group_arn          = module.create_us_alb.qatalyst_alb_target_group_arn
-  ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
-  ecs_task_role_arn             = module.create_iam.ecs_task_role_arn
-  ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
-  fargate_cpu_memory            = var.fargate_cpu_memory
-  service_environment_variables = local.qatalyst_ecs_task_environment_variables
-  service_environment_secrets   = local.qatalyst_ecs_task_environment_secrets
-  dd_environment_variables      = local.qatalyst_datadog_environment_variables
-  dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
-  datadog_docker_image          = var.datadog_docker_image
-  datacenter_codes              = var.datacenter_codes
-  DEFAULT_TAGS                  = var.DEFAULT_TAGS
-  STAGE                         = var.STAGE
-  repo_name                     = var.ecr_repo_name
-  service                       = var.service_names["dashboard"]
-
-  providers = {
-    aws.ecs_region = aws.us_region
-  }
-}
-
-module "create_us_ecs_testerview_service" {
-  source                        = "./modules/ecs-service"
-  ecs_service_name              = local.qatalyst_tester_view_service_name
-  ecs_cluster_id                = module.create_us_ecs.ecs_cluster_id
-  ecs_cluster_name              = module.create_us_ecs.ecs_cluster_name
-  ecs_security_groups           = module.create_us_ecs.ecs_security_group_ids
-  ecs_subnets                   = module.create_us_vpc.private_subnets
-  alb_target_group_arn          = module.create_us_alb.qatalyst_alb_target_group_tester_view_arn
-  ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
-  ecs_task_role_arn             = module.create_iam.ecs_task_role_arn
-  ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
-  fargate_cpu_memory            = var.fargate_cpu_memory
-  service_environment_variables = local.qatalyst_ecs_task_environment_variables
-  service_environment_secrets   = local.qatalyst_ecs_task_environment_secrets
-  dd_environment_variables      = local.qatalyst_datadog_environment_variables
-  dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
-  datadog_docker_image          = var.datadog_docker_image
-  datacenter_codes              = var.datacenter_codes
-  DEFAULT_TAGS                  = var.DEFAULT_TAGS
-  STAGE                         = var.STAGE
-  repo_name                     = var.ecr_repo_name
-  service                       = var.service_names["testerview"]
-
-  providers = {
-    aws.ecs_region = aws.us_region
-  }
-}
-
-module "create_us_ecs_reports_service" {
-  source                        = "./modules/ecs-service"
-  ecs_service_name              = local.qatalyst_reports_service_name
-  ecs_cluster_id                = module.create_us_ecs.ecs_cluster_id
-  ecs_cluster_name              = module.create_us_ecs.ecs_cluster_name
-  ecs_security_groups           = module.create_us_ecs.ecs_security_group_ids
-  ecs_subnets                   = module.create_us_vpc.private_subnets
-  alb_target_group_arn          = module.create_us_alb.qatalyst_alb_target_group_reports_arn
-  ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
-  ecs_task_role_arn             = module.create_iam.ecs_task_role_arn
-  ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
-  fargate_cpu_memory            = var.fargate_cpu_memory
-  service_environment_variables = local.qatalyst_ecs_task_environment_variables
-  service_environment_secrets   = local.qatalyst_ecs_task_environment_secrets
-  dd_environment_variables      = local.qatalyst_datadog_environment_variables
-  dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
-  datadog_docker_image          = var.datadog_docker_image
-  datacenter_codes              = var.datacenter_codes
-  DEFAULT_TAGS                  = var.DEFAULT_TAGS
-  STAGE                         = var.STAGE
-  repo_name                     = var.ecr_repo_name
-  service                       = var.service_names["reports"]
-
-  providers = {
-    aws.ecs_region = aws.us_region
-  }
-}
-
-module "create_us_ecs_cyborg_service" {
-  source                        = "./modules/ecs-service"
-  ecs_service_name              = local.qatalyst_cyborg_service_name
-  ecs_cluster_id                = module.create_us_ecs.ecs_cluster_id
-  ecs_cluster_name              = module.create_us_ecs.ecs_cluster_name
-  ecs_security_groups           = module.create_us_ecs.ecs_security_group_ids
-  ecs_subnets                   = module.create_us_vpc.private_subnets
-  alb_target_group_arn          = ""
-  ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
-  ecs_task_role_arn             = module.create_iam.cyborg_ecs_task_role_arn
-  ecs_autoscale_role_arn        = module.create_iam.qatalyst_ecs_autoscale_role_arn
-  fargate_cpu_memory            = var.fargate_cpu_memory
-  service_environment_variables = local.qatalyst_cyborg_ecs_task_environment_variables
-  service_environment_secrets   = local.qatalyst_cyborg_ecs_task_environment_secrets
-  dd_environment_variables      = local.qatalyst_datadog_environment_variables
-  dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
-  datadog_docker_image          = var.datadog_docker_image
-  datacenter_codes              = var.datacenter_codes
-  DEFAULT_TAGS                  = var.DEFAULT_TAGS
-  STAGE                         = var.STAGE
-  repo_name                     = var.cyborg_repo_name
-  service                       = var.service_names["cyborg"]
-
-  providers = {
-    aws.ecs_region = aws.us_region
-  }
-}
-
 module "create_us_dynamodb_gsi" {
   source                 = "./modules/dynamodb_gsi"
   DEFAULT_TAGS           = var.DEFAULT_TAGS
@@ -1638,7 +913,6 @@ module "create_us_dynamodb_gsi" {
     aws.dynamo_region = aws.us_region
   }
 }
-
 module "create_us_dynamodb" {
   source                   = "./modules/dynamodb"
   DEFAULT_TAGS             = var.DEFAULT_TAGS
@@ -1669,55 +943,6 @@ module "create_global_dynamodb" {
     aws.eu_region  = aws.eu_region
   }
 }
-
-module "create_us_cloudwatch_dashboard" {
-  source           = "./modules/cloudwatch"
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
-  ecs_service_name = local.qatalyst_dashboard_service_name
-  ecs_cluster_name = local.qatalyst_ecs_cluster_name
-  alb_arn_suffix   = module.create_us_alb.qatalyst_alb_arn_suffix
-  tg_arn_suffix    = module.create_us_alb.qatalyst_tg_arn_suffix
-  datacenter_codes = var.datacenter_codes
-  dashboard_name   = local.qatalyst_cloudwatch_dashboard_name_dashboard
-
-  providers = {
-    aws.cw_region = aws.us_region
-  }
-}
-
-module "create_us_cloudwatch_reports_dashboard" {
-  source           = "./modules/cloudwatch"
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
-  ecs_service_name = local.qatalyst_reports_service_name
-  ecs_cluster_name = local.qatalyst_ecs_cluster_name
-  alb_arn_suffix   = module.create_us_alb.qatalyst_alb_arn_suffix
-  tg_arn_suffix    = module.create_us_alb.qatalyst_alb_target_group_reports_arn_suffix
-  datacenter_codes = var.datacenter_codes
-  dashboard_name   = local.qatalyst_cloudwatch_dashboard_name_reports
-
-  providers = {
-    aws.cw_region = aws.us_region
-  }
-}
-
-module "create_us_cloudwatch_tester_view_dashboard" {
-  source           = "./modules/cloudwatch"
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
-  ecs_service_name = local.qatalyst_tester_view_service_name
-  ecs_cluster_name = local.qatalyst_ecs_cluster_name
-  alb_arn_suffix   = module.create_us_alb.qatalyst_alb_arn_suffix
-  tg_arn_suffix    = module.create_us_alb.qatalyst_alb_target_group_tester_view_arn_suffix
-  datacenter_codes = var.datacenter_codes
-  dashboard_name   = local.qatalyst_cloudwatch_dashboard_name_tester_view
-
-  providers = {
-    aws.cw_region = aws.us_region
-  }
-}
-
 module "create_us_ssm" {
   source           = "./modules/ssm"
   DEFAULT_TAGS     = var.DEFAULT_TAGS
@@ -1741,30 +966,6 @@ module "create_ecr" {
     aws.ecr_region = aws.sea_region
   }
 }
-#Repo for CYBORG
-module "create_sea_cyborg_ecr" {
-  source       = "./modules/ecr"
-  repo_name    = var.cyborg_repo_name
-  DEFAULT_TAGS = var.DEFAULT_TAGS
-  STAGE        = var.STAGE
-
-  providers = {
-    aws.ecr_region = aws.sea_region
-  }
-}
-
-module "create_sea_cyborg_efs" {
-  source            = "./modules/efs"
-  STAGE             = var.STAGE
-  DEFAULT_TAGS      = var.DEFAULT_TAGS
-  EFS_CONFIGURATION = var.cyborg_efs_configurations
-  private_subnets   = module.create_sea_vpc.private_subnets
-  sg_id             = module.create_sea_vpc.security_group_id
-
-  providers = {
-    aws.efs_region = aws.sea_region
-  }
-}
 module "create_us_ecr" {
   source       = "./modules/ecr"
   repo_name    = var.ecr_repo_name
@@ -1773,30 +974,6 @@ module "create_us_ecr" {
 
   providers = {
     aws.ecr_region = aws.us_region
-  }
-}
-
-module "create_us_cyborg_ecr" {
-  source       = "./modules/ecr"
-  repo_name    = var.cyborg_repo_name
-  DEFAULT_TAGS = var.DEFAULT_TAGS
-  STAGE        = var.STAGE
-
-  providers = {
-    aws.ecr_region = aws.us_region
-  }
-}
-
-module "create_us_cyborg_efs" {
-  source            = "./modules/efs"
-  STAGE             = var.STAGE
-  DEFAULT_TAGS      = var.DEFAULT_TAGS
-  EFS_CONFIGURATION = var.cyborg_efs_configurations
-  private_subnets   = module.create_us_vpc.private_subnets
-  sg_id             = module.create_us_vpc.security_group_id
-
-  providers = {
-    aws.efs_region = aws.us_region
   }
 }
 module "create_us_media_convert_queue" {
@@ -1819,7 +996,6 @@ module "create_iam" {
     aws.iam_region = aws.us_region
   }
 }
-
 module "create_ses" {
   source       = "./modules/ses"
   STAGE        = var.STAGE
@@ -1830,7 +1006,6 @@ module "create_ses" {
     aws.ses_region = aws.us_west_region
   }
 }
-
 module "create_cdn_cache_policy" {
   source = "./modules/cdn-cache-policy"
 
@@ -1838,7 +1013,6 @@ module "create_cdn_cache_policy" {
     aws.cloudfront_region = aws.us_region
   }
 }
-
 module "create_us_sqs" {
   source       = "./modules/sqs"
   DEFAULT_TAGS = var.DEFAULT_TAGS
