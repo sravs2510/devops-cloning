@@ -79,20 +79,32 @@ locals {
   ]
   qatalyst_prototype_ecs_task_environment_variables = [
     {
+      name  = "COGNITO_USER_POOL_ID"
+      value = module.create_cognito_user_pool.user_pool_id
+    },
+    {
       name  = "STAGE"
       value = var.STAGE
     },
     {
-      name  = "LOG_LEVEL"
-      value = "INFO"
+      name  = "LOCAL_RUN"
+      value = "false"
     },
     {
-      name  = "AWS_ACCOUNT_ID"
-      value = local.account_id
+      name  = "QATALYST_DOMAIN"
+      value = local.dasboard_domain
+    },
+    {
+      name  = "FE_TESTER_VIEW_DOMAIN_NAME"
+      value = local.tester_view_domain
     },
     {
       name  = "WEB_CONCURRENCY"
       value = var.uvicorn_workers_count
+    },
+    {
+      name  = "QATALYST_SENDER_EMAIL"
+      value = local.qatalyst_sender_email
     }
   ]
 
@@ -140,7 +152,7 @@ locals {
     {
       name      = "STRIPE_WEBHOOK_SECRET"
       valueFrom = join("-", ["qatalyst", var.STAGE, "stripe-webhook-secret"])
-    },
+    }
   ]
   qatalyst_cyborg_ecs_task_environment_secrets = [
 
@@ -160,8 +172,48 @@ locals {
 
   qatalyst_prototype_ecs_task_environment_secrets = [
     {
+      name      = "BITLY_BEARER"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "bitly-bearer-token"])
+    },
+    {
       name      = "FIGMA_ACCESS_TOKEN"
       valueFrom = join("-", ["qatalyst", var.STAGE, "figma-access-token"])
+    },
+    {
+      name      = "SENDGRID_KEY"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "sendgrid-key"])
+    },
+    {
+      name      = "FINGERPRINT_API_TOKEN"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "fingerprint-token"])
+    },
+    {
+      name      = "SENTRY_SDK_DSN"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "sentry-dsn-value"])
+    },
+    {
+      name      = "FEATURE_FLAG_AUTH"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "feature-flag-auth"])
+    },
+    {
+      name      = "100MS_ACCESS_KEY"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "100ms-access-key"])
+    },
+    {
+      name      = "100MS_SECRET_KEY"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "100ms-secret-key"])
+    },
+    {
+      name      = "PLATFORM_REALM_ID"
+      valueFrom = join("-", ["platform", var.STAGE, "realm-id"])
+    },
+    {
+      name      = "STRIPE_API_KEY"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "stripe-api-key"])
+    },
+    {
+      name      = "STRIPE_WEBHOOK_SECRET"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "stripe-webhook-secret"])
     }
   ]
   qatalyst_datadog_environment_variables = [
