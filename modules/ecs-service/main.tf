@@ -16,14 +16,14 @@ data "aws_caller_identity" "current" {
 }
 
 locals {
-  ecs_service_name     = join("-", [var.ecs_service_name, var.STAGE])
+  ecs_service_name     = join("-", [var.ecs_service_name, var.STAGE, local.datacenter_code])
   container_name       = join("-", [var.ecs_service_name, var.STAGE, local.datacenter_code, "container"])
   task_definition_name = join("-", [var.ecs_service_name, var.STAGE, local.datacenter_code, "td"])
   account_id           = data.aws_caller_identity.current.account_id
   ecr_repo             = join(".", [local.account_id, "dkr.ecr", data.aws_region.ecs_region.name, "amazonaws.com/${var.repo_name}:latest"])
   datacenter_code      = lookup(var.datacenter_codes, data.aws_region.ecs_region.name)
   dd_api_key_ssm_param = join("-", ["datadog", var.STAGE, "api-key"])
-  dd_service_name      = join("-", [var.ecs_service_name, var.STAGE, local.datacenter_code])
+  dd_service_name      = join("-", [var.ecs_service_name, var.STAGE])
 }
 
 resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
