@@ -211,13 +211,13 @@ resource "aws_lb_listener_rule" "qatalyst_alb_listener_prototype_rule" {
 
 # ALB Domain Mapping
 locals {
-  datacenter_code      = lookup(var.datacenter_codes, data.aws_region.current.name)
-  alb_domain_name      = var.STAGE == "prod" ? join(".", [local.datacenter_code, var.sub_domain, var.base_domain]) : join(".", [local.datacenter_code, var.STAGE, var.sub_domain, var.base_domain])
-  path_prefix          = "/"
-  path_pattern         = join("", [local.path_prefix, "v1", local.path_prefix, local.datacenter_code, local.path_prefix, "*"])
-  path_pattern_testers = join("", [local.path_prefix, "v1", local.path_prefix, "testers", local.path_prefix, "*"])
-  path_pattern_test    = join("", [local.path_prefix, "v1", local.path_prefix, "test", local.path_prefix, "*"])
-  path_pattern_importPrototype    = join("", ["post", local.path_prefix, "v1", local.path_prefix, "blocks", local.path_prefix, "*", local.path_prefix, "importPrototype"])
+  datacenter_code              = lookup(var.datacenter_codes, data.aws_region.current.name)
+  alb_domain_name              = var.STAGE == "prod" ? join(".", [local.datacenter_code, var.sub_domain, var.base_domain]) : join(".", [local.datacenter_code, var.STAGE, var.sub_domain, var.base_domain])
+  path_prefix                  = "/"
+  path_pattern                 = join("", [local.path_prefix, "v1", local.path_prefix, local.datacenter_code, local.path_prefix, "*"])
+  path_pattern_testers         = join("", [local.path_prefix, "v1", local.path_prefix, "testers", local.path_prefix, "*"])
+  path_pattern_test            = join("", [local.path_prefix, "v1", local.path_prefix, "test", local.path_prefix, "*"])
+  path_pattern_importPrototype = join("", [local.path_prefix, "v1", local.path_prefix, "blocks", local.path_prefix, "*", local.path_prefix, "importPrototype"])
 }
 
 data "aws_route53_zone" "domain_hosted_zone" {
