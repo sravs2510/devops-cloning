@@ -204,7 +204,7 @@ resource "aws_lb_listener_rule" "qatalyst_alb_listener_prototype_rule" {
   }
   condition {
     path_pattern {
-      values = [local.path_pattern]
+      values = [local.path_pattern_importPrototype]
     }
   }
 }
@@ -217,6 +217,7 @@ locals {
   path_pattern         = join("", [local.path_prefix, "v1", local.path_prefix, local.datacenter_code, local.path_prefix, "*"])
   path_pattern_testers = join("", [local.path_prefix, "v1", local.path_prefix, "testers", local.path_prefix, "*"])
   path_pattern_test    = join("", [local.path_prefix, "v1", local.path_prefix, "test", local.path_prefix, "*"])
+  path_pattern_importPrototype    = join("", ["post", local.path_prefix, "v1", local.path_prefix, "blocks", local.path_prefix, "*", local.path_prefix, "importPrototype"])
 }
 
 data "aws_route53_zone" "domain_hosted_zone" {
