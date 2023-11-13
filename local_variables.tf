@@ -12,6 +12,7 @@ locals {
   qatalyst_cloudwatch_dashboard_name_dashboard   = "Qatalyst-Dashboard"
   qatalyst_cloudwatch_dashboard_name_reports     = "Qatalyst-Reports"
   qatalyst_cloudwatch_dashboard_name_tester_view = "Qatalyst-Tester-View"
+  qatalyst_cloudwatch_dashboard_name_prototype   = "Qatalyst-Prototype"
   qatalyst_sender_email                          = var.STAGE == "prod" ? join("", ["noreply@", var.base_domain]) : join("", ["noreply@", var.STAGE, ".", var.base_domain])
   qatalyst_cyborg_service_name                   = "qatalyst-cyborg-service"
   qatalyst_furyblade_service_name                = "qatalyst-furyblade-service"
