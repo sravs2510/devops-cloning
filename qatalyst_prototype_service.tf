@@ -112,7 +112,7 @@ module "create_us_ecs_prototype_service" {
 }
 
 #Cloudwatch
-module "create_eu_cloudwatch_prototype" {
+module "create_eu_cloudwatch_prototype_dashboard" {
   source           = "./modules/cloudwatch"
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
@@ -128,7 +128,7 @@ module "create_eu_cloudwatch_prototype" {
   }
 }
 
-module "create_in_cloudwatch_prototype" {
+module "create_in_cloudwatch_prototype_dashboard" {
   source           = "./modules/cloudwatch"
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
@@ -144,7 +144,7 @@ module "create_in_cloudwatch_prototype" {
   }
 }
 
-module "create_sea_cloudwatch_prototype" {
+module "create_sea_cloudwatch_prototype_dashboard" {
   source           = "./modules/cloudwatch"
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
@@ -160,7 +160,7 @@ module "create_sea_cloudwatch_prototype" {
   }
 }
 
-module "create_us_cloudwatch_prototype" {
+module "create_us_cloudwatch_prototype_dashboard" {
   source           = "./modules/cloudwatch"
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
