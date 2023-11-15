@@ -102,13 +102,13 @@ variable "service" {
 variable "efs_file_system_id" {
   type        = string
   default     = ""
-  description = "Jarvis service EFS arn"
+  description = "EFS arn"
 }
 
 variable "efs_access_point_id" {
   type        = string
   default     = ""
-  description = "Jarvis service EFS access point arn"
+  description = "EFS access point arn"
 }
 
 variable "EFS_CONFIGURATION" {
