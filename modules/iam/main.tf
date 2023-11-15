@@ -277,14 +277,6 @@ resource "aws_iam_policy" "qatalyst_ecs_furyblade_task_iam_policy" {
         ],
         Effect   = "Allow",
         Resource = local.qatalyst_sqs_arn
-      },
-      {
-        Action = [
-          "elasticfilesystem:CreateFileSystem",
-          "elasticfilesystem:CreateMountTarget"
-        ],
-        Effect   = "Allow",
-        Resource = "*"
       }
     ]
   })
