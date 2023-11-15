@@ -18,6 +18,7 @@ data "aws_availability_zones" "available" {
 resource "aws_vpc" "main" {
   provider   = aws.vpc_region
   cidr_block = lookup(var.cidr_block, data.aws_region.current.name)
+  enable_dns_hostnames = true
   tags       = merge(tomap({ "Name" : "qatalyst-vpc" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
