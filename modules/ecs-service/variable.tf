@@ -98,3 +98,21 @@ variable "service" {
   type        = string
   description = "name of the services"
 }
+
+variable "efs_file_system_id" {
+  type        = string
+  default     = ""
+  description = "EFS arn"
+}
+
+variable "efs_access_point_id" {
+  type        = string
+  default     = ""
+  description = "EFS access point arn"
+}
+
+variable "EFS_CONFIGURATION" {
+  type        = any
+  description = "EFS Configurations"
+  default     = null
+}
