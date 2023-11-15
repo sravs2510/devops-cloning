@@ -63,6 +63,13 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
             valueFrom = join("-", ["platform", var.STAGE, "secret", local.datacenter_code])
           },
         ]),
+        "mountPoints" : var.service == "cyborg" ? [
+        {
+          "containerPath" : "/mnt${var.EFS_CONFIGURATION.path}",
+          "sourceVolume" : join("-", ["qatalyst", var.service]),
+          "readOnly" : false
+        }
+      ] : null,
         portMappings = [
           {
             containerPort = 80
@@ -133,6 +140,23 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
         }
       }
   ])
+
+    dynamic "volume" {
+    for_each = var.service == "cyborg" ? [1] : []
+    content {
+      name = join("-", ["qatalyst", var.service])
+      efs_volume_configuration {
+        file_system_id     = var.efs_file_system_id
+        root_directory     = "/"
+        transit_encryption = "ENABLED"
+        authorization_config {
+          access_point_id = var.efs_access_point_id
+          iam             = "ENABLED"
+        }
+      }
+
+    }
+  }
   tags = merge(tomap({ "Name" : local.task_definition_name }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 

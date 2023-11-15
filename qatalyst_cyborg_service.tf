@@ -119,6 +119,9 @@ module "create_eu_ecs_cyborg_service" {
   STAGE                         = var.STAGE
   repo_name                     = var.cyborg_repo_name
   service                       = var.service_names["cyborg"]
+  efs_file_system_id            = module.create_eu_cyborg_efs.efs_id
+  efs_access_point_id           = module.create_eu_cyborg_efs.access_point_id
+  EFS_CONFIGURATION             = var.cyborg_efs_configurations
 
   providers = {
     aws.ecs_region = aws.eu_region
@@ -147,6 +150,9 @@ module "create_in_ecs_cyborg_service" {
   STAGE                         = var.STAGE
   repo_name                     = var.cyborg_repo_name
   service                       = var.service_names["cyborg"]
+  efs_file_system_id            = module.create_in_cyborg_efs.efs_id
+  efs_access_point_id           = module.create_in_cyborg_efs.access_point_id
+  EFS_CONFIGURATION             = var.cyborg_efs_configurations
 
   providers = {
     aws.ecs_region = aws.in_region
@@ -175,6 +181,10 @@ module "create_sea_ecs_cyborg_service" {
   STAGE                         = var.STAGE
   repo_name                     = var.cyborg_repo_name
   service                       = var.service_names["cyborg"]
+  efs_file_system_id            = module.create_sea_cyborg_efs.efs_id
+  efs_access_point_id           = module.create_sea_cyborg_efs.access_point_id
+  EFS_CONFIGURATION             = var.cyborg_efs_configurations
+  
 
   providers = {
     aws.ecs_region = aws.sea_region
@@ -203,6 +213,9 @@ module "create_us_ecs_cyborg_service" {
   STAGE                         = var.STAGE
   repo_name                     = var.cyborg_repo_name
   service                       = var.service_names["cyborg"]
+  efs_file_system_id            = module.create_us_cyborg_efs.efs_id
+  efs_access_point_id           = module.create_us_cyborg_efs.access_point_id
+  EFS_CONFIGURATION             = var.cyborg_efs_configurations
 
   providers = {
     aws.ecs_region = aws.us_region

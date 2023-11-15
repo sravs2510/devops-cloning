@@ -203,6 +203,22 @@ resource "aws_iam_policy" "qatalyst_ecs_cyborg_task_iam_policy" {
       },
       {
         Action = [
+          "elasticfilesystem:DescribeMountTargets",
+          "elasticfilesystem:DescribeFileSystems",
+          "elasticfilesystem:DescribeTags",
+          "elasticfilesystem:ClientMount",
+          "elasticfilesystem:ClientWrite",
+          "elasticfilesystem:CreateMountTarget",
+          "elasticfilesystem:ClientRootAccess"
+        ]
+        Effect = "Allow"
+        Resource = [
+          join(":", ["arn:aws:elasticfilesystem:*", local.account_id, "access-point/*"]),
+          join(":", ["arn:aws:elasticfilesystem:*", local.account_id, "file-system/*"])
+        ]
+      },
+      {
+        Action = [
           "sqs:*"
         ],
         Effect   = "Allow",
