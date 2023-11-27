@@ -17,7 +17,6 @@ locals {
   qatalyst_cyborg_service_name                   = "qatalyst-cyborg-service"
   qatalyst_furyblade_service_name                = "qatalyst-furyblade-service"
   qatalyst_prototype_service_name                = "qatalyst-prototype-service"
-  qatalyst_furyblade_secrets                     = []
   fargate_cpu_memory                             = var.STAGE == "qa" ? var.fargate_cpu_memory_qa_eu : var.fargate_cpu_memory
   account_id                                     = data.aws_caller_identity.current.account_id
   qatalyst_ecs_task_environment_variables = [
@@ -217,6 +216,13 @@ locals {
       valueFrom = join("-", ["qatalyst", var.STAGE, "stripe-webhook-secret"])
     }
   ]
+  qatalyst_furyblade_ecs_task_environment_secrets = [
+    {
+      name      = "GOOGLE_AUTHENTICATION_DATA"
+      valueFrom = "GOOGLE_AUTHENTICATION_DATA"
+    }
+  ]
+
   qatalyst_datadog_environment_variables = [
     {
       name  = "DD_APM_ENABLED",

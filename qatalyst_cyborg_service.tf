@@ -184,7 +184,7 @@ module "create_sea_ecs_cyborg_service" {
   efs_file_system_id            = module.create_sea_cyborg_efs.efs_id
   efs_access_point_id           = module.create_sea_cyborg_efs.access_point_id
   EFS_CONFIGURATION             = var.cyborg_efs_configurations
-  
+
 
   providers = {
     aws.ecs_region = aws.sea_region
