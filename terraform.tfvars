@@ -385,6 +385,14 @@ sqs_details = {
     message_retention_seconds  = 86400
     receive_wait_time_seconds  = 20   #Long Polling
     visibility_timeout_seconds = 1200 # 20 Minutes
+  },
+  "qatalyst-celery-processing-sqs" : {
+    queue_name                 = "qatalyst-celery-processing-queue"
+    delay_seconds              = 0
+    max_message_size           = 131072 # 128KB
+    message_retention_seconds  = 86400
+    receive_wait_time_seconds  = 20   #Long Polling
+    visibility_timeout_seconds = 1200 # 20 Minutes
   }
 }
 # EFS
