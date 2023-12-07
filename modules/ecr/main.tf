@@ -29,11 +29,24 @@ resource "aws_ecr_lifecycle_policy" "qatalyst_repository_lifecycle" {
   "rules": [
     {
       "rulePriority": 1,
-      "description": "Keep last 10 images",
+      "description": "Keep last 5 untagged images",
       "selection": {
         "tagStatus": "untagged",
         "countType": "imageCountMoreThan",
-        "countNumber": 10
+        "countNumber": 5
+      },
+      "action": {
+        "type": "expire"
+      }
+    },
+    {
+      "rulePriority": 2,
+      "description": "Keep last 30 images",
+      "selection": {
+        "tagStatus": "any",
+        "countType": "sinceImagePushed",
+        "countNumber": 30,
+        "countUnit": "days"
       },
       "action": {
         "type": "expire"
