@@ -352,6 +352,13 @@ resource "aws_iam_policy" "qatalyst_ecs_celery_task_iam_policy" {
         Action   = ["lambda:InvokeFunction"],
         Effect   = "Allow",
         Resource = local.qatalyst_lambdas_arn
+      },
+      {
+        Action = [
+          "sqs:*"
+        ],
+        Effect   = "Allow",
+        Resource = local.qatalyst_sqs_arn
       }
     ]
   })
