@@ -17,6 +17,7 @@ locals {
   qatalyst_cyborg_service_name                   = "qatalyst-cyborg-service"
   qatalyst_furyblade_service_name                = "qatalyst-furyblade-service"
   qatalyst_prototype_service_name                = "qatalyst-prototype-service"
+  qatalyst_celery_service_name                   = "qatalyst-celery-service"
   fargate_cpu_memory                             = var.STAGE == "qa" ? var.fargate_cpu_memory_qa_eu : var.fargate_cpu_memory
   account_id                                     = data.aws_caller_identity.current.account_id
   qatalyst_ecs_task_environment_variables = [
@@ -108,6 +109,36 @@ locals {
     }
   ]
 
+  qatalyst_celery_ecs_task_environment_variables = [
+    {
+      name  = "COGNITO_USER_POOL_ID"
+      value = module.create_cognito_user_pool.user_pool_id
+    },
+    {
+      name  = "STAGE"
+      value = var.STAGE
+    },
+    {
+      name  = "LOCAL_RUN"
+      value = "false"
+    },
+    {
+      name  = "QATALYST_DOMAIN"
+      value = local.dasboard_domain
+    },
+    {
+      name  = "FE_TESTER_VIEW_DOMAIN_NAME"
+      value = local.tester_view_domain
+    },
+    {
+      name  = "WEB_CONCURRENCY"
+      value = var.uvicorn_workers_count
+    },
+    {
+      name  = "QATALYST_SENDER_EMAIL"
+      value = local.qatalyst_sender_email
+    }
+  ]
   qatalyst_ecs_task_environment_secrets = [
     {
       name      = "BITLY_BEARER"
@@ -223,6 +254,52 @@ locals {
     }
   ]
 
+  qatalyst_celery_ecs_task_environment_secrets = [
+    {
+      name      = "BITLY_BEARER"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "bitly-bearer-token"])
+    },
+    {
+      name      = "FIGMA_ACCESS_TOKEN"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "figma-access-token"])
+    },
+    {
+      name      = "SENDGRID_KEY"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "sendgrid-key"])
+    },
+    {
+      name      = "FINGERPRINT_API_TOKEN"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "fingerprint-token"])
+    },
+    {
+      name      = "SENTRY_SDK_DSN"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "sentry-dsn-value"])
+    },
+    {
+      name      = "FEATURE_FLAG_AUTH"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "feature-flag-auth"])
+    },
+    {
+      name      = "100MS_ACCESS_KEY"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "100ms-access-key"])
+    },
+    {
+      name      = "100MS_SECRET_KEY"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "100ms-secret-key"])
+    },
+    {
+      name      = "PLATFORM_REALM_ID"
+      valueFrom = join("-", ["platform", var.STAGE, "realm-id"])
+    },
+    {
+      name      = "STRIPE_API_KEY"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "stripe-api-key"])
+    },
+    {
+      name      = "STRIPE_WEBHOOK_SECRET"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "stripe-webhook-secret"])
+    }
+  ]
   qatalyst_datadog_environment_variables = [
     {
       name  = "DD_APM_ENABLED",

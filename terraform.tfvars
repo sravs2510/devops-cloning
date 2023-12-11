@@ -406,6 +406,10 @@ furyblade_efs_configurations = {
   "path" = "/furyblade",
 }
 
+celery_efs_configurations = {
+  "name" = "celery",
+  "path" = "/celery",
+}
 service_names = {
   dashboard  = "dashboard"
   reports    = "reports"
@@ -413,4 +417,5 @@ service_names = {
   cyborg     = "cyborg"
   furyblade  = "furyblade"
   prototype  = "prototype"
+  celery     = "celery"
 }
