@@ -417,5 +417,5 @@ service_names = {
   cyborg     = "cyborg"
   furyblade  = "furyblade"
   prototype  = "prototype"
-  mammoth     = "mammoth"
+  mammoth    = "mammoth"
 }
