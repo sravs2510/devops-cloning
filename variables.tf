@@ -204,7 +204,7 @@ variable "furyblade_repo_name" {
   description = "Repo name suffix"
 }
 
-variable "celery_efs_configurations" {
+variable "mammoth_efs_configurations" {
   type        = any
   description = "EFS Configurations"
 }

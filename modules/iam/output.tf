@@ -18,6 +18,6 @@ output "furyblade_ecs_task_role_arn" {
   value = aws_iam_role.qatalyst_ecs_furyblade_task_role.arn
 }
 
-output "celery_ecs_task_role_arn" {
-  value = aws_iam_role.qatalyst_ecs_celery_task_role.arn
+output "mammoth_ecs_task_role_arn" {
+  value = aws_iam_role.qatalyst_ecs_mammoth_task_role.arn
 }

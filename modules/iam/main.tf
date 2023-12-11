@@ -283,9 +283,9 @@ resource "aws_iam_policy" "qatalyst_ecs_furyblade_task_iam_policy" {
   tags = merge(tomap({ "Name" : "qatalyst-ecs-furyblade-task-iam-policy" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
-resource "aws_iam_policy" "qatalyst_ecs_celery_task_iam_policy" {
+resource "aws_iam_policy" "qatalyst_ecs_mammoth_task_iam_policy" {
   provider    = aws.iam_region
-  name        = "qatalyst_ecs_celery_task_iam_policy"
+  name        = "qatalyst_ecs_mammoth_task_iam_policy"
   path        = "/"
   description = "Qatalyst ECS Task IAM Policy"
   policy = jsonencode({
@@ -336,13 +336,6 @@ resource "aws_iam_policy" "qatalyst_ecs_celery_task_iam_policy" {
       },
       {
         Action = [
-          "s3:GetObject"
-        ],
-        Effect   = "Allow",
-        Resource = "*"
-      },
-      {
-        Action = [
           "ses:SendEmail"
         ],
         Effect   = "Allow",
@@ -362,7 +355,7 @@ resource "aws_iam_policy" "qatalyst_ecs_celery_task_iam_policy" {
       }
     ]
   })
-  tags = merge(tomap({ "Name" : "qatalyst-ecs-celery-task-iam-policy" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+  tags = merge(tomap({ "Name" : "qatalyst-ecs-mammoth-task-iam-policy" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
 resource "aws_iam_role" "qatalyst_ecs_task_role" {
@@ -424,9 +417,9 @@ resource "aws_iam_role" "qatalyst_ecs_furyblade_task_role" {
   tags = merge(tomap({ "Name" : "qatalyst-ecs-furyblade-task-role" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
-resource "aws_iam_role" "qatalyst_ecs_celery_task_role" {
+resource "aws_iam_role" "qatalyst_ecs_mammoth_task_role" {
   provider = aws.iam_region
-  name     = "qatalyst-ecs-celery-task-iam-role"
+  name     = "qatalyst-ecs-mammoth-task-iam-role"
   assume_role_policy = jsonencode(
     {
       "Version" : "2012-10-17",
@@ -441,7 +434,7 @@ resource "aws_iam_role" "qatalyst_ecs_celery_task_role" {
         }
       ]
   })
-  tags = merge(tomap({ "Name" : "qatalyst-ecs-celery-task-role" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+  tags = merge(tomap({ "Name" : "qatalyst-ecs-mammoth-task-role" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
 resource "aws_iam_role_policy_attachment" "qatalyst_ecs_task_role_policy_attachment" {
@@ -461,10 +454,10 @@ resource "aws_iam_role_policy_attachment" "qatalyst_ecs_furyblade_task_role_poli
   policy_arn = aws_iam_policy.qatalyst_ecs_furyblade_task_iam_policy.arn
 }
 
-resource "aws_iam_role_policy_attachment" "qatalyst_ecs_celery_task_role_policy_attachment" {
+resource "aws_iam_role_policy_attachment" "qatalyst_ecs_mammoth_task_role_policy_attachment" {
   provider   = aws.iam_region
-  role       = aws_iam_role.qatalyst_ecs_celery_task_role.name
-  policy_arn = aws_iam_policy.qatalyst_ecs_celery_task_iam_policy.arn
+  role       = aws_iam_role.qatalyst_ecs_mammoth_task_role.name
+  policy_arn = aws_iam_policy.qatalyst_ecs_mammoth_task_iam_policy.arn
 }
 
 resource "aws_iam_role" "qatalyst_ecs_autoscale_role" {
