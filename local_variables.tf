@@ -19,6 +19,10 @@ locals {
   qatalyst_prototype_service_name                = "qatalyst-prototype-service"
   fargate_cpu_memory                             = var.STAGE == "qa" ? var.fargate_cpu_memory_qa_eu : var.fargate_cpu_memory
   account_id                                     = data.aws_caller_identity.current.account_id
+  qatalyst_dashboard_healthcheck_api             = "GET /v1/health"
+  qatalyst_tester_view_healthcheck_api           = "GET /v1/testers/health"
+  qatalyst_reports_healthcheck_api               = "GET*health"
+  qatalyst_prototype_healthcheck_api             = "GET /v1/health"
   qatalyst_ecs_task_environment_variables = [
     {
       name  = "COGNITO_USER_POOL_ID"
@@ -241,6 +245,35 @@ locals {
       value = var.STAGE
     }
   ]
+
+  qatalyst_dashboard_datadog_environment_variables = concat(local.qatalyst_datadog_environment_variables,
+    [
+      {
+        name = "DD_APM_IGNORE_RESOURCES"
+      value = local.qatalyst_dashboard_healthcheck_api }
+  ])
+
+  qatalyst_tester_view_datadog_environment_variables = concat(local.qatalyst_datadog_environment_variables,
+    [
+      {
+        name = "DD_APM_IGNORE_RESOURCES"
+      value = local.qatalyst_tester_view_healthcheck_api }
+  ])
+
+  qatalyst_reports_datadog_environment_variables = concat(local.qatalyst_datadog_environment_variables,
+    [
+      {
+        name = "DD_APM_IGNORE_RESOURCES"
+      value = local.qatalyst_reports_healthcheck_api }
+  ])
+
+  qatalyst_prototype_datadog_environment_variables = concat(local.qatalyst_datadog_environment_variables,
+    [
+      {
+        name = "DD_APM_IGNORE_RESOURCES"
+      value = local.qatalyst_prototype_healthcheck_api }
+  ])
+
   qatalyst_datadog_environment_secrets = [
     {
       name      = "DD_API_KEY",
