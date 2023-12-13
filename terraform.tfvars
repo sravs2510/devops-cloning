@@ -328,6 +328,11 @@ tables_without_range_key = {
     table_name     = "qatalyst-stripe-events"
     hash_key       = "event_id"
     stream_enabled = false
+  },
+  "workspace-usage" : {
+    table_name     = "qatalyst-workspace-usage"
+    hash_key       = "workspace_id"
+    stream_enabled = false
   }
 }
 
