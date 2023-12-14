@@ -208,3 +208,8 @@ variable "mammoth_efs_configurations" {
   type        = any
   description = "EFS Configurations"
 }
+
+variable "mammoth_repo_name" {
+  type        = string
+  description = "Repo name suffix"
+}
