@@ -1,3 +1,48 @@
+#ECR
+
+module "create_in_mammoth_ecr" {
+  source       = "./modules/ecr"
+  repo_name    = var.mammoth_repo_name
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
+
+  providers = {
+    aws.ecr_region = aws.in_region
+  }
+}
+
+module "create_sea_mammoth_ecr" {
+  source       = "./modules/ecr"
+  repo_name    = var.mammoth_repo_name
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
+
+  providers = {
+    aws.ecr_region = aws.sea_region
+  }
+}
+
+module "create_eu_mammoth_ecr" {
+  source       = "./modules/ecr"
+  repo_name    = var.mammoth_repo_name
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
+
+  providers = {
+    aws.ecr_region = aws.eu_region
+  }
+}
+
+module "create_us_mammoth_ecr" {
+  source       = "./modules/ecr"
+  repo_name    = var.mammoth_repo_name
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
+
+  providers = {
+    aws.ecr_region = aws.us_region
+  }
+}
 
 #EFS
 module "create_eu_mammoth_efs" {
@@ -73,7 +118,7 @@ module "create_eu_ecs_mammoth_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
-  repo_name                     = var.ecr_repo_name
+  repo_name                     = var.mammoth_repo_name
   service                       = var.service_names["mammoth"]
   efs_file_system_id            = module.create_eu_mammoth_efs.efs_id
   efs_access_point_id           = module.create_eu_mammoth_efs.access_point_id
@@ -104,7 +149,7 @@ module "create_in_ecs_mammoth_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
-  repo_name                     = var.ecr_repo_name
+  repo_name                     = var.mammoth_repo_name
   service                       = var.service_names["mammoth"]
   efs_file_system_id            = module.create_in_mammoth_efs.efs_id
   efs_access_point_id           = module.create_in_mammoth_efs.access_point_id
@@ -135,7 +180,7 @@ module "create_sea_ecs_mammoth_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
-  repo_name                     = var.ecr_repo_name
+  repo_name                     = var.mammoth_repo_name
   service                       = var.service_names["mammoth"]
   efs_file_system_id            = module.create_sea_mammoth_efs.efs_id
   efs_access_point_id           = module.create_sea_mammoth_efs.access_point_id
@@ -167,7 +212,7 @@ module "create_us_ecs_mammoth_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
-  repo_name                     = var.ecr_repo_name
+  repo_name                     = var.mammoth_repo_name
   service                       = var.service_names["mammoth"]
   efs_file_system_id            = module.create_us_mammoth_efs.efs_id
   efs_access_point_id           = module.create_us_mammoth_efs.access_point_id
