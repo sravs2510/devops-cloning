@@ -203,3 +203,8 @@ variable "furyblade_repo_name" {
   type        = string
   description = "Repo name suffix"
 }
+
+variable "mammoth_efs_configurations" {
+  type        = any
+  description = "EFS Configurations"
+}

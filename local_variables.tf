@@ -17,6 +17,7 @@ locals {
   qatalyst_cyborg_service_name                   = "qatalyst-cyborg-service"
   qatalyst_furyblade_service_name                = "qatalyst-furyblade-service"
   qatalyst_prototype_service_name                = "qatalyst-prototype-service"
+  qatalyst_mammoth_service_name                  = "qatalyst-mammoth-service"
   fargate_cpu_memory                             = var.STAGE == "qa" ? var.fargate_cpu_memory_qa_eu : var.fargate_cpu_memory
   account_id                                     = data.aws_caller_identity.current.account_id
   qatalyst_dashboard_healthcheck_api             = "GET /v1/health"
@@ -112,6 +113,40 @@ locals {
     }
   ]
 
+  qatalyst_mammoth_ecs_task_environment_variables = [
+    {
+      name  = "COGNITO_USER_POOL_ID"
+      value = module.create_cognito_user_pool.user_pool_id
+    },
+    {
+      name  = "STAGE"
+      value = var.STAGE
+    },
+    {
+      name  = "AWS_ACCOUNT_ID"
+      value = local.account_id
+    },
+    {
+      name  = "LOCAL_RUN"
+      value = "false"
+    },
+    {
+      name  = "QATALYST_DOMAIN"
+      value = local.dasboard_domain
+    },
+    {
+      name  = "FE_TESTER_VIEW_DOMAIN_NAME"
+      value = local.tester_view_domain
+    },
+    {
+      name  = "WEB_CONCURRENCY"
+      value = var.uvicorn_workers_count
+    },
+    {
+      name  = "QATALYST_SENDER_EMAIL"
+      value = local.qatalyst_sender_email
+    }
+  ]
   qatalyst_ecs_task_environment_secrets = [
     {
       name      = "BITLY_BEARER"
@@ -227,6 +262,32 @@ locals {
     }
   ]
 
+  qatalyst_mammoth_ecs_task_environment_secrets = [
+    {
+      name      = "BITLY_BEARER"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "bitly-bearer-token"])
+    },
+    {
+      name      = "FIGMA_ACCESS_TOKEN"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "figma-access-token"])
+    },
+    {
+      name      = "SENDGRID_KEY"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "sendgrid-key"])
+    },
+    {
+      name      = "FINGERPRINT_API_TOKEN"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "fingerprint-token"])
+    },
+    {
+      name      = "FEATURE_FLAG_AUTH"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "feature-flag-auth"])
+    },
+    {
+      name      = "PLATFORM_REALM_ID"
+      valueFrom = join("-", ["platform", var.STAGE, "realm-id"])
+    }
+  ]
   qatalyst_datadog_environment_variables = [
     {
       name  = "DD_APM_ENABLED",

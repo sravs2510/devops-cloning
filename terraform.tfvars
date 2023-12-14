@@ -391,8 +391,8 @@ sqs_details = {
     receive_wait_time_seconds  = 20   #Long Polling
     visibility_timeout_seconds = 1200 # 20 Minutes
   },
-  "qatalyst-celery-processing-sqs" : {
-    queue_name                 = "qatalyst-celery-processing-queue"
+  "qatalyst-mammoth-processing-sqs" : {
+    queue_name                 = "qatalyst-mammoth-processing-queue"
     delay_seconds              = 0
     max_message_size           = 131072 # 128KB
     message_retention_seconds  = 86400
@@ -411,6 +411,10 @@ furyblade_efs_configurations = {
   "path" = "/furyblade",
 }
 
+mammoth_efs_configurations = {
+  "name" = "mammoth",
+  "path" = "/mammoth",
+}
 service_names = {
   dashboard  = "dashboard"
   reports    = "reports"
@@ -418,4 +422,5 @@ service_names = {
   cyborg     = "cyborg"
   furyblade  = "furyblade"
   prototype  = "prototype"
+  mammoth    = "mammoth"
 }
