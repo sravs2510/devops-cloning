@@ -20,10 +20,10 @@ locals {
   qatalyst_mammoth_service_name                  = "qatalyst-mammoth-service"
   fargate_cpu_memory                             = var.STAGE == "qa" ? var.fargate_cpu_memory_qa_eu : var.fargate_cpu_memory
   account_id                                     = data.aws_caller_identity.current.account_id
-  qatalyst_dashboard_healthcheck_api             = "GET /v1/health"
-  qatalyst_tester_view_healthcheck_api           = "GET /v1/testers/health"
-  qatalyst_reports_healthcheck_api               = "GET*health"
-  qatalyst_prototype_healthcheck_api             = "GET /v1/health"
+  qatalyst_dashboard_healthcheck_api             = "GET *health"
+  qatalyst_tester_view_healthcheck_api           = "GET *health"
+  qatalyst_reports_healthcheck_api               = "GET *health"
+  qatalyst_prototype_healthcheck_api             = "GET *health"
   qatalyst_ecs_task_environment_variables = [
     {
       name  = "COGNITO_USER_POOL_ID"
