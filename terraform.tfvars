@@ -358,6 +358,7 @@ datadog_docker_image = "public.ecr.aws/datadog/agent:latest"
 ecr_repo_name        = "qatalyst-backend"
 cyborg_repo_name     = "qatalyst-cyborg"
 furyblade_repo_name  = "qatalyst-furyblade"
+mammoth_repo_name = "qatalyst-mammoth"
 
 mediaconvert_queues = {
   "qatalyst" : {
