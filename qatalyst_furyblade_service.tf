@@ -68,6 +68,9 @@ module "create_sea_ecs_furyblade_service" {
   STAGE                         = var.STAGE
   repo_name                     = var.furyblade_repo_name
   service                       = var.service_names["furyblade"]
+  efs_file_system_id            = module.create_sea_furyblade_efs.efs_id
+  efs_access_point_id           = module.create_sea_furyblade_efs.access_point_id
+  EFS_CONFIGURATION             = var.furyblade_efs_configurations
 
   providers = {
     aws.ecs_region = aws.sea_region
@@ -96,6 +99,9 @@ module "create_in_ecs_furyblade_service" {
   STAGE                         = var.STAGE
   repo_name                     = var.furyblade_repo_name
   service                       = var.service_names["furyblade"]
+  efs_file_system_id            = module.create_in_furyblade_efs.efs_id
+  efs_access_point_id           = module.create_in_furyblade_efs.access_point_id
+  EFS_CONFIGURATION             = var.furyblade_efs_configurations
 
   providers = {
     aws.ecs_region = aws.in_region
@@ -124,6 +130,9 @@ module "create_us_ecs_furyblade_service" {
   STAGE                         = var.STAGE
   repo_name                     = var.furyblade_repo_name
   service                       = var.service_names["furyblade"]
+  efs_file_system_id            = module.create_us_furyblade_efs.efs_id
+  efs_access_point_id           = module.create_us_furyblade_efs.access_point_id
+  EFS_CONFIGURATION             = var.furyblade_efs_configurations
 
   providers = {
     aws.ecs_region = aws.us_region
@@ -152,6 +161,9 @@ module "create_eu_ecs_furyblade_service" {
   STAGE                         = var.STAGE
   repo_name                     = var.furyblade_repo_name
   service                       = var.service_names["furyblade"]
+  efs_file_system_id            = module.create_eu_furyblade_efs.efs_id
+  efs_access_point_id           = module.create_eu_furyblade_efs.access_point_id
+  EFS_CONFIGURATION             = var.furyblade_efs_configurations
 
   providers = {
     aws.ecs_region = aws.eu_region
@@ -201,5 +213,57 @@ module "create_eu_furyblade_sqs" {
 
   providers = {
     aws.sqs_region = aws.eu_region
+  }
+}
+
+module "create_eu_furyblade_efs" {
+  source            = "./modules/efs"
+  STAGE             = var.STAGE
+  DEFAULT_TAGS      = var.DEFAULT_TAGS
+  EFS_CONFIGURATION = var.furyblade_efs_configurations
+  private_subnets   = module.create_eu_vpc.private_subnets
+  sg_id             = module.create_eu_vpc.security_group_id
+
+  providers = {
+    aws.efs_region = aws.eu_region
+  }
+}
+
+module "create_in_furyblade_efs" {
+  source            = "./modules/efs"
+  STAGE             = var.STAGE
+  DEFAULT_TAGS      = var.DEFAULT_TAGS
+  EFS_CONFIGURATION = var.furyblade_efs_configurations
+  private_subnets   = module.create_in_vpc.private_subnets
+  sg_id             = module.create_in_vpc.security_group_id
+
+  providers = {
+    aws.efs_region = aws.in_region
+  }
+}
+
+module "create_sea_furyblade_efs" {
+  source            = "./modules/efs"
+  STAGE             = var.STAGE
+  DEFAULT_TAGS      = var.DEFAULT_TAGS
+  EFS_CONFIGURATION = var.furyblade_efs_configurations
+  private_subnets   = module.create_sea_vpc.private_subnets
+  sg_id             = module.create_sea_vpc.security_group_id
+
+  providers = {
+    aws.efs_region = aws.sea_region
+  }
+}
+
+module "create_us_furyblade_efs" {
+  source            = "./modules/efs"
+  STAGE             = var.STAGE
+  DEFAULT_TAGS      = var.DEFAULT_TAGS
+  EFS_CONFIGURATION = var.furyblade_efs_configurations
+  private_subnets   = module.create_us_vpc.private_subnets
+  sg_id             = module.create_us_vpc.security_group_id
+
+  providers = {
+    aws.efs_region = aws.us_region
   }
 }
