@@ -409,7 +409,7 @@ cyborg_efs_configurations = {
 
 furyblade_efs_configurations = {
   "name" = "furyblade",
-  "path" = "/furyblade",
+  "path" = "/mnt/furyblade",
 }
 
 mammoth_efs_configurations = {
