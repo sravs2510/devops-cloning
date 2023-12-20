@@ -63,13 +63,13 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
             valueFrom = join("-", ["platform", var.STAGE, "secret", local.datacenter_code])
           },
         ]),
-        "mountPoints" : var.service == "cyborg" ? [
-        {
-          "containerPath" : "/mnt${var.EFS_CONFIGURATION.path}",
-          "sourceVolume" : join("-", ["qatalyst", var.service]),
-          "readOnly" : false
-        }
-      ] : null,
+        "mountPoints" : var.service == "cyborg" || var.service == "furyblade" || var.service == "mammoth" ? [
+          {
+            "containerPath" : "/mnt${var.EFS_CONFIGURATION.path}",
+            "sourceVolume" : join("-", ["qatalyst", var.service]),
+            "readOnly" : false
+          }
+        ] : null,
         portMappings = [
           {
             containerPort = 80
@@ -141,8 +141,8 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
       }
   ])
 
-    dynamic "volume" {
-    for_each = var.service == "cyborg" || var.service == "mammoth" ? [1] : []
+  dynamic "volume" {
+    for_each = var.service == "cyborg" || var.service == "mammoth" || var.service == "furyblade" ? [1] : []
     content {
       name = join("-", ["qatalyst", var.service])
       efs_volume_configuration {
