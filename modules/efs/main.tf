@@ -30,7 +30,10 @@ resource "aws_efs_file_system_policy" "efs_policy" {
     "Statement" : [
       {
         "Effect" : "Allow",
-        "Action" : "elasticfilesystem:ClientMount",
+        "Action" : [
+          "elasticfilesystem:ClientWrite",
+          "elasticfilesystem:ClientMount"
+        ],
         "Principal" : {
           "AWS" : "*"
         }
