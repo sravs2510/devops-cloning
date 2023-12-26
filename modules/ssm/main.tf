@@ -23,7 +23,6 @@ resource "random_uuid" "feature_flag_auth" {
 }
 resource "aws_ssm_parameter" "qatalyst_ssm_secure_values" {
   provider = aws.ssm_region
-
   for_each = {
     "BITLY_BEARER_TOKEN"                                        = "#BITLY_BEARER_TOKEN"
     join("-", ["qatalyst", var.STAGE, "sendgrid-key"])          = "#SENDGRID_KEY"
