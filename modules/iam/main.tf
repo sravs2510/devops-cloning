@@ -357,7 +357,8 @@ resource "aws_iam_policy" "qatalyst_ecs_mammoth_task_iam_policy" {
       {
         Action = [
           "sqs:ReceiveMessage",
-          "sqs:DeleteMessage"
+          "sqs:DeleteMessage",
+          "sqs:GetQueueAttributes"
         ],
         Effect   = "Allow",
         Resource = local.qatalyst_sqs_arn
