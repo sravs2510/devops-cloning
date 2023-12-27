@@ -165,10 +165,6 @@ locals {
       valueFrom = join("-", ["qatalyst", var.STAGE, "fingerprint-token"])
     },
     {
-      name      = "SENTRY_SDK_DSN"
-      valueFrom = join("-", ["qatalyst", var.STAGE, "sentry-dsn-value"])
-    },
-    {
       name      = "FEATURE_FLAG_AUTH"
       valueFrom = join("-", ["qatalyst", var.STAGE, "feature-flag-auth"])
     },
@@ -225,10 +221,6 @@ locals {
     {
       name      = "FINGERPRINT_API_TOKEN"
       valueFrom = join("-", ["qatalyst", var.STAGE, "fingerprint-token"])
-    },
-    {
-      name      = "SENTRY_SDK_DSN"
-      valueFrom = join("-", ["qatalyst", var.STAGE, "sentry-dsn-value"])
     },
     {
       name      = "FEATURE_FLAG_AUTH"
