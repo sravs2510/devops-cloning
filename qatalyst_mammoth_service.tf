@@ -223,3 +223,49 @@ module "create_us_ecs_mammoth_service" {
     aws.ecs_region = aws.us_region
   }
 }
+
+#SQS
+
+module "create_in_mammoth_sqs" {
+  source       = "./modules/sqs"
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
+  sqs_details  = var.sqs_details
+
+  providers = {
+    aws.sqs_region = aws.in_region
+  }
+}
+
+module "create_sea_mammoth_sqs" {
+  source       = "./modules/sqs"
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
+  sqs_details  = var.sqs_details
+
+  providers = {
+    aws.sqs_region = aws.sea_region
+  }
+}
+
+module "create_us_mammoth_sqs" {
+  source       = "./modules/sqs"
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
+  sqs_details  = var.sqs_details
+
+  providers = {
+    aws.sqs_region = aws.us_region
+  }
+}
+
+module "create_eu_mammoth_sqs" {
+  source       = "./modules/sqs"
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
+  sqs_details  = var.sqs_details
+
+  providers = {
+    aws.sqs_region = aws.eu_region
+  }
+}
