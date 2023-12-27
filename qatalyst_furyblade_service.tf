@@ -170,52 +170,6 @@ module "create_eu_ecs_furyblade_service" {
   }
 }
 
-#SQS
-
-module "create_in_furyblade_sqs" {
-  source       = "./modules/sqs"
-  DEFAULT_TAGS = var.DEFAULT_TAGS
-  STAGE        = var.STAGE
-  sqs_details  = var.sqs_details
-
-  providers = {
-    aws.sqs_region = aws.in_region
-  }
-}
-
-module "create_sea_furyblade_sqs" {
-  source       = "./modules/sqs"
-  DEFAULT_TAGS = var.DEFAULT_TAGS
-  STAGE        = var.STAGE
-  sqs_details  = var.sqs_details
-
-  providers = {
-    aws.sqs_region = aws.sea_region
-  }
-}
-
-module "create_us_furyblade_sqs" {
-  source       = "./modules/sqs"
-  DEFAULT_TAGS = var.DEFAULT_TAGS
-  STAGE        = var.STAGE
-  sqs_details  = var.sqs_details
-
-  providers = {
-    aws.sqs_region = aws.us_region
-  }
-}
-
-module "create_eu_furyblade_sqs" {
-  source       = "./modules/sqs"
-  DEFAULT_TAGS = var.DEFAULT_TAGS
-  STAGE        = var.STAGE
-  sqs_details  = var.sqs_details
-
-  providers = {
-    aws.sqs_region = aws.eu_region
-  }
-}
-
 module "create_eu_furyblade_efs" {
   source            = "./modules/efs"
   STAGE             = var.STAGE

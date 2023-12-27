@@ -125,6 +125,14 @@ resource "aws_iam_policy" "qatalyst_ecs_task_iam_policy" {
         Action   = ["lambda:InvokeFunction"],
         Effect   = "Allow",
         Resource = local.qatalyst_lambdas_arn
+      },
+      {
+        Action = [
+          "sqs:SendMessage",
+          "sqs:GetQueueAttributes"
+        ],
+        Effect   = "Allow",
+        Resource = local.qatalyst_sqs_arn
       }
     ]
   })
@@ -348,7 +356,8 @@ resource "aws_iam_policy" "qatalyst_ecs_mammoth_task_iam_policy" {
       },
       {
         Action = [
-          "sqs:*"
+          "sqs:ReceiveMessage",
+          "sqs:DeleteMessage"
         ],
         Effect   = "Allow",
         Resource = local.qatalyst_sqs_arn
