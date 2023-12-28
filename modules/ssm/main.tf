@@ -42,7 +42,7 @@ resource "aws_ssm_parameter" "qatalyst_ssm_secure_values" {
     join("-", ["platform", var.STAGE, "realm-id"])              = "#PLATFORM_REALM_ID"
     join("-", ["qatalyst", var.STAGE, "stripe-api-key"])        = "#QATALYST_STRIPE_API_KEY"
     join("-", ["qatalyst", var.STAGE, "stripe-webhook-secret"]) = "#QATALYST_STRIPE_WEBHOOK_SECRET"
-    join("-", ["qatalyst", var.STAGE, "feature-flag-auth"])     = "random_uuid.feature_flag_auth.result"
+    join("-", ["qatalyst", var.STAGE, "feature-flag-auth"])     = random_uuid.feature_flag_auth.result
   }
   name  = each.key
   type  = "SecureString"
