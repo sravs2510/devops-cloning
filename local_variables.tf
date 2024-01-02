@@ -34,6 +34,10 @@ locals {
       value = var.STAGE
     },
     {
+      name  = "AWS_ACCOUNT_ID"
+      value = local.account_id
+    },
+    {
       name  = "LOCAL_RUN"
       value = "false"
     },
