@@ -41,12 +41,11 @@ resource "aws_ecr_lifecycle_policy" "qatalyst_repository_lifecycle" {
     },
     {
       "rulePriority": 2,
-      "description": "Keep last 30 days images",
+      "description": "Keep last 10 tagged images",
       "selection": {
         "tagStatus": "any",
-        "countType": "sinceImagePushed",
-        "countNumber": 30,
-        "countUnit": "days"
+        "countType": "imageCountMoreThan",
+        "countNumber": 10
       },
       "action": {
         "type": "expire"
