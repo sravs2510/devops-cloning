@@ -300,6 +300,10 @@ locals {
     {
       name  = "DD_ENV",
       value = var.STAGE
+    },
+    {
+      name  = "DD_TRACE_TELEMETRY_ENABLED",
+      value = "false"
     }
   ]
 
