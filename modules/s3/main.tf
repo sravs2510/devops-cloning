@@ -55,6 +55,7 @@ resource "aws_s3_bucket_public_access_block" "s3_bucket_public_access_block" {
 
 resource "aws_s3_bucket_cors_configuration" "aws_cors_config" {
   provider = aws.s3_region
+  count    = var.is_transfer_acceleration_enabled ? 0 : 1
   bucket   = aws_s3_bucket.s3_bucket.id
 
   cors_rule {
@@ -87,5 +88,4 @@ resource "aws_s3_bucket_accelerate_configuration" "s3_transfer_acceleration" {
   count    = var.is_transfer_acceleration_enabled ? 1 : 0
   bucket   = aws_s3_bucket.s3_bucket.id
   status   = "Enabled"
-
 }
