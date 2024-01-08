@@ -213,3 +213,8 @@ variable "mammoth_repo_name" {
   type        = string
   description = "Repo name suffix"
 }
+
+variable "qatalyst_media_bucket_transfer_acceleration" {
+  type        = string
+  description = "Bucket name for qatalyst media with transfer acceleration "
+}

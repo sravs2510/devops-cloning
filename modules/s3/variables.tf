@@ -47,3 +47,15 @@ variable "invite_s3_sub_domain" {
   type        = string
   description = "Invite S3 Sub Domain Name"
 }
+
+variable "is_bucket_name" {
+  type        = bool
+  default     = false
+  description = "Flag to indicate  S3 bucket name or prefix"
+}
+
+variable "is_transfer_acceleration_enabled" {
+  type        = bool
+  default     = false
+  description = "Flag to indicate if transfer acceleration should be enabled on s3 bucket"
+}
