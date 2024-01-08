@@ -425,3 +425,6 @@ service_names = {
   prototype  = "prototype"
   mammoth    = "mammoth"
 }
+
+#S3
+qatalyst_media_bucket_transfer_acceleration = "qatalyst-media"

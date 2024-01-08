@@ -17,8 +17,9 @@ locals {
   dashboard_domain         = format("%s%s", "https://", var.STAGE == "prod" ? join(".", ["*", var.base_domain]) : join(".", ["*", var.STAGE, var.base_domain]))
   reports_domain           = format("%s%s", "https://", var.STAGE == "prod" ? join(".", [var.reports_s3_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.reports_s3_sub_domain, var.base_domain]))
   invite_domain            = format("%s%s", "https://", var.STAGE == "prod" ? join(".", [var.invite_s3_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.invite_s3_sub_domain, var.base_domain]))
-  bucket_prefix            = join(".", [var.bucket_prefix, var.base_domain])
-  multi_region_bucket_name = var.STAGE == "prod" ? join(".", [local.datacenter_code, local.bucket_prefix]) : join(".", [local.datacenter_code, var.STAGE, local.bucket_prefix])
+  delimiter                = var.is_bucket_name ? "-" : "."
+  bucket_prefix            = var.is_bucket_name ? var.bucket_prefix : join(".", [var.bucket_prefix, var.base_domain])
+  multi_region_bucket_name = var.STAGE == "prod" ? join(local.delimiter, [local.datacenter_code, local.bucket_prefix]) : join(local.delimiter, [local.datacenter_code, var.STAGE, local.bucket_prefix])
   global_bucket_name       = var.STAGE == "prod" ? local.bucket_prefix : join(".", [var.STAGE, local.bucket_prefix])
   bucket_name              = var.is_multi_region ? local.multi_region_bucket_name : local.global_bucket_name
 }
@@ -26,7 +27,7 @@ locals {
 resource "aws_s3_bucket" "s3_bucket" {
   provider = aws.s3_region
   bucket   = local.bucket_name
-  tags     = merge(tomap({ "Name" : join("-", [local.datacenter_code, "qatalyst", var.bucket_prefix, "bucket"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+  tags     = merge(tomap({ "Name" : local.bucket_name }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
 resource "aws_s3_bucket_ownership_controls" "s3_bucket_ownership_controls" {
@@ -79,4 +80,12 @@ resource "aws_s3_bucket_lifecycle_configuration" "s3_bucket_lifecycle" {
     }
   }
   bucket = aws_s3_bucket.s3_bucket.id
+}
+
+resource "aws_s3_bucket_accelerate_configuration" "s3_transfer_acceleration" {
+  provider = aws.s3_region
+  count    = var.is_transfer_acceleration_enabled ? 1 : 0
+  bucket   = aws_s3_bucket.s3_bucket.id
+  status   = "Enabled"
+
 }
