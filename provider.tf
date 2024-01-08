@@ -56,3 +56,14 @@ provider "aws" {
 provider "random" {
   alias = "random"
 }
+
+provider "aws" {
+  region = "eu-west-1"
+  alias  = "eu_west_region"
+  default_tags {
+    tags = {
+      Product   = "QATALYST"
+      CreatedBy = "Terraform"
+    }
+  }
+}

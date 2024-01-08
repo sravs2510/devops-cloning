@@ -211,7 +211,7 @@ module "create_eu_sqs" {
   }
 }
 
-module "create_eu_qatalyst_media_bucket" {
+module "create_qatalyst_media_bucket" {
   source                           = "./modules/s3"
   bucket_prefix                    = var.qatalyst_media_bucket_transfer_acceleration
   DEFAULT_TAGS                     = var.DEFAULT_TAGS
@@ -227,7 +227,7 @@ module "create_eu_qatalyst_media_bucket" {
   is_transfer_acceleration_enabled = true
 
   providers = {
-    aws.s3_region = aws.eu_region
+    aws.s3_region = aws.eu_west_region
   }
 }
 
@@ -445,26 +445,6 @@ module "create_in_sqs" {
   }
 }
 
-module "create_in_qatalyst_media_bucket" {
-  source                           = "./modules/s3"
-  bucket_prefix                    = var.qatalyst_media_bucket_transfer_acceleration
-  DEFAULT_TAGS                     = var.DEFAULT_TAGS
-  STAGE                            = var.STAGE
-  datacenter_codes                 = var.datacenter_codes
-  tester_view_sub_domain           = var.tester_view_sub_domain
-  base_domain                      = var.base_domain
-  object_expiration_duration       = var.object_expiration_duration
-  is_multi_region                  = true
-  reports_s3_sub_domain            = var.reports_s3_sub_domain
-  invite_s3_sub_domain             = var.invite_s3_sub_domain
-  is_bucket_name                   = true
-  is_transfer_acceleration_enabled = true
-
-  providers = {
-    aws.s3_region = aws.in_region
-  }
-}
-
 # SEA Resources
 module "create_sea_vpc" {
   source          = "./modules/vpc"
@@ -665,25 +645,6 @@ module "create_sea_sqs" {
 
   providers = {
     aws.sqs_region = aws.sea_region
-  }
-}
-module "create_sea_qatalyst_media_bucket" {
-  source                           = "./modules/s3"
-  bucket_prefix                    = var.qatalyst_media_bucket_transfer_acceleration
-  DEFAULT_TAGS                     = var.DEFAULT_TAGS
-  STAGE                            = var.STAGE
-  datacenter_codes                 = var.datacenter_codes
-  tester_view_sub_domain           = var.tester_view_sub_domain
-  base_domain                      = var.base_domain
-  object_expiration_duration       = var.object_expiration_duration
-  is_multi_region                  = true
-  reports_s3_sub_domain            = var.reports_s3_sub_domain
-  invite_s3_sub_domain             = var.invite_s3_sub_domain
-  is_bucket_name                   = true
-  is_transfer_acceleration_enabled = true
-
-  providers = {
-    aws.s3_region = aws.sea_region
   }
 }
 
@@ -982,26 +943,6 @@ module "create_us_dynamodb" {
 
   providers = {
     aws.dynamo_region = aws.us_region
-  }
-}
-
-module "create_us_qatalyst_media_bucket" {
-  source                           = "./modules/s3"
-  bucket_prefix                    = var.qatalyst_media_bucket_transfer_acceleration
-  DEFAULT_TAGS                     = var.DEFAULT_TAGS
-  STAGE                            = var.STAGE
-  datacenter_codes                 = var.datacenter_codes
-  tester_view_sub_domain           = var.tester_view_sub_domain
-  base_domain                      = var.base_domain
-  object_expiration_duration       = var.object_expiration_duration
-  is_multi_region                  = true
-  reports_s3_sub_domain            = var.reports_s3_sub_domain
-  invite_s3_sub_domain             = var.invite_s3_sub_domain
-  is_bucket_name                   = true
-  is_transfer_acceleration_enabled = true
-
-  providers = {
-    aws.s3_region = aws.us_region
   }
 }
 

@@ -8,6 +8,7 @@ datacenter_codes = {
   "ap-south-1" : "in"
   "us-east-1" : "us"
   "eu-north-1" : "eu"
+  "eu-west-1" : "ire"
 }
 
 cidr_block = {
