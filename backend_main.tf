@@ -211,7 +211,7 @@ module "create_eu_sqs" {
   }
 }
 
-module "create_qatalyst_media_bucket" {
+module "create_eu_qatalyst_media_bucket" {
   source                           = "./modules/s3"
   bucket_prefix                    = var.qatalyst_media_bucket_transfer_acceleration
   DEFAULT_TAGS                     = var.DEFAULT_TAGS
