@@ -227,7 +227,7 @@ module "create_eu_qatalyst_media_bucket" {
   is_transfer_acceleration_enabled = true
 
   providers = {
-    aws.s3_region = aws.eu_region
+    aws.s3_region = aws.eu_west_region
   }
 }
 
@@ -667,6 +667,8 @@ module "create_sea_sqs" {
     aws.sqs_region = aws.sea_region
   }
 }
+
+
 module "create_sea_qatalyst_media_bucket" {
   source                           = "./modules/s3"
   bucket_prefix                    = var.qatalyst_media_bucket_transfer_acceleration
