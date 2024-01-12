@@ -23,7 +23,7 @@ locals {
   ecr_repo             = join(".", [local.account_id, "dkr.ecr", data.aws_region.ecs_region.name, "amazonaws.com/${var.repo_name}:latest"])
   datacenter_code      = lookup(var.datacenter_codes, data.aws_region.ecs_region.name)
   dd_api_key_ssm_param = join("-", ["datadog", var.STAGE, "api-key"])
-  dd_service_name      = join("-", [var.ecs_service_name, var.STAGE])
+  dd_service_name      = join("-", [var.ecs_service_name, var.STAGE, local.datacenter_code])
 }
 
 resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
