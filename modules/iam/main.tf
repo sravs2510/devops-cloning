@@ -53,7 +53,7 @@ locals {
   ses_arn                      = join(":", ["arn:aws:ses", "us-west-2", local.account_id, "identity/*"])
   qatalyst_lambdas_arn         = join(":", ["arn:aws:lambda", "*", local.account_id, "function", "qatalyst-*"])
   qatalyst_sqs_arn             = join(":", ["arn:aws:sqs", "*", local.account_id, "qatalyst-*"])
-  qatalyst_media_bucket_name   = var.STAGE == "prod" ? join("-", ["*", "qatalyst-media"]) : join("-", ["*", var.STAGE, "qatalyst-media"])
+  qatalyst_media_bucket_name   = var.STAGE == "prod" ? join("-", ["*", "qatalyst-media"]) : join("-", ["*", var.STAGE, "qatalyst-media/*"])
   s3_qatalyst_media_bucket_arn = join(":", ["arn:aws:s3::", local.qatalyst_media_bucket_name])
 }
 
@@ -85,7 +85,7 @@ resource "aws_iam_policy" "qatalyst_ecs_task_iam_policy" {
           "s3:ListBucket"
         ],
         Effect   = "Allow",
-        Resource = local.s3_media_bucket_arn
+        Resource = [local.s3_media_bucket_arn, local.s3_qatalyst_media_bucket_arn]
       },
       {
         Action = [
