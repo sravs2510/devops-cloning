@@ -68,19 +68,9 @@ variable "user_pool_web_client_name" {
   description = "Cognito web app client name"
 }
 
-variable "global_ddb_table_details" {
-  type        = list(any)
-  description = "DDB Global Tables details"
-}
-
-variable "global_ddb_tables_without_range" {
-  type        = list(any)
-  description = "DDB Global Tables details without range key"
-}
-
-variable "gsi_global_table_details_without_range" {
+variable "global_table_details" {
   type        = any
-  description = "List of global ddb tables and properties"
+  description = "DDB Global Tables details"
 }
 
 variable "fargate_cpu_memory" {
@@ -101,16 +91,6 @@ variable "cw_logs_retention_in_days" {
 variable "table_details" {
   type        = any
   description = "DDB Tables details"
-}
-
-variable "tables_without_range_key" {
-  type        = map(any)
-  description = "DDB Tables(without range key) details"
-}
-
-variable "gsi_table_details" {
-  type        = any
-  description = "DDB Tables with GSI details"
 }
 
 variable "point_in_time_recovery" {
