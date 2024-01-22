@@ -1,11 +1,30 @@
 variable "table_details" {
-  type        = any
-  description = "List of tables and properties"
-}
-
-variable "tables_without_range_key" {
-  type        = map(any)
-  description = "List of tables and properties without range key"
+  type = map(object({
+    table_name = string
+    hash_key   = string
+    range_key  = optional(string)
+    is_global  = optional(bool)
+    stream = optional(object({
+      enabled   = bool
+      view_type = optional(string)
+    }))
+    ttl = optional(object({
+      enabled        = bool
+      attribute_name = optional(string)
+    }))
+    attributes = optional(list(object({
+      name = string
+      type = string
+    })))
+    global_secondary_indexes = optional(list(object({
+      name               = string
+      hash_key           = string
+      range_key          = optional(string)
+      projection_type    = optional(string)
+      non_key_attributes = optional(list(string))
+    })))
+  }))
+  description = "DDB Tables details"
 }
 
 variable "STAGE" {
@@ -16,21 +35,4 @@ variable "STAGE" {
 variable "DEFAULT_TAGS" {
   type        = map(any)
   description = "Default Tags for all resources"
-}
-
-variable "stream_enabled" {
-  type        = bool
-  description = "Flag for enabling/disabling dynamodb stream"
-  default     = false
-}
-
-variable "stream_view_type" {
-  type        = string
-  description = "Stream view type which is used to get the old data, new data or both from dynamodb"
-  default     = "NEW_AND_OLD_IMAGES"
-}
-
-variable "point_in_time_recovery" {
-  type        = bool
-  description = "Point in time recovery value"
 }

@@ -7,6 +7,10 @@ terraform {
   }
 }
 
+locals {
+  region_name = ["ap-south-1", "eu-north-1", "ap-southeast-1"]
+}
+
 resource "aws_dynamodb_table" "table" {
   provider = aws.dynamo_region
 
@@ -14,14 +18,14 @@ resource "aws_dynamodb_table" "table" {
 
   name                        = each.value.table_name
   hash_key                    = each.value.hash_key
-  range_key                   = each.value.range_key
+  range_key                   = try(each.value.range_key, null)
   billing_mode                = "PAY_PER_REQUEST"
-  stream_enabled              = try(each.value.stream_enabled, var.stream_enabled)
-  stream_view_type            = var.stream_view_type
+  stream_enabled              = try(each.value.is_global, null) != null ? true : try(each.value.stream.enabled, false)
+  stream_view_type            = try(each.value.stream.view_type, "NEW_AND_OLD_IMAGES")
   deletion_protection_enabled = var.STAGE == "prod" ? true : false
 
   point_in_time_recovery {
-    enabled = var.point_in_time_recovery
+    enabled = var.STAGE == "prod" ? true : false
   }
 
   attribute {
@@ -29,9 +33,28 @@ resource "aws_dynamodb_table" "table" {
     type = "S"
   }
 
-  attribute {
-    name = each.value.range_key
-    type = "S"
+  dynamic "attribute" {
+    for_each = try(each.value.range_key, null) != null ? [1] : []
+    content {
+      name = each.value.range_key
+      type = "S"
+    }
+  }
+
+  dynamic "replica" {
+    for_each = try(each.value.is_global, null) != null ? toset(local.region_name) : toset([])
+    content {
+      region_name    = replica.key
+      propagate_tags = true
+    }
+  }
+
+  dynamic "ttl" {
+    for_each = try(each.value.ttl, null) != null ? [1] : []
+    content {
+      enabled        = each.value.ttl.enabled
+      attribute_name = each.value.ttl.attribute_name
+    }
   }
 
   dynamic "attribute" {
@@ -50,29 +73,6 @@ resource "aws_dynamodb_table" "table" {
       range_key       = try(global_secondary_index.value.range_key, null)
       projection_type = try(global_secondary_index.value.projection_type, "ALL")
     }
-  }
-
-  tags = merge(tomap({ "Name" : each.value.table_name }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
-}
-
-resource "aws_dynamodb_table" "tables_without_range_key" {
-  provider = aws.dynamo_region
-
-  for_each = var.tables_without_range_key
-
-  name                        = each.value.table_name
-  hash_key                    = each.value.hash_key
-  billing_mode                = "PAY_PER_REQUEST"
-  stream_enabled              = try(each.value.stream_enabled, var.stream_enabled)
-  stream_view_type            = var.stream_view_type
-  deletion_protection_enabled = var.STAGE == "prod" ? true : false
-  point_in_time_recovery {
-    enabled = var.point_in_time_recovery
-  }
-
-  attribute {
-    name = each.value.hash_key
-    type = "S"
   }
 
   tags = merge(tomap({ "Name" : each.value.table_name }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)

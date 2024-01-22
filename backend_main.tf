@@ -144,26 +144,11 @@ module "create_eu_ecs" {
   }
 }
 
-
-module "create_eu_dynamodb_gsi" {
-  source                 = "./modules/dynamodb_gsi"
-  DEFAULT_TAGS           = var.DEFAULT_TAGS
-  STAGE                  = var.STAGE
-  gsi_table_details      = var.gsi_table_details
-  point_in_time_recovery = var.point_in_time_recovery
-
-  providers = {
-    aws.dynamo_region = aws.eu_region
-  }
-}
-
 module "create_eu_dynamodb" {
-  source                   = "./modules/dynamodb"
-  DEFAULT_TAGS             = var.DEFAULT_TAGS
-  STAGE                    = var.STAGE
-  table_details            = var.table_details
-  tables_without_range_key = var.tables_without_range_key
-  point_in_time_recovery   = var.point_in_time_recovery
+  source        = "./modules/dynamodb"
+  DEFAULT_TAGS  = var.DEFAULT_TAGS
+  STAGE         = var.STAGE
+  table_details = var.table_details
 
   providers = {
     aws.dynamo_region = aws.eu_region
@@ -379,25 +364,11 @@ module "create_in_ecs" {
   }
 }
 
-module "create_in_dynamodb_gsi" {
-  source                 = "./modules/dynamodb_gsi"
-  DEFAULT_TAGS           = var.DEFAULT_TAGS
-  STAGE                  = var.STAGE
-  gsi_table_details      = var.gsi_table_details
-  point_in_time_recovery = var.point_in_time_recovery
-
-  providers = {
-    aws.dynamo_region = aws.in_region
-  }
-}
-
 module "create_in_dynamodb" {
-  source                   = "./modules/dynamodb"
-  DEFAULT_TAGS             = var.DEFAULT_TAGS
-  STAGE                    = var.STAGE
-  table_details            = var.table_details
-  tables_without_range_key = var.tables_without_range_key
-  point_in_time_recovery   = var.point_in_time_recovery
+  source        = "./modules/dynamodb"
+  DEFAULT_TAGS  = var.DEFAULT_TAGS
+  STAGE         = var.STAGE
+  table_details = var.table_details
 
   providers = {
     aws.dynamo_region = aws.in_region
@@ -612,25 +583,11 @@ module "create_sea_ecs" {
   }
 }
 
-module "create_sea_dynamodb_gsi" {
-  source                 = "./modules/dynamodb_gsi"
-  DEFAULT_TAGS           = var.DEFAULT_TAGS
-  STAGE                  = var.STAGE
-  gsi_table_details      = var.gsi_table_details
-  point_in_time_recovery = var.point_in_time_recovery
-
-  providers = {
-    aws.dynamo_region = aws.sea_region
-  }
-}
-
 module "create_sea_dynamodb" {
-  source                   = "./modules/dynamodb"
-  DEFAULT_TAGS             = var.DEFAULT_TAGS
-  STAGE                    = var.STAGE
-  table_details            = var.table_details
-  tables_without_range_key = var.tables_without_range_key
-  point_in_time_recovery   = var.point_in_time_recovery
+  source        = "./modules/dynamodb"
+  DEFAULT_TAGS  = var.DEFAULT_TAGS
+  STAGE         = var.STAGE
+  table_details = var.table_details
 
   providers = {
     aws.dynamo_region = aws.sea_region
@@ -963,25 +920,11 @@ module "create_us_ecs" {
   }
 }
 
-module "create_us_dynamodb_gsi" {
-  source                 = "./modules/dynamodb_gsi"
-  DEFAULT_TAGS           = var.DEFAULT_TAGS
-  STAGE                  = var.STAGE
-  gsi_table_details      = var.gsi_table_details
-  point_in_time_recovery = var.point_in_time_recovery
-
-  providers = {
-    aws.dynamo_region = aws.us_region
-  }
-}
 module "create_us_dynamodb" {
-  source                   = "./modules/dynamodb"
-  DEFAULT_TAGS             = var.DEFAULT_TAGS
-  STAGE                    = var.STAGE
-  table_details            = var.table_details
-  tables_without_range_key = var.tables_without_range_key
-  point_in_time_recovery   = var.point_in_time_recovery
-
+  source        = "./modules/dynamodb"
+  DEFAULT_TAGS  = var.DEFAULT_TAGS
+  STAGE         = var.STAGE
+  table_details = var.table_details
   providers = {
     aws.dynamo_region = aws.us_region
   }
@@ -1009,19 +952,13 @@ module "create_us_qatalyst_media_bucket" {
 
 #Global DDB Tables
 module "create_global_dynamodb" {
-  source                                 = "./modules/dynamodb_global"
-  DEFAULT_TAGS                           = var.DEFAULT_TAGS
-  STAGE                                  = var.STAGE
-  global_ddb_table_details               = var.global_ddb_table_details
-  global_ddb_tables_without_range        = var.global_ddb_tables_without_range
-  gsi_global_table_details_without_range = var.gsi_global_table_details_without_range
-  point_in_time_recovery                 = var.point_in_time_recovery
+  source        = "./modules/dynamodb"
+  DEFAULT_TAGS  = var.DEFAULT_TAGS
+  STAGE         = var.STAGE
+  table_details = var.global_table_details
 
   providers = {
-    aws.sea_region = aws.sea_region
-    aws.in_region  = aws.in_region
-    aws.us_region  = aws.us_region
-    aws.eu_region  = aws.eu_region
+    aws.dynamo_region = aws.us_region
   }
 }
 module "create_us_ssm" {
