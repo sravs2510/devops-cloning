@@ -89,6 +89,13 @@ resource "aws_cognito_identity_provider" "google_sso_provider" {
     authorize_scopes = "profile email openid"
     client_id        = "#QATALYST_GOOGLE_CLIENT_ID"
     client_secret    = "#QATALYST_GOOGLE_CLIENT_SECRET"
+    # Default attributes 
+    attributes_url                = "https://people.googleapis.com/v1/people/me?personFields="
+    attributes_url_add_attributes = true
+    authorize_url                 = "https://accounts.google.com/o/oauth2/v2/auth"
+    oidc_issuer                   = "https://accounts.google.com"
+    token_request_method          = "POST"
+    token_url                     = "https://www.googleapis.com/oauth2/v4/token"
   }
 
   attribute_mapping = {
@@ -116,6 +123,12 @@ resource "aws_cognito_identity_provider" "amazon_provider" {
     authorize_scopes = "profile"
     client_id        = "#QATALYST_AMAZON_CLIENT_ID"
     client_secret    = "#QATALYST_AMAZON_CLIENT_SECRET"
+    # Default attributes
+    attributes_url                = "https://api.amazon.com/user/profile"
+    attributes_url_add_attributes = false
+    authorize_url                 = "https://www.amazon.com/ap/oa"
+    token_request_method          = "POST"
+    token_url                     = "https://api.amazon.com/auth/o2/token"
   }
 
   attribute_mapping = {
@@ -135,6 +148,8 @@ resource "aws_cognito_identity_provider" "cognito_auth0_provider" {
     client_secret             = "#QATALYST_AUTH0_CLIENT_SECRET"
     attributes_request_method = "GET"
     oidc_issuer               = "https://getqatalyst.us.auth0.com"
+    # Default attributes
+    attributes_url_add_attributes = false
   }
   attribute_mapping = {
     email    = "email"
