@@ -38,11 +38,13 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
   container_definitions = jsonencode(
     [
       {
-        name      = local.container_name
-        image     = local.ecr_repo
-        memory    = var.fargate_cpu_memory.memory
-        cpu       = var.fargate_cpu_memory.cpu
-        essential = true
+        mountPoints = []
+        name        = local.container_name
+        volumesFrom = []
+        image       = local.ecr_repo
+        memory      = var.fargate_cpu_memory.memory
+        cpu         = var.fargate_cpu_memory.cpu
+        essential   = true
         environment = concat(var.service_environment_variables, [
           {
             name  = "REGION_NAME"
@@ -110,9 +112,15 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
         }
       },
       {
-        name      = "log-router"
-        image     = "amazon/aws-for-fluent-bit:stable"
-        essential = true
+        cpu          = 0
+        environment  = []
+        mountPoints  = []
+        name         = "log-router"
+        portMappings = []
+        user         = "0"
+        volumesFrom  = []
+        image        = "amazon/aws-for-fluent-bit:stable"
+        essential    = true
         firelensConfiguration = {
           type = "fluentbit"
           options = {
@@ -121,9 +129,13 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
         }
       },
       {
-        name      = "datadog-agent"
-        image     = var.datadog_docker_image
-        essential = true
+        cpu          = 0
+        mountPoints  = []
+        name         = "datadog-agent"
+        portMappings = []
+        volumesFrom  = []
+        image        = var.datadog_docker_image
+        essential    = true
         environment = concat(var.dd_environment_variables, [
           {
             name  = "DD_SERVICE",
@@ -196,7 +208,6 @@ resource "aws_appautoscaling_target" "qatalyst_ecs_ast" {
   resource_id        = join("/", ["service", var.ecs_cluster_name, aws_ecs_service.qatalyst_ecs_service.name])
   scalable_dimension = "ecs:service:DesiredCount"
   service_namespace  = "ecs"
-  role_arn           = var.ecs_autoscale_role_arn
 }
 
 # Define the Auto Scaling policy for the ECS service

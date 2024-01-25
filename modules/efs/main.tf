@@ -22,24 +22,26 @@ resource "aws_efs_file_system" "efs" {
   )
 }
 
+data "aws_iam_policy_document" "efs_policy" {
+  provider = aws.efs_region
+  statement {
+    effect = "Allow"
+    principals {
+      type        = "AWS"
+      identifiers = ["*"]
+    }
+    actions = [
+      "elasticfilesystem:ClientMount",
+      "elasticfilesystem:ClientWrite",
+    ]
+    resources = [aws_efs_file_system.efs.arn]
+  }
+}
+
 resource "aws_efs_file_system_policy" "efs_policy" {
   provider       = aws.efs_region
   file_system_id = aws_efs_file_system.efs.id
-  policy = jsonencode({
-    "Version" : "2012-10-17",
-    "Statement" : [
-      {
-        "Effect" : "Allow",
-        "Action" : [
-          "elasticfilesystem:ClientWrite",
-          "elasticfilesystem:ClientMount"
-        ],
-        "Principal" : {
-          "AWS" : "*"
-        }
-      }
-    ]
-  })
+  policy         = data.aws_iam_policy_document.efs_policy.json
 }
 
 resource "aws_efs_mount_target" "efs_mount_target" {

@@ -64,11 +64,6 @@ variable "ecs_security_groups" {
   description = "ECS Security Groups List"
 }
 
-variable "ecs_autoscale_role_arn" {
-  type        = string
-  description = "ECS Auto Scale IAM Role Arn"
-}
-
 variable "service_environment_variables" {
   type        = list(any)
   description = "ECS Service Environment Variables"
