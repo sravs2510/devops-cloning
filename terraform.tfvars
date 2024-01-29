@@ -322,6 +322,11 @@ table_details = {
   "workspace-usage" : {
     table_name = "qatalyst-workspace-usage"
     hash_key   = "workspace_id"
+  },
+  "study-publish-details" : {
+    table_name = "qatalyst-study-publish"
+    hash_key   = "study_id"
+    range_key  = "published_version"
   }
 }
 
