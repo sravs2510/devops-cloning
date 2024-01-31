@@ -818,7 +818,6 @@ module "create_cloudfront_invite" {
 }
 module "create_us_invite_acm_cf_alb" {
   source           = "./modules/acm"
-  count            = contains(["dev"], var.STAGE) ? 0 : 1
   base_domain      = var.base_domain
   sub_domain       = var.invite_s3_sub_domain
   datacenter_codes = var.datacenter_codes
