@@ -60,8 +60,8 @@ resource "aws_cloudfront_distribution" "reports_cf_distribution" {
   dynamic "origin" {
     for_each = var.qatalyst_alb_dns_names
     content {
-      domain_name = origin.key
-      origin_id   = origin.key
+      domain_name = origin.value
+      origin_id   = origin.value
       custom_header {
         name  = "REQUEST-SOURCE"
         value = "CLOUDFRONT"
