@@ -147,15 +147,6 @@ moved {
   from = module.create_global_dynamodb.aws_dynamodb_table.ddb_global_config_table_without_range[0]
   to   = module.create_global_dynamodb.aws_dynamodb_table.table["qatalyst-cognito-mapping"]
 }
-
-moved {
-  from = module.create_eu_acm_api.data.aws_region.datacenter_region
-  to   = module.create_eu_acm_api[0].data.aws_region.datacenter_region
-}
-moved {
-  from = module.create_eu_acm_api.data.aws_route53_zone.domain_hosted_zone
-  to   = module.create_eu_acm_api[0].data.aws_route53_zone.domain_hosted_zone
-}
 moved {
   from = module.create_eu_acm_api.aws_acm_certificate.acm_domain_name
   to   = module.create_eu_acm_api[0].aws_acm_certificate.acm_domain_name
@@ -167,14 +158,6 @@ moved {
 moved {
   from = module.create_eu_acm_api.aws_route53_record.domain_record_sets["eu.dev.api.getqatalyst.io"]
   to   = module.create_eu_acm_api[0].aws_route53_record.domain_record_sets["eu.dev.api.getqatalyst.io"]
-}
-moved {
-  from = module.create_eu_acm_invite_alb.data.aws_region.datacenter_region
-  to   = module.create_eu_acm_invite_alb[0].data.aws_region.datacenter_region
-}
-moved {
-  from = module.create_eu_acm_invite_alb.data.aws_route53_zone.domain_hosted_zone
-  to   = module.create_eu_acm_invite_alb[0].data.aws_route53_zone.domain_hosted_zone
 }
 moved {
   from = module.create_eu_acm_invite_alb.aws_acm_certificate.acm_domain_name
@@ -189,14 +172,6 @@ moved {
   to   = module.create_eu_acm_invite_alb[0].aws_route53_record.domain_record_sets["dev.invite.getqatalyst.io"]
 }
 moved {
-  from = module.create_eu_acm_media_cf.data.aws_region.datacenter_region
-  to   = module.create_eu_acm_media_cf[0].data.aws_region.datacenter_region
-}
-moved {
-  from = module.create_eu_acm_media_cf.data.aws_route53_zone.domain_hosted_zone
-  to   = module.create_eu_acm_media_cf[0].data.aws_route53_zone.domain_hosted_zone
-}
-moved {
   from = module.create_eu_acm_media_cf.aws_acm_certificate.acm_domain_name
   to   = module.create_eu_acm_media_cf[0].aws_acm_certificate.acm_domain_name
 }
@@ -207,14 +182,6 @@ moved {
 moved {
   from = module.create_eu_acm_media_cf.aws_route53_record.domain_record_sets["eu.dev.media.getqatalyst.io"]
   to   = module.create_eu_acm_media_cf[0].aws_route53_record.domain_record_sets["eu.dev.media.getqatalyst.io"]
-}
-moved {
-  from = module.create_eu_alb.data.aws_region.current
-  to   = module.create_eu_alb[0].data.aws_region.current
-}
-moved {
-  from = module.create_eu_alb.data.aws_route53_zone.domain_hosted_zone
-  to   = module.create_eu_alb[0].data.aws_route53_zone.domain_hosted_zone
 }
 moved {
   from = module.create_eu_alb.aws_lb.qatalyst_alb
@@ -273,40 +240,20 @@ moved {
   to   = module.create_eu_alb[0].aws_security_group.qatalyst_alb_sg
 }
 moved {
-  from = module.create_eu_cloudwatch_dashboard.data.aws_region.current
-  to   = module.create_eu_cloudwatch_dashboard[0].data.aws_region.current
-}
-moved {
   from = module.create_eu_cloudwatch_dashboard.aws_cloudwatch_dashboard.qatalyst_cw_dashboard
   to   = module.create_eu_cloudwatch_dashboard[0].aws_cloudwatch_dashboard.qatalyst_cw_dashboard
-}
-moved {
-  from = module.create_eu_cloudwatch_prototype_dashboard.data.aws_region.current
-  to   = module.create_eu_cloudwatch_prototype_dashboard[0].data.aws_region.current
 }
 moved {
   from = module.create_eu_cloudwatch_prototype_dashboard.aws_cloudwatch_dashboard.qatalyst_cw_dashboard
   to   = module.create_eu_cloudwatch_prototype_dashboard[0].aws_cloudwatch_dashboard.qatalyst_cw_dashboard
 }
 moved {
-  from = module.create_eu_cloudwatch_reports_dashboard.data.aws_region.current
-  to   = module.create_eu_cloudwatch_reports_dashboard[0].data.aws_region.current
-}
-moved {
   from = module.create_eu_cloudwatch_reports_dashboard.aws_cloudwatch_dashboard.qatalyst_cw_dashboard
   to   = module.create_eu_cloudwatch_reports_dashboard[0].aws_cloudwatch_dashboard.qatalyst_cw_dashboard
 }
 moved {
-  from = module.create_eu_cloudwatch_tester_view_dashboard.data.aws_region.current
-  to   = module.create_eu_cloudwatch_tester_view_dashboard[0].data.aws_region.current
-}
-moved {
   from = module.create_eu_cloudwatch_tester_view_dashboard.aws_cloudwatch_dashboard.qatalyst_cw_dashboard
   to   = module.create_eu_cloudwatch_tester_view_dashboard[0].aws_cloudwatch_dashboard.qatalyst_cw_dashboard
-}
-moved {
-  from = module.create_eu_cyborg_ecr.data.aws_region.ecr_region
-  to   = module.create_eu_cyborg_ecr[0].data.aws_region.ecr_region
 }
 moved {
   from = module.create_eu_cyborg_ecr.aws_ecr_lifecycle_policy.qatalyst_repository_lifecycle
@@ -315,14 +262,6 @@ moved {
 moved {
   from = module.create_eu_cyborg_ecr.aws_ecr_repository.qatalyst_repository
   to   = module.create_eu_cyborg_ecr[0].aws_ecr_repository.qatalyst_repository
-}
-moved {
-  from = module.create_eu_cyborg_efs.data.aws_iam_policy_document.efs_policy
-  to   = module.create_eu_cyborg_efs[0].data.aws_iam_policy_document.efs_policy
-}
-moved {
-  from = module.create_eu_cyborg_efs.data.aws_region.current
-  to   = module.create_eu_cyborg_efs[0].data.aws_region.current
 }
 moved {
   from = module.create_eu_cyborg_efs.aws_efs_access_point.access_point
@@ -445,24 +384,12 @@ moved {
   to   = module.create_eu_dynamodb[0].aws_dynamodb_table.table["workspace-usage"]
 }
 moved {
-  from = module.create_eu_ecr.data.aws_region.ecr_region
-  to   = module.create_eu_ecr[0].data.aws_region.ecr_region
-}
-moved {
   from = module.create_eu_ecr.aws_ecr_lifecycle_policy.qatalyst_repository_lifecycle
   to   = module.create_eu_ecr[0].aws_ecr_lifecycle_policy.qatalyst_repository_lifecycle
 }
 moved {
   from = module.create_eu_ecr.aws_ecr_repository.qatalyst_repository
   to   = module.create_eu_ecr[0].aws_ecr_repository.qatalyst_repository
-}
-moved {
-  from = module.create_eu_ecs.data.aws_caller_identity.current
-  to   = module.create_eu_ecs[0].data.aws_caller_identity.current
-}
-moved {
-  from = module.create_eu_ecs.data.aws_region.ecs_region
-  to   = module.create_eu_ecs[0].data.aws_region.ecs_region
 }
 moved {
   from = module.create_eu_ecs.aws_ecs_cluster.qatalyst_ecs_cluster
@@ -475,14 +402,6 @@ moved {
 moved {
   from = module.create_eu_ecs.aws_security_group.qatalyst_ecs_sg
   to   = module.create_eu_ecs[0].aws_security_group.qatalyst_ecs_sg
-}
-moved {
-  from = module.create_eu_ecs_cyborg_service.data.aws_caller_identity.current
-  to   = module.create_eu_ecs_cyborg_service[0].data.aws_caller_identity.current
-}
-moved {
-  from = module.create_eu_ecs_cyborg_service.data.aws_region.ecs_region
-  to   = module.create_eu_ecs_cyborg_service[0].data.aws_region.ecs_region
 }
 moved {
   from = module.create_eu_ecs_cyborg_service.aws_appautoscaling_policy.qatalyst_ecs_asp_cpu_average
@@ -505,14 +424,6 @@ moved {
   to   = module.create_eu_ecs_cyborg_service[0].aws_ecs_task_definition.qatalyst_ecs_task_definition
 }
 moved {
-  from = module.create_eu_ecs_dashboard_service.data.aws_caller_identity.current
-  to   = module.create_eu_ecs_dashboard_service[0].data.aws_caller_identity.current
-}
-moved {
-  from = module.create_eu_ecs_dashboard_service.data.aws_region.ecs_region
-  to   = module.create_eu_ecs_dashboard_service[0].data.aws_region.ecs_region
-}
-moved {
   from = module.create_eu_ecs_dashboard_service.aws_appautoscaling_policy.qatalyst_ecs_asp_cpu_average
   to   = module.create_eu_ecs_dashboard_service[0].aws_appautoscaling_policy.qatalyst_ecs_asp_cpu_average
 }
@@ -531,14 +442,6 @@ moved {
 moved {
   from = module.create_eu_ecs_dashboard_service.aws_ecs_task_definition.qatalyst_ecs_task_definition
   to   = module.create_eu_ecs_dashboard_service[0].aws_ecs_task_definition.qatalyst_ecs_task_definition
-}
-moved {
-  from = module.create_eu_ecs_furyblade_service.data.aws_caller_identity.current
-  to   = module.create_eu_ecs_furyblade_service[0].data.aws_caller_identity.current
-}
-moved {
-  from = module.create_eu_ecs_furyblade_service.data.aws_region.ecs_region
-  to   = module.create_eu_ecs_furyblade_service[0].data.aws_region.ecs_region
 }
 moved {
   from = module.create_eu_ecs_furyblade_service.aws_appautoscaling_policy.qatalyst_ecs_asp_cpu_average
@@ -561,14 +464,6 @@ moved {
   to   = module.create_eu_ecs_furyblade_service[0].aws_ecs_task_definition.qatalyst_ecs_task_definition
 }
 moved {
-  from = module.create_eu_ecs_mammoth_service.data.aws_caller_identity.current
-  to   = module.create_eu_ecs_mammoth_service[0].data.aws_caller_identity.current
-}
-moved {
-  from = module.create_eu_ecs_mammoth_service.data.aws_region.ecs_region
-  to   = module.create_eu_ecs_mammoth_service[0].data.aws_region.ecs_region
-}
-moved {
   from = module.create_eu_ecs_mammoth_service.aws_appautoscaling_policy.qatalyst_ecs_asp_cpu_average
   to   = module.create_eu_ecs_mammoth_service[0].aws_appautoscaling_policy.qatalyst_ecs_asp_cpu_average
 }
@@ -587,14 +482,6 @@ moved {
 moved {
   from = module.create_eu_ecs_mammoth_service.aws_ecs_task_definition.qatalyst_ecs_task_definition
   to   = module.create_eu_ecs_mammoth_service[0].aws_ecs_task_definition.qatalyst_ecs_task_definition
-}
-moved {
-  from = module.create_eu_ecs_prototype_service.data.aws_caller_identity.current
-  to   = module.create_eu_ecs_prototype_service[0].data.aws_caller_identity.current
-}
-moved {
-  from = module.create_eu_ecs_prototype_service.data.aws_region.ecs_region
-  to   = module.create_eu_ecs_prototype_service[0].data.aws_region.ecs_region
 }
 moved {
   from = module.create_eu_ecs_prototype_service.aws_appautoscaling_policy.qatalyst_ecs_asp_cpu_average
@@ -617,14 +504,6 @@ moved {
   to   = module.create_eu_ecs_prototype_service[0].aws_ecs_task_definition.qatalyst_ecs_task_definition
 }
 moved {
-  from = module.create_eu_ecs_reports_service.data.aws_caller_identity.current
-  to   = module.create_eu_ecs_reports_service[0].data.aws_caller_identity.current
-}
-moved {
-  from = module.create_eu_ecs_reports_service.data.aws_region.ecs_region
-  to   = module.create_eu_ecs_reports_service[0].data.aws_region.ecs_region
-}
-moved {
   from = module.create_eu_ecs_reports_service.aws_appautoscaling_policy.qatalyst_ecs_asp_cpu_average
   to   = module.create_eu_ecs_reports_service[0].aws_appautoscaling_policy.qatalyst_ecs_asp_cpu_average
 }
@@ -643,14 +522,6 @@ moved {
 moved {
   from = module.create_eu_ecs_reports_service.aws_ecs_task_definition.qatalyst_ecs_task_definition
   to   = module.create_eu_ecs_reports_service[0].aws_ecs_task_definition.qatalyst_ecs_task_definition
-}
-moved {
-  from = module.create_eu_ecs_testerview_service.data.aws_caller_identity.current
-  to   = module.create_eu_ecs_testerview_service[0].data.aws_caller_identity.current
-}
-moved {
-  from = module.create_eu_ecs_testerview_service.data.aws_region.ecs_region
-  to   = module.create_eu_ecs_testerview_service[0].data.aws_region.ecs_region
 }
 moved {
   from = module.create_eu_ecs_testerview_service.aws_appautoscaling_policy.qatalyst_ecs_asp_cpu_average
@@ -673,24 +544,12 @@ moved {
   to   = module.create_eu_ecs_testerview_service[0].aws_ecs_task_definition.qatalyst_ecs_task_definition
 }
 moved {
-  from = module.create_eu_furyblade_ecr.data.aws_region.ecr_region
-  to   = module.create_eu_furyblade_ecr[0].data.aws_region.ecr_region
-}
-moved {
   from = module.create_eu_furyblade_ecr.aws_ecr_lifecycle_policy.qatalyst_repository_lifecycle
   to   = module.create_eu_furyblade_ecr[0].aws_ecr_lifecycle_policy.qatalyst_repository_lifecycle
 }
 moved {
   from = module.create_eu_furyblade_ecr.aws_ecr_repository.qatalyst_repository
   to   = module.create_eu_furyblade_ecr[0].aws_ecr_repository.qatalyst_repository
-}
-moved {
-  from = module.create_eu_furyblade_efs.data.aws_iam_policy_document.efs_policy
-  to   = module.create_eu_furyblade_efs[0].data.aws_iam_policy_document.efs_policy
-}
-moved {
-  from = module.create_eu_furyblade_efs.data.aws_region.current
-  to   = module.create_eu_furyblade_efs[0].data.aws_region.current
 }
 moved {
   from = module.create_eu_furyblade_efs.aws_efs_access_point.access_point
@@ -717,24 +576,12 @@ moved {
   to   = module.create_eu_furyblade_efs[0].aws_efs_mount_target.efs_mount_target["subnet_id_3"]
 }
 moved {
-  from = module.create_eu_mammoth_ecr.data.aws_region.ecr_region
-  to   = module.create_eu_mammoth_ecr[0].data.aws_region.ecr_region
-}
-moved {
   from = module.create_eu_mammoth_ecr.aws_ecr_lifecycle_policy.qatalyst_repository_lifecycle
   to   = module.create_eu_mammoth_ecr[0].aws_ecr_lifecycle_policy.qatalyst_repository_lifecycle
 }
 moved {
   from = module.create_eu_mammoth_ecr.aws_ecr_repository.qatalyst_repository
   to   = module.create_eu_mammoth_ecr[0].aws_ecr_repository.qatalyst_repository
-}
-moved {
-  from = module.create_eu_mammoth_efs.data.aws_iam_policy_document.efs_policy
-  to   = module.create_eu_mammoth_efs[0].data.aws_iam_policy_document.efs_policy
-}
-moved {
-  from = module.create_eu_mammoth_efs.data.aws_region.current
-  to   = module.create_eu_mammoth_efs[0].data.aws_region.current
 }
 moved {
   from = module.create_eu_mammoth_efs.aws_efs_access_point.access_point
@@ -761,22 +608,6 @@ moved {
   to   = module.create_eu_mammoth_efs[0].aws_efs_mount_target.efs_mount_target["subnet_id_3"]
 }
 moved {
-  from = module.create_eu_media_cloudfront.data.aws_cloudfront_response_headers_policy.response_headers_policy
-  to   = module.create_eu_media_cloudfront[0].data.aws_cloudfront_response_headers_policy.response_headers_policy
-}
-moved {
-  from = module.create_eu_media_cloudfront.data.aws_iam_policy_document.media_s3_bucket_policy_document
-  to   = module.create_eu_media_cloudfront[0].data.aws_iam_policy_document.media_s3_bucket_policy_document
-}
-moved {
-  from = module.create_eu_media_cloudfront.data.aws_region.current
-  to   = module.create_eu_media_cloudfront[0].data.aws_region.current
-}
-moved {
-  from = module.create_eu_media_cloudfront.data.aws_route53_zone.route53_zone
-  to   = module.create_eu_media_cloudfront[0].data.aws_route53_zone.route53_zone
-}
-moved {
   from = module.create_eu_media_cloudfront.aws_cloudfront_distribution.media_cf_distribution
   to   = module.create_eu_media_cloudfront[0].aws_cloudfront_distribution.media_cf_distribution
 }
@@ -793,20 +624,8 @@ moved {
   to   = module.create_eu_media_cloudfront[0].aws_s3_bucket_policy.media_s3_bucket_policy
 }
 moved {
-  from = module.create_eu_media_convert_queue.data.aws_region.current
-  to   = module.create_eu_media_convert_queue[0].data.aws_region.current
-}
-moved {
   from = module.create_eu_media_convert_queue.aws_media_convert_queue.mediaconvert_queue["qatalyst"]
   to   = module.create_eu_media_convert_queue[0].aws_media_convert_queue.mediaconvert_queue["qatalyst"]
-}
-moved {
-  from = module.create_eu_meet_acm_cf.data.aws_region.datacenter_region
-  to   = module.create_eu_meet_acm_cf[0].data.aws_region.datacenter_region
-}
-moved {
-  from = module.create_eu_meet_acm_cf.data.aws_route53_zone.domain_hosted_zone
-  to   = module.create_eu_meet_acm_cf[0].data.aws_route53_zone.domain_hosted_zone
 }
 moved {
   from = module.create_eu_meet_acm_cf.aws_acm_certificate.acm_domain_name
@@ -819,10 +638,6 @@ moved {
 moved {
   from = module.create_eu_meet_acm_cf.aws_route53_record.domain_record_sets["dev.meet.getqatalyst.io"]
   to   = module.create_eu_meet_acm_cf[0].aws_route53_record.domain_record_sets["dev.meet.getqatalyst.io"]
-}
-moved {
-  from = module.create_eu_qatalyst_media_bucket.data.aws_region.current
-  to   = module.create_eu_qatalyst_media_bucket[0].data.aws_region.current
 }
 moved {
   from = module.create_eu_qatalyst_media_bucket.aws_s3_bucket.s3_bucket
@@ -853,14 +668,6 @@ moved {
   to   = module.create_eu_qatalyst_media_bucket[0].aws_s3_bucket_public_access_block.s3_bucket_public_access_block
 }
 moved {
-  from = module.create_eu_reports_acm.data.aws_region.datacenter_region
-  to   = module.create_eu_reports_acm[0].data.aws_region.datacenter_region
-}
-moved {
-  from = module.create_eu_reports_acm.data.aws_route53_zone.domain_hosted_zone
-  to   = module.create_eu_reports_acm[0].data.aws_route53_zone.domain_hosted_zone
-}
-moved {
   from = module.create_eu_reports_acm.aws_acm_certificate.acm_domain_name
   to   = module.create_eu_reports_acm[0].aws_acm_certificate.acm_domain_name
 }
@@ -871,10 +678,6 @@ moved {
 moved {
   from = module.create_eu_reports_acm.aws_route53_record.domain_record_sets["dev.reports.getqatalyst.io"]
   to   = module.create_eu_reports_acm[0].aws_route53_record.domain_record_sets["dev.reports.getqatalyst.io"]
-}
-moved {
-  from = module.create_eu_s3_bucket.data.aws_region.current
-  to   = module.create_eu_s3_bucket[0].data.aws_region.current
 }
 moved {
   from = module.create_eu_s3_bucket.aws_s3_bucket.s3_bucket
@@ -901,10 +704,6 @@ moved {
   to   = module.create_eu_s3_bucket[0].aws_s3_bucket_public_access_block.s3_bucket_public_access_block
 }
 moved {
-  from = module.create_eu_sqs.data.aws_region.current
-  to   = module.create_eu_sqs[0].data.aws_region.current
-}
-moved {
   from = module.create_eu_sqs.aws_sqs_queue.qatalyst_service_queue["qatalyst-cyborg-processing-sqs"]
   to   = module.create_eu_sqs[0].aws_sqs_queue.qatalyst_service_queue["qatalyst-cyborg-processing-sqs"]
 }
@@ -927,10 +726,6 @@ moved {
 moved {
   from = module.create_eu_sqs.aws_sqs_queue.qatalyst_service_queue_deadletter["qatalyst-mammoth-processing-sqs"]
   to   = module.create_eu_sqs[0].aws_sqs_queue.qatalyst_service_queue_deadletter["qatalyst-mammoth-processing-sqs"]
-}
-moved {
-  from = module.create_eu_ssm.data.aws_region.ssm_region
-  to   = module.create_eu_ssm[0].data.aws_region.ssm_region
 }
 moved {
   from = module.create_eu_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["datadog-dev-api-key"]
@@ -1011,14 +806,6 @@ moved {
 moved {
   from = module.create_eu_ssm.random_uuid.feature_flag_auth
   to   = module.create_eu_ssm[0].random_uuid.feature_flag_auth
-}
-moved {
-  from = module.create_eu_vpc.data.aws_availability_zones.available
-  to   = module.create_eu_vpc[0].data.aws_availability_zones.available
-}
-moved {
-  from = module.create_eu_vpc.data.aws_region.current
-  to   = module.create_eu_vpc[0].data.aws_region.current
 }
 moved {
   from = module.create_eu_vpc.aws_eip.eip_nat_gateway
@@ -1117,14 +904,6 @@ moved {
   to   = module.create_eu_vpc[0].aws_vpc_endpoint.s3_endpoint
 }
 moved {
-  from = module.create_us_acm_api.data.aws_region.datacenter_region
-  to   = module.create_us_acm_api[0].data.aws_region.datacenter_region
-}
-moved {
-  from = module.create_us_acm_api.data.aws_route53_zone.domain_hosted_zone
-  to   = module.create_us_acm_api[0].data.aws_route53_zone.domain_hosted_zone
-}
-moved {
   from = module.create_us_acm_api.aws_acm_certificate.acm_domain_name
   to   = module.create_us_acm_api[0].aws_acm_certificate.acm_domain_name
 }
@@ -1137,14 +916,6 @@ moved {
   to   = module.create_us_acm_api[0].aws_route53_record.domain_record_sets["us.dev.api.getqatalyst.io"]
 }
 moved {
-  from = module.create_us_acm_media_cf.data.aws_region.datacenter_region
-  to   = module.create_us_acm_media_cf[0].data.aws_region.datacenter_region
-}
-moved {
-  from = module.create_us_acm_media_cf.data.aws_route53_zone.domain_hosted_zone
-  to   = module.create_us_acm_media_cf[0].data.aws_route53_zone.domain_hosted_zone
-}
-moved {
   from = module.create_us_acm_media_cf.aws_acm_certificate.acm_domain_name
   to   = module.create_us_acm_media_cf[0].aws_acm_certificate.acm_domain_name
 }
@@ -1155,14 +926,6 @@ moved {
 moved {
   from = module.create_us_acm_media_cf.aws_route53_record.domain_record_sets["us.dev.media.getqatalyst.io"]
   to   = module.create_us_acm_media_cf[0].aws_route53_record.domain_record_sets["us.dev.media.getqatalyst.io"]
-}
-moved {
-  from = module.create_us_alb.data.aws_region.current
-  to   = module.create_us_alb[0].data.aws_region.current
-}
-moved {
-  from = module.create_us_alb.data.aws_route53_zone.domain_hosted_zone
-  to   = module.create_us_alb[0].data.aws_route53_zone.domain_hosted_zone
 }
 moved {
   from = module.create_us_alb.aws_lb.qatalyst_alb
@@ -1221,40 +984,20 @@ moved {
   to   = module.create_us_alb[0].aws_security_group.qatalyst_alb_sg
 }
 moved {
-  from = module.create_us_cloudwatch_dashboard.data.aws_region.current
-  to   = module.create_us_cloudwatch_dashboard[0].data.aws_region.current
-}
-moved {
   from = module.create_us_cloudwatch_dashboard.aws_cloudwatch_dashboard.qatalyst_cw_dashboard
   to   = module.create_us_cloudwatch_dashboard[0].aws_cloudwatch_dashboard.qatalyst_cw_dashboard
-}
-moved {
-  from = module.create_us_cloudwatch_prototype_dashboard.data.aws_region.current
-  to   = module.create_us_cloudwatch_prototype_dashboard[0].data.aws_region.current
 }
 moved {
   from = module.create_us_cloudwatch_prototype_dashboard.aws_cloudwatch_dashboard.qatalyst_cw_dashboard
   to   = module.create_us_cloudwatch_prototype_dashboard[0].aws_cloudwatch_dashboard.qatalyst_cw_dashboard
 }
 moved {
-  from = module.create_us_cloudwatch_reports_dashboard.data.aws_region.current
-  to   = module.create_us_cloudwatch_reports_dashboard[0].data.aws_region.current
-}
-moved {
   from = module.create_us_cloudwatch_reports_dashboard.aws_cloudwatch_dashboard.qatalyst_cw_dashboard
   to   = module.create_us_cloudwatch_reports_dashboard[0].aws_cloudwatch_dashboard.qatalyst_cw_dashboard
 }
 moved {
-  from = module.create_us_cloudwatch_tester_view_dashboard.data.aws_region.current
-  to   = module.create_us_cloudwatch_tester_view_dashboard[0].data.aws_region.current
-}
-moved {
   from = module.create_us_cloudwatch_tester_view_dashboard.aws_cloudwatch_dashboard.qatalyst_cw_dashboard
   to   = module.create_us_cloudwatch_tester_view_dashboard[0].aws_cloudwatch_dashboard.qatalyst_cw_dashboard
-}
-moved {
-  from = module.create_us_cyborg_ecr.data.aws_region.ecr_region
-  to   = module.create_us_cyborg_ecr[0].data.aws_region.ecr_region
 }
 moved {
   from = module.create_us_cyborg_ecr.aws_ecr_lifecycle_policy.qatalyst_repository_lifecycle
@@ -1263,14 +1006,6 @@ moved {
 moved {
   from = module.create_us_cyborg_ecr.aws_ecr_repository.qatalyst_repository
   to   = module.create_us_cyborg_ecr[0].aws_ecr_repository.qatalyst_repository
-}
-moved {
-  from = module.create_us_cyborg_efs.data.aws_iam_policy_document.efs_policy
-  to   = module.create_us_cyborg_efs[0].data.aws_iam_policy_document.efs_policy
-}
-moved {
-  from = module.create_us_cyborg_efs.data.aws_region.current
-  to   = module.create_us_cyborg_efs[0].data.aws_region.current
 }
 moved {
   from = module.create_us_cyborg_efs.aws_efs_access_point.access_point
@@ -1393,24 +1128,12 @@ moved {
   to   = module.create_us_dynamodb[0].aws_dynamodb_table.table["workspace-usage"]
 }
 moved {
-  from = module.create_us_ecr.data.aws_region.ecr_region
-  to   = module.create_us_ecr[0].data.aws_region.ecr_region
-}
-moved {
   from = module.create_us_ecr.aws_ecr_lifecycle_policy.qatalyst_repository_lifecycle
   to   = module.create_us_ecr[0].aws_ecr_lifecycle_policy.qatalyst_repository_lifecycle
 }
 moved {
   from = module.create_us_ecr.aws_ecr_repository.qatalyst_repository
   to   = module.create_us_ecr[0].aws_ecr_repository.qatalyst_repository
-}
-moved {
-  from = module.create_us_ecs.data.aws_caller_identity.current
-  to   = module.create_us_ecs[0].data.aws_caller_identity.current
-}
-moved {
-  from = module.create_us_ecs.data.aws_region.ecs_region
-  to   = module.create_us_ecs[0].data.aws_region.ecs_region
 }
 moved {
   from = module.create_us_ecs.aws_ecs_cluster.qatalyst_ecs_cluster
@@ -1423,14 +1146,6 @@ moved {
 moved {
   from = module.create_us_ecs.aws_security_group.qatalyst_ecs_sg
   to   = module.create_us_ecs[0].aws_security_group.qatalyst_ecs_sg
-}
-moved {
-  from = module.create_us_ecs_cyborg_service.data.aws_caller_identity.current
-  to   = module.create_us_ecs_cyborg_service[0].data.aws_caller_identity.current
-}
-moved {
-  from = module.create_us_ecs_cyborg_service.data.aws_region.ecs_region
-  to   = module.create_us_ecs_cyborg_service[0].data.aws_region.ecs_region
 }
 moved {
   from = module.create_us_ecs_cyborg_service.aws_appautoscaling_policy.qatalyst_ecs_asp_cpu_average
@@ -1453,14 +1168,6 @@ moved {
   to   = module.create_us_ecs_cyborg_service[0].aws_ecs_task_definition.qatalyst_ecs_task_definition
 }
 moved {
-  from = module.create_us_ecs_dashboard_service.data.aws_caller_identity.current
-  to   = module.create_us_ecs_dashboard_service[0].data.aws_caller_identity.current
-}
-moved {
-  from = module.create_us_ecs_dashboard_service.data.aws_region.ecs_region
-  to   = module.create_us_ecs_dashboard_service[0].data.aws_region.ecs_region
-}
-moved {
   from = module.create_us_ecs_dashboard_service.aws_appautoscaling_policy.qatalyst_ecs_asp_cpu_average
   to   = module.create_us_ecs_dashboard_service[0].aws_appautoscaling_policy.qatalyst_ecs_asp_cpu_average
 }
@@ -1479,14 +1186,6 @@ moved {
 moved {
   from = module.create_us_ecs_dashboard_service.aws_ecs_task_definition.qatalyst_ecs_task_definition
   to   = module.create_us_ecs_dashboard_service[0].aws_ecs_task_definition.qatalyst_ecs_task_definition
-}
-moved {
-  from = module.create_us_ecs_furyblade_service.data.aws_caller_identity.current
-  to   = module.create_us_ecs_furyblade_service[0].data.aws_caller_identity.current
-}
-moved {
-  from = module.create_us_ecs_furyblade_service.data.aws_region.ecs_region
-  to   = module.create_us_ecs_furyblade_service[0].data.aws_region.ecs_region
 }
 moved {
   from = module.create_us_ecs_furyblade_service.aws_appautoscaling_policy.qatalyst_ecs_asp_cpu_average
@@ -1509,14 +1208,6 @@ moved {
   to   = module.create_us_ecs_furyblade_service[0].aws_ecs_task_definition.qatalyst_ecs_task_definition
 }
 moved {
-  from = module.create_us_ecs_mammoth_service.data.aws_caller_identity.current
-  to   = module.create_us_ecs_mammoth_service[0].data.aws_caller_identity.current
-}
-moved {
-  from = module.create_us_ecs_mammoth_service.data.aws_region.ecs_region
-  to   = module.create_us_ecs_mammoth_service[0].data.aws_region.ecs_region
-}
-moved {
   from = module.create_us_ecs_mammoth_service.aws_appautoscaling_policy.qatalyst_ecs_asp_cpu_average
   to   = module.create_us_ecs_mammoth_service[0].aws_appautoscaling_policy.qatalyst_ecs_asp_cpu_average
 }
@@ -1535,14 +1226,6 @@ moved {
 moved {
   from = module.create_us_ecs_mammoth_service.aws_ecs_task_definition.qatalyst_ecs_task_definition
   to   = module.create_us_ecs_mammoth_service[0].aws_ecs_task_definition.qatalyst_ecs_task_definition
-}
-moved {
-  from = module.create_us_ecs_prototype_service.data.aws_caller_identity.current
-  to   = module.create_us_ecs_prototype_service[0].data.aws_caller_identity.current
-}
-moved {
-  from = module.create_us_ecs_prototype_service.data.aws_region.ecs_region
-  to   = module.create_us_ecs_prototype_service[0].data.aws_region.ecs_region
 }
 moved {
   from = module.create_us_ecs_prototype_service.aws_appautoscaling_policy.qatalyst_ecs_asp_cpu_average
@@ -1565,14 +1248,6 @@ moved {
   to   = module.create_us_ecs_prototype_service[0].aws_ecs_task_definition.qatalyst_ecs_task_definition
 }
 moved {
-  from = module.create_us_ecs_reports_service.data.aws_caller_identity.current
-  to   = module.create_us_ecs_reports_service[0].data.aws_caller_identity.current
-}
-moved {
-  from = module.create_us_ecs_reports_service.data.aws_region.ecs_region
-  to   = module.create_us_ecs_reports_service[0].data.aws_region.ecs_region
-}
-moved {
   from = module.create_us_ecs_reports_service.aws_appautoscaling_policy.qatalyst_ecs_asp_cpu_average
   to   = module.create_us_ecs_reports_service[0].aws_appautoscaling_policy.qatalyst_ecs_asp_cpu_average
 }
@@ -1591,14 +1266,6 @@ moved {
 moved {
   from = module.create_us_ecs_reports_service.aws_ecs_task_definition.qatalyst_ecs_task_definition
   to   = module.create_us_ecs_reports_service[0].aws_ecs_task_definition.qatalyst_ecs_task_definition
-}
-moved {
-  from = module.create_us_ecs_testerview_service.data.aws_caller_identity.current
-  to   = module.create_us_ecs_testerview_service[0].data.aws_caller_identity.current
-}
-moved {
-  from = module.create_us_ecs_testerview_service.data.aws_region.ecs_region
-  to   = module.create_us_ecs_testerview_service[0].data.aws_region.ecs_region
 }
 moved {
   from = module.create_us_ecs_testerview_service.aws_appautoscaling_policy.qatalyst_ecs_asp_cpu_average
@@ -1621,24 +1288,12 @@ moved {
   to   = module.create_us_ecs_testerview_service[0].aws_ecs_task_definition.qatalyst_ecs_task_definition
 }
 moved {
-  from = module.create_us_furyblade_ecr.data.aws_region.ecr_region
-  to   = module.create_us_furyblade_ecr[0].data.aws_region.ecr_region
-}
-moved {
   from = module.create_us_furyblade_ecr.aws_ecr_lifecycle_policy.qatalyst_repository_lifecycle
   to   = module.create_us_furyblade_ecr[0].aws_ecr_lifecycle_policy.qatalyst_repository_lifecycle
 }
 moved {
   from = module.create_us_furyblade_ecr.aws_ecr_repository.qatalyst_repository
   to   = module.create_us_furyblade_ecr[0].aws_ecr_repository.qatalyst_repository
-}
-moved {
-  from = module.create_us_furyblade_efs.data.aws_iam_policy_document.efs_policy
-  to   = module.create_us_furyblade_efs[0].data.aws_iam_policy_document.efs_policy
-}
-moved {
-  from = module.create_us_furyblade_efs.data.aws_region.current
-  to   = module.create_us_furyblade_efs[0].data.aws_region.current
 }
 moved {
   from = module.create_us_furyblade_efs.aws_efs_access_point.access_point
@@ -1665,14 +1320,6 @@ moved {
   to   = module.create_us_furyblade_efs[0].aws_efs_mount_target.efs_mount_target["subnet_id_3"]
 }
 moved {
-  from = module.create_us_invite_acm_cf_alb.data.aws_region.datacenter_region
-  to   = module.create_us_invite_acm_cf_alb[0].data.aws_region.datacenter_region
-}
-moved {
-  from = module.create_us_invite_acm_cf_alb.data.aws_route53_zone.domain_hosted_zone
-  to   = module.create_us_invite_acm_cf_alb[0].data.aws_route53_zone.domain_hosted_zone
-}
-moved {
   from = module.create_us_invite_acm_cf_alb.aws_acm_certificate.acm_domain_name
   to   = module.create_us_invite_acm_cf_alb[0].aws_acm_certificate.acm_domain_name
 }
@@ -1685,24 +1332,12 @@ moved {
   to   = module.create_us_invite_acm_cf_alb[0].aws_route53_record.domain_record_sets["dev.invite.getqatalyst.io"]
 }
 moved {
-  from = module.create_us_mammoth_ecr.data.aws_region.ecr_region
-  to   = module.create_us_mammoth_ecr[0].data.aws_region.ecr_region
-}
-moved {
   from = module.create_us_mammoth_ecr.aws_ecr_lifecycle_policy.qatalyst_repository_lifecycle
   to   = module.create_us_mammoth_ecr[0].aws_ecr_lifecycle_policy.qatalyst_repository_lifecycle
 }
 moved {
   from = module.create_us_mammoth_ecr.aws_ecr_repository.qatalyst_repository
   to   = module.create_us_mammoth_ecr[0].aws_ecr_repository.qatalyst_repository
-}
-moved {
-  from = module.create_us_mammoth_efs.data.aws_iam_policy_document.efs_policy
-  to   = module.create_us_mammoth_efs[0].data.aws_iam_policy_document.efs_policy
-}
-moved {
-  from = module.create_us_mammoth_efs.data.aws_region.current
-  to   = module.create_us_mammoth_efs[0].data.aws_region.current
 }
 moved {
   from = module.create_us_mammoth_efs.aws_efs_access_point.access_point
@@ -1729,22 +1364,6 @@ moved {
   to   = module.create_us_mammoth_efs[0].aws_efs_mount_target.efs_mount_target["subnet_id_3"]
 }
 moved {
-  from = module.create_us_media_cloudfront.data.aws_cloudfront_response_headers_policy.response_headers_policy
-  to   = module.create_us_media_cloudfront[0].data.aws_cloudfront_response_headers_policy.response_headers_policy
-}
-moved {
-  from = module.create_us_media_cloudfront.data.aws_iam_policy_document.media_s3_bucket_policy_document
-  to   = module.create_us_media_cloudfront[0].data.aws_iam_policy_document.media_s3_bucket_policy_document
-}
-moved {
-  from = module.create_us_media_cloudfront.data.aws_region.current
-  to   = module.create_us_media_cloudfront[0].data.aws_region.current
-}
-moved {
-  from = module.create_us_media_cloudfront.data.aws_route53_zone.route53_zone
-  to   = module.create_us_media_cloudfront[0].data.aws_route53_zone.route53_zone
-}
-moved {
   from = module.create_us_media_cloudfront.aws_cloudfront_distribution.media_cf_distribution
   to   = module.create_us_media_cloudfront[0].aws_cloudfront_distribution.media_cf_distribution
 }
@@ -1761,20 +1380,8 @@ moved {
   to   = module.create_us_media_cloudfront[0].aws_s3_bucket_policy.media_s3_bucket_policy
 }
 moved {
-  from = module.create_us_media_convert_queue.data.aws_region.current
-  to   = module.create_us_media_convert_queue[0].data.aws_region.current
-}
-moved {
   from = module.create_us_media_convert_queue.aws_media_convert_queue.mediaconvert_queue["qatalyst"]
   to   = module.create_us_media_convert_queue[0].aws_media_convert_queue.mediaconvert_queue["qatalyst"]
-}
-moved {
-  from = module.create_us_meet_acm_cf.data.aws_region.datacenter_region
-  to   = module.create_us_meet_acm_cf[0].data.aws_region.datacenter_region
-}
-moved {
-  from = module.create_us_meet_acm_cf.data.aws_route53_zone.domain_hosted_zone
-  to   = module.create_us_meet_acm_cf[0].data.aws_route53_zone.domain_hosted_zone
 }
 moved {
   from = module.create_us_meet_acm_cf.aws_acm_certificate.acm_domain_name
@@ -1787,10 +1394,6 @@ moved {
 moved {
   from = module.create_us_meet_acm_cf.aws_route53_record.domain_record_sets["dev.meet.getqatalyst.io"]
   to   = module.create_us_meet_acm_cf[0].aws_route53_record.domain_record_sets["dev.meet.getqatalyst.io"]
-}
-moved {
-  from = module.create_us_qatalyst_media_bucket.data.aws_region.current
-  to   = module.create_us_qatalyst_media_bucket[0].data.aws_region.current
 }
 moved {
   from = module.create_us_qatalyst_media_bucket.aws_s3_bucket.s3_bucket
@@ -1821,10 +1424,6 @@ moved {
   to   = module.create_us_qatalyst_media_bucket[0].aws_s3_bucket_public_access_block.s3_bucket_public_access_block
 }
 moved {
-  from = module.create_us_s3_bucket.data.aws_region.current
-  to   = module.create_us_s3_bucket[0].data.aws_region.current
-}
-moved {
   from = module.create_us_s3_bucket.aws_s3_bucket.s3_bucket
   to   = module.create_us_s3_bucket[0].aws_s3_bucket.s3_bucket
 }
@@ -1849,10 +1448,6 @@ moved {
   to   = module.create_us_s3_bucket[0].aws_s3_bucket_public_access_block.s3_bucket_public_access_block
 }
 moved {
-  from = module.create_us_sqs.data.aws_region.current
-  to   = module.create_us_sqs[0].data.aws_region.current
-}
-moved {
   from = module.create_us_sqs.aws_sqs_queue.qatalyst_service_queue["qatalyst-cyborg-processing-sqs"]
   to   = module.create_us_sqs[0].aws_sqs_queue.qatalyst_service_queue["qatalyst-cyborg-processing-sqs"]
 }
@@ -1875,10 +1470,6 @@ moved {
 moved {
   from = module.create_us_sqs.aws_sqs_queue.qatalyst_service_queue_deadletter["qatalyst-mammoth-processing-sqs"]
   to   = module.create_us_sqs[0].aws_sqs_queue.qatalyst_service_queue_deadletter["qatalyst-mammoth-processing-sqs"]
-}
-moved {
-  from = module.create_us_ssm.data.aws_region.ssm_region
-  to   = module.create_us_ssm[0].data.aws_region.ssm_region
 }
 moved {
   from = module.create_us_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["datadog-dev-api-key"]
@@ -1959,14 +1550,6 @@ moved {
 moved {
   from = module.create_us_ssm.random_uuid.feature_flag_auth
   to   = module.create_us_ssm[0].random_uuid.feature_flag_auth
-}
-moved {
-  from = module.create_us_vpc.data.aws_availability_zones.available
-  to   = module.create_us_vpc[0].data.aws_availability_zones.available
-}
-moved {
-  from = module.create_us_vpc.data.aws_region.current
-  to   = module.create_us_vpc[0].data.aws_region.current
 }
 moved {
   from = module.create_us_vpc.aws_eip.eip_nat_gateway

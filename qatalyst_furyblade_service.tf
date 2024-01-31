@@ -36,6 +36,7 @@ module "create_eu_furyblade_ecr" {
 
 module "create_us_furyblade_ecr" {
   source       = "./modules/ecr"
+  count        = contains(["dev"], var.STAGE) ? 0 : 1
   repo_name    = var.furyblade_repo_name
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
@@ -129,8 +130,8 @@ module "create_us_ecs_furyblade_service" {
   STAGE                         = var.STAGE
   repo_name                     = var.furyblade_repo_name
   service                       = var.service_names["furyblade"]
-  efs_file_system_id            = module.create_us_furyblade_efs.efs_id
-  efs_access_point_id           = module.create_us_furyblade_efs.access_point_id
+  efs_file_system_id            = try(module.create_us_furyblade_efs[0].efs_id, "")
+  efs_access_point_id           = try(module.create_us_furyblade_efs[0].access_point_id, "")
   EFS_CONFIGURATION             = var.furyblade_efs_configurations
 
   providers = {
@@ -211,6 +212,7 @@ module "create_sea_furyblade_efs" {
 
 module "create_us_furyblade_efs" {
   source            = "./modules/efs"
+  count             = contains(["dev"], var.STAGE) ? 0 : 1
   STAGE             = var.STAGE
   DEFAULT_TAGS      = var.DEFAULT_TAGS
   EFS_CONFIGURATION = var.furyblade_efs_configurations

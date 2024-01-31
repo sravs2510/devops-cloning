@@ -35,6 +35,7 @@ module "create_sea_cyborg_ecr" {
 
 module "create_us_cyborg_ecr" {
   source       = "./modules/ecr"
+  count        = contains(["dev"], var.STAGE) ? 0 : 1
   repo_name    = var.cyborg_repo_name
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
@@ -87,6 +88,7 @@ module "create_sea_cyborg_efs" {
 
 module "create_us_cyborg_efs" {
   source            = "./modules/efs"
+  count             = contains(["dev"], var.STAGE) ? 0 : 1
   STAGE             = var.STAGE
   DEFAULT_TAGS      = var.DEFAULT_TAGS
   EFS_CONFIGURATION = var.cyborg_efs_configurations
