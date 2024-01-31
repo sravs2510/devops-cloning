@@ -807,7 +807,7 @@ module "create_cloudfront_invite" {
   sub_domain                  = var.invite_s3_sub_domain
   bucket_id                   = module.create_invite_s3_sub_domain.s3_bucket_id
   bucket_arn                  = module.create_invite_s3_sub_domain.s3_bucket_arn
-  acm_certificate_arn         = module.create_us_invite_acm_cf_albacm_arn
+  acm_certificate_arn         = module.create_us_invite_acm_cf_alb.acm_arn
   bucket_regional_domain_name = module.create_invite_s3_sub_domain.s3_bucket_regional_domain_name
   qatalyst_alb_dns_names      = local.alb_dns_names
 
