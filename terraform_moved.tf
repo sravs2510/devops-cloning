@@ -156,10 +156,6 @@ moved {
   to   = module.create_eu_acm_api[0].aws_acm_certificate_validation.acm_domain_validation
 }
 moved {
-  from = module.create_eu_acm_api.aws_route53_record.domain_record_sets["eu.dev.api.getqatalyst.io"]
-  to   = module.create_eu_acm_api[0].aws_route53_record.domain_record_sets["eu.dev.api.getqatalyst.io"]
-}
-moved {
   from = module.create_eu_acm_invite_alb.aws_acm_certificate.acm_domain_name
   to   = module.create_eu_acm_invite_alb[0].aws_acm_certificate.acm_domain_name
 }
@@ -168,20 +164,12 @@ moved {
   to   = module.create_eu_acm_invite_alb[0].aws_acm_certificate_validation.acm_domain_validation
 }
 moved {
-  from = module.create_eu_acm_invite_alb.aws_route53_record.domain_record_sets["dev.invite.getqatalyst.io"]
-  to   = module.create_eu_acm_invite_alb[0].aws_route53_record.domain_record_sets["dev.invite.getqatalyst.io"]
-}
-moved {
   from = module.create_eu_acm_media_cf.aws_acm_certificate.acm_domain_name
   to   = module.create_eu_acm_media_cf[0].aws_acm_certificate.acm_domain_name
 }
 moved {
   from = module.create_eu_acm_media_cf.aws_acm_certificate_validation.acm_domain_validation
   to   = module.create_eu_acm_media_cf[0].aws_acm_certificate_validation.acm_domain_validation
-}
-moved {
-  from = module.create_eu_acm_media_cf.aws_route53_record.domain_record_sets["eu.dev.media.getqatalyst.io"]
-  to   = module.create_eu_acm_media_cf[0].aws_route53_record.domain_record_sets["eu.dev.media.getqatalyst.io"]
 }
 moved {
   from = module.create_eu_alb.aws_lb.qatalyst_alb
@@ -636,10 +624,6 @@ moved {
   to   = module.create_eu_meet_acm_cf[0].aws_acm_certificate_validation.acm_domain_validation
 }
 moved {
-  from = module.create_eu_meet_acm_cf.aws_route53_record.domain_record_sets["dev.meet.getqatalyst.io"]
-  to   = module.create_eu_meet_acm_cf[0].aws_route53_record.domain_record_sets["dev.meet.getqatalyst.io"]
-}
-moved {
   from = module.create_eu_qatalyst_media_bucket.aws_s3_bucket.s3_bucket
   to   = module.create_eu_qatalyst_media_bucket[0].aws_s3_bucket.s3_bucket
 }
@@ -674,10 +658,6 @@ moved {
 moved {
   from = module.create_eu_reports_acm.aws_acm_certificate_validation.acm_domain_validation
   to   = module.create_eu_reports_acm[0].aws_acm_certificate_validation.acm_domain_validation
-}
-moved {
-  from = module.create_eu_reports_acm.aws_route53_record.domain_record_sets["dev.reports.getqatalyst.io"]
-  to   = module.create_eu_reports_acm[0].aws_route53_record.domain_record_sets["dev.reports.getqatalyst.io"]
 }
 moved {
   from = module.create_eu_s3_bucket.aws_s3_bucket.s3_bucket
@@ -726,82 +706,6 @@ moved {
 moved {
   from = module.create_eu_sqs.aws_sqs_queue.qatalyst_service_queue_deadletter["qatalyst-mammoth-processing-sqs"]
   to   = module.create_eu_sqs[0].aws_sqs_queue.qatalyst_service_queue_deadletter["qatalyst-mammoth-processing-sqs"]
-}
-moved {
-  from = module.create_eu_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["datadog-dev-api-key"]
-  to   = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["datadog-dev-api-key"]
-}
-moved {
-  from = module.create_eu_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["platform-dev-client-id-eu"]
-  to   = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-dev-client-id-eu"]
-}
-moved {
-  from = module.create_eu_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["platform-dev-client-id-in"]
-  to   = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-dev-client-id-in"]
-}
-moved {
-  from = module.create_eu_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["platform-dev-client-id-sea"]
-  to   = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-dev-client-id-sea"]
-}
-moved {
-  from = module.create_eu_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["platform-dev-client-id-us"]
-  to   = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-dev-client-id-us"]
-}
-moved {
-  from = module.create_eu_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["platform-dev-realm-id"]
-  to   = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-dev-realm-id"]
-}
-moved {
-  from = module.create_eu_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["platform-dev-secret-eu"]
-  to   = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-dev-secret-eu"]
-}
-moved {
-  from = module.create_eu_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["platform-dev-secret-in"]
-  to   = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-dev-secret-in"]
-}
-moved {
-  from = module.create_eu_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["platform-dev-secret-sea"]
-  to   = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-dev-secret-sea"]
-}
-moved {
-  from = module.create_eu_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["platform-dev-secret-us"]
-  to   = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-dev-secret-us"]
-}
-moved {
-  from = module.create_eu_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-dev-100ms-access-key"]
-  to   = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-dev-100ms-access-key"]
-}
-moved {
-  from = module.create_eu_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-dev-100ms-secret-key"]
-  to   = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-dev-100ms-secret-key"]
-}
-moved {
-  from = module.create_eu_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-dev-bitly-bearer-token"]
-  to   = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-dev-bitly-bearer-token"]
-}
-moved {
-  from = module.create_eu_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-dev-feature-flag-auth"]
-  to   = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-dev-feature-flag-auth"]
-}
-moved {
-  from = module.create_eu_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-dev-figma-access-token"]
-  to   = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-dev-figma-access-token"]
-}
-moved {
-  from = module.create_eu_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-dev-fingerprint-token"]
-  to   = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-dev-fingerprint-token"]
-}
-moved {
-  from = module.create_eu_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-dev-sendgrid-key"]
-  to   = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-dev-sendgrid-key"]
-}
-moved {
-  from = module.create_eu_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-dev-stripe-api-key"]
-  to   = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-dev-stripe-api-key"]
-}
-moved {
-  from = module.create_eu_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-dev-stripe-webhook-secret"]
-  to   = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-dev-stripe-webhook-secret"]
 }
 moved {
   from = module.create_eu_ssm.random_uuid.feature_flag_auth
@@ -912,20 +816,12 @@ moved {
   to   = module.create_us_acm_api[0].aws_acm_certificate_validation.acm_domain_validation
 }
 moved {
-  from = module.create_us_acm_api.aws_route53_record.domain_record_sets["us.dev.api.getqatalyst.io"]
-  to   = module.create_us_acm_api[0].aws_route53_record.domain_record_sets["us.dev.api.getqatalyst.io"]
-}
-moved {
   from = module.create_us_acm_media_cf.aws_acm_certificate.acm_domain_name
   to   = module.create_us_acm_media_cf[0].aws_acm_certificate.acm_domain_name
 }
 moved {
   from = module.create_us_acm_media_cf.aws_acm_certificate_validation.acm_domain_validation
   to   = module.create_us_acm_media_cf[0].aws_acm_certificate_validation.acm_domain_validation
-}
-moved {
-  from = module.create_us_acm_media_cf.aws_route53_record.domain_record_sets["us.dev.media.getqatalyst.io"]
-  to   = module.create_us_acm_media_cf[0].aws_route53_record.domain_record_sets["us.dev.media.getqatalyst.io"]
 }
 moved {
   from = module.create_us_alb.aws_lb.qatalyst_alb
@@ -1328,10 +1224,6 @@ moved {
   to   = module.create_us_invite_acm_cf_alb[0].aws_acm_certificate_validation.acm_domain_validation
 }
 moved {
-  from = module.create_us_invite_acm_cf_alb.aws_route53_record.domain_record_sets["dev.invite.getqatalyst.io"]
-  to   = module.create_us_invite_acm_cf_alb[0].aws_route53_record.domain_record_sets["dev.invite.getqatalyst.io"]
-}
-moved {
   from = module.create_us_mammoth_ecr.aws_ecr_lifecycle_policy.qatalyst_repository_lifecycle
   to   = module.create_us_mammoth_ecr[0].aws_ecr_lifecycle_policy.qatalyst_repository_lifecycle
 }
@@ -1390,10 +1282,6 @@ moved {
 moved {
   from = module.create_us_meet_acm_cf.aws_acm_certificate_validation.acm_domain_validation
   to   = module.create_us_meet_acm_cf[0].aws_acm_certificate_validation.acm_domain_validation
-}
-moved {
-  from = module.create_us_meet_acm_cf.aws_route53_record.domain_record_sets["dev.meet.getqatalyst.io"]
-  to   = module.create_us_meet_acm_cf[0].aws_route53_record.domain_record_sets["dev.meet.getqatalyst.io"]
 }
 moved {
   from = module.create_us_qatalyst_media_bucket.aws_s3_bucket.s3_bucket
@@ -1470,82 +1358,6 @@ moved {
 moved {
   from = module.create_us_sqs.aws_sqs_queue.qatalyst_service_queue_deadletter["qatalyst-mammoth-processing-sqs"]
   to   = module.create_us_sqs[0].aws_sqs_queue.qatalyst_service_queue_deadletter["qatalyst-mammoth-processing-sqs"]
-}
-moved {
-  from = module.create_us_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["datadog-dev-api-key"]
-  to   = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["datadog-dev-api-key"]
-}
-moved {
-  from = module.create_us_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["platform-dev-client-id-eu"]
-  to   = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-dev-client-id-eu"]
-}
-moved {
-  from = module.create_us_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["platform-dev-client-id-in"]
-  to   = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-dev-client-id-in"]
-}
-moved {
-  from = module.create_us_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["platform-dev-client-id-sea"]
-  to   = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-dev-client-id-sea"]
-}
-moved {
-  from = module.create_us_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["platform-dev-client-id-us"]
-  to   = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-dev-client-id-us"]
-}
-moved {
-  from = module.create_us_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["platform-dev-realm-id"]
-  to   = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-dev-realm-id"]
-}
-moved {
-  from = module.create_us_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["platform-dev-secret-eu"]
-  to   = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-dev-secret-eu"]
-}
-moved {
-  from = module.create_us_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["platform-dev-secret-in"]
-  to   = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-dev-secret-in"]
-}
-moved {
-  from = module.create_us_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["platform-dev-secret-sea"]
-  to   = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-dev-secret-sea"]
-}
-moved {
-  from = module.create_us_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["platform-dev-secret-us"]
-  to   = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-dev-secret-us"]
-}
-moved {
-  from = module.create_us_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-dev-100ms-access-key"]
-  to   = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-dev-100ms-access-key"]
-}
-moved {
-  from = module.create_us_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-dev-100ms-secret-key"]
-  to   = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-dev-100ms-secret-key"]
-}
-moved {
-  from = module.create_us_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-dev-bitly-bearer-token"]
-  to   = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-dev-bitly-bearer-token"]
-}
-moved {
-  from = module.create_us_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-dev-feature-flag-auth"]
-  to   = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-dev-feature-flag-auth"]
-}
-moved {
-  from = module.create_us_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-dev-figma-access-token"]
-  to   = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-dev-figma-access-token"]
-}
-moved {
-  from = module.create_us_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-dev-fingerprint-token"]
-  to   = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-dev-fingerprint-token"]
-}
-moved {
-  from = module.create_us_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-dev-sendgrid-key"]
-  to   = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-dev-sendgrid-key"]
-}
-moved {
-  from = module.create_us_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-dev-stripe-api-key"]
-  to   = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-dev-stripe-api-key"]
-}
-moved {
-  from = module.create_us_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-dev-stripe-webhook-secret"]
-  to   = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-dev-stripe-webhook-secret"]
 }
 moved {
   from = module.create_us_ssm.random_uuid.feature_flag_auth
