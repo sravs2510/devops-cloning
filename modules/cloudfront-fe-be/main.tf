@@ -56,116 +56,46 @@ resource "aws_cloudfront_distribution" "reports_cf_distribution" {
       origin_access_identity = "origin-access-identity/cloudfront/${aws_cloudfront_origin_access_identity.reports_s3_origin_identity.id}"
     }
   }
-  origin {
-    domain_name = var.qatalyst_eu_alb_dns_name
-    origin_id   = var.qatalyst_eu_alb_dns_name
-    custom_header {
-      name  = "REQUEST-SOURCE"
-      value = "CLOUDFRONT"
-    }
-    custom_origin_config {
-      http_port                = 80
-      https_port               = 443
-      origin_protocol_policy   = "https-only"
-      origin_ssl_protocols     = ["TLSv1.2"]
-      origin_keepalive_timeout = 60
-      origin_read_timeout      = 60
-    }
-  }
-  origin {
-    domain_name = var.qatalyst_in_alb_dns_name
-    origin_id   = var.qatalyst_in_alb_dns_name
-    custom_header {
-      name  = "REQUEST-SOURCE"
-      value = "CLOUDFRONT"
-    }
-    custom_origin_config {
-      http_port                = 80
-      https_port               = 443
-      origin_protocol_policy   = "https-only"
-      origin_ssl_protocols     = ["TLSv1.2"]
-      origin_keepalive_timeout = 60
-      origin_read_timeout      = 60
-    }
-  }
-  origin {
-    domain_name = var.qatalyst_sea_alb_dns_name
-    origin_id   = var.qatalyst_sea_alb_dns_name
-    custom_header {
-      name  = "REQUEST-SOURCE"
-      value = "CLOUDFRONT"
-    }
-    custom_origin_config {
-      http_port                = 80
-      https_port               = 443
-      origin_protocol_policy   = "https-only"
-      origin_ssl_protocols     = ["TLSv1.2"]
-      origin_keepalive_timeout = 60
-      origin_read_timeout      = 60
-    }
-  }
-  origin {
-    domain_name = var.qatalyst_us_alb_dns_name
-    origin_id   = var.qatalyst_us_alb_dns_name
-    custom_header {
-      name  = "REQUEST-SOURCE"
-      value = "CLOUDFRONT"
-    }
-    custom_origin_config {
-      http_port                = 80
-      https_port               = 443
-      origin_protocol_policy   = "https-only"
-      origin_ssl_protocols     = ["TLSv1.2"]
-      origin_keepalive_timeout = 60
-      origin_read_timeout      = 60
-    }
-  }
 
+  dynamic "origin" {
+    for_each = var.qatalyst_alb_dns_names
+    content {
+      domain_name = origin.key
+      origin_id   = origin.key
+      custom_header {
+        name  = "REQUEST-SOURCE"
+        value = "CLOUDFRONT"
+      }
+      custom_origin_config {
+        http_port                = 80
+        https_port               = 443
+        origin_protocol_policy   = "https-only"
+        origin_ssl_protocols     = ["TLSv1.2"]
+        origin_keepalive_timeout = 60
+        origin_read_timeout      = 60
+      }
+    }
+  }
   aliases = [
     local.cf_domain_name
   ]
   default_root_object = "index.html"
 
   enabled = true
-  ordered_cache_behavior {
-    path_pattern             = "/v1/eu/*"
-    allowed_methods          = local.api_http_allowed_methods
-    cached_methods           = local.api_http_cache_methods
-    target_origin_id         = var.qatalyst_eu_alb_dns_name
-    cache_policy_id          = data.aws_cloudfront_cache_policy.cache_policy_api.id
-    origin_request_policy_id = data.aws_cloudfront_origin_request_policy.origin_request_policy_api.id
-    viewer_protocol_policy   = "https-only"
+
+  dynamic "ordered_cache_behavior" {
+    for_each = var.qatalyst_alb_dns_names
+    content {
+      path_pattern             = join("", ["/v1/", ordered_cache_behavior.key, "/*"])
+      allowed_methods          = local.api_http_allowed_methods
+      cached_methods           = local.api_http_cache_methods
+      target_origin_id         = ordered_cache_behavior.value
+      cache_policy_id          = data.aws_cloudfront_cache_policy.cache_policy_api.id
+      origin_request_policy_id = data.aws_cloudfront_origin_request_policy.origin_request_policy_api.id
+      viewer_protocol_policy   = "https-only"
+    }
   }
 
-  ordered_cache_behavior {
-    path_pattern             = "/v1/in/*"
-    allowed_methods          = local.api_http_allowed_methods
-    cached_methods           = local.api_http_cache_methods
-    target_origin_id         = var.qatalyst_in_alb_dns_name
-    cache_policy_id          = data.aws_cloudfront_cache_policy.cache_policy_api.id
-    origin_request_policy_id = data.aws_cloudfront_origin_request_policy.origin_request_policy_api.id
-    viewer_protocol_policy   = "https-only"
-  }
-
-  ordered_cache_behavior {
-    path_pattern             = "/v1/sea/*"
-    allowed_methods          = local.api_http_allowed_methods
-    cached_methods           = local.api_http_cache_methods
-    target_origin_id         = var.qatalyst_sea_alb_dns_name
-    cache_policy_id          = data.aws_cloudfront_cache_policy.cache_policy_api.id
-    origin_request_policy_id = data.aws_cloudfront_origin_request_policy.origin_request_policy_api.id
-    viewer_protocol_policy   = "https-only"
-  }
-
-  ordered_cache_behavior {
-    path_pattern             = "/v1/us/*"
-    allowed_methods          = local.api_http_allowed_methods
-    cached_methods           = local.api_http_cache_methods
-    target_origin_id         = var.qatalyst_us_alb_dns_name
-    cache_policy_id          = data.aws_cloudfront_cache_policy.cache_policy_api.id
-    origin_request_policy_id = data.aws_cloudfront_origin_request_policy.origin_request_policy_api.id
-    viewer_protocol_policy   = "https-only"
-  }
   default_cache_behavior {
     allowed_methods            = ["GET", "HEAD"]
     cached_methods             = ["GET", "HEAD"]

@@ -24,6 +24,7 @@ module "create_sea_furyblade_ecr" {
 
 module "create_eu_furyblade_ecr" {
   source       = "./modules/ecr"
+  count        = contains(["dev"], var.STAGE) ? 0 : 1
   repo_name    = var.furyblade_repo_name
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
@@ -108,11 +109,12 @@ module "create_in_ecs_furyblade_service" {
 
 module "create_us_ecs_furyblade_service" {
   source                        = "./modules/ecs-service"
+  count                         = contains(["dev"], var.STAGE) ? 0 : 1
   ecs_service_name              = local.qatalyst_furyblade_service_name
-  ecs_cluster_id                = module.create_us_ecs.ecs_cluster_id
-  ecs_cluster_name              = module.create_us_ecs.ecs_cluster_name
-  ecs_security_groups           = module.create_us_ecs.ecs_security_group_ids
-  ecs_subnets                   = module.create_us_vpc.private_subnets
+  ecs_cluster_id                = try(module.create_us_ecs[0].ecs_cluster_id, "")
+  ecs_cluster_name              = try(module.create_us_ecs[0].ecs_cluster_name, "")
+  ecs_security_groups           = try(module.create_us_ecs[0].ecs_security_group_ids, [])
+  ecs_subnets                   = try(module.create_us_vpc[0].private_subnets, [])
   alb_target_group_arn          = ""
   ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
   ecs_task_role_arn             = module.create_iam.furyblade_ecs_task_role_arn
@@ -138,11 +140,12 @@ module "create_us_ecs_furyblade_service" {
 
 module "create_eu_ecs_furyblade_service" {
   source                        = "./modules/ecs-service"
+  count                         = contains(["dev"], var.STAGE) ? 0 : 1
   ecs_service_name              = local.qatalyst_furyblade_service_name
-  ecs_cluster_id                = module.create_eu_ecs.ecs_cluster_id
-  ecs_cluster_name              = module.create_eu_ecs.ecs_cluster_name
-  ecs_security_groups           = module.create_eu_ecs.ecs_security_group_ids
-  ecs_subnets                   = module.create_eu_vpc.private_subnets
+  ecs_cluster_id                = try(module.create_eu_ecs[0].ecs_cluster_id, "")
+  ecs_cluster_name              = try(module.create_eu_ecs[0].ecs_cluster_name, "")
+  ecs_security_groups           = try(module.create_eu_ecs[0].ecs_security_group_ids, [])
+  ecs_subnets                   = try(module.create_eu_vpc[0].private_subnets, [])
   alb_target_group_arn          = ""
   ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
   ecs_task_role_arn             = module.create_iam.furyblade_ecs_task_role_arn
@@ -157,8 +160,8 @@ module "create_eu_ecs_furyblade_service" {
   STAGE                         = var.STAGE
   repo_name                     = var.furyblade_repo_name
   service                       = var.service_names["furyblade"]
-  efs_file_system_id            = module.create_eu_furyblade_efs.efs_id
-  efs_access_point_id           = module.create_eu_furyblade_efs.access_point_id
+  efs_file_system_id            = try(module.create_eu_furyblade_efs[0].efs_id, "")
+  efs_access_point_id           = try(module.create_eu_furyblade_efs[0].access_point_id, "")
   EFS_CONFIGURATION             = var.furyblade_efs_configurations
 
   providers = {
@@ -168,11 +171,12 @@ module "create_eu_ecs_furyblade_service" {
 
 module "create_eu_furyblade_efs" {
   source            = "./modules/efs"
+  count             = contains(["dev"], var.STAGE) ? 0 : 1
   STAGE             = var.STAGE
   DEFAULT_TAGS      = var.DEFAULT_TAGS
   EFS_CONFIGURATION = var.furyblade_efs_configurations
-  private_subnets   = module.create_eu_vpc.private_subnets
-  sg_id             = module.create_eu_vpc.security_group_id
+  private_subnets   = try(module.create_eu_vpc[0].private_subnets, [])
+  sg_id             = try(module.create_eu_vpc[0].security_group_id, "")
 
   providers = {
     aws.efs_region = aws.eu_region
@@ -210,8 +214,8 @@ module "create_us_furyblade_efs" {
   STAGE             = var.STAGE
   DEFAULT_TAGS      = var.DEFAULT_TAGS
   EFS_CONFIGURATION = var.furyblade_efs_configurations
-  private_subnets   = module.create_us_vpc.private_subnets
-  sg_id             = module.create_us_vpc.security_group_id
+  private_subnets   = try(module.create_us_vpc[0].private_subnets, [])
+  sg_id             = try(module.create_us_vpc[0].security_group_id, "")
 
   providers = {
     aws.efs_region = aws.us_region
