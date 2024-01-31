@@ -755,7 +755,7 @@ module "create_cloudfront_meet" {
   sub_domain                  = var.meet_s3_sub_domain
   bucket_id                   = module.create_meet_s3_sub_domain.s3_bucket_id
   bucket_arn                  = module.create_meet_s3_sub_domain.s3_bucket_arn
-  acm_certificate_arn         = try(module.create_us_meet_acm_cf[0].acm_arn, "")
+  acm_certificate_arn         = module.create_us_meet_acm_cf.acm_arn
   bucket_regional_domain_name = module.create_meet_s3_sub_domain.s3_bucket_regional_domain_name
   qatalyst_alb_dns_names      = local.alb_dns_names
 
@@ -807,7 +807,7 @@ module "create_cloudfront_invite" {
   sub_domain                  = var.invite_s3_sub_domain
   bucket_id                   = module.create_invite_s3_sub_domain.s3_bucket_id
   bucket_arn                  = module.create_invite_s3_sub_domain.s3_bucket_arn
-  acm_certificate_arn         = try(module.create_us_invite_acm_cf_alb[0].acm_arn, "")
+  acm_certificate_arn         = module.create_us_invite_acm_cf_albacm_arn
   bucket_regional_domain_name = module.create_invite_s3_sub_domain.s3_bucket_regional_domain_name
   qatalyst_alb_dns_names      = local.alb_dns_names
 
@@ -836,7 +836,6 @@ module "create_us_invite_acm_cf_alb" {
 module "create_us_meet_acm_cf" {
   source           = "./modules/acm"
   base_domain      = var.base_domain
-  count            = contains(["dev"], var.STAGE) ? 0 : 1
   sub_domain       = var.meet_s3_sub_domain
   datacenter_codes = var.datacenter_codes
   is_multi_region  = false
@@ -914,9 +913,9 @@ module "create_us_alb" {
   sub_domain         = var.api_sub_domain
   DEFAULT_TAGS       = var.DEFAULT_TAGS
   STAGE              = var.STAGE
-  meet_acm_arn       = try(module.create_us_meet_acm_cf[0].acm_arn, "")
+  meet_acm_arn       = module.create_us_meet_acm_cf.acm_arn
   lb_target_health   = var.lb_target_health
-  invite_acm_arn     = try(module.create_us_invite_acm_cf_alb[0].acm_arn, "")
+  invite_acm_arn     = module.create_us_invite_acm_cf_alb.acm_arn
 
   providers = {
     aws.alb_region = aws.us_region

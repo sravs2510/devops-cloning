@@ -342,13 +342,12 @@ locals {
     }
   ]
 
-  in_sea_dns_names = {
+  # Append EU if not null
+  eu_dns_names = try(module.create_eu_alb[0].qatalyst_alb_dns_name, null) != null ? { "eu" = try(module.create_eu_alb[0].qatalyst_alb_dns_name, null) } : {}
+  eu_in_sea_dns_names = merge({
     "in"  = module.create_in_alb.qatalyst_alb_dns_name
     "sea" = module.create_sea_alb.qatalyst_alb_dns_name
-  }
-  # Append EU if not null
-  eu_in_sea_dns_names = try(module.create_eu_alb[0].qatalyst_alb_dns_name, null) != null ? merge(local.in_sea_dns_names, { "eu" = try(module.create_eu_alb[0].qatalyst_alb_dns_name, null) }) : local.in_sea_dns_names
+  }, local.eu_dns_names)
   # Append US if not null
   alb_dns_names = try(module.create_us_alb[0].qatalyst_alb_dns_name, null) != null ? merge(local.eu_in_sea_dns_names, { "us" = try(module.create_us_alb[0].qatalyst_alb_dns_name, null) }) : local.eu_in_sea_dns_names
-
 }

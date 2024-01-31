@@ -1216,14 +1216,6 @@ moved {
   to   = module.create_us_furyblade_efs[0].aws_efs_mount_target.efs_mount_target["subnet_id_3"]
 }
 moved {
-  from = module.create_us_invite_acm_cf_alb.aws_acm_certificate.acm_domain_name
-  to   = module.create_us_invite_acm_cf_alb[0].aws_acm_certificate.acm_domain_name
-}
-moved {
-  from = module.create_us_invite_acm_cf_alb.aws_acm_certificate_validation.acm_domain_validation
-  to   = module.create_us_invite_acm_cf_alb[0].aws_acm_certificate_validation.acm_domain_validation
-}
-moved {
   from = module.create_us_mammoth_ecr.aws_ecr_lifecycle_policy.qatalyst_repository_lifecycle
   to   = module.create_us_mammoth_ecr[0].aws_ecr_lifecycle_policy.qatalyst_repository_lifecycle
 }
@@ -1274,14 +1266,6 @@ moved {
 moved {
   from = module.create_us_media_convert_queue.aws_media_convert_queue.mediaconvert_queue["qatalyst"]
   to   = module.create_us_media_convert_queue[0].aws_media_convert_queue.mediaconvert_queue["qatalyst"]
-}
-moved {
-  from = module.create_us_meet_acm_cf.aws_acm_certificate.acm_domain_name
-  to   = module.create_us_meet_acm_cf[0].aws_acm_certificate.acm_domain_name
-}
-moved {
-  from = module.create_us_meet_acm_cf.aws_acm_certificate_validation.acm_domain_validation
-  to   = module.create_us_meet_acm_cf[0].aws_acm_certificate_validation.acm_domain_validation
 }
 moved {
   from = module.create_us_qatalyst_media_bucket.aws_s3_bucket.s3_bucket
