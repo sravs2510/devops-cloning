@@ -25,8 +25,8 @@ module "create_eu_s3_bucket" {
   base_domain                = var.base_domain
   object_expiration_duration = var.object_expiration_duration
   is_multi_region            = true
-  reports_s3_sub_domain      = var.reports_s3_sub_domain
-  invite_s3_sub_domain       = var.invite_s3_sub_domain
+  reports_sub_domain         = var.reports_sub_domain
+  invite_sub_domain          = var.invite_sub_domain
 
   providers = {
     aws.s3_region = aws.eu_region
@@ -53,7 +53,7 @@ module "create_eu_meet_acm_cf" {
   source           = "./modules/acm"
   count            = contains(["dev"], var.STAGE) ? 0 : 1
   base_domain      = var.base_domain
-  sub_domain       = var.meet_s3_sub_domain
+  sub_domain       = var.meet_sub_domain
   datacenter_codes = var.datacenter_codes
   is_multi_region  = false
   DEFAULT_TAGS     = var.DEFAULT_TAGS
@@ -221,8 +221,8 @@ module "create_eu_qatalyst_media_bucket" {
   base_domain                      = var.base_domain
   object_expiration_duration       = var.object_expiration_duration
   is_multi_region                  = true
-  reports_s3_sub_domain            = var.reports_s3_sub_domain
-  invite_s3_sub_domain             = var.invite_s3_sub_domain
+  reports_sub_domain               = var.reports_sub_domain
+  invite_sub_domain                = var.invite_sub_domain
   is_bucket_name                   = true
   is_transfer_acceleration_enabled = true
 
@@ -253,10 +253,10 @@ module "create_in_s3_bucket" {
   datacenter_codes           = var.datacenter_codes
   tester_view_sub_domain     = var.tester_view_sub_domain
   base_domain                = var.base_domain
-  reports_s3_sub_domain      = var.reports_s3_sub_domain
+  reports_sub_domain         = var.reports_sub_domain
   object_expiration_duration = var.object_expiration_duration
   is_multi_region            = true
-  invite_s3_sub_domain       = var.invite_s3_sub_domain
+  invite_sub_domain          = var.invite_sub_domain
 
 
   providers = {
@@ -284,7 +284,7 @@ module "create_in_acm_media_cf" {
 module "create_in_meet_acm_cf" {
   source           = "./modules/acm"
   base_domain      = var.base_domain
-  sub_domain       = var.meet_s3_sub_domain
+  sub_domain       = var.meet_sub_domain
   datacenter_codes = var.datacenter_codes
   is_multi_region  = false
   DEFAULT_TAGS     = var.DEFAULT_TAGS
@@ -441,8 +441,8 @@ module "create_in_qatalyst_media_bucket" {
   base_domain                      = var.base_domain
   object_expiration_duration       = var.object_expiration_duration
   is_multi_region                  = true
-  reports_s3_sub_domain            = var.reports_s3_sub_domain
-  invite_s3_sub_domain             = var.invite_s3_sub_domain
+  reports_sub_domain               = var.reports_sub_domain
+  invite_sub_domain                = var.invite_sub_domain
   is_bucket_name                   = true
   is_transfer_acceleration_enabled = true
 
@@ -475,8 +475,8 @@ module "create_sea_s3_bucket" {
   base_domain                = var.base_domain
   object_expiration_duration = var.object_expiration_duration
   is_multi_region            = true
-  reports_s3_sub_domain      = var.reports_s3_sub_domain
-  invite_s3_sub_domain       = var.invite_s3_sub_domain
+  reports_sub_domain         = var.reports_sub_domain
+  invite_sub_domain          = var.invite_sub_domain
 
   providers = {
     aws.s3_region = aws.sea_region
@@ -498,12 +498,10 @@ module "create_sea_acm_media_cf" {
   }
 }
 
-
-
 module "create_sea_meet_acm_cf" {
   source           = "./modules/acm"
   base_domain      = var.base_domain
-  sub_domain       = var.meet_s3_sub_domain
+  sub_domain       = var.meet_sub_domain
   datacenter_codes = var.datacenter_codes
   is_multi_region  = false
   DEFAULT_TAGS     = var.DEFAULT_TAGS
@@ -651,8 +649,8 @@ module "create_sea_qatalyst_media_bucket" {
   base_domain                      = var.base_domain
   object_expiration_duration       = var.object_expiration_duration
   is_multi_region                  = true
-  reports_s3_sub_domain            = var.reports_s3_sub_domain
-  invite_s3_sub_domain             = var.invite_s3_sub_domain
+  reports_sub_domain               = var.reports_sub_domain
+  invite_sub_domain                = var.invite_sub_domain
   is_bucket_name                   = true
   is_transfer_acceleration_enabled = true
 
@@ -687,8 +685,8 @@ module "create_us_s3_bucket" {
   base_domain                = var.base_domain
   object_expiration_duration = var.object_expiration_duration
   is_multi_region            = true
-  reports_s3_sub_domain      = var.reports_s3_sub_domain
-  invite_s3_sub_domain       = var.invite_s3_sub_domain
+  reports_sub_domain         = var.reports_sub_domain
+  invite_sub_domain          = var.invite_sub_domain
   providers = {
     aws.s3_region = aws.us_region
   }
@@ -697,7 +695,7 @@ module "create_us_s3_bucket" {
 module "create_common_acm_cf" {
   source           = "./modules/acm"
   base_domain      = var.base_domain
-  sub_domain       = var.common_s3_sub_domain
+  sub_domain       = var.common_sub_domain
   datacenter_codes = var.datacenter_codes
   is_multi_region  = false
   DEFAULT_TAGS     = var.DEFAULT_TAGS
@@ -711,7 +709,7 @@ module "create_common_acm_cf" {
 
 module "create_common_s3_bucket" {
   source                     = "./modules/s3"
-  bucket_prefix              = var.common_s3_sub_domain
+  bucket_prefix              = var.common_sub_domain
   DEFAULT_TAGS               = var.DEFAULT_TAGS
   STAGE                      = var.STAGE
   datacenter_codes           = var.datacenter_codes
@@ -719,8 +717,8 @@ module "create_common_s3_bucket" {
   base_domain                = var.base_domain
   object_expiration_duration = var.object_expiration_duration
   is_multi_region            = false
-  reports_s3_sub_domain      = var.reports_s3_sub_domain
-  invite_s3_sub_domain       = var.invite_s3_sub_domain
+  reports_sub_domain         = var.reports_sub_domain
+  invite_sub_domain          = var.invite_sub_domain
 
   providers = {
     aws.s3_region = aws.us_region
@@ -730,7 +728,7 @@ module "create_common_s3_bucket" {
 module "create_common_cloudfront" {
   source                      = "./modules/cloudfront"
   base_domain                 = var.base_domain
-  sub_domain                  = var.common_s3_sub_domain
+  sub_domain                  = var.common_sub_domain
   datacenter_codes            = var.datacenter_codes
   bucket_arn                  = module.create_common_s3_bucket.s3_bucket_arn
   bucket_id                   = module.create_common_s3_bucket.s3_bucket_id
@@ -752,7 +750,7 @@ module "create_cloudfront_meet" {
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE
   base_domain                 = var.base_domain
-  sub_domain                  = var.meet_s3_sub_domain
+  sub_domain                  = var.meet_sub_domain
   bucket_id                   = module.create_meet_s3_sub_domain.s3_bucket_id
   bucket_arn                  = module.create_meet_s3_sub_domain.s3_bucket_arn
   acm_certificate_arn         = module.create_us_meet_acm_cf.acm_arn
@@ -767,16 +765,16 @@ module "create_cloudfront_meet" {
 
 module "create_meet_s3_sub_domain" {
   source                     = "./modules/s3"
-  bucket_prefix              = var.meet_s3_sub_domain
+  bucket_prefix              = var.meet_sub_domain
   DEFAULT_TAGS               = var.DEFAULT_TAGS
   STAGE                      = var.STAGE
   datacenter_codes           = var.datacenter_codes
-  tester_view_sub_domain     = var.meet_s3_sub_domain
+  tester_view_sub_domain     = var.meet_sub_domain
   base_domain                = var.base_domain
   object_expiration_duration = var.object_expiration_duration
   is_multi_region            = false
-  reports_s3_sub_domain      = var.reports_s3_sub_domain
-  invite_s3_sub_domain       = var.invite_s3_sub_domain
+  reports_sub_domain         = var.reports_sub_domain
+  invite_sub_domain          = var.invite_sub_domain
   providers = {
     aws.s3_region = aws.us_region
   }
@@ -784,16 +782,16 @@ module "create_meet_s3_sub_domain" {
 
 module "create_invite_s3_sub_domain" {
   source                     = "./modules/s3"
-  bucket_prefix              = var.invite_s3_sub_domain
+  bucket_prefix              = var.invite_sub_domain
   DEFAULT_TAGS               = var.DEFAULT_TAGS
   STAGE                      = var.STAGE
   datacenter_codes           = var.datacenter_codes
-  tester_view_sub_domain     = var.invite_s3_sub_domain
+  tester_view_sub_domain     = var.invite_sub_domain
   base_domain                = var.base_domain
   object_expiration_duration = var.object_expiration_duration
   is_multi_region            = false
-  reports_s3_sub_domain      = var.reports_s3_sub_domain
-  invite_s3_sub_domain       = var.invite_s3_sub_domain
+  reports_sub_domain         = var.reports_sub_domain
+  invite_sub_domain          = var.invite_sub_domain
   providers = {
     aws.s3_region = aws.us_region
   }
@@ -804,7 +802,7 @@ module "create_cloudfront_invite" {
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE
   base_domain                 = var.base_domain
-  sub_domain                  = var.invite_s3_sub_domain
+  sub_domain                  = var.invite_sub_domain
   bucket_id                   = module.create_invite_s3_sub_domain.s3_bucket_id
   bucket_arn                  = module.create_invite_s3_sub_domain.s3_bucket_arn
   acm_certificate_arn         = module.create_us_invite_acm_cf_alb.acm_arn
@@ -819,7 +817,7 @@ module "create_cloudfront_invite" {
 module "create_us_invite_acm_cf_alb" {
   source           = "./modules/acm"
   base_domain      = var.base_domain
-  sub_domain       = var.invite_s3_sub_domain
+  sub_domain       = var.invite_sub_domain
   datacenter_codes = var.datacenter_codes
   is_multi_region  = false
   DEFAULT_TAGS     = var.DEFAULT_TAGS
@@ -835,7 +833,7 @@ module "create_us_invite_acm_cf_alb" {
 module "create_us_meet_acm_cf" {
   source           = "./modules/acm"
   base_domain      = var.base_domain
-  sub_domain       = var.meet_s3_sub_domain
+  sub_domain       = var.meet_sub_domain
   datacenter_codes = var.datacenter_codes
   is_multi_region  = false
   DEFAULT_TAGS     = var.DEFAULT_TAGS
@@ -958,8 +956,8 @@ module "create_us_qatalyst_media_bucket" {
   base_domain                      = var.base_domain
   object_expiration_duration       = var.object_expiration_duration
   is_multi_region                  = true
-  reports_s3_sub_domain            = var.reports_s3_sub_domain
-  invite_s3_sub_domain             = var.invite_s3_sub_domain
+  reports_sub_domain               = var.reports_sub_domain
+  invite_sub_domain                = var.invite_sub_domain
   is_bucket_name                   = true
   is_transfer_acceleration_enabled = true
 

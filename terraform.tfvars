@@ -37,6 +37,8 @@ media_sub_domain       = "media"
 tester_view_sub_domain = "studyview"
 meet_sub_domain        = "meet"
 invite_sub_domain      = "invite"
+reports_sub_domain     = "reports"
+common_sub_domain      = "common"
 
 user_pool_name            = "qatalyst-user-pool"
 user_pool_web_client_name = "qatalyst-web-app"
@@ -342,11 +344,6 @@ fargate_cpu_memory_qa_eu = {
 }
 
 uvicorn_workers_count = 4
-
-common_s3_sub_domain  = "common"
-reports_s3_sub_domain = "reports"
-meet_s3_sub_domain    = "meet"
-invite_s3_sub_domain  = "invite"
 
 # Datadog
 datadog_docker_image = "public.ecr.aws/datadog/agent:latest"

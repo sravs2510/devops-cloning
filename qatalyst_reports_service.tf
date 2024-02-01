@@ -178,7 +178,7 @@ module "create_us_cloudwatch_reports_dashboard" {
 module "create_in_reports_acm" {
   source           = "./modules/acm"
   base_domain      = var.base_domain
-  sub_domain       = var.reports_s3_sub_domain
+  sub_domain       = var.reports_sub_domain
   datacenter_codes = var.datacenter_codes
   is_multi_region  = false
   DEFAULT_TAGS     = var.DEFAULT_TAGS
@@ -193,7 +193,7 @@ module "create_in_reports_acm" {
 module "create_sea_reports_acm" {
   source           = "./modules/acm"
   base_domain      = var.base_domain
-  sub_domain       = var.reports_s3_sub_domain
+  sub_domain       = var.reports_sub_domain
   datacenter_codes = var.datacenter_codes
   is_multi_region  = false
   DEFAULT_TAGS     = var.DEFAULT_TAGS
@@ -208,7 +208,7 @@ module "create_sea_reports_acm" {
 module "create_reports_acm_cf" {
   source           = "./modules/acm"
   base_domain      = var.base_domain
-  sub_domain       = var.reports_s3_sub_domain
+  sub_domain       = var.reports_sub_domain
   datacenter_codes = var.datacenter_codes
   is_multi_region  = false
   DEFAULT_TAGS     = var.DEFAULT_TAGS
@@ -224,7 +224,7 @@ module "create_eu_reports_acm" {
   source           = "./modules/acm"
   count            = contains(["dev"], var.STAGE) ? 0 : 1
   base_domain      = var.base_domain
-  sub_domain       = var.reports_s3_sub_domain
+  sub_domain       = var.reports_sub_domain
   datacenter_codes = var.datacenter_codes
   is_multi_region  = false
   DEFAULT_TAGS     = var.DEFAULT_TAGS
@@ -238,7 +238,7 @@ module "create_eu_reports_acm" {
 
 module "create_reports_s3_sub_domain" {
   source                     = "./modules/s3"
-  bucket_prefix              = var.reports_s3_sub_domain
+  bucket_prefix              = var.reports_sub_domain
   DEFAULT_TAGS               = var.DEFAULT_TAGS
   STAGE                      = var.STAGE
   datacenter_codes           = var.datacenter_codes
@@ -246,8 +246,8 @@ module "create_reports_s3_sub_domain" {
   base_domain                = var.base_domain
   object_expiration_duration = var.object_expiration_duration
   is_multi_region            = false
-  reports_s3_sub_domain      = var.reports_s3_sub_domain
-  invite_s3_sub_domain       = var.invite_s3_sub_domain
+  reports_sub_domain         = var.reports_sub_domain
+  invite_sub_domain          = var.invite_sub_domain
   providers = {
     aws.s3_region = aws.us_region
   }
@@ -258,7 +258,7 @@ module "create_cloudfront_reports" {
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE
   base_domain                 = var.base_domain
-  sub_domain                  = var.reports_s3_sub_domain
+  sub_domain                  = var.reports_sub_domain
   bucket_id                   = module.create_reports_s3_sub_domain.s3_bucket_id
   bucket_arn                  = module.create_reports_s3_sub_domain.s3_bucket_arn
   acm_certificate_arn         = module.create_reports_acm_cf.acm_arn
