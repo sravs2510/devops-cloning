@@ -1443,3 +1443,90 @@ moved {
   from = module.create_us_vpc.aws_vpc_endpoint.s3_endpoint
   to   = module.create_us_vpc[0].aws_vpc_endpoint.s3_endpoint
 }
+# QA
+moved {
+  from = module.create_eu_acm_api.aws_route53_record.domain_record_sets["eu.qa.api.getqatalyst.io"]
+  to   = module.create_eu_acm_api[0].aws_route53_record.domain_record_sets["eu.qa.api.getqatalyst.io"]
+}
+moved {
+  from = module.create_eu_acm_invite_alb.aws_route53_record.domain_record_sets["qa.invite.getqatalyst.io"]
+  to   = module.create_eu_acm_invite_alb[0].aws_route53_record.domain_record_sets["qa.invite.getqatalyst.io"]
+}
+moved {
+  from = module.create_eu_acm_media_cf.aws_route53_record.domain_record_sets["eu.qa.media.getqatalyst.io"]
+  to   = module.create_eu_acm_media_cf[0].aws_route53_record.domain_record_sets["eu.qa.media.getqatalyst.io"]
+}
+moved {
+  from = module.create_eu_meet_acm_cf.aws_route53_record.domain_record_sets["qa.meet.getqatalyst.io"]
+  to   = module.create_eu_meet_acm_cf[0].aws_route53_record.domain_record_sets["qa.meet.getqatalyst.io"]
+}
+moved {
+  from = module.create_eu_reports_acm.aws_route53_record.domain_record_sets["qa.reports.getqatalyst.io"]
+  to   = module.create_eu_reports_acm[0].aws_route53_record.domain_record_sets["qa.reports.getqatalyst.io"]
+}
+moved {
+  from = module.create_us_acm_api.aws_route53_record.domain_record_sets["us.qa.api.getqatalyst.io"]
+  to   = module.create_us_acm_api[0].aws_route53_record.domain_record_sets["us.qa.api.getqatalyst.io"]
+}
+moved {
+  from = module.create_us_acm_media_cf.aws_route53_record.domain_record_sets["us.qa.media.getqatalyst.io"]
+  to   = module.create_us_acm_media_cf[0].aws_route53_record.domain_record_sets["us.qa.media.getqatalyst.io"]
+}
+# Staging
+moved {
+  from = module.create_eu_acm_api.aws_route53_record.domain_record_sets["eu.staging.api.getqatalyst.io"]
+  to   = module.create_eu_acm_api[0].aws_route53_record.domain_record_sets["eu.staging.api.getqatalyst.io"]
+}
+moved {
+  from = module.create_eu_acm_invite_alb.aws_route53_record.domain_record_sets["staging.invite.getqatalyst.io"]
+  to   = module.create_eu_acm_invite_alb[0].aws_route53_record.domain_record_sets["staging.invite.getqatalyst.io"]
+}
+moved {
+  from = module.create_eu_acm_media_cf.aws_route53_record.domain_record_sets["eu.staging.media.getqatalyst.io"]
+  to   = module.create_eu_acm_media_cf[0].aws_route53_record.domain_record_sets["eu.staging.media.getqatalyst.io"]
+}
+moved {
+  from = module.create_eu_meet_acm_cf.aws_route53_record.domain_record_sets["staging.meet.getqatalyst.io"]
+  to   = module.create_eu_meet_acm_cf[0].aws_route53_record.domain_record_sets["staging.meet.getqatalyst.io"]
+}
+moved {
+  from = module.create_eu_reports_acm.aws_route53_record.domain_record_sets["staging.reports.getqatalyst.io"]
+  to   = module.create_eu_reports_acm[0].aws_route53_record.domain_record_sets["staging.reports.getqatalyst.io"]
+}
+moved {
+  from = module.create_us_acm_api.aws_route53_record.domain_record_sets["us.staging.api.getqatalyst.io"]
+  to   = module.create_us_acm_api[0].aws_route53_record.domain_record_sets["us.staging.api.getqatalyst.io"]
+}
+moved {
+  from = module.create_us_acm_media_cf.aws_route53_record.domain_record_sets["us.staging.media.getqatalyst.io"]
+  to   = module.create_us_acm_media_cf[0].aws_route53_record.domain_record_sets["us.staging.media.getqatalyst.io"]
+}
+# PROD
+moved {
+  from = module.create_eu_acm_api.aws_route53_record.domain_record_sets["eu.api.getqatalyst.io"]
+  to   = module.create_eu_acm_api[0].aws_route53_record.domain_record_sets["eu.api.getqatalyst.io"]
+}
+moved {
+  from = module.create_eu_acm_invite_alb.aws_route53_record.domain_record_sets["invite.getqatalyst.io"]
+  to   = module.create_eu_acm_invite_alb[0].aws_route53_record.domain_record_sets[".invite.getqatalyst.io"]
+}
+moved {
+  from = module.create_eu_acm_media_cf.aws_route53_record.domain_record_sets["eu.media.getqatalyst.io"]
+  to   = module.create_eu_acm_media_cf[0].aws_route53_record.domain_record_sets["eu.media.getqatalyst.io"]
+}
+moved {
+  from = module.create_eu_meet_acm_cf.aws_route53_record.domain_record_sets["meet.getqatalyst.io"]
+  to   = module.create_eu_meet_acm_cf[0].aws_route53_record.domain_record_sets["meet.getqatalyst.io"]
+}
+moved {
+  from = module.create_eu_reports_acm.aws_route53_record.domain_record_sets["reports.getqatalyst.io"]
+  to   = module.create_eu_reports_acm[0].aws_route53_record.domain_record_sets["reports.getqatalyst.io"]
+}
+moved {
+  from = module.create_us_acm_api.aws_route53_record.domain_record_sets["us.api.getqatalyst.io"]
+  to   = module.create_us_acm_api[0].aws_route53_record.domain_record_sets["us.api.getqatalyst.io"]
+}
+moved {
+  from = module.create_us_acm_media_cf.aws_route53_record.domain_record_sets["us.media.getqatalyst.io"]
+  to   = module.create_us_acm_media_cf[0].aws_route53_record.domain_record_sets["us.media.getqatalyst.io"]
+}
