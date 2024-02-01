@@ -66,6 +66,18 @@ global_table_details = {
     hash_key   = "workspace_id"
     range_key  = "email_id"
     is_global  = true
+    attributes = [
+      {
+        name = "invitee_id"
+        type = "S"
+      }
+    ]
+    global_secondary_indexes = [{
+      name            = "qatalyst-user-invitee-gsi"
+      hash_key        = "invitee_id"
+      range_key       = "workspace_id"
+      projection_type = "ALL"
+    }]
   },
   "workspaces" = {
     table_name = "qatalyst-workspace-info"
