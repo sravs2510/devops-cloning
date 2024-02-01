@@ -53,6 +53,13 @@ global_table_details = {
     hash_key   = "user_id"
     range_key  = "workspace_id"
     is_global  = true
+    attributes = []
+    "global_secondary_indexes" = [{
+      name            = "qatalyst-workspace-user-mapping-gsi"
+      hash_key        = "workspace_id"
+      range_key       = "user_id"
+      projection_type = "ALL"
+    }]
   },
   "qatalyst-user-invites" = {
     table_name = "qatalyst-user-invites"
