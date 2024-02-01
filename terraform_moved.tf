@@ -1508,7 +1508,7 @@ moved {
 }
 moved {
   from = module.create_eu_acm_invite_alb.aws_route53_record.domain_record_sets["invite.getqatalyst.io"]
-  to   = module.create_eu_acm_invite_alb[0].aws_route53_record.domain_record_sets[".invite.getqatalyst.io"]
+  to   = module.create_eu_acm_invite_alb[0].aws_route53_record.domain_record_sets["invite.getqatalyst.io"]
 }
 moved {
   from = module.create_eu_acm_media_cf.aws_route53_record.domain_record_sets["eu.media.getqatalyst.io"]
