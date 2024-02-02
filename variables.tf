@@ -58,6 +58,16 @@ variable "invite_sub_domain" {
   description = "Invite Domain Name"
 }
 
+variable "reports_sub_domain" {
+  type        = string
+  description = "Reports Domain Name"
+}
+
+variable "common_sub_domain" {
+  type        = string
+  description = "Common Domain Name"
+}
+
 variable "user_pool_name" {
   type        = string
   description = "Cognito user pool name"
@@ -114,29 +124,9 @@ variable "uvicorn_workers_count" {
   description = "Uvicorn Workers Count in Container"
 }
 
-variable "common_s3_sub_domain" {
-  type        = string
-  description = "Sub domain to serve common assets"
-}
-
 variable "datadog_docker_image" {
   type        = string
   description = "Datadog Docker Image"
-}
-
-variable "reports_s3_sub_domain" {
-  type        = string
-  description = "Sub domain to serve reports"
-}
-
-variable "meet_s3_sub_domain" {
-  type        = string
-  description = "Sub domain to meet"
-}
-
-variable "invite_s3_sub_domain" {
-  type        = string
-  description = "Sub domain to invite"
 }
 
 variable "ecr_repo_name" {

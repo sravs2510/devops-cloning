@@ -49,11 +49,11 @@ resource "aws_efs_mount_target" "efs_mount_target" {
   file_system_id  = aws_efs_file_system.efs.id
   security_groups = toset([var.sg_id])
 
-  for_each = {
-    subnet_id_1 = "${var.private_subnets[0]}",
-    subnet_id_2 = "${var.private_subnets[1]}",
-    subnet_id_3 = "${var.private_subnets[2]}"
-  }
+  for_each = length(var.private_subnets) == 3 ? {
+    "subnet_id_1" = var.private_subnets[0]
+    "subnet_id_2" = var.private_subnets[1]
+    "subnet_id_3" = var.private_subnets[2]
+  } : {}
   subnet_id = each.value
 }
 

@@ -38,22 +38,7 @@ variable "DEFAULT_TAGS" {
   description = "Default Tags for all resources"
 }
 
-variable "qatalyst_eu_alb_dns_name" {
-  type        = string
-  description = "Qatalyst alb "
-}
-
-variable "qatalyst_in_alb_dns_name" {
-  type        = string
-  description = "Qatalyst alb "
-}
-
-variable "qatalyst_sea_alb_dns_name" {
-  type        = string
-  description = "Qatalyst alb "
-}
-
-variable "qatalyst_us_alb_dns_name" {
-  type        = string
-  description = "Qatalyst alb "
+variable "qatalyst_alb_dns_names" {
+  type        = map(any)
+  description = "Qatalyst ALB DNS Name Values"
 }

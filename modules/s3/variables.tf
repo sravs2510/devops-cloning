@@ -38,12 +38,12 @@ variable "is_multi_region" {
   description = "Flag to indicate multi region S3 buckets"
 }
 
-variable "reports_s3_sub_domain" {
+variable "reports_sub_domain" {
   type        = string
   description = "Reports S3 Sub Domain Name"
 }
 
-variable "invite_s3_sub_domain" {
+variable "invite_sub_domain" {
   type        = string
   description = "Invite S3 Sub Domain Name"
 }

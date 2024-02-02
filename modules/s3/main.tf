@@ -15,8 +15,8 @@ locals {
   datacenter_code          = lookup(var.datacenter_codes, data.aws_region.current.name)
   studyview_domain         = format("%s%s", "https://", var.STAGE == "prod" ? join(".", [var.tester_view_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.tester_view_sub_domain, var.base_domain]))
   dashboard_domain         = format("%s%s", "https://", var.STAGE == "prod" ? join(".", ["*", var.base_domain]) : join(".", ["*", var.STAGE, var.base_domain]))
-  reports_domain           = format("%s%s", "https://", var.STAGE == "prod" ? join(".", [var.reports_s3_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.reports_s3_sub_domain, var.base_domain]))
-  invite_domain            = format("%s%s", "https://", var.STAGE == "prod" ? join(".", [var.invite_s3_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.invite_s3_sub_domain, var.base_domain]))
+  reports_domain           = format("%s%s", "https://", var.STAGE == "prod" ? join(".", [var.reports_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.reports_sub_domain, var.base_domain]))
+  invite_domain            = format("%s%s", "https://", var.STAGE == "prod" ? join(".", [var.invite_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.invite_sub_domain, var.base_domain]))
   delimiter                = var.is_bucket_name ? "-" : "."
   bucket_prefix            = var.is_bucket_name ? var.bucket_prefix : join(".", [var.bucket_prefix, var.base_domain])
   multi_region_bucket_name = var.STAGE == "prod" ? join(local.delimiter, [local.datacenter_code, local.bucket_prefix]) : join(local.delimiter, [local.datacenter_code, var.STAGE, local.bucket_prefix])
