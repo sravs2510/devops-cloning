@@ -175,3 +175,38 @@ module "create_us_cloudwatch_tester_view_dashboard" {
     aws.cw_region = aws.us_region
   }
 }
+
+module "create_in_tester_view_acm" {
+  source       = "./modules/acm-fe"
+  base_domain  = var.base_domain
+  domain_name  = var.STAGE == "prod" ? join(".", [var.tester_view_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.tester_view_sub_domain, var.base_domain])
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
+
+  providers = {
+    aws.acm_region = aws.in_region
+  }
+}
+module "create_sea_tester_view_acm" {
+  source       = "./modules/acm-fe"
+  base_domain  = var.base_domain
+  domain_name  = var.STAGE == "prod" ? join(".", [var.tester_view_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.tester_view_sub_domain, var.base_domain])
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
+
+  providers = {
+    aws.acm_region = aws.sea_region
+  }
+}
+module "create_eu_tester_view_acm" {
+  source       = "./modules/acm-fe"
+  count        = contains(["dev"], var.STAGE) ? 0 : 1
+  base_domain  = var.base_domain
+  domain_name  = var.STAGE == "prod" ? join(".", [var.tester_view_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.tester_view_sub_domain, var.base_domain])
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
+
+  providers = {
+    aws.acm_region = aws.eu_region
+  }
+}

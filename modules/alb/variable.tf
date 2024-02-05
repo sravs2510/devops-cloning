@@ -57,3 +57,8 @@ variable "invite_acm_arn" {
   type        = string
   description = "Invite ACM "
 }
+
+variable "tester_view_acm_arn" {
+  type        = string
+  description = "Testerview ACM "
+}

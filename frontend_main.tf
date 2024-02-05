@@ -91,13 +91,14 @@ module "create_tester_view_acm" {
 }
 
 module "create_tester_view_cloudfront" {
-  source                      = "./modules/cloudfront-fe"
+  source                      = "./modules/cloudfront-fe-be"
   base_domain                 = var.base_domain
-  cf_domain_name              = var.STAGE == "prod" ? join(".", [var.tester_view_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.tester_view_sub_domain, var.base_domain])
+  sub_domain                  = var.tester_view_sub_domain
   bucket_arn                  = module.create_tester_view_s3_bucket.s3_bucket_arn
   bucket_id                   = module.create_tester_view_s3_bucket.s3_bucket_id
   bucket_regional_domain_name = module.create_tester_view_s3_bucket.s3_bucket_regional_domain_name
   acm_certificate_arn         = module.create_tester_view_acm.acm_arn
+  qatalyst_alb_dns_names      = local.alb_dns_names
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE
 

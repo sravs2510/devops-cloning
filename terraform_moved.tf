@@ -1530,3 +1530,19 @@ moved {
   from = module.create_us_acm_media_cf.aws_route53_record.domain_record_sets["us.media.getqatalyst.io"]
   to   = module.create_us_acm_media_cf[0].aws_route53_record.domain_record_sets["us.media.getqatalyst.io"]
 }
+moved {
+  from = module.create_tester_view_cloudfront.aws_cloudfront_distribution.media_cf_distribution
+  to   = module.create_tester_view_cloudfront.aws_cloudfront_distribution.reports_cf_distribution
+}
+moved {
+  from = module.create_tester_view_cloudfront.aws_cloudfront_origin_access_identity.media_s3_origin_identity
+  to   = module.create_tester_view_cloudfront.aws_cloudfront_origin_access_identity.reports_s3_origin_identity
+}
+moved {
+  from = module.create_tester_view_cloudfront.aws_route53_record.media_cf_r53_record
+  to   = module.create_tester_view_cloudfront.aws_route53_record.reports_cf_r53_record
+}
+moved {
+  from = module.create_tester_view_cloudfront.aws_s3_bucket_policy.media_s3_bucket_policy
+  to   = module.create_tester_view_cloudfront.aws_s3_bucket_policy.reports_s3_bucket_policy
+}

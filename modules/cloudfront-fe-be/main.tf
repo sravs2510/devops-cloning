@@ -123,7 +123,7 @@ resource "aws_cloudfront_distribution" "reports_cf_distribution" {
     ssl_support_method             = "sni-only"
   }
 
-  tags = merge(tomap({ "Name" : join("-", ["qatalyst-reports-distribution", var.STAGE]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+  tags = merge(tomap({ "Name" : local.cf_domain_name }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
 #S3 Bucket Policy

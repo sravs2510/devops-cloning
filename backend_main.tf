@@ -118,20 +118,21 @@ module "create_eu_acm_api" {
 }
 
 module "create_eu_alb" {
-  source             = "./modules/alb"
-  count              = contains(["dev"], var.STAGE) ? 0 : 1
-  vpc_id             = try(module.create_eu_vpc[0].vpc_id, "")
-  alb_subnets        = try(module.create_eu_vpc[0].public_subnets, [])
-  alb_certficate_arn = try(module.create_eu_acm_api[0].acm_arn, "")
-  reports_acm_arn    = try(module.create_eu_reports_acm[0].acm_arn, "")
-  datacenter_codes   = var.datacenter_codes
-  base_domain        = var.base_domain
-  sub_domain         = var.api_sub_domain
-  DEFAULT_TAGS       = var.DEFAULT_TAGS
-  STAGE              = var.STAGE
-  meet_acm_arn       = try(module.create_eu_meet_acm_cf[0].acm_arn, "")
-  lb_target_health   = var.lb_target_health
-  invite_acm_arn     = try(module.create_eu_acm_invite_alb[0].acm_arn, "")
+  source              = "./modules/alb"
+  count               = contains(["dev"], var.STAGE) ? 0 : 1
+  vpc_id              = try(module.create_eu_vpc[0].vpc_id, "")
+  alb_subnets         = try(module.create_eu_vpc[0].public_subnets, [])
+  alb_certficate_arn  = try(module.create_eu_acm_api[0].acm_arn, "")
+  reports_acm_arn     = try(module.create_eu_reports_acm[0].acm_arn, "")
+  datacenter_codes    = var.datacenter_codes
+  base_domain         = var.base_domain
+  sub_domain          = var.api_sub_domain
+  DEFAULT_TAGS        = var.DEFAULT_TAGS
+  STAGE               = var.STAGE
+  meet_acm_arn        = try(module.create_eu_meet_acm_cf[0].acm_arn, "")
+  lb_target_health    = var.lb_target_health
+  invite_acm_arn      = try(module.create_eu_acm_invite_alb[0].acm_arn, "")
+  tester_view_acm_arn = try(module.create_eu_tester_view_acm[0].acm_arn, "")
 
   providers = {
     aws.alb_region = aws.eu_region
@@ -346,19 +347,20 @@ module "create_in_acm_api" {
 }
 
 module "create_in_alb" {
-  source             = "./modules/alb"
-  vpc_id             = module.create_in_vpc.vpc_id
-  alb_subnets        = module.create_in_vpc.public_subnets
-  alb_certficate_arn = module.create_in_acm_api.acm_arn
-  reports_acm_arn    = module.create_in_reports_acm.acm_arn
-  datacenter_codes   = var.datacenter_codes
-  base_domain        = var.base_domain
-  sub_domain         = var.api_sub_domain
-  DEFAULT_TAGS       = var.DEFAULT_TAGS
-  STAGE              = var.STAGE
-  meet_acm_arn       = module.create_in_meet_acm_cf.acm_arn
-  lb_target_health   = var.lb_target_health
-  invite_acm_arn     = module.create_in_acm_invite_alb.acm_arn
+  source              = "./modules/alb"
+  vpc_id              = module.create_in_vpc.vpc_id
+  alb_subnets         = module.create_in_vpc.public_subnets
+  alb_certficate_arn  = module.create_in_acm_api.acm_arn
+  reports_acm_arn     = module.create_in_reports_acm.acm_arn
+  datacenter_codes    = var.datacenter_codes
+  base_domain         = var.base_domain
+  sub_domain          = var.api_sub_domain
+  DEFAULT_TAGS        = var.DEFAULT_TAGS
+  STAGE               = var.STAGE
+  meet_acm_arn        = module.create_in_meet_acm_cf.acm_arn
+  lb_target_health    = var.lb_target_health
+  invite_acm_arn      = module.create_in_acm_invite_alb.acm_arn
+  tester_view_acm_arn = module.create_in_tester_view_acm.acm_arn
 
   providers = {
     aws.alb_region = aws.in_region
@@ -563,19 +565,20 @@ module "create_sea_acm_api" {
 }
 
 module "create_sea_alb" {
-  source             = "./modules/alb"
-  vpc_id             = module.create_sea_vpc.vpc_id
-  alb_subnets        = module.create_sea_vpc.public_subnets
-  alb_certficate_arn = module.create_sea_acm_api.acm_arn
-  reports_acm_arn    = module.create_sea_reports_acm.acm_arn
-  datacenter_codes   = var.datacenter_codes
-  base_domain        = var.base_domain
-  sub_domain         = var.api_sub_domain
-  DEFAULT_TAGS       = var.DEFAULT_TAGS
-  STAGE              = var.STAGE
-  meet_acm_arn       = module.create_sea_meet_acm_cf.acm_arn
-  invite_acm_arn     = module.create_sea_acm_invite_alb.acm_arn
-  lb_target_health   = var.lb_target_health
+  source              = "./modules/alb"
+  vpc_id              = module.create_sea_vpc.vpc_id
+  alb_subnets         = module.create_sea_vpc.public_subnets
+  alb_certficate_arn  = module.create_sea_acm_api.acm_arn
+  reports_acm_arn     = module.create_sea_reports_acm.acm_arn
+  datacenter_codes    = var.datacenter_codes
+  base_domain         = var.base_domain
+  sub_domain          = var.api_sub_domain
+  DEFAULT_TAGS        = var.DEFAULT_TAGS
+  STAGE               = var.STAGE
+  meet_acm_arn        = module.create_sea_meet_acm_cf.acm_arn
+  invite_acm_arn      = module.create_sea_acm_invite_alb.acm_arn
+  lb_target_health    = var.lb_target_health
+  tester_view_acm_arn = module.create_sea_tester_view_acm.acm_arn
 
   providers = {
     aws.alb_region = aws.sea_region
@@ -899,20 +902,21 @@ module "create_us_acm_api" {
 }
 
 module "create_us_alb" {
-  source             = "./modules/alb"
-  count              = contains(["dev"], var.STAGE) ? 0 : 1
-  vpc_id             = try(module.create_us_vpc[0].vpc_id, "")
-  alb_subnets        = try(module.create_us_vpc[0].public_subnets, [])
-  alb_certficate_arn = try(module.create_us_acm_api[0].acm_arn, "")
-  reports_acm_arn    = module.create_reports_acm_cf.acm_arn
-  datacenter_codes   = var.datacenter_codes
-  base_domain        = var.base_domain
-  sub_domain         = var.api_sub_domain
-  DEFAULT_TAGS       = var.DEFAULT_TAGS
-  STAGE              = var.STAGE
-  meet_acm_arn       = module.create_us_meet_acm_cf.acm_arn
-  lb_target_health   = var.lb_target_health
-  invite_acm_arn     = module.create_us_invite_acm_cf_alb.acm_arn
+  source              = "./modules/alb"
+  count               = contains(["dev"], var.STAGE) ? 0 : 1
+  vpc_id              = try(module.create_us_vpc[0].vpc_id, "")
+  alb_subnets         = try(module.create_us_vpc[0].public_subnets, [])
+  alb_certficate_arn  = try(module.create_us_acm_api[0].acm_arn, "")
+  reports_acm_arn     = module.create_reports_acm_cf.acm_arn
+  datacenter_codes    = var.datacenter_codes
+  base_domain         = var.base_domain
+  sub_domain          = var.api_sub_domain
+  DEFAULT_TAGS        = var.DEFAULT_TAGS
+  STAGE               = var.STAGE
+  meet_acm_arn        = module.create_us_meet_acm_cf.acm_arn
+  lb_target_health    = var.lb_target_health
+  invite_acm_arn      = module.create_us_invite_acm_cf_alb.acm_arn
+  tester_view_acm_arn = module.create_tester_view_acm.acm_arn
 
   providers = {
     aws.alb_region = aws.us_region
