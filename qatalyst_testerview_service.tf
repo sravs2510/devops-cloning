@@ -200,6 +200,7 @@ module "create_sea_tester_view_acm" {
 }
 module "create_eu_tester_view_acm" {
   source       = "./modules/acm-fe"
+  count        = contains(["dev"], var.STAGE) ? 0 : 1
   base_domain  = var.base_domain
   domain_name  = var.STAGE == "prod" ? join(".", [var.tester_view_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.tester_view_sub_domain, var.base_domain])
   DEFAULT_TAGS = var.DEFAULT_TAGS
