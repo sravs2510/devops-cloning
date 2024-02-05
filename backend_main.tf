@@ -132,7 +132,7 @@ module "create_eu_alb" {
   meet_acm_arn        = try(module.create_eu_meet_acm_cf[0].acm_arn, "")
   lb_target_health    = var.lb_target_health
   invite_acm_arn      = try(module.create_eu_acm_invite_alb[0].acm_arn, "")
-  tester_view_acm_arn = module.create_eu_tester_view_acm.acm_arn
+  tester_view_acm_arn = try(module.create_eu_tester_view_acm[0].acm_arn, "")
 
   providers = {
     aws.alb_region = aws.eu_region
