@@ -301,36 +301,12 @@ locals {
     {
       name  = "DD_TRACE_TELEMETRY_ENABLED",
       value = "false"
+    },
+    {
+      name  = "DD_APM_IGNORE_RESOURCES"
+      value = local.qatalyst_healthcheck_api
     }
   ]
-
-  qatalyst_dashboard_datadog_environment_variables = concat(local.qatalyst_datadog_environment_variables,
-    [
-      {
-        name = "DD_APM_IGNORE_RESOURCES"
-      value = local.qatalyst_healthcheck_api }
-  ])
-
-  qatalyst_tester_view_datadog_environment_variables = concat(local.qatalyst_datadog_environment_variables,
-    [
-      {
-        name = "DD_APM_IGNORE_RESOURCES"
-      value = local.qatalyst_healthcheck_api }
-  ])
-
-  qatalyst_reports_datadog_environment_variables = concat(local.qatalyst_datadog_environment_variables,
-    [
-      {
-        name = "DD_APM_IGNORE_RESOURCES"
-      value = local.qatalyst_healthcheck_api }
-  ])
-
-  qatalyst_prototype_datadog_environment_variables = concat(local.qatalyst_datadog_environment_variables,
-    [
-      {
-        name = "DD_APM_IGNORE_RESOURCES"
-      value = local.qatalyst_healthcheck_api }
-  ])
 
   qatalyst_datadog_environment_secrets = [
     {
