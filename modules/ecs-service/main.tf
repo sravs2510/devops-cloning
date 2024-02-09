@@ -51,6 +51,18 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
             value = data.aws_region.ecs_region.name
           },
           {
+            name  = "AWS_ACCOUNT_ID"
+            value = local.account_id
+          },
+          {
+            name  = "STAGE"
+            value = var.STAGE
+          },
+          {
+            name  = "LOG_LEVEL"
+            value = "INFO"
+          },
+          {
             name  = "DD_SERVICE"
             value = local.dd_service_name
           }
