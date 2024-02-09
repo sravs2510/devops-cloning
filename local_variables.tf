@@ -27,14 +27,6 @@ locals {
       value = module.create_cognito_user_pool.user_pool_id
     },
     {
-      name  = "STAGE"
-      value = var.STAGE
-    },
-    {
-      name  = "AWS_ACCOUNT_ID"
-      value = local.account_id
-    },
-    {
       name  = "LOCAL_RUN"
       value = "false"
     },
@@ -55,42 +47,12 @@ locals {
       value = local.qatalyst_sender_email
     }
   ]
-  qatalyst_cyborg_ecs_task_environment_variables = [
-    {
-      name  = "STAGE"
-      value = var.STAGE
-    },
-    {
-      name  = "LOG_LEVEL"
-      value = "INFO"
-    },
-    {
-      name  = "AWS_ACCOUNT_ID"
-      value = local.account_id
-    }
-  ]
-  qatalyst_furyblade_ecs_task_environment_variables = [
-    {
-      name  = "STAGE"
-      value = var.STAGE
-    },
-    {
-      name  = "LOG_LEVEL"
-      value = "INFO"
-    },
-    {
-      name  = "AWS_ACCOUNT_ID"
-      value = local.account_id
-    }
-  ]
+  qatalyst_cyborg_ecs_task_environment_variables    = []
+  qatalyst_furyblade_ecs_task_environment_variables = []
   qatalyst_prototype_ecs_task_environment_variables = [
     {
       name  = "COGNITO_USER_POOL_ID"
       value = module.create_cognito_user_pool.user_pool_id
-    },
-    {
-      name  = "STAGE"
-      value = var.STAGE
     },
     {
       name  = "LOCAL_RUN"
@@ -118,14 +80,6 @@ locals {
     {
       name  = "COGNITO_USER_POOL_ID"
       value = module.create_cognito_user_pool.user_pool_id
-    },
-    {
-      name  = "STAGE"
-      value = var.STAGE
-    },
-    {
-      name  = "AWS_ACCOUNT_ID"
-      value = local.account_id
     },
     {
       name  = "LOCAL_RUN"
