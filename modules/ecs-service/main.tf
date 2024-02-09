@@ -38,7 +38,6 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
   container_definitions = jsonencode(
     [
       {
-        mountPoints = []
         name        = local.container_name
         volumesFrom = []
         image       = local.ecr_repo
@@ -76,14 +75,14 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
             name      = join("_", ["PLATFORM_SECRET", upper(local.datacenter_code)])
             valueFrom = join("-", ["platform", var.STAGE, "secret", local.datacenter_code])
           },
-        ]),
-        "mountPoints" : var.service == "cyborg" || var.service == "furyblade" || var.service == "mammoth" ? [
+        ])
+        mountPoints : var.service == "cyborg" || var.service == "furyblade" || var.service == "mammoth" ? [
           {
             "containerPath" : "/mnt${var.EFS_CONFIGURATION.path}",
             "sourceVolume" : join("-", ["qatalyst", var.service]),
             "readOnly" : false
           }
-        ] : null,
+        ] : []
         portMappings = [
           {
             containerPort = 80
