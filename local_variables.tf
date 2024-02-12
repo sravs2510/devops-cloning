@@ -20,22 +20,11 @@ locals {
   qatalyst_mammoth_service_name                  = "qatalyst-mammoth-service"
   fargate_cpu_memory                             = var.STAGE == "qa" ? var.fargate_cpu_memory_qa_eu : var.fargate_cpu_memory
   account_id                                     = data.aws_caller_identity.current.account_id
-  qatalyst_dashboard_healthcheck_api             = "*health"
-  qatalyst_tester_view_healthcheck_api           = "GET */health"
-  qatalyst_reports_healthcheck_api               = "GET *health"
-  qatalyst_prototype_healthcheck_api             = "GET *health"
+  qatalyst_healthcheck_api                       = "GET /health,GET */health"
   qatalyst_ecs_task_environment_variables = [
     {
       name  = "COGNITO_USER_POOL_ID"
       value = module.create_cognito_user_pool.user_pool_id
-    },
-    {
-      name  = "STAGE"
-      value = var.STAGE
-    },
-    {
-      name  = "AWS_ACCOUNT_ID"
-      value = local.account_id
     },
     {
       name  = "LOCAL_RUN"
@@ -58,42 +47,12 @@ locals {
       value = local.qatalyst_sender_email
     }
   ]
-  qatalyst_cyborg_ecs_task_environment_variables = [
-    {
-      name  = "STAGE"
-      value = var.STAGE
-    },
-    {
-      name  = "LOG_LEVEL"
-      value = "INFO"
-    },
-    {
-      name  = "AWS_ACCOUNT_ID"
-      value = local.account_id
-    }
-  ]
-  qatalyst_furyblade_ecs_task_environment_variables = [
-    {
-      name  = "STAGE"
-      value = var.STAGE
-    },
-    {
-      name  = "LOG_LEVEL"
-      value = "INFO"
-    },
-    {
-      name  = "AWS_ACCOUNT_ID"
-      value = local.account_id
-    }
-  ]
+  qatalyst_cyborg_ecs_task_environment_variables    = []
+  qatalyst_furyblade_ecs_task_environment_variables = []
   qatalyst_prototype_ecs_task_environment_variables = [
     {
       name  = "COGNITO_USER_POOL_ID"
       value = module.create_cognito_user_pool.user_pool_id
-    },
-    {
-      name  = "STAGE"
-      value = var.STAGE
     },
     {
       name  = "LOCAL_RUN"
@@ -121,14 +80,6 @@ locals {
     {
       name  = "COGNITO_USER_POOL_ID"
       value = module.create_cognito_user_pool.user_pool_id
-    },
-    {
-      name  = "STAGE"
-      value = var.STAGE
-    },
-    {
-      name  = "AWS_ACCOUNT_ID"
-      value = local.account_id
     },
     {
       name  = "LOCAL_RUN"
@@ -304,36 +255,12 @@ locals {
     {
       name  = "DD_TRACE_TELEMETRY_ENABLED",
       value = "false"
+    },
+    {
+      name  = "DD_APM_IGNORE_RESOURCES"
+      value = local.qatalyst_healthcheck_api
     }
   ]
-
-  qatalyst_dashboard_datadog_environment_variables = concat(local.qatalyst_datadog_environment_variables,
-    [
-      {
-        name = "DD_APM_IGNORE_RESOURCES"
-      value = local.qatalyst_dashboard_healthcheck_api }
-  ])
-
-  qatalyst_tester_view_datadog_environment_variables = concat(local.qatalyst_datadog_environment_variables,
-    [
-      {
-        name = "DD_APM_IGNORE_RESOURCES"
-      value = local.qatalyst_tester_view_healthcheck_api }
-  ])
-
-  qatalyst_reports_datadog_environment_variables = concat(local.qatalyst_datadog_environment_variables,
-    [
-      {
-        name = "DD_APM_IGNORE_RESOURCES"
-      value = local.qatalyst_reports_healthcheck_api }
-  ])
-
-  qatalyst_prototype_datadog_environment_variables = concat(local.qatalyst_datadog_environment_variables,
-    [
-      {
-        name = "DD_APM_IGNORE_RESOURCES"
-      value = local.qatalyst_prototype_healthcheck_api }
-  ])
 
   qatalyst_datadog_environment_secrets = [
     {

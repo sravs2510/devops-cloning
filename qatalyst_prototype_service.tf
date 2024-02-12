@@ -13,7 +13,7 @@ module "create_eu_ecs_prototype_service" {
   fargate_cpu_memory            = var.fargate_cpu_memory
   service_environment_variables = local.qatalyst_prototype_ecs_task_environment_variables
   service_environment_secrets   = local.qatalyst_prototype_ecs_task_environment_secrets
-  dd_environment_variables      = local.qatalyst_prototype_datadog_environment_variables
+  dd_environment_variables      = local.qatalyst_datadog_environment_variables
   dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
   datadog_docker_image          = var.datadog_docker_image
   datacenter_codes              = var.datacenter_codes
@@ -40,7 +40,7 @@ module "create_in_ecs_prototype_service" {
   fargate_cpu_memory            = var.fargate_cpu_memory
   service_environment_variables = local.qatalyst_prototype_ecs_task_environment_variables
   service_environment_secrets   = local.qatalyst_prototype_ecs_task_environment_secrets
-  dd_environment_variables      = local.qatalyst_prototype_datadog_environment_variables
+  dd_environment_variables      = local.qatalyst_datadog_environment_variables
   dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
   datadog_docker_image          = var.datadog_docker_image
   datacenter_codes              = var.datacenter_codes
@@ -67,7 +67,7 @@ module "create_sea_ecs_prototype_service" {
   fargate_cpu_memory            = var.fargate_cpu_memory
   service_environment_variables = local.qatalyst_prototype_ecs_task_environment_variables
   service_environment_secrets   = local.qatalyst_prototype_ecs_task_environment_secrets
-  dd_environment_variables      = local.qatalyst_prototype_datadog_environment_variables
+  dd_environment_variables      = local.qatalyst_datadog_environment_variables
   dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
   datadog_docker_image          = var.datadog_docker_image
   datacenter_codes              = var.datacenter_codes
@@ -95,7 +95,7 @@ module "create_us_ecs_prototype_service" {
   fargate_cpu_memory            = var.fargate_cpu_memory
   service_environment_variables = local.qatalyst_prototype_ecs_task_environment_variables
   service_environment_secrets   = local.qatalyst_prototype_ecs_task_environment_secrets
-  dd_environment_variables      = local.qatalyst_prototype_datadog_environment_variables
+  dd_environment_variables      = local.qatalyst_datadog_environment_variables
   dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
   datadog_docker_image          = var.datadog_docker_image
   datacenter_codes              = var.datacenter_codes
