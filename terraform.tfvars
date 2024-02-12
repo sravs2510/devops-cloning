@@ -353,6 +353,18 @@ table_details = {
     table_name = "qatalyst-workflow-management"
     hash_key   = "workspace_id"
     range_key  = "workflow_id"
+    attributes = [
+      {
+        name = "last_modified_date"
+        type = "S"
+      }
+    ]
+    global_secondary_indexes = [{
+      name            = "qatalyst-workflow-modified-date-gsi"
+      hash_key        = "workspace_id"
+      range_key       = "last_modified_date"
+      projection_type = "ALL"
+    }]
   }
 }
 
