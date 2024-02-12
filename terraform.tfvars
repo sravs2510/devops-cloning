@@ -364,8 +364,7 @@ table_details = {
       hash_key        = "workspace_id"
       range_key       = "last_modified_date"
       projection_type = "ALL"
-      }
-    ]
+    }]
   }
 }
 
