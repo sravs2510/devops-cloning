@@ -137,7 +137,7 @@ resource "aws_lb_listener" "qatalyst_alb_listener" {
   load_balancer_arn = aws_lb.qatalyst_alb.arn
   port              = "443"
   protocol          = "HTTPS"
-  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  ssl_policy        = "ELBSecurityPolicy-TLS13-1-2-2021-06"
 
   default_action {
     type             = "forward"
