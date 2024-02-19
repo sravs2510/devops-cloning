@@ -191,10 +191,7 @@ moved {
   from = module.create_eu_alb.aws_lb_listener_certificate.qatalyst_reports_listener_certificate
   to   = module.create_eu_alb[0].aws_lb_listener_certificate.qatalyst_reports_listener_certificate
 }
-moved {
-  from = module.create_eu_alb.aws_lb_listener_rule.qatalyst_alb_listener_prototype_rule
-  to   = module.create_eu_alb[0].aws_lb_listener_rule.qatalyst_alb_listener_prototype_rule
-}
+
 moved {
   from = module.create_eu_alb.aws_lb_listener_rule.qatalyst_alb_listener_reports_rule
   to   = module.create_eu_alb[0].aws_lb_listener_rule.qatalyst_alb_listener_reports_rule
@@ -203,10 +200,7 @@ moved {
   from = module.create_eu_alb.aws_lb_listener_rule.qatalyst_alb_listener_tester_view_rule
   to   = module.create_eu_alb[0].aws_lb_listener_rule.qatalyst_alb_listener_tester_view_rule
 }
-moved {
-  from = module.create_eu_alb.aws_lb_target_group.qatalyst_prototype_tg
-  to   = module.create_eu_alb[0].aws_lb_target_group.qatalyst_prototype_tg
-}
+
 moved {
   from = module.create_eu_alb.aws_lb_target_group.qatalyst_reports_tg
   to   = module.create_eu_alb[0].aws_lb_target_group.qatalyst_reports_tg
@@ -843,10 +837,10 @@ moved {
   from = module.create_us_alb.aws_lb_listener_certificate.qatalyst_reports_listener_certificate
   to   = module.create_us_alb[0].aws_lb_listener_certificate.qatalyst_reports_listener_certificate
 }
-moved {
-  from = module.create_us_alb.aws_lb_listener_rule.qatalyst_alb_listener_prototype_rule
-  to   = module.create_us_alb[0].aws_lb_listener_rule.qatalyst_alb_listener_prototype_rule
-}
+# moved {
+#   from = module.create_us_alb.aws_lb_listener_rule.qatalyst_alb_listener_prototype_rule
+#   to   = module.create_us_alb[0].aws_lb_listener_rule.qatalyst_alb_listener_prototype_rule
+# }
 moved {
   from = module.create_us_alb.aws_lb_listener_rule.qatalyst_alb_listener_reports_rule
   to   = module.create_us_alb[0].aws_lb_listener_rule.qatalyst_alb_listener_reports_rule
@@ -855,10 +849,10 @@ moved {
   from = module.create_us_alb.aws_lb_listener_rule.qatalyst_alb_listener_tester_view_rule
   to   = module.create_us_alb[0].aws_lb_listener_rule.qatalyst_alb_listener_tester_view_rule
 }
-moved {
-  from = module.create_us_alb.aws_lb_target_group.qatalyst_prototype_tg
-  to   = module.create_us_alb[0].aws_lb_target_group.qatalyst_prototype_tg
-}
+# moved {
+#   from = module.create_us_alb.aws_lb_target_group.qatalyst_prototype_tg
+#   to   = module.create_us_alb[0].aws_lb_target_group.qatalyst_prototype_tg
+# }
 moved {
   from = module.create_us_alb.aws_lb_target_group.qatalyst_reports_tg
   to   = module.create_us_alb[0].aws_lb_target_group.qatalyst_reports_tg
