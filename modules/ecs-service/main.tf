@@ -34,7 +34,7 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
   memory                   = var.fargate_cpu_memory.memory
   cpu                      = var.fargate_cpu_memory.cpu
   ephemeral_storage {
-    size_in_gib = var.STAGE == "dev" ? 50 : 21
+    size_in_gib = var.STAGE == "dev" ? 50 : 25
   }
   execution_role_arn = var.ecs_task_execution_role_arn
   task_role_arn      = var.ecs_task_role_arn
