@@ -113,24 +113,6 @@ resource "aws_lb_target_group" "qatalyst_tester_view_tg" {
   tags = merge(tomap({ "Name" : "qatalyst-tester-view-tg" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
-resource "aws_lb_target_group" "qatalyst_prototype_tg" {
-  provider             = aws.alb_region
-  name                 = "qatalyst-prototype-tg"
-  port                 = 80
-  protocol             = "HTTP"
-  target_type          = "ip"
-  vpc_id               = var.vpc_id
-  deregistration_delay = 90 #sec
-
-  health_check {
-    path                = "/health"
-    interval            = local.lb_target_interval
-    timeout             = local.lb_target_timeout
-    healthy_threshold   = local.lb_target_healthy_threshold
-    unhealthy_threshold = local.lb_target_unhealthy_threshold
-  }
-  tags = merge(tomap({ "Name" : "qatalyst-prototype" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
-}
 resource "aws_lb_listener" "qatalyst_alb_listener" {
   provider          = aws.alb_region
   certificate_arn   = var.alb_certficate_arn
@@ -200,20 +182,6 @@ resource "aws_lb_listener_rule" "qatalyst_alb_listener_tester_view_rule" {
   }
 }
 
-resource "aws_lb_listener_rule" "qatalyst_alb_listener_prototype_rule" {
-  listener_arn = aws_lb_listener.qatalyst_alb_listener.arn
-  provider     = aws.alb_region
-  priority     = 102
-  action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.qatalyst_prototype_tg.arn
-  }
-  condition {
-    path_pattern {
-      values = [local.path_pattern_importPrototype, local.path_pattern_importPrototype_async]
-    }
-  }
-}
 
 # ALB Domain Mapping
 locals {
@@ -223,8 +191,6 @@ locals {
   path_pattern                 = join("", [local.path_prefix, "v1", local.path_prefix, local.datacenter_code, local.path_prefix, "*"])
   path_pattern_testers         = join("", [local.path_prefix, "v1", local.path_prefix, "testers", local.path_prefix, "*"])
   path_pattern_test            = join("", [local.path_prefix, "v1", local.path_prefix, "test", local.path_prefix, "*"])
-  path_pattern_importPrototype = join("", [local.path_prefix, "v1", local.path_prefix, "blocks", local.path_prefix, "*", local.path_prefix, "importPrototype"])
-  path_pattern_importPrototype_async = join("/", [local.path_pattern_importPrototype, "async"])
 }
 
 data "aws_route53_zone" "domain_hosted_zone" {
