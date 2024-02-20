@@ -365,6 +365,11 @@ table_details = {
       range_key       = "last_modified_date"
       projection_type = "ALL"
     }]
+  },
+  "media_notes" : {
+    table_name = "qatalyst-media-notes"
+    hash_key   = "media_id"
+    range_key  = "note_id"
   }
 }
 
