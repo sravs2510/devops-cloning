@@ -12,46 +12,57 @@ data "aws_region" "ecr_region" {
 }
 
 locals {
-  ecr_repo_tag_name = join("-", [var.repo_name, "ecr"])
+  repo_name = join("-", ["qatalyst", var.service_name])
+  # DEV Policy
+  dev_ecr_lcp = jsonencode(
+    {
+      rules = [
+        {
+          rulePriority = 1
+          description  = "Keep last 1 untagged image"
+          selection = {
+            tagStatus   = "untagged",
+            countType   = "imageCountMoreThan",
+            countNumber = 1
+          }
+          action = {
+            type = "expire"
+          }
+        }
+      ]
+    }
+  )
+  #Non Dev Policy
+  ecr_lcp = jsonencode(
+    {
+      rules = [
+        {
+          rulePriority = 1
+          description  = "Keep last 5 tagged images"
+          selection = {
+            tagStatus     = "tagged"
+            tagPrefixList = ["20", "latest"]
+            countType     = "imageCountMoreThan"
+            countNumber   = 5
+          }
+          action = {
+            type = "expire"
+          }
+        }
+      ]
+    }
+  )
 }
+
 resource "aws_ecr_repository" "qatalyst_repository" {
   # as Jenkins is in SEA Region
   provider = aws.ecr_region
-  name     = var.repo_name
-  tags     = merge(tomap({ "Name" : local.ecr_repo_tag_name }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+  name     = local.repo_name
+  tags     = merge(tomap({ "Name" : local.repo_name }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
 resource "aws_ecr_lifecycle_policy" "qatalyst_repository_lifecycle" {
   provider   = aws.ecr_region
   repository = aws_ecr_repository.qatalyst_repository.name
-  policy     = <<EOF
-{
-  "rules": [
-    {
-      "rulePriority": 1,
-      "description": "Keep last 5 untagged images",
-      "selection": {
-        "tagStatus": "untagged",
-        "countType": "imageCountMoreThan",
-        "countNumber": 5
-      },
-      "action": {
-        "type": "expire"
-      }
-    },
-    {
-      "rulePriority": 2,
-      "description": "Keep last 10 tagged images",
-      "selection": {
-        "tagStatus": "any",
-        "countType": "imageCountMoreThan",
-        "countNumber": 10
-      },
-      "action": {
-        "type": "expire"
-      }
-    }
-  ]
-}
-EOF
+  policy     = var.STAGE == "dev" ? local.dev_ecr_lcp : local.ecr_lcp
 }

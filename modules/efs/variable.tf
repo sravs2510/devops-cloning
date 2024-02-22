@@ -8,7 +8,7 @@ variable "DEFAULT_TAGS" {
   description = "Default Tags for all resources"
 }
 
-variable "EFS_CONFIGURATION" {
+variable "efs_configuration" {
   type        = any
   description = "EFS Configurations"
 }

@@ -106,7 +106,7 @@ variable "efs_access_point_id" {
   description = "EFS access point arn"
 }
 
-variable "EFS_CONFIGURATION" {
+variable "efs_configuration" {
   type        = any
   description = "EFS Configurations"
   default     = null

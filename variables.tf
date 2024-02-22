@@ -129,11 +129,6 @@ variable "datadog_docker_image" {
   description = "Datadog Docker Image"
 }
 
-variable "ecr_repo_name" {
-  type        = string
-  description = "Repo name suffix"
-}
-
 variable "mediaconvert_queues" {
   type        = map(any)
   description = "Mediaconvert Queues"
@@ -149,40 +144,16 @@ variable "sqs_details" {
   description = "SQS details"
 }
 
-variable "cyborg_repo_name" {
-  type        = string
-  description = "Repo name suffix"
-}
-
-variable "cyborg_efs_configurations" {
-  type        = any
-  description = "EFS Configurations"
-}
-
-variable "furyblade_efs_configurations" {
-  type        = any
-  description = "EFS Configurations"
-}
-
 variable "service_names" {
   type        = map(string)
   description = "Map of service names"
 }
 
-variable "furyblade_repo_name" {
-  type        = string
-  description = "Repo name suffix"
-}
-
-variable "mammoth_efs_configurations" {
+variable "efs_configurations" {
   type        = any
-  description = "EFS Configurations"
+  description = "EFS Configurations for all the services"
 }
 
-variable "mammoth_repo_name" {
-  type        = string
-  description = "Repo name suffix"
-}
 
 variable "qatalyst_media_bucket_transfer_acceleration" {
   type        = string

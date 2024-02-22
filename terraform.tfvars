@@ -388,10 +388,6 @@ uvicorn_workers_count = 4
 
 # Datadog
 datadog_docker_image = "public.ecr.aws/datadog/agent:latest"
-ecr_repo_name        = "qatalyst-backend"
-cyborg_repo_name     = "qatalyst-cyborg"
-furyblade_repo_name  = "qatalyst-furyblade"
-mammoth_repo_name    = "qatalyst-mammoth"
 
 mediaconvert_queues = {
   "qatalyst" : {
@@ -435,20 +431,21 @@ sqs_details = {
   }
 }
 # EFS
-cyborg_efs_configurations = {
-  "name" = "cyborg",
-  "path" = "/cyborg",
+efs_configurations = {
+  cyborg = {
+    name = "cyborg"
+    path = "/cyborg"
+  }
+  furyblade = {
+    name = "furyblade"
+    path = "/furyblade"
+  }
+  mammoth = {
+    name = "mammoth"
+    path = "/mammoth"
+  }
 }
 
-furyblade_efs_configurations = {
-  "name" = "furyblade",
-  "path" = "/furyblade",
-}
-
-mammoth_efs_configurations = {
-  "name" = "mammoth",
-  "path" = "/mammoth",
-}
 service_names = {
   dashboard  = "dashboard"
   reports    = "reports"
@@ -457,6 +454,7 @@ service_names = {
   furyblade  = "furyblade"
   prototype  = "prototype"
   mammoth    = "mammoth"
+  backend    = "backend"
 }
 
 #S3
