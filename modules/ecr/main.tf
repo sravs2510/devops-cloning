@@ -30,7 +30,7 @@ resource "aws_ecr_lifecycle_policy" "qatalyst_repository_lifecycle" {
       rules = [
         {
           rulePriority = 1
-          description  = "Keep last 5  image"
+          description  = "Keep last 5 images"
           selection = {
             tagStatus   = "any",
             countType   = "imageCountMoreThan",
