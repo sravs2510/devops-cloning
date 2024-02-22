@@ -20,7 +20,7 @@ locals {
   container_name       = join("-", [var.ecs_service_name, var.STAGE, local.datacenter_code, "container"])
   task_definition_name = join("-", [var.ecs_service_name, var.STAGE, local.datacenter_code, "td"])
   account_id           = data.aws_caller_identity.current.account_id
-  ecr_repo             = join(".", [local.account_id, "dkr.ecr", data.aws_region.ecs_region.name, "amazonaws.com/${var.repo_name}:latest"])
+  ecr_repo             = join(".", [local.account_id, "dkr.ecr", data.aws_region.ecs_region.name, "amazonaws.com/qatalyst-${var.repo_name}:latest"])
   datacenter_code      = lookup(var.datacenter_codes, data.aws_region.ecs_region.name)
   dd_api_key_ssm_param = join("-", ["datadog", var.STAGE, "api-key"])
   dd_service_name      = join("-", [var.ecs_service_name, var.STAGE])
@@ -81,7 +81,7 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
         ])
         mountPoints : var.service == "cyborg" || var.service == "furyblade" || var.service == "mammoth" ? [
           {
-            "containerPath" : "/mnt${var.EFS_CONFIGURATION.path}",
+            "containerPath" : "/mnt${var.efs_configuration.path}",
             "sourceVolume" : join("-", ["qatalyst", var.service]),
             "readOnly" : false
           }
@@ -218,7 +218,7 @@ resource "aws_ecs_service" "qatalyst_ecs_service" {
 resource "aws_appautoscaling_target" "qatalyst_ecs_ast" {
   provider           = aws.ecs_region
   min_capacity       = 1
-  max_capacity       = 6
+  max_capacity       = var.STAGE == "dev" ? 1 : 6
   resource_id        = join("/", ["service", var.ecs_cluster_name, aws_ecs_service.qatalyst_ecs_service.name])
   scalable_dimension = "ecs:service:DesiredCount"
   service_namespace  = "ecs"

@@ -2,7 +2,7 @@
 
 module "create_in_furyblade_ecr" {
   source       = "./modules/ecr"
-  repo_name    = var.furyblade_repo_name
+  service_name = var.service_names["furyblade"]
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
 
@@ -13,7 +13,7 @@ module "create_in_furyblade_ecr" {
 
 module "create_sea_furyblade_ecr" {
   source       = "./modules/ecr"
-  repo_name    = var.furyblade_repo_name
+  service_name = var.service_names["furyblade"]
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
 
@@ -25,7 +25,7 @@ module "create_sea_furyblade_ecr" {
 module "create_eu_furyblade_ecr" {
   source       = "./modules/ecr"
   count        = contains(["dev"], var.STAGE) ? 0 : 1
-  repo_name    = var.furyblade_repo_name
+  service_name = var.service_names["furyblade"]
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
 
@@ -37,7 +37,7 @@ module "create_eu_furyblade_ecr" {
 module "create_us_furyblade_ecr" {
   source       = "./modules/ecr"
   count        = contains(["dev"], var.STAGE) ? 0 : 1
-  repo_name    = var.furyblade_repo_name
+  service_name = var.service_names["furyblade"]
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
 
@@ -67,11 +67,11 @@ module "create_sea_ecs_furyblade_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
-  repo_name                     = var.furyblade_repo_name
+  repo_name                     = var.service_names["furyblade"]
   service                       = var.service_names["furyblade"]
   efs_file_system_id            = module.create_sea_furyblade_efs.efs_id
   efs_access_point_id           = module.create_sea_furyblade_efs.access_point_id
-  EFS_CONFIGURATION             = var.furyblade_efs_configurations
+  efs_configuration             = var.efs_configurations["furyblade"]
 
   providers = {
     aws.ecs_region = aws.sea_region
@@ -97,11 +97,11 @@ module "create_in_ecs_furyblade_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
-  repo_name                     = var.furyblade_repo_name
+  repo_name                     = var.service_names["furyblade"]
   service                       = var.service_names["furyblade"]
   efs_file_system_id            = module.create_in_furyblade_efs.efs_id
   efs_access_point_id           = module.create_in_furyblade_efs.access_point_id
-  EFS_CONFIGURATION             = var.furyblade_efs_configurations
+  efs_configuration             = var.efs_configurations["furyblade"]
 
   providers = {
     aws.ecs_region = aws.in_region
@@ -128,11 +128,11 @@ module "create_us_ecs_furyblade_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
-  repo_name                     = var.furyblade_repo_name
+  repo_name                     = var.service_names["furyblade"]
   service                       = var.service_names["furyblade"]
   efs_file_system_id            = try(module.create_us_furyblade_efs[0].efs_id, "")
   efs_access_point_id           = try(module.create_us_furyblade_efs[0].access_point_id, "")
-  EFS_CONFIGURATION             = var.furyblade_efs_configurations
+  efs_configuration             = var.efs_configurations["furyblade"]
 
   providers = {
     aws.ecs_region = aws.us_region
@@ -159,11 +159,11 @@ module "create_eu_ecs_furyblade_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
-  repo_name                     = var.furyblade_repo_name
+  repo_name                     = var.service_names["furyblade"]
   service                       = var.service_names["furyblade"]
   efs_file_system_id            = try(module.create_eu_furyblade_efs[0].efs_id, "")
   efs_access_point_id           = try(module.create_eu_furyblade_efs[0].access_point_id, "")
-  EFS_CONFIGURATION             = var.furyblade_efs_configurations
+  efs_configuration             = var.efs_configurations["furyblade"]
 
   providers = {
     aws.ecs_region = aws.eu_region
@@ -175,7 +175,7 @@ module "create_eu_furyblade_efs" {
   count             = contains(["dev"], var.STAGE) ? 0 : 1
   STAGE             = var.STAGE
   DEFAULT_TAGS      = var.DEFAULT_TAGS
-  EFS_CONFIGURATION = var.furyblade_efs_configurations
+  efs_configuration = var.efs_configurations["furyblade"]
   private_subnets   = try(module.create_eu_vpc[0].private_subnets, [])
   sg_id             = try(module.create_eu_vpc[0].security_group_id, "")
 
@@ -188,7 +188,7 @@ module "create_in_furyblade_efs" {
   source            = "./modules/efs"
   STAGE             = var.STAGE
   DEFAULT_TAGS      = var.DEFAULT_TAGS
-  EFS_CONFIGURATION = var.furyblade_efs_configurations
+  efs_configuration = var.efs_configurations["furyblade"]
   private_subnets   = module.create_in_vpc.private_subnets
   sg_id             = module.create_in_vpc.security_group_id
 
@@ -201,7 +201,7 @@ module "create_sea_furyblade_efs" {
   source            = "./modules/efs"
   STAGE             = var.STAGE
   DEFAULT_TAGS      = var.DEFAULT_TAGS
-  EFS_CONFIGURATION = var.furyblade_efs_configurations
+  efs_configuration = var.efs_configurations["furyblade"]
   private_subnets   = module.create_sea_vpc.private_subnets
   sg_id             = module.create_sea_vpc.security_group_id
 
@@ -215,7 +215,7 @@ module "create_us_furyblade_efs" {
   count             = contains(["dev"], var.STAGE) ? 0 : 1
   STAGE             = var.STAGE
   DEFAULT_TAGS      = var.DEFAULT_TAGS
-  EFS_CONFIGURATION = var.furyblade_efs_configurations
+  efs_configuration = var.efs_configurations["furyblade"]
   private_subnets   = try(module.create_us_vpc[0].private_subnets, [])
   sg_id             = try(module.create_us_vpc[0].security_group_id, "")
 

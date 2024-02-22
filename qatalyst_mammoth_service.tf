@@ -3,7 +3,7 @@
 
 module "create_in_mammoth_ecr" {
   source       = "./modules/ecr"
-  repo_name    = var.mammoth_repo_name
+  service_name = var.service_names["mammoth"]
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
 
@@ -14,7 +14,7 @@ module "create_in_mammoth_ecr" {
 
 module "create_sea_mammoth_ecr" {
   source       = "./modules/ecr"
-  repo_name    = var.mammoth_repo_name
+  service_name = var.service_names["mammoth"]
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
 
@@ -26,7 +26,7 @@ module "create_sea_mammoth_ecr" {
 module "create_eu_mammoth_ecr" {
   source       = "./modules/ecr"
   count        = contains(["dev"], var.STAGE) ? 0 : 1
-  repo_name    = var.mammoth_repo_name
+  service_name = var.service_names["mammoth"]
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
 
@@ -38,7 +38,7 @@ module "create_eu_mammoth_ecr" {
 module "create_us_mammoth_ecr" {
   source       = "./modules/ecr"
   count        = contains(["dev"], var.STAGE) ? 0 : 1
-  repo_name    = var.mammoth_repo_name
+  service_name = var.service_names["mammoth"]
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
 
@@ -53,7 +53,7 @@ module "create_eu_mammoth_efs" {
   count             = contains(["dev"], var.STAGE) ? 0 : 1
   STAGE             = var.STAGE
   DEFAULT_TAGS      = var.DEFAULT_TAGS
-  EFS_CONFIGURATION = var.mammoth_efs_configurations
+  efs_configuration = var.efs_configurations["mammoth"]
   private_subnets   = try(module.create_eu_vpc[0].private_subnets, [])
   sg_id             = try(module.create_eu_vpc[0].security_group_id, "")
 
@@ -66,7 +66,7 @@ module "create_in_mammoth_efs" {
   source            = "./modules/efs"
   STAGE             = var.STAGE
   DEFAULT_TAGS      = var.DEFAULT_TAGS
-  EFS_CONFIGURATION = var.mammoth_efs_configurations
+  efs_configuration = var.efs_configurations["mammoth"]
   private_subnets   = module.create_in_vpc.private_subnets
   sg_id             = module.create_in_vpc.security_group_id
 
@@ -79,7 +79,7 @@ module "create_sea_mammoth_efs" {
   source            = "./modules/efs"
   STAGE             = var.STAGE
   DEFAULT_TAGS      = var.DEFAULT_TAGS
-  EFS_CONFIGURATION = var.mammoth_efs_configurations
+  efs_configuration = var.efs_configurations["mammoth"]
   private_subnets   = module.create_sea_vpc.private_subnets
   sg_id             = module.create_sea_vpc.security_group_id
 
@@ -93,7 +93,7 @@ module "create_us_mammoth_efs" {
   count             = contains(["dev"], var.STAGE) ? 0 : 1
   STAGE             = var.STAGE
   DEFAULT_TAGS      = var.DEFAULT_TAGS
-  EFS_CONFIGURATION = var.mammoth_efs_configurations
+  efs_configuration = var.efs_configurations["mammoth"]
   private_subnets   = try(module.create_us_vpc[0].private_subnets, [])
   sg_id             = try(module.create_us_vpc[0].security_group_id, "")
 
@@ -123,11 +123,11 @@ module "create_eu_ecs_mammoth_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
-  repo_name                     = var.mammoth_repo_name
+  repo_name                     = var.service_names["mammoth"]
   service                       = var.service_names["mammoth"]
   efs_file_system_id            = try(module.create_eu_mammoth_efs[0].efs_id, "")
   efs_access_point_id           = try(module.create_eu_mammoth_efs[0].access_point_id, "")
-  EFS_CONFIGURATION             = var.mammoth_efs_configurations
+  efs_configuration             = var.efs_configurations["mammoth"]
 
   providers = {
     aws.ecs_region = aws.eu_region
@@ -153,11 +153,11 @@ module "create_in_ecs_mammoth_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
-  repo_name                     = var.mammoth_repo_name
+  repo_name                     = var.service_names["mammoth"]
   service                       = var.service_names["mammoth"]
   efs_file_system_id            = module.create_in_mammoth_efs.efs_id
   efs_access_point_id           = module.create_in_mammoth_efs.access_point_id
-  EFS_CONFIGURATION             = var.mammoth_efs_configurations
+  efs_configuration             = var.efs_configurations["mammoth"]
 
   providers = {
     aws.ecs_region = aws.in_region
@@ -183,11 +183,11 @@ module "create_sea_ecs_mammoth_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
-  repo_name                     = var.mammoth_repo_name
+  repo_name                     = var.service_names["mammoth"]
   service                       = var.service_names["mammoth"]
   efs_file_system_id            = module.create_sea_mammoth_efs.efs_id
   efs_access_point_id           = module.create_sea_mammoth_efs.access_point_id
-  EFS_CONFIGURATION             = var.mammoth_efs_configurations
+  efs_configuration             = var.efs_configurations["mammoth"]
 
 
   providers = {
@@ -215,11 +215,11 @@ module "create_us_ecs_mammoth_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
-  repo_name                     = var.mammoth_repo_name
+  repo_name                     = var.service_names["mammoth"]
   service                       = var.service_names["mammoth"]
   efs_file_system_id            = try(module.create_us_mammoth_efs[0].efs_id, "")
   efs_access_point_id           = try(module.create_us_mammoth_efs[0].access_point_id, "")
-  EFS_CONFIGURATION             = var.mammoth_efs_configurations
+  efs_configuration             = var.efs_configurations["mammoth"]
 
   providers = {
     aws.ecs_region = aws.us_region

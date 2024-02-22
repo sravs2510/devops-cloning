@@ -19,7 +19,7 @@ module "create_eu_ecs_dashboard_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
-  repo_name                     = var.ecr_repo_name
+  repo_name                     = var.service_names["backend"]
   service                       = var.service_names["dashboard"]
   providers = {
     aws.ecs_region = aws.eu_region
@@ -45,7 +45,7 @@ module "create_in_ecs_dashboard_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
-  repo_name                     = var.ecr_repo_name
+  repo_name                     = var.service_names["backend"]
   service                       = var.service_names["dashboard"]
 
   providers = {
@@ -72,7 +72,7 @@ module "create_sea_ecs_dashboard_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
-  repo_name                     = var.ecr_repo_name
+  repo_name                     = var.service_names["backend"]
   service                       = var.service_names["dashboard"]
 
   providers = {
@@ -100,7 +100,7 @@ module "create_us_ecs_dashboard_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
-  repo_name                     = var.ecr_repo_name
+  repo_name                     = var.service_names["backend"]
   service                       = var.service_names["dashboard"]
 
   providers = {

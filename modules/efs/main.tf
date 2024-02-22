@@ -16,7 +16,7 @@ resource "aws_efs_file_system" "efs" {
   encrypted       = true
   throughput_mode = "elastic"
   tags = merge(
-    tomap({ "Name" = var.EFS_CONFIGURATION.name }),
+    tomap({ "Name" = var.efs_configuration.name }),
     tomap({ "STAGE" = var.STAGE }),
     var.DEFAULT_TAGS
   )
@@ -73,7 +73,7 @@ resource "aws_efs_access_point" "access_point" {
       owner_gid   = 1000
       permissions = "0777"
     }
-    path = var.EFS_CONFIGURATION.path
+    path = var.efs_configuration.path
   }
 
   depends_on = [
@@ -81,7 +81,7 @@ resource "aws_efs_access_point" "access_point" {
   ]
 
   tags = merge(
-    tomap({ "Name" = join("-", [var.EFS_CONFIGURATION.name, "access-point"]) }),
+    tomap({ "Name" = join("-", [var.efs_configuration.name, "access-point"]) }),
     tomap({ "STAGE" = var.STAGE }),
     var.DEFAULT_TAGS
   )

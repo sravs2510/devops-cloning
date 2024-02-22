@@ -19,7 +19,7 @@ module "create_in_ecs_reports_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
-  repo_name                     = var.ecr_repo_name
+  repo_name                     = var.service_names["backend"]
   service                       = var.service_names["reports"]
 
   providers = {
@@ -47,7 +47,7 @@ module "create_eu_ecs_reports_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
-  repo_name                     = var.ecr_repo_name
+  repo_name                     = var.service_names["backend"]
   service                       = var.service_names["reports"]
 
   providers = {
@@ -74,7 +74,7 @@ module "create_sea_ecs_reports_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
-  repo_name                     = var.ecr_repo_name
+  repo_name                     = var.service_names["backend"]
   service                       = var.service_names["reports"]
 
   providers = {
@@ -102,7 +102,7 @@ module "create_us_ecs_reports_service" {
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
-  repo_name                     = var.ecr_repo_name
+  repo_name                     = var.service_names["backend"]
   service                       = var.service_names["reports"]
 
   providers = {
