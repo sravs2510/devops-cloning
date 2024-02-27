@@ -159,3 +159,8 @@ variable "qatalyst_media_bucket_transfer_acceleration" {
   type        = string
   description = "Bucket name for qatalyst media with transfer acceleration "
 }
+
+variable "open_ai_api" {
+  type        = map(string)
+  description = "Openai keys"
+}

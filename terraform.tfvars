@@ -457,5 +457,12 @@ service_names = {
   backend    = "backend"
 }
 
+open_ai_api = {
+  "ap-southeast-1" = "#OPENAI_API_SEA"
+  "ap-south-1"     = "#OPENAI_API_IN"
+  "us-east-1"      = "#OPENAI_API_US"
+  "eu-north-1"     = "#OPENAI_API_EU"
+}
+
 #S3
 qatalyst_media_bucket_transfer_acceleration = "qatalyst-media"

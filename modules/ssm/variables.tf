@@ -12,3 +12,8 @@ variable "datacenter_codes" {
   type        = map(string)
   description = "Data center code values"
 }
+
+variable "open_ai_api" {
+  type        = map(string)
+  description = "Openai keys"
+}
