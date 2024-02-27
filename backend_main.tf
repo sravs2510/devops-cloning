@@ -172,6 +172,7 @@ module "create_eu_ssm" {
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
   datacenter_codes = var.datacenter_codes
+  open_ai_api      = var.open_ai_api
   providers = {
     aws.ssm_region = aws.eu_region
     random.random  = random.random
@@ -397,6 +398,7 @@ module "create_in_ssm" {
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
   datacenter_codes = var.datacenter_codes
+  open_ai_api      = var.open_ai_api
   providers = {
     aws.ssm_region = aws.in_region
     random.random  = random.random
@@ -615,6 +617,7 @@ module "create_sea_ssm" {
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
   datacenter_codes = var.datacenter_codes
+  open_ai_api      = var.open_ai_api
   providers = {
     aws.ssm_region = aws.sea_region
     random.random  = random.random
@@ -987,6 +990,7 @@ module "create_us_ssm" {
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
   datacenter_codes = var.datacenter_codes
+  open_ai_api      = var.open_ai_api
 
   providers = {
     aws.ssm_region = aws.us_region

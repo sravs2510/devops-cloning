@@ -16,6 +16,7 @@ data "aws_region" "ssm_region" {
 }
 locals {
   datacenter_code = lookup(var.datacenter_codes, data.aws_region.ssm_region.name)
+  openai_key      = lookup(var.open_ai_api, data.aws_region.ssm_region.name)
 }
 
 resource "random_uuid" "feature_flag_auth" {
@@ -43,10 +44,8 @@ resource "aws_ssm_parameter" "qatalyst_ssm_secure_values" {
     join("-", ["qatalyst", var.STAGE, "stripe-api-key"])        = "#QATALYST_STRIPE_API_KEY"
     join("-", ["qatalyst", var.STAGE, "stripe-webhook-secret"]) = "#QATALYST_STRIPE_WEBHOOK_SECRET"
     join("-", ["qatalyst", var.STAGE, "feature-flag-auth"])     = random_uuid.feature_flag_auth.result
-    join("-", ["platform", var.STAGE, "open-api-sea"])          = "#PLATFORM_OPENAI_API_SEA"
-    join("-", ["platform", var.STAGE, "open-api-in"])           = "#PLATFORM_OPENAI_API_IN"
-    join("-", ["platform", var.STAGE, "open-api-us"])           = "#PLATFORM_OPENAI_API_US"
-    join("-", ["platform", var.STAGE, "open-api-eu"])           = "#PLATFORM_OPENAI_API_EU"
+    join("-", ["qatalyst", var.STAGE, "open-ai-key"])           = local.openai_key
+
   }
   name  = each.key
   type  = "SecureString"
