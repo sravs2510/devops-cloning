@@ -206,6 +206,11 @@ locals {
     {
       name      = "GOOGLE_AUTHENTICATION_DATA"
       valueFrom = "GOOGLE_AUTHENTICATION_DATA"
+    },
+
+    {
+      name      = "OPENAI_API_KEY"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "open-ai-key"])
     }
   ]
 
