@@ -179,7 +179,7 @@ module "create_us_cloudwatch_tester_view_dashboard" {
 module "create_in_tester_view_acm" {
   source       = "./modules/acm-fe"
   base_domain  = var.base_domain
-  domain_name  = var.STAGE == "prod" ? join(".", [var.tester_view_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.tester_view_sub_domain, var.base_domain])
+  domain_name  = local.tester_view_domain
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
 
@@ -187,10 +187,11 @@ module "create_in_tester_view_acm" {
     aws.acm_region = aws.in_region
   }
 }
+
 module "create_sea_tester_view_acm" {
   source       = "./modules/acm-fe"
   base_domain  = var.base_domain
-  domain_name  = var.STAGE == "prod" ? join(".", [var.tester_view_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.tester_view_sub_domain, var.base_domain])
+  domain_name  = local.tester_view_domain
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
 
@@ -202,11 +203,41 @@ module "create_eu_tester_view_acm" {
   source       = "./modules/acm-fe"
   count        = contains(["dev"], var.STAGE) ? 0 : 1
   base_domain  = var.base_domain
-  domain_name  = var.STAGE == "prod" ? join(".", [var.tester_view_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.tester_view_sub_domain, var.base_domain])
+  domain_name  = local.tester_view_domain
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
 
   providers = {
     aws.acm_region = aws.eu_region
+  }
+}
+
+module "create_tester_view_acm" {
+  source       = "./modules/acm-fe"
+  base_domain  = var.base_domain
+  domain_name  = local.tester_view_domain
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
+
+  providers = {
+    aws.acm_region = aws.us_region
+  }
+}
+
+module "create_tester_view_cloudfront" {
+  source                      = "./modules/cloudfront-fe-be"
+  base_domain                 = var.base_domain
+  sub_domain                  = var.tester_view_sub_domain
+  bucket_arn                  = module.create_tester_view_s3_bucket.s3_bucket_arn
+  bucket_id                   = module.create_tester_view_s3_bucket.s3_bucket_id
+  bucket_regional_domain_name = module.create_tester_view_s3_bucket.s3_bucket_regional_domain_name
+  acm_certificate_arn         = module.create_tester_view_acm.acm_arn
+  qatalyst_alb_dns_names      = local.alb_dns_names
+  DEFAULT_TAGS                = var.DEFAULT_TAGS
+  STAGE                       = var.STAGE
+
+  providers = {
+    aws.cloudfront_region = aws.us_region
+    aws.bucket_region     = aws.sea_region
   }
 }
