@@ -431,7 +431,7 @@ sqs_details = {
   },
   "qatalyst-user-journey-processing-sqs" : {
     queue_name                 = "qatalyst-user-journey-processing-queue"
-    delay_seconds              = 300
+    delay_seconds              = 0
     max_message_size           = 262144 # 128KB
     message_retention_seconds  = 86400
     receive_wait_time_seconds  = 20   #Long Polling
