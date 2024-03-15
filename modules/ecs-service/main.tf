@@ -219,7 +219,7 @@ resource "aws_ecs_service" "qatalyst_ecs_service" {
 resource "aws_appautoscaling_target" "qatalyst_ecs_ast" {
   provider           = aws.ecs_region
   min_capacity       = 1
-  max_capacity       = var.STAGE == "dev" ? 1 : 6
+  max_capacity       = var.STAGE == "dev" ? 1 : local.is_sqs_service ? 100 : 10
   resource_id        = join("/", ["service", var.ecs_cluster_name, aws_ecs_service.qatalyst_ecs_service.name])
   scalable_dimension = "ecs:service:DesiredCount"
   service_namespace  = "ecs"
