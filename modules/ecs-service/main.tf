@@ -248,7 +248,7 @@ resource "aws_appautoscaling_policy" "qatalyst_ecs_asp_sqs_sum" {
             namespace   = "AWS/SQS"
             dimensions {
               name  = "QueueName"
-              value = join("-", ["qatalyst", var.service])
+              value = join("-", ["qatalyst", var.service, "processing-queue"])
             }
           }
           stat = "Sum"
