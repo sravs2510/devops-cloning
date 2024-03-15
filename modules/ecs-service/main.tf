@@ -24,6 +24,7 @@ locals {
   datacenter_code      = lookup(var.datacenter_codes, data.aws_region.ecs_region.name)
   dd_api_key_ssm_param = join("-", ["datadog", var.STAGE, "api-key"])
   dd_service_name      = join("-", [var.ecs_service_name, var.STAGE])
+  is_sqs_service       = contains(["mammoth", "furyblade", "cyborg"], var.service) ? true : false
 }
 
 resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
@@ -218,10 +219,44 @@ resource "aws_ecs_service" "qatalyst_ecs_service" {
 resource "aws_appautoscaling_target" "qatalyst_ecs_ast" {
   provider           = aws.ecs_region
   min_capacity       = 1
-  max_capacity       = var.STAGE == "dev" ? 1 : 6
+  max_capacity       = var.STAGE == "dev" ? 1 : local.is_sqs_service ? 100 : 10
   resource_id        = join("/", ["service", var.ecs_cluster_name, aws_ecs_service.qatalyst_ecs_service.name])
   scalable_dimension = "ecs:service:DesiredCount"
   service_namespace  = "ecs"
+}
+
+resource "aws_appautoscaling_policy" "qatalyst_ecs_asp_sqs_sum" {
+  provider           = aws.ecs_region
+  count              = local.is_sqs_service ? 1 : 0
+  name               = "qatalyst-ecs-asp-sqs-sum-${var.service}"
+  policy_type        = "TargetTrackingScaling"
+  resource_id        = aws_appautoscaling_target.qatalyst_ecs_ast.resource_id
+  scalable_dimension = aws_appautoscaling_target.qatalyst_ecs_ast.scalable_dimension
+  service_namespace  = aws_appautoscaling_target.qatalyst_ecs_ast.service_namespace
+
+  target_tracking_scaling_policy_configuration {
+    target_value       = 1
+    scale_in_cooldown  = 30
+    scale_out_cooldown = 30
+    customized_metric_specification {
+      metrics {
+        label = "MessagesWaitingToBeProcessed"
+        id    = "m1"
+        metric_stat {
+          metric {
+            metric_name = "ApproximateNumberOfMessagesVisible"
+            namespace   = "AWS/SQS"
+            dimensions {
+              name  = "QueueName"
+              value = join("-", ["qatalyst", var.service, "processing-queue"])
+            }
+          }
+          stat = "Sum"
+        }
+        return_data = true
+      }
+    }
+  }
 }
 
 # Define the Auto Scaling policy for the ECS service
