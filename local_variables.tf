@@ -54,33 +54,6 @@ locals {
       value = module.create_iam.event_bridge_scheduler_role_arn
     }
   ]
-  qatalyst_prototype_ecs_task_environment_variables = [
-    {
-      name  = "COGNITO_USER_POOL_ID"
-      value = module.create_cognito_user_pool.user_pool_id
-    },
-    {
-      name  = "LOCAL_RUN"
-      value = "false"
-    },
-    {
-      name  = "QATALYST_DOMAIN"
-      value = local.dasboard_domain
-    },
-    {
-      name  = "FE_TESTER_VIEW_DOMAIN_NAME"
-      value = local.tester_view_domain
-    },
-    {
-      name  = "WEB_CONCURRENCY"
-      value = var.uvicorn_workers_count
-    },
-    {
-      name  = "QATALYST_SENDER_EMAIL"
-      value = local.qatalyst_sender_email
-    }
-  ]
-
   qatalyst_mammoth_ecs_task_environment_variables = [
     {
       name  = "COGNITO_USER_POOL_ID"
@@ -212,7 +185,6 @@ locals {
       name      = "GOOGLE_AUTHENTICATION_DATA"
       valueFrom = "GOOGLE_AUTHENTICATION_DATA"
     },
-
     {
       name      = "OPENAI_API_KEY"
       valueFrom = join("-", ["qatalyst", var.STAGE, "open-ai-key"])
