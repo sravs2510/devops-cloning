@@ -47,8 +47,13 @@ locals {
       value = local.qatalyst_sender_email
     }
   ]
-  qatalyst_cyborg_ecs_task_environment_variables    = []
-  qatalyst_furyblade_ecs_task_environment_variables = []
+  qatalyst_cyborg_ecs_task_environment_variables = []
+  qatalyst_furyblade_ecs_task_environment_variables = [
+    {
+      name  = "EVENT_BRIDGE_SCHEDULER_ROLE_ARN"
+      value = module.create_iam.event_bridge_scheduler_role_arn
+    }
+  ]
   qatalyst_prototype_ecs_task_environment_variables = [
     {
       name  = "COGNITO_USER_POOL_ID"

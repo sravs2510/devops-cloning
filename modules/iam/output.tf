@@ -21,3 +21,7 @@ output "furyblade_ecs_task_role_arn" {
 output "mammoth_ecs_task_role_arn" {
   value = aws_iam_role.qatalyst_ecs_mammoth_task_role.arn
 }
+
+output "event_bridge_scheduler_role_arn" {
+  value = aws_iam_role.eventbridge_scheduler_role.arn
+}

@@ -1,5 +1,4 @@
 #ECR
-
 module "create_in_furyblade_ecr" {
   source       = "./modules/ecr"
   service_name = var.service_names["furyblade"]
@@ -47,7 +46,6 @@ module "create_us_furyblade_ecr" {
 }
 
 #ECS furyblade
-
 module "create_sea_ecs_furyblade_service" {
   source                        = "./modules/ecs-service"
   ecs_service_name              = local.qatalyst_furyblade_service_name
@@ -221,5 +219,52 @@ module "create_us_furyblade_efs" {
 
   providers = {
     aws.efs_region = aws.us_region
+  }
+}
+
+#Event Bridge Scheduler Group
+module "create_eu_furyblade_eventbridge_group" {
+  source       = "./modules/eventbridge"
+  count        = contains(["dev"], var.STAGE) ? 0 : 1
+  STAGE        = var.STAGE
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  service      = var.service_names["furyblade"]
+
+  providers = {
+    aws.eventbridge_region = aws.eu_region
+  }
+}
+
+module "create_in_furyblade_eventbridge_group" {
+  source       = "./modules/eventbridge"
+  STAGE        = var.STAGE
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  service      = var.service_names["furyblade"]
+
+  providers = {
+    aws.eventbridge_region = aws.in_region
+  }
+}
+
+module "create_sea_furyblade_eventbridge_group" {
+  source       = "./modules/eventbridge"
+  STAGE        = var.STAGE
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  service      = var.service_names["furyblade"]
+
+  providers = {
+    aws.eventbridge_region = aws.sea_region
+  }
+}
+
+module "create_us_furyblade_eventbridge_group" {
+  source       = "./modules/eventbridge"
+  count        = contains(["dev"], var.STAGE) ? 0 : 1
+  STAGE        = var.STAGE
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  service      = var.service_names["furyblade"]
+
+  providers = {
+    aws.eventbridge_region = aws.us_region
   }
 }
