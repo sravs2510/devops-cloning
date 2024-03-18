@@ -757,17 +757,9 @@ resource "aws_iam_policy" "ecs-batch-policy" {
       },
       {
         Action = [
-          "s3:GetObject"
-        ],
-        Effect   = "Allow",
-        Resource = "*"
-      },
-      {
-        Action = [
           "dynamodb:GetItem",
           "dynamodb:PutItem",
           "dynamodb:UpdateItem",
-          "dynamodb:scan",
           "dynamodb:query",
           "dynamodb:DescribeTable",
           "dynamodb:BatchWriteItem",
@@ -807,15 +799,21 @@ resource "aws_iam_policy" "ecs-batch-policy" {
           "ecr:ListTagsForResource",
           "ecr:DescribeImageScanFindings"
         ]
-        Effect   = "Allow"
-        Resource = "*"
+        Effect = "Allow"
+        Resource = [
+          join(".", [local.account_id, "dkr.ecr", "*", "amazonaws.com/qatalyst-*:latest"])
+        ]
       },
       {
         Action = [
           "batch:ListJobs"
         ],
-        Effect   = "Allow",
-        Resource = "*"
+        Effect = "Allow",
+        Resource = [
+          join(":", ["arn:aws:batch:*", local.account_id, "job-definition/qatalyst*"]),
+          join(":", ["arn:aws:batch:*", local.account_id, "job-queue/qatalyst*"]),
+          join(":", ["arn:aws:batch:*", local.account_id, "compute-environment/qatalyst*"])
+        ]
       }
     ]
   })
