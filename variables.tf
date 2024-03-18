@@ -164,3 +164,28 @@ variable "open_ai_api" {
   type        = map(string)
   description = "Openai keys"
 }
+
+variable "batch_configurations" {
+  type = map(object({
+    name            = string
+    instance_types  = optional(list(string))
+    max_vcpus       = number
+    min_vcpus       = number
+    type            = string
+    required_vcpus  = string
+    required_memory = string
+    required_gpu    = optional(number)
+    image           = string
+    command         = optional(list(string))
+
+  }))
+  description = "Batch Jobs Configuration"
+  validation {
+    condition = alltrue(
+      [
+        for config in values(var.batch_configurations) : contains(["EC2", "FARGATE"], config.type)
+      ]
+    )
+    error_message = "type must be one of EC2 or FARGATE"
+  }
+}

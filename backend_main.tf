@@ -454,6 +454,23 @@ module "create_in_qatalyst_media_bucket" {
     aws.s3_region = aws.in_region
   }
 }
+/*
+module "create_in_qatalyst_fargate_batch" {
+  source                            = "./modules/batch"
+  STAGE                             = var.STAGE
+  DEFAULT_TAGS                      = var.DEFAULT_TAGS
+  batch_job_configuration           = var.batch_configurations
+  qatalyst_aws_iam_instance_profile = module.create_iam.qatalyst_aws_iam_instance_profile
+  qatalyst_aws_batch_service_role   = module.create_iam.qatalyst_aws_batch_service_role
+  private_subnets                   = module.create_in_vpc.private_subnets
+  sg_id                             = module.create_in_vpc.security_group_id
+  service_name                      = var.service_names["backend"]
+  providers = {
+    aws.batch_region = aws.in_region
+  }
+}*/
+
+
 
 # SEA Resources
 module "create_sea_vpc" {

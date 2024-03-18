@@ -137,6 +137,17 @@ resource "aws_iam_policy" "qatalyst_ecs_task_iam_policy" {
         ],
         Effect   = "Allow",
         Resource = local.qatalyst_sqs_arn
+      },
+      {
+        Action = [
+          "batch:*"
+        ]
+        Effect = "Allow"
+        Resource = [
+          "arn:aws:batch:*:${local.account_id}:job-definition/qatalyst*",
+          "arn:aws:batch:*:${local.account_id}:job-queue/qatalyst*",
+          "arn:aws:batch:*:${local.account_id}:compute-environment/qatalyst*"
+        ]
       }
     ]
   })
@@ -630,4 +641,177 @@ resource "aws_iam_role_policy_attachment" "eventbridge_scheduler_role_attach_pol
   provider   = aws.iam_region
   role       = aws_iam_role.eventbridge_scheduler_role.id
   policy_arn = aws_iam_policy.event_bridge_policy.arn
+}
+
+# Batch Job IAM Roles and Policy
+resource "aws_iam_role" "aws_batch_service_role" {
+  provider = aws.iam_region
+  name     = "aws-batch-service-role"
+  assume_role_policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Principal" : {
+          "Service" : "batch.amazonaws.com"
+        },
+        "Action" : "sts:AssumeRole"
+      },
+      {
+        "Effect" : "Allow",
+        "Principal" : {
+          "Service" : "ecs-tasks.amazonaws.com"
+        },
+        "Action" : "sts:AssumeRole"
+      }
+    ]
+  })
+  managed_policy_arns = [
+    "arn:aws:iam::aws:policy/service-role/AWSBatchServiceRole",
+    aws_iam_policy.ecs-batch-policy.arn
+  ]
+  tags = merge(tomap({ "Name" : "qatalyst-batch-service-role" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+
+}
+
+resource "aws_iam_role" "ecs_instance_role" {
+  provider = aws.iam_region
+  name     = "ecs-instance-role"
+  assume_role_policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Principal" : {
+          "Service" : "ec2.amazonaws.com"
+        },
+        "Action" : "sts:AssumeRole"
+      },
+      {
+        "Effect" : "Allow",
+        "Principal" : {
+          "Service" : "ecs-tasks.amazonaws.com"
+        },
+        "Action" : "sts:AssumeRole"
+      }
+    ]
+  })
+  managed_policy_arns = [
+    "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
+    aws_iam_policy.ecs-batch-policy.arn
+  ]
+  path = "/"
+  tags = merge(tomap({ "Name" : "qatalyst-ecs-iam-role" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+}
+
+resource "aws_iam_policy" "ecs-batch-policy" {
+  provider    = aws.iam_region
+  name        = "ecs-batch-policy"
+  description = "ECS Batch Policy"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = [
+          "s3:ListBucket"
+        ],
+        Effect   = "Allow",
+        Resource = [local.s3_media_bucket_arn, local.s3_qatalyst_media_bucket_arn]
+      },
+      {
+        Action = [
+          "s3:PutObject",
+          "s3:GetObject",
+          "s3:DeleteObject",
+          "s3:AbortMultipartUpload",
+          "s3:ListMultipartUploadParts"
+        ],
+        Effect   = "Allow",
+        Resource = [local.s3_media_bucket_object_arn, local.s3_qatalyst_media_bucket_object_arn]
+      },
+      {
+        Action = [
+          "s3:PutObject",
+          "s3:GetObject",
+          "s3:DeleteObject",
+          "s3:AbortMultipartUpload",
+          "s3:ListMultipartUploadParts"
+        ],
+        Effect   = "Allow",
+        Resource = local.s3_common_bucket_arn
+      },
+      {
+        Action = [
+          "s3:GetObject"
+        ],
+        Effect   = "Allow",
+        Resource = "*"
+      },
+      {
+        Action = [
+          "dynamodb:GetItem",
+          "dynamodb:PutItem",
+          "dynamodb:UpdateItem",
+          "dynamodb:scan",
+          "dynamodb:query",
+          "dynamodb:DescribeTable",
+          "dynamodb:BatchWriteItem",
+          "dynamodb:BatchGetItem",
+        ]
+        Effect   = "Allow"
+        Resource = join(":", ["arn:aws:dynamodb:*", local.account_id, "table/qatalyst-*"])
+      },
+      {
+        Action = [
+          "elasticfilesystem:DescribeMountTargets",
+          "elasticfilesystem:DescribeFileSystems",
+          "elasticfilesystem:DescribeTags",
+          "elasticfilesystem:ClientMount",
+          "elasticfilesystem:ClientWrite",
+          "elasticfilesystem:CreateMountTarget",
+          "elasticfilesystem:ClientRootAccess"
+        ]
+        Effect = "Allow"
+        Resource = [
+          join(":", ["arn:aws:elasticfilesystem:*", local.account_id, "access-point/*"]),
+          join(":", ["arn:aws:elasticfilesystem:*", local.account_id, "file-system/*"])
+        ]
+      },
+      {
+        Action = [
+          "ecr:GetAuthorizationToken",
+          "ecr:BatchCheckLayerAvailability",
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:GetRepositoryPolicy",
+          "ecr:DescribeRepositories",
+          "ecr:ListImages",
+          "ecr:DescribeImages",
+          "ecr:BatchGetImage",
+          "ecr:GetLifecyclePolicy",
+          "ecr:GetLifecyclePolicyPreview",
+          "ecr:ListTagsForResource",
+          "ecr:DescribeImageScanFindings"
+        ]
+        Effect   = "Allow"
+        Resource = "*"
+      },
+      {
+        Action = [
+          "batch:ListJobs"
+        ],
+        Effect   = "Allow",
+        Resource = "*"
+      }
+    ]
+  })
+  tags = merge(tomap({ "Name" : "qatalyst-batch-iam-policy" }), tomap({
+    "STAGE" : var.STAGE
+  }), var.DEFAULT_TAGS)
+}
+
+resource "aws_iam_instance_profile" "ecs_instance_profile" {
+  provider = aws.iam_region
+  name     = "ecs-instance-profile"
+  role     = aws_iam_role.ecs_instance_role.name
 }

@@ -25,3 +25,11 @@ output "mammoth_ecs_task_role_arn" {
 output "event_bridge_scheduler_role_arn" {
   value = aws_iam_role.eventbridge_scheduler_role.arn
 }
+
+output "qatalyst_aws_iam_instance_profile" {
+  value = aws_iam_instance_profile.ecs_instance_profile.arn
+}
+
+output "qatalyst_aws_batch_service_role" {
+  value = aws_iam_role.aws_batch_service_role.arn
+}
