@@ -801,7 +801,7 @@ resource "aws_iam_policy" "ecs-batch-policy" {
         ]
         Effect = "Allow"
         Resource = [
-          join(".", [local.account_id, "dkr.ecr", "*", "amazonaws.com/qatalyst-*:latest"])
+          join(":", ["arn:aws:ecr:*", local.account_id, "repository/qatalyst-*"])
         ]
       },
       {
