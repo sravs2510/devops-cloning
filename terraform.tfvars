@@ -474,3 +474,17 @@ open_ai_api = {
 
 #S3
 qatalyst_media_bucket_transfer_acceleration = "qatalyst-media"
+
+# Batch
+batch_configurations = {
+  qatalyst-face-reduction = {
+    name            = "qatalyst-face-reduction"
+    max_vcpus       = 200
+    min_vcpus       = 0
+    type            = "FARGATE"
+    required_vcpus  = "4"
+    required_gpu    = "1"
+    required_memory = "8192"
+    image           = "com/qatalyst-backend:latest"
+  }
+}

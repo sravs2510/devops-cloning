@@ -25,7 +25,6 @@ module "create_eu_ecs_dashboard_service" {
     aws.ecs_region = aws.eu_region
   }
 }
-
 module "create_in_ecs_dashboard_service" {
   source                        = "./modules/ecs-service"
   ecs_service_name              = local.qatalyst_dashboard_service_name
