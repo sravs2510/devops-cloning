@@ -451,6 +451,13 @@ resource "aws_iam_role" "qatalyst_ecs_furyblade_task_role" {
           },
           "Effect" : "Allow",
           "Sid" : ""
+        },
+        {
+          "Effect" : "Allow",
+          "Principal" : {
+            "Service" : "scheduler.amazonaws.com"
+          },
+          "Action" : "sts:AssumeRole"
         }
       ]
   })
