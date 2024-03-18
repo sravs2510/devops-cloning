@@ -477,9 +477,9 @@ qatalyst_media_bucket_transfer_acceleration = "qatalyst-media"
 
 # Batch
 batch_configurations = {
-  qatalyst = {
+  qatalyst-face-reduction = {
     name            = "qatalyst-face-reduction"
-    max_vcpus       = 1000
+    max_vcpus       = 200
     min_vcpus       = 0
     type            = "FARGATE"
     required_vcpus  = "4"

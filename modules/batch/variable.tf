@@ -32,8 +32,3 @@ variable "sg_id" {
   type        = string
   description = "security group id"
 }
-
-variable "service_name" {
-  type        = string
-  description = "Service name"
-}
