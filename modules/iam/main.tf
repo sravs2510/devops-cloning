@@ -54,6 +54,7 @@ locals {
   qatalyst_lambdas_arn                = join(":", ["arn:aws:lambda", "*", local.account_id, "function", "qatalyst-*"])
   qatalyst_sqs_arn                    = join(":", ["arn:aws:sqs", "*", local.account_id, "qatalyst-*"])
   qatalyst_eventbridge_scheduler_arn  = join(":", ["arn:aws:scheduler", "*", local.account_id, "*"])
+  qatalyst_iam_passrole_arn           = join(":", ["arn:aws:iam:", local.account_id, "*"])
   qatalyst_media_bucket_name          = var.STAGE == "prod" ? join("-", ["*", "qatalyst-media"]) : join("-", ["*", var.STAGE, "qatalyst-media"])
   s3_qatalyst_media_bucket_arn        = join(":", ["arn:aws:s3::", local.qatalyst_media_bucket_name])
   s3_qatalyst_media_bucket_object_arn = join("", [local.s3_qatalyst_media_bucket_arn, "/*"])
@@ -304,6 +305,11 @@ resource "aws_iam_policy" "qatalyst_ecs_furyblade_task_iam_policy" {
         ],
         Effect   = "Allow",
         Resource = local.qatalyst_eventbridge_scheduler_arn
+      },
+      {
+        Action   = ["iam:PassRole"]
+        Effect   = "Allow"
+        Resource = local.qatalyst_iam_passrole_arn
       }
     ]
   })
