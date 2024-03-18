@@ -53,6 +53,7 @@ locals {
   ses_arn                             = join(":", ["arn:aws:ses", "us-west-2", local.account_id, "identity/*"])
   qatalyst_lambdas_arn                = join(":", ["arn:aws:lambda", "*", local.account_id, "function", "qatalyst-*"])
   qatalyst_sqs_arn                    = join(":", ["arn:aws:sqs", "*", local.account_id, "qatalyst-*"])
+  qatalyst_eventbridge_scheduler_arn  = join(":", ["arn:aws:scheduler", "*", local.account_id, "*"])
   qatalyst_media_bucket_name          = var.STAGE == "prod" ? join("-", ["*", "qatalyst-media"]) : join("-", ["*", var.STAGE, "qatalyst-media"])
   s3_qatalyst_media_bucket_arn        = join(":", ["arn:aws:s3::", local.qatalyst_media_bucket_name])
   s3_qatalyst_media_bucket_object_arn = join("", [local.s3_qatalyst_media_bucket_arn, "/*"])
@@ -288,6 +289,21 @@ resource "aws_iam_policy" "qatalyst_ecs_furyblade_task_iam_policy" {
         ],
         Effect   = "Allow",
         Resource = local.qatalyst_sqs_arn
+      },
+      {
+        Action = [
+          "scheduler:CreateSchedule",
+          "scheduler:DeleteSchedule",
+          "scheduler:TagResource",
+          "scheduler:UntagResource",
+          "scheduler:ListTagsForResource",
+          "scheduler:GetSchedule",
+          "scheduler:GetScheduleGroup",
+          "scheduler:ListSchedules",
+          "scheduler:ListScheduleGroups"
+        ],
+        Effect   = "Allow",
+        Resource = local.qatalyst_eventbridge_scheduler_arn
       }
     ]
   })
@@ -444,6 +460,11 @@ resource "aws_iam_role" "qatalyst_ecs_mammoth_task_role" {
           },
           "Effect" : "Allow",
           "Sid" : ""
+          "Condition" : {
+            "StringEquals" : {
+              "aws:SourceAccount" : local.account_id
+            }
+          }
         }
       ]
   })
@@ -486,6 +507,11 @@ resource "aws_iam_role" "qatalyst_ecs_autoscale_role" {
             "Service" : "application-autoscaling.amazonaws.com"
           },
           "Effect" : "Allow"
+          "Condition" : {
+            "StringEquals" : {
+              "aws:SourceAccount" : local.account_id
+            }
+          }
         }
       ]
   })
@@ -541,6 +567,11 @@ resource "aws_iam_role" "media_convert_role" {
             "Service" : "mediaconvert.amazonaws.com"
           },
           "Action" : "sts:AssumeRole"
+          "Condition" : {
+            "StringEquals" : {
+              "aws:SourceAccount" : local.account_id
+            }
+          }
         }
       ]
   })
@@ -550,4 +581,53 @@ resource "aws_iam_role_policy_attachment" "qatalyst_media_convert_role" {
   provider   = aws.iam_region
   role       = aws_iam_role.media_convert_role.id
   policy_arn = aws_iam_policy.media_convert_policy.arn
+}
+
+resource "aws_iam_policy" "event_bridge_policy" {
+  provider    = aws.iam_region
+  name        = "qatalyst-event-bridge-scheduler-policy"
+  description = "qatalyst event bridge scheduler policy"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = [
+          "sqs:SendMessage"
+        ],
+        Effect   = "Allow",
+        Resource = local.qatalyst_sqs_arn
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role" "eventbridge_scheduler_role" {
+  provider = aws.iam_region
+  name     = "qatalyst-evenbridge-scheduler-iam-role"
+  assume_role_policy = jsonencode(
+    {
+      "Version" : "2012-10-17",
+      "Statement" : [
+        {
+          "Effect" : "Allow",
+          "Principal" : {
+            "Service" : "scheduler.amazonaws.com"
+          },
+          "Action" : "sts:AssumeRole",
+          "Condition" : {
+            "StringEquals" : {
+              "aws:SourceAccount" : local.account_id
+            }
+          }
+        }
+      ]
+  })
+  tags = merge(tomap({ "Name" : "qatalyst-ecs-task-role" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+}
+
+resource "aws_iam_role_policy_attachment" "eventbridge_scheduler_role_attach_policy" {
+  provider   = aws.iam_region
+  role       = aws_iam_role.eventbridge_scheduler_role.id
+  policy_arn = aws_iam_policy.event_bridge_policy.arn
 }
