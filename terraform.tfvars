@@ -127,6 +127,9 @@ table_details = {
     table_name = "qatalyst-study-details"
     hash_key   = "workspace_id"
     range_key  = "study_id"
+    stream = {
+      enabled = true
+    }
     attributes = [
       {
         name = "last_modified_date"
