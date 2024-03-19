@@ -658,9 +658,9 @@ resource "aws_iam_role_policy_attachment" "eventbridge_scheduler_role_attach_pol
 }
 
 # Batch Job IAM Roles and Policy
-resource "aws_iam_role" "aws_batch_service_role" {
+resource "aws_iam_role" "qatalyst_aws_batch_service_role" {
   provider = aws.iam_region
-  name     = "aws-batch-service-role"
+  name     = "qatalyst-aws-batch-service-role"
   assume_role_policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [
@@ -682,7 +682,7 @@ resource "aws_iam_role" "aws_batch_service_role" {
   })
   managed_policy_arns = [
     "arn:aws:iam::aws:policy/service-role/AWSBatchServiceRole",
-    aws_iam_policy.ecs-batch-policy.arn
+    aws_iam_policy.qatalyst_ecs_batch_policy.arn
   ]
   tags = merge(tomap({ "Name" : "qatalyst-batch-service-role" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 
@@ -712,7 +712,7 @@ resource "aws_iam_role" "qatalyst_ecs_instance_role" {
   })
   managed_policy_arns = [
     "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
-    aws_iam_policy.ecs-batch-policy.arn
+    aws_iam_policy.qatalyst_ecs_batch_policy.arn
   ]
   path = "/"
   tags = merge(tomap({ "Name" : "qatalyst-ecs-iam-role" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)

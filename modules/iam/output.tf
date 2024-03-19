@@ -27,9 +27,9 @@ output "event_bridge_scheduler_role_arn" {
 }
 
 output "qatalyst_aws_iam_instance_profile" {
-  value = aws_iam_instance_profile.ecs_instance_profile.arn
+  value = aws_iam_instance_profile.qatalyst_ecs_instance_profile.arn
 }
 
 output "qatalyst_aws_batch_service_role" {
-  value = aws_iam_role.aws_batch_service_role.arn
+  value = aws_iam_role.qatalyst_aws_batch_service_role.arn
 }
