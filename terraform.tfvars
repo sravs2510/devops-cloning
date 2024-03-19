@@ -455,14 +455,15 @@ efs_configurations = {
 }
 
 service_names = {
-  dashboard  = "dashboard"
-  reports    = "reports"
-  testerview = "testerview"
-  cyborg     = "cyborg"
-  furyblade  = "furyblade"
-  prototype  = "prototype"
-  mammoth    = "mammoth"
-  backend    = "backend"
+  dashboard      = "dashboard"
+  reports        = "reports"
+  testerview     = "testerview"
+  cyborg         = "cyborg"
+  furyblade      = "furyblade"
+  prototype      = "prototype"
+  mammoth        = "mammoth"
+  backend        = "backend"
+  face_reduction = "face-reduction"
 }
 
 open_ai_api = {
@@ -485,6 +486,6 @@ batch_configurations = {
     required_vcpus  = "4"
     required_gpu    = "1"
     required_memory = "8192"
-    image           = "com/qatalyst-backend:latest"
+    image           = "com/qatalyst-face-reduction:latest"
   }
 }

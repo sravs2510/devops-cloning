@@ -1,3 +1,15 @@
+#ECR
+module "create_in_qatalyst_fargate_batch_ecr" {
+  source       = "./modules/ecr"
+  service_name = var.service_names["face_reduction"]
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
+
+  providers = {
+    aws.ecr_region = aws.in_region
+  }
+}
+
 module "create_in_qatalyst_fargate_batch" {
   source                            = "./modules/batch"
   STAGE                             = var.STAGE
@@ -11,7 +23,16 @@ module "create_in_qatalyst_fargate_batch" {
     aws.batch_region = aws.in_region
   }
 }
+module "create_sea_qatalyst_fargate_ecr" {
+  source       = "./modules/ecr"
+  service_name = var.service_names["face_reduction"]
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
 
+  providers = {
+    aws.ecr_region = aws.sea_region
+  }
+}
 module "create_sea_qatalyst_fargate_batch" {
   source                            = "./modules/batch"
   STAGE                             = var.STAGE
@@ -26,6 +47,17 @@ module "create_sea_qatalyst_fargate_batch" {
   }
 }
 
+module "create_eu_qatalyst_fargate_batch_ecr" {
+  source       = "./modules/ecr"
+  count        = contains(["dev"], var.STAGE) ? 0 : 1
+  service_name = var.service_names["face_reduction"]
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
+
+  providers = {
+    aws.ecr_region = aws.eu_region
+  }
+}
 module "create_eu_qatalyst_fargate_batch" {
   source                            = "./modules/batch"
   STAGE                             = var.STAGE
@@ -38,6 +70,18 @@ module "create_eu_qatalyst_fargate_batch" {
   sg_id                             = module.create_eu_vpc[0].security_group_id
   providers = {
     aws.batch_region = aws.eu_region
+  }
+}
+
+module "create_us_qatalyst_fargate_batch_ecr" {
+  source       = "./modules/ecr"
+  count        = contains(["dev"], var.STAGE) ? 0 : 1
+  service_name = var.service_names["face_reduction"]
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
+
+  providers = {
+    aws.ecr_region = aws.us_region
   }
 }
 
