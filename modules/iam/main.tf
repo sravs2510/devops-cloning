@@ -688,9 +688,9 @@ resource "aws_iam_role" "aws_batch_service_role" {
 
 }
 
-resource "aws_iam_role" "ecs_instance_role" {
+resource "aws_iam_role" "qatalyst_ecs_instance_role" {
   provider = aws.iam_region
-  name     = "ecs-instance-role"
+  name     = "qatalyst-ecs-instance-role"
   assume_role_policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [
@@ -718,9 +718,9 @@ resource "aws_iam_role" "ecs_instance_role" {
   tags = merge(tomap({ "Name" : "qatalyst-ecs-iam-role" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
-resource "aws_iam_policy" "ecs-batch-policy" {
+resource "aws_iam_policy" "qatalyst_ecs_batch_policy" {
   provider    = aws.iam_region
-  name        = "ecs-batch-policy"
+  name        = "qatalyst-ecs-batch-policy"
   description = "ECS Batch Policy"
 
   policy = jsonencode({
@@ -822,8 +822,8 @@ resource "aws_iam_policy" "ecs-batch-policy" {
   }), var.DEFAULT_TAGS)
 }
 
-resource "aws_iam_instance_profile" "ecs_instance_profile" {
+resource "aws_iam_instance_profile" "qatalyst_ecs_instance_profile" {
   provider = aws.iam_region
-  name     = "ecs-instance-profile"
-  role     = aws_iam_role.ecs_instance_role.name
+  name     = "qatalyst-ecs-instance-profile"
+  role     = aws_iam_role.qatalyst_ecs_instance_role.name
 }
