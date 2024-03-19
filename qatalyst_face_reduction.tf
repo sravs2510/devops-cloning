@@ -1,5 +1,5 @@
 #ECR
-module "create_in_qatalyst_fargate_batch_ecr" {
+module "create_in_qatalyst_fargate_ecr" {
   source       = "./modules/ecr"
   service_name = var.service_names["face_reduction"]
   DEFAULT_TAGS = var.DEFAULT_TAGS
@@ -47,7 +47,7 @@ module "create_sea_qatalyst_fargate_batch" {
   }
 }
 
-module "create_eu_qatalyst_fargate_batch_ecr" {
+module "create_eu_qatalyst_fargate_ecr" {
   source       = "./modules/ecr"
   count        = contains(["dev"], var.STAGE) ? 0 : 1
   service_name = var.service_names["face_reduction"]
@@ -73,7 +73,7 @@ module "create_eu_qatalyst_fargate_batch" {
   }
 }
 
-module "create_us_qatalyst_fargate_batch_ecr" {
+module "create_us_qatalyst_fargate_ecr" {
   source       = "./modules/ecr"
   count        = contains(["dev"], var.STAGE) ? 0 : 1
   service_name = var.service_names["face_reduction"]
