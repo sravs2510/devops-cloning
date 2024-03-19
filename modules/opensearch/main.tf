@@ -60,7 +60,6 @@ resource "aws_security_group" "opensearch_sg" {
   }), var.DEFAULT_TAGS)
 }
 
-
 resource "aws_opensearch_domain" "opensearch_domain" {
   provider       = aws.opensearch_region
   domain_name    = var.service_name
@@ -125,12 +124,11 @@ resource "aws_opensearch_domain" "opensearch_domain" {
   }
 
   vpc_options {
-    subnet_ids         = var.private_subnets
     security_group_ids = [aws_security_group.opensearch_sg.id]
+    subnet_ids         = var.private_subnets
   }
 
   tags = merge(tomap({ "Name" : join("-", [var.service_name, "opensearch", "domain"]) }), tomap({
     "STAGE" : var.STAGE
   }), var.DEFAULT_TAGS)
-
 }
