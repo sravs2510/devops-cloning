@@ -233,6 +233,21 @@ module "create_eu_qatalyst_media_bucket" {
   }
 }
 
+module "create_eu_opensearch" {
+  source            = "./modules/opensearch"
+  count             = contains(["dev"], var.STAGE) ? 0 : 1
+  DEFAULT_TAGS      = var.DEFAULT_TAGS
+  STAGE             = var.STAGE
+  datacenter_codes  = var.datacenter_codes
+  service_name      = local.qatalyst_dashboard_service_name
+  opensearch_config = var.opensearch_config
+
+  providers = {
+    aws.opensearch_region = aws.eu_region
+    random.random         = random.random
+  }
+}
+
 # INDIA Resources
 module "create_in_vpc" {
   source          = "./modules/vpc"
@@ -455,6 +470,20 @@ module "create_in_qatalyst_media_bucket" {
   }
 }
 
+module "create_in_opensearch" {
+  source            = "./modules/opensearch"
+  DEFAULT_TAGS      = var.DEFAULT_TAGS
+  STAGE             = var.STAGE
+  datacenter_codes  = var.datacenter_codes
+  service_name      = local.qatalyst_dashboard_service_name
+  opensearch_config = var.opensearch_config
+
+  providers = {
+    aws.opensearch_region = aws.in_region
+    random.random         = random.random
+  }
+}
+
 # SEA Resources
 module "create_sea_vpc" {
   source          = "./modules/vpc"
@@ -662,6 +691,20 @@ module "create_sea_qatalyst_media_bucket" {
 
   providers = {
     aws.s3_region = aws.sea_region
+  }
+}
+
+module "create_sea_opensearch" {
+  source            = "./modules/opensearch"
+  DEFAULT_TAGS      = var.DEFAULT_TAGS
+  STAGE             = var.STAGE
+  datacenter_codes  = var.datacenter_codes
+  service_name      = local.qatalyst_dashboard_service_name
+  opensearch_config = var.opensearch_config
+
+  providers = {
+    aws.opensearch_region = aws.sea_region
+    random.random         = random.random
   }
 }
 
@@ -1067,5 +1110,20 @@ module "create_us_sqs" {
 
   providers = {
     aws.sqs_region = aws.us_region
+  }
+}
+
+module "create_us_opensearch" {
+  source            = "./modules/opensearch"
+  count             = contains(["dev"], var.STAGE) ? 0 : 1
+  DEFAULT_TAGS      = var.DEFAULT_TAGS
+  STAGE             = var.STAGE
+  datacenter_codes  = var.datacenter_codes
+  service_name      = local.qatalyst_dashboard_service_name
+  opensearch_config = var.opensearch_config
+
+  providers = {
+    aws.opensearch_region = aws.us_region
+    random.random         = random.random
   }
 }

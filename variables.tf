@@ -189,3 +189,13 @@ variable "batch_configurations" {
     error_message = "type must be one of EC2 or FARGATE"
   }
 }
+
+variable "opensearch_config" {
+  type        = map(any)
+  description = "Opensearch domain configurations"
+}
+
+variable "service_name" {
+  type        = string
+  description = "Service Name"
+}

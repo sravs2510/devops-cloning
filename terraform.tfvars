@@ -127,6 +127,9 @@ table_details = {
     table_name = "qatalyst-study-details"
     hash_key   = "workspace_id"
     range_key  = "study_id"
+    stream = {
+      enabled = true
+    }
     attributes = [
       {
         name = "last_modified_date"
@@ -487,4 +490,12 @@ batch_configurations = {
     required_memory = "8192"
     image           = "com/qatalyst-backend:latest"
   }
+}
+
+opensearch_config = {
+  domain_name     = "qatalyst"
+  instance_type   = "t3.medium.search"
+  instance_count  = 3
+  az_count        = 3
+  ebs_volume_size = 10
 }
