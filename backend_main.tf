@@ -173,6 +173,7 @@ module "create_eu_ssm" {
   STAGE            = var.STAGE
   datacenter_codes = var.datacenter_codes
   open_ai_api      = var.open_ai_api
+  opensearch_host  = try(module.create_eu_opensearch[0].opensearch_host, "")
   providers = {
     aws.ssm_region = aws.eu_region
     random.random  = random.random
@@ -239,8 +240,10 @@ module "create_eu_opensearch" {
   DEFAULT_TAGS      = var.DEFAULT_TAGS
   STAGE             = var.STAGE
   datacenter_codes  = var.datacenter_codes
-  service_name      = local.qatalyst_dashboard_service_name
+  service_name      = join("-", ["qatalyst", var.service_name["dashboard"]])
   opensearch_config = var.opensearch_config
+  vpc_id            = try(module.create_eu_vpc[0].vpc_id, "")
+  private_subnets   = try(module.create_eu_vpc[0].private_subnets, [])
 
   providers = {
     aws.opensearch_region = aws.eu_region
@@ -414,6 +417,7 @@ module "create_in_ssm" {
   STAGE            = var.STAGE
   datacenter_codes = var.datacenter_codes
   open_ai_api      = var.open_ai_api
+  opensearch_host  = try(module.create_in_opensearch[0].opensearch_host, "")
   providers = {
     aws.ssm_region = aws.in_region
     random.random  = random.random
@@ -475,8 +479,10 @@ module "create_in_opensearch" {
   DEFAULT_TAGS      = var.DEFAULT_TAGS
   STAGE             = var.STAGE
   datacenter_codes  = var.datacenter_codes
-  service_name      = local.qatalyst_dashboard_service_name
+  service_name      = join("-", ["qatalyst", var.service_name["dashboard"]])
   opensearch_config = var.opensearch_config
+  vpc_id            = try(module.create_in_vpc[0].vpc_id, "")
+  private_subnets   = try(module.create_in_vpc[0].private_subnets, [])
 
   providers = {
     aws.opensearch_region = aws.in_region
@@ -647,6 +653,7 @@ module "create_sea_ssm" {
   STAGE            = var.STAGE
   datacenter_codes = var.datacenter_codes
   open_ai_api      = var.open_ai_api
+  opensearch_host  = try(module.create_sea_opensearch[0].opensearch_host, "")
   providers = {
     aws.ssm_region = aws.sea_region
     random.random  = random.random
@@ -699,8 +706,10 @@ module "create_sea_opensearch" {
   DEFAULT_TAGS      = var.DEFAULT_TAGS
   STAGE             = var.STAGE
   datacenter_codes  = var.datacenter_codes
-  service_name      = local.qatalyst_dashboard_service_name
+  service_name      = join("-", ["qatalyst", var.service_name["dashboard"]])
   opensearch_config = var.opensearch_config
+  vpc_id            = try(module.create_sea_vpc[0].vpc_id, "")
+  private_subnets   = try(module.create_sea_vpc[0].private_subnets, [])
 
   providers = {
     aws.opensearch_region = aws.sea_region
@@ -1034,6 +1043,7 @@ module "create_us_ssm" {
   STAGE            = var.STAGE
   datacenter_codes = var.datacenter_codes
   open_ai_api      = var.open_ai_api
+  opensearch_host  = try(module.create_us_opensearch[0].opensearch_host, "")
 
   providers = {
     aws.ssm_region = aws.us_region
@@ -1119,8 +1129,10 @@ module "create_us_opensearch" {
   DEFAULT_TAGS      = var.DEFAULT_TAGS
   STAGE             = var.STAGE
   datacenter_codes  = var.datacenter_codes
-  service_name      = local.qatalyst_dashboard_service_name
+  service_name      = join("-", ["qatalyst", var.service_name["dashboard"]])
   opensearch_config = var.opensearch_config
+  vpc_id            = try(module.create_us_vpc[0].vpc_id, "")
+  private_subnets   = try(module.create_us_vpc[0].private_subnets, [])
 
   providers = {
     aws.opensearch_region = aws.us_region

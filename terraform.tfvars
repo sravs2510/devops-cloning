@@ -498,5 +498,5 @@ opensearch_config = {
   instance_type   = "t3.medium.search"
   instance_count  = 3
   az_count        = 3
-  ebs_volume_size = 10
+  ebs_volume_size = 50
 }

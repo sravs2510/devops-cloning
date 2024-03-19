@@ -120,6 +120,10 @@ locals {
     {
       name      = "STRIPE_WEBHOOK_SECRET"
       valueFrom = join("-", ["qatalyst", var.STAGE, "stripe-webhook-secret"])
+    },
+    {
+      name      = "OPENSEARCH_DOMAIN"
+      valueFrom = "qatalyst-dashboard-opensearch-endpoint"
     }
   ]
   qatalyst_cyborg_ecs_task_environment_secrets = [

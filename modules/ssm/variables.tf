@@ -17,3 +17,8 @@ variable "open_ai_api" {
   type        = map(string)
   description = "Openai keys"
 }
+
+variable "opensearch_host" {
+  type        = string
+  description = "Qatalyst opensearch host"
+}
