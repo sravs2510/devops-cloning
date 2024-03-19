@@ -240,7 +240,7 @@ module "create_eu_opensearch" {
   DEFAULT_TAGS      = var.DEFAULT_TAGS
   STAGE             = var.STAGE
   datacenter_codes  = var.datacenter_codes
-  service_name      = join("-", ["qatalyst", var.service_name["dashboard"]])
+  service_name      = join("-", ["qatalyst", var.service_names["dashboard"]])
   opensearch_config = var.opensearch_config
   vpc_id            = try(module.create_eu_vpc[0].vpc_id, "")
   private_subnets   = try(module.create_eu_vpc[0].private_subnets, [])
@@ -479,7 +479,7 @@ module "create_in_opensearch" {
   DEFAULT_TAGS      = var.DEFAULT_TAGS
   STAGE             = var.STAGE
   datacenter_codes  = var.datacenter_codes
-  service_name      = join("-", ["qatalyst", var.service_name["dashboard"]])
+  service_name      = join("-", ["qatalyst", var.service_names["dashboard"]])
   opensearch_config = var.opensearch_config
   vpc_id            = try(module.create_in_vpc[0].vpc_id, "")
   private_subnets   = try(module.create_in_vpc[0].private_subnets, [])
@@ -706,7 +706,7 @@ module "create_sea_opensearch" {
   DEFAULT_TAGS      = var.DEFAULT_TAGS
   STAGE             = var.STAGE
   datacenter_codes  = var.datacenter_codes
-  service_name      = join("-", ["qatalyst", var.service_name["dashboard"]])
+  service_name      = join("-", ["qatalyst", var.service_names["dashboard"]])
   opensearch_config = var.opensearch_config
   vpc_id            = try(module.create_sea_vpc[0].vpc_id, "")
   private_subnets   = try(module.create_sea_vpc[0].private_subnets, [])
@@ -1129,7 +1129,7 @@ module "create_us_opensearch" {
   DEFAULT_TAGS      = var.DEFAULT_TAGS
   STAGE             = var.STAGE
   datacenter_codes  = var.datacenter_codes
-  service_name      = join("-", ["qatalyst", var.service_name["dashboard"]])
+  service_name      = join("-", ["qatalyst", var.service_names["dashboard"]])
   opensearch_config = var.opensearch_config
   vpc_id            = try(module.create_us_vpc[0].vpc_id, "")
   private_subnets   = try(module.create_us_vpc[0].private_subnets, [])
