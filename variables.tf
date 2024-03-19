@@ -195,7 +195,3 @@ variable "opensearch_config" {
   description = "Opensearch domain configurations"
 }
 
-variable "service_name" {
-  type        = string
-  description = "Service Name"
-}
