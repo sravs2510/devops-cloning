@@ -63,7 +63,7 @@ resource "aws_security_group" "opensearch_sg" {
 resource "aws_opensearch_domain" "opensearch_domain" {
   provider       = aws.opensearch_region
   domain_name    = var.service_name
-  engine_version = "OpenSearch_2.7"
+  engine_version = "OpenSearch_2.11"
 
   advanced_security_options {
     anonymous_auth_enabled         = false
