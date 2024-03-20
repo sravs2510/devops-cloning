@@ -481,8 +481,8 @@ module "create_in_opensearch" {
   datacenter_codes  = var.datacenter_codes
   service_name      = join("-", ["qatalyst", var.service_names["dashboard"]])
   opensearch_config = var.opensearch_config
-  vpc_id            = try(module.create_in_vpc[0].vpc_id, "")
-  private_subnets   = try(module.create_in_vpc[0].private_subnets, [])
+  vpc_id            = module.create_in_vpc.vpc_id
+  private_subnets   = module.create_in_vpc.private_subnets
 
   providers = {
     aws.opensearch_region = aws.in_region
@@ -708,8 +708,8 @@ module "create_sea_opensearch" {
   datacenter_codes  = var.datacenter_codes
   service_name      = join("-", ["qatalyst", var.service_names["dashboard"]])
   opensearch_config = var.opensearch_config
-  vpc_id            = try(module.create_sea_vpc[0].vpc_id, "")
-  private_subnets   = try(module.create_sea_vpc[0].private_subnets, [])
+  vpc_id            = module.create_sea_vpc.vpc_id
+  private_subnets   = module.create_sea_vpc.private_subnets
 
   providers = {
     aws.opensearch_region = aws.sea_region
