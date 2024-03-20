@@ -13,3 +13,7 @@ output "private_subnets" {
 output "security_group_id" {
   value = aws_security_group.cyborg_security_group.id
 }
+
+output "lambda_security_group_id" {
+  value = aws_security_group.lambda_security_group.id
+}

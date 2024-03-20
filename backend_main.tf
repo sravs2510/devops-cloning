@@ -167,13 +167,16 @@ module "create_eu_dynamodb" {
 }
 
 module "create_eu_ssm" {
-  source           = "./modules/ssm"
-  count            = contains(["dev"], var.STAGE) ? 0 : 1
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
-  datacenter_codes = var.datacenter_codes
-  open_ai_api      = var.open_ai_api
-  opensearch_host  = try(module.create_eu_opensearch[0].opensearch_host, "")
+  source                                = "./modules/ssm"
+  count                                 = contains(["dev"], var.STAGE) ? 0 : 1
+  DEFAULT_TAGS                          = var.DEFAULT_TAGS
+  STAGE                                 = var.STAGE
+  datacenter_codes                      = var.datacenter_codes
+  open_ai_api                           = var.open_ai_api
+  opensearch_host                       = try(module.create_eu_opensearch[0].opensearch_host, "")
+  qatalyst_study_details_ddb_stream_arn = try(module.create_eu_dynamodb[0].qatalyst_study_details_ddb_stream_arn, "")
+  qatalyst_lambda_sg_id                 = try(module.create_eu_vpc[0].lambda_security_group_id, "")
+  private_subnets                       = try(module.create_eu_vpc[0].private_subnets, "")
   providers = {
     aws.ssm_region = aws.eu_region
     random.random  = random.random
@@ -412,12 +415,16 @@ module "create_in_dynamodb" {
 }
 
 module "create_in_ssm" {
-  source           = "./modules/ssm"
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
-  datacenter_codes = var.datacenter_codes
-  open_ai_api      = var.open_ai_api
-  opensearch_host  = module.create_in_opensearch.opensearch_host
+  source                                = "./modules/ssm"
+  DEFAULT_TAGS                          = var.DEFAULT_TAGS
+  STAGE                                 = var.STAGE
+  datacenter_codes                      = var.datacenter_codes
+  open_ai_api                           = var.open_ai_api
+  opensearch_host                       = module.create_in_opensearch.opensearch_host
+  qatalyst_study_details_ddb_stream_arn = module.create_in_dynamodb.qatalyst_study_details_ddb_stream_arn
+  qatalyst_lambda_sg_id                 = module.create_in_vpc.lambda_security_group_id
+  private_subnets                       = module.create_in_vpc.private_subnets
+
   providers = {
     aws.ssm_region = aws.in_region
     random.random  = random.random
@@ -648,12 +655,15 @@ module "create_sea_dynamodb" {
 }
 
 module "create_sea_ssm" {
-  source           = "./modules/ssm"
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
-  datacenter_codes = var.datacenter_codes
-  open_ai_api      = var.open_ai_api
-  opensearch_host  = module.create_sea_opensearch.opensearch_host
+  source                                = "./modules/ssm"
+  DEFAULT_TAGS                          = var.DEFAULT_TAGS
+  STAGE                                 = var.STAGE
+  datacenter_codes                      = var.datacenter_codes
+  open_ai_api                           = var.open_ai_api
+  opensearch_host                       = module.create_sea_opensearch.opensearch_host
+  qatalyst_study_details_ddb_stream_arn = module.create_sea_dynamodb.qatalyst_study_details_ddb_stream_arn
+  qatalyst_lambda_sg_id                 = module.create_sea_vpc.lambda_security_group_id
+  private_subnets                       = module.create_sea_vpc.private_subnets
   providers = {
     aws.ssm_region = aws.sea_region
     random.random  = random.random
@@ -1037,13 +1047,16 @@ module "create_global_dynamodb" {
   }
 }
 module "create_us_ssm" {
-  source           = "./modules/ssm"
-  count            = contains(["dev"], var.STAGE) ? 0 : 1
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
-  datacenter_codes = var.datacenter_codes
-  open_ai_api      = var.open_ai_api
-  opensearch_host  = try(module.create_us_opensearch[0].opensearch_host, "")
+  source                                = "./modules/ssm"
+  count                                 = contains(["dev"], var.STAGE) ? 0 : 1
+  DEFAULT_TAGS                          = var.DEFAULT_TAGS
+  STAGE                                 = var.STAGE
+  datacenter_codes                      = var.datacenter_codes
+  open_ai_api                           = var.open_ai_api
+  opensearch_host                       = try(module.create_us_opensearch[0].opensearch_host, "")
+  qatalyst_study_details_ddb_stream_arn = try(module.create_us_dynamodb[0].qatalyst_study_details_ddb_stream_arn, "")
+  qatalyst_lambda_sg_id                 = try(module.create_us_vpc[0].lambda_security_group_id, "")
+  private_subnets                       = try(module.create_us_vpc[0].private_subnets, "")
 
   providers = {
     aws.ssm_region = aws.us_region

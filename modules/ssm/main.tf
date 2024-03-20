@@ -22,6 +22,26 @@ locals {
 resource "random_uuid" "feature_flag_auth" {
   provider = random.random
 }
+
+#These values will be used for Serverless deoloyment
+resource "aws_ssm_parameter" "qatalyst_ssm_values" {
+  provider = aws.ssm_region
+
+  for_each = {
+    "qatalyst-private-1"                    = try("${var.private_subnets[0]}", ""),
+    "qatalyst-private-2"                    = try("${var.private_subnets[1]}", ""),
+    "qatalyst-private-3"                    = try("${var.private_subnets[2]}", ""),
+    "qatalyst-study-details-ddb-stream-arn" = var.qatalyst_study_details_ddb_stream_arn,
+    "qatalyst-lambda-sg-id"                 = var.qatalyst_lambda_sg_id
+  }
+
+  name  = each.key
+  type  = "String"
+  value = each.value
+
+  tags = merge(tomap({ "Name" : "qatalyst-ssm-parameter" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+}
+
 resource "aws_ssm_parameter" "qatalyst_ssm_secure_values" {
   provider = aws.ssm_region
   for_each = {
