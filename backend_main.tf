@@ -417,7 +417,7 @@ module "create_in_ssm" {
   STAGE            = var.STAGE
   datacenter_codes = var.datacenter_codes
   open_ai_api      = var.open_ai_api
-  opensearch_host  = try(module.create_in_opensearch[0].opensearch_host, "")
+  opensearch_host  = module.create_in_opensearch.opensearch_host
   providers = {
     aws.ssm_region = aws.in_region
     random.random  = random.random
@@ -653,7 +653,7 @@ module "create_sea_ssm" {
   STAGE            = var.STAGE
   datacenter_codes = var.datacenter_codes
   open_ai_api      = var.open_ai_api
-  opensearch_host  = try(module.create_sea_opensearch[0].opensearch_host, "")
+  opensearch_host  = module.create_sea_opensearch.opensearch_host
   providers = {
     aws.ssm_region = aws.sea_region
     random.random  = random.random
