@@ -45,6 +45,10 @@ locals {
     {
       name  = "QATALYST_SENDER_EMAIL"
       value = local.qatalyst_sender_email
+    },
+    {
+      name  = "OPENSEARCH_VERIFY_CERTS"
+      value = "true"
     }
   ]
   qatalyst_cyborg_ecs_task_environment_variables = []
