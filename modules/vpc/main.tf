@@ -16,10 +16,10 @@ data "aws_availability_zones" "available" {
 }
 
 resource "aws_vpc" "main" {
-  provider   = aws.vpc_region
-  cidr_block = lookup(var.cidr_block, data.aws_region.current.name)
+  provider             = aws.vpc_region
+  cidr_block           = lookup(var.cidr_block, data.aws_region.current.name)
   enable_dns_hostnames = true
-  tags       = merge(tomap({ "Name" : "qatalyst-vpc" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+  tags                 = merge(tomap({ "Name" : "qatalyst-vpc" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
 resource "aws_internet_gateway" "vpc_gateway" {
@@ -158,4 +158,29 @@ resource "aws_security_group" "cyborg_security_group" {
   }
 
   tags = merge(tomap({ "Name" : "qatalyst-cyborg-ecs-sg" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+}
+
+resource "aws_security_group" "lambda_security_group" {
+  provider    = aws.vpc_region
+  name        = "qatalyst-lambda-sg"
+  description = "qatalyst Group for Lambda to Deploy in VPC"
+  vpc_id      = aws_vpc.main.id
+
+  ingress {
+    from_port   = 2049
+    to_port     = 2049
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "Lambda connections"
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "Outbound All Traffic"
+  }
+
+  tags = merge(tomap({ "Name" : "qatalyst-lambda-sg" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
