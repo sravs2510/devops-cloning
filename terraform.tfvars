@@ -458,15 +458,15 @@ efs_configurations = {
 }
 
 service_names = {
-  dashboard      = "dashboard"
-  reports        = "reports"
-  testerview     = "testerview"
-  cyborg         = "cyborg"
-  furyblade      = "furyblade"
-  prototype      = "prototype"
-  mammoth        = "mammoth"
-  backend        = "backend"
-  face_reduction = "face-reduction"
+  dashboard  = "dashboard"
+  reports    = "reports"
+  testerview = "testerview"
+  cyborg     = "cyborg"
+  furyblade  = "furyblade"
+  prototype  = "prototype"
+  mammoth    = "mammoth"
+  backend    = "backend"
+  helios     = "helios"
 }
 
 open_ai_api = {
@@ -481,15 +481,15 @@ qatalyst_media_bucket_transfer_acceleration = "qatalyst-media"
 
 # Batch
 batch_configurations = {
-  qatalyst-face-reduction = {
-    name            = "qatalyst-face-reduction"
+  qatalyst-helios = {
+    name            = "qatalyst-helios"
     max_vcpus       = 200
     min_vcpus       = 0
     type            = "FARGATE"
     required_vcpus  = "4"
     required_gpu    = "1"
     required_memory = "8192"
-    image           = "com/qatalyst-face-reduction:latest"
+    image           = "com/qatalyst-helios:latest"
   }
 }
 
