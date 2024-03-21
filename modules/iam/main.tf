@@ -687,6 +687,11 @@ resource "aws_iam_role" "qatalyst_aws_batch_service_role" {
   tags = merge(tomap({ "Name" : "qatalyst-batch-service-role" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 
 }
+resource "aws_iam_role_policy_attachment" "qatalyst_aws_batch_service_role_attachment" {
+  provider   = aws.iam_region
+  role       = aws_iam_role.qatalyst_aws_batch_service_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSBatchServiceRole"
+}
 
 resource "aws_iam_role" "qatalyst_ecs_instance_role" {
   provider = aws.iam_region
