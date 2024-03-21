@@ -104,14 +104,15 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
         logConfiguration = {
           logDriver = "awsfirelens"
           options = {
-            Name           = "datadog"
-            Host           = "http-intake.logs.datadoghq.com"
-            dd_service     = local.dd_service_name
-            dd_source      = join("-", ["qatalyst", var.STAGE])
-            dd_tags        = "project:qatalyst"
-            dd_message_key = "log"
-            TLS            = "on"
-            provider       = "ecs"
+            Name            = "datadog"
+            Host            = "http-intake.logs.datadoghq.com"
+            dd_service      = local.dd_service_name
+            dd_source       = join("-", ["qatalyst", var.STAGE])
+            dd_tags         = "project:qatalyst"
+            dd_message_key  = "log"
+            TLS             = "on"
+            provider        = "ecs"
+            exclude-pattern = ".*\\/health.*"
           }
           secretOptions = [
             {
