@@ -26,7 +26,7 @@ output "event_bridge_scheduler_role_arn" {
   value = aws_iam_role.eventbridge_scheduler_role.arn
 }
 
-output "batch_service_role" {
+output "batch_service_role_arn" {
   value = aws_iam_role.qatalyst_batch_service_role.arn
 }
 
