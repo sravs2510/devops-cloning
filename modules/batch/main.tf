@@ -11,6 +11,10 @@ data "aws_region" "batch_region" {
   provider = aws.batch_region
 }
 
+data "aws_caller_identity" "current" {
+  provider = aws.batch_region
+}
+
 data "aws_opensearch_domain" "qatalyst_domain" {
   provider    = aws.batch_region
   domain_name = join("-", ["converz", var.STAGE, "search", local.datacenter_code])

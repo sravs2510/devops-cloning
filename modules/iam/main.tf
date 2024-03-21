@@ -720,7 +720,7 @@ resource "aws_iam_policy" "qatalyst_ecs_batch_policy" {
   provider    = aws.iam_region
   name        = "qatalyst-ecs-batch-policy"
   description = "ECS Batch Policy"
-    policy = jsonencode({
+  policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
@@ -957,9 +957,22 @@ resource "aws_iam_role_policy_attachment" "qatalyst_batch_job_role_policy_attach
   policy_arn = aws_iam_policy.qatalyst_batch_job_definition_policy.arn
 }
 resource "aws_iam_role" "qatalyst_batch_ecs_task_execution_role" {
-  provider           = aws.iam_region
-  name               = "qatalyst-batch-ecs-task-execution-role"
-  assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
+  provider = aws.iam_region
+  name     = "qatalyst-batch-ecs-task-execution-role"
+  assume_role_policy = jsonencode(
+    {
+      "Version" : "2012-10-17",
+      "Statement" : [
+        {
+          "Action" : "sts:AssumeRole",
+          "Principal" : {
+            "Service" : "ecs-tasks.amazonaws.com"
+          },
+          "Effect" : "Allow",
+          "Sid" : ""
+        }
+      ]
+  })
 }
 
 resource "aws_iam_role_policy_attachment" "qatalyst_batch_ecs_task_execution_role_policy" {
