@@ -21,9 +21,9 @@ locals {
   fargate_cpu_memory                             = var.STAGE == "qa" ? var.fargate_cpu_memory_qa_eu : var.fargate_cpu_memory
   account_id                                     = data.aws_caller_identity.current.account_id
   qatalyst_healthcheck_api                       = "GET /health,GET */health"
-  qatalyst_batch_job_definition                  = "qatalyst-face-reduction-job-definition"
-  qatalyst_batch_compute                         = "qatalyst-face-reduction-batch-compute"
-  qatalyst_batch_job_queue                       = "qatalyst-face-reduction-batch-job-queue"
+  qatalyst_batch_job_definition                  = "qatalyst-helios-job-definition"
+  qatalyst_batch_compute                         = "qatalyst-helios-batch-compute"
+  qatalyst_batch_job_queue                       = "qatalyst-helios-batch-job-queue"
   qatalyst_ecs_task_environment_variables = [
     {
       name  = "COGNITO_USER_POOL_ID"
