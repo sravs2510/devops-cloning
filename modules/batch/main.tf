@@ -21,68 +21,113 @@ data "aws_opensearch_domain" "qatalyst_domain" {
 }
 
 locals {
-  datacenter_code = lookup(var.datacenter_codes, data.aws_region.batch_region.name)
-  account_id      = data.aws_caller_identity.current.account_id
-  ecr_repo        = join(".", [local.account_id, "dkr.ecr", local.datacenter_code, "amazonaws", var.batch_job_configuration.image])
+  datacenter_code           = lookup(var.datacenter_codes, data.aws_region.batch_region.name)
+  account_id                = data.aws_caller_identity.current.account_id
+  ecr_repo                  = join(".", [local.account_id, "dkr.ecr", data.aws_region.batch_region.name, "amazonaws", var.batch_job_configuration.image])
+  batch_job_definition_name = join("-", ["qatalyst", var.batch_job_configuration.service_name, "batch-job-definition"])
+  batch_compute_name        = join("-", ["qatalyst", var.batch_job_configuration.service_name, "batch-compute"])
+  batch_job_queue           = join("-", ["qatalyst", var.batch_job_configuration.service_name, "batch-job-queue"])
+  batch_resource_requirements_fargate_cpu = [
+    {
+      type  = "VCPU"
+      value = var.batch_job_configuration.required_vcpus
+    },
+    {
+      type  = "MEMORY"
+      value = var.batch_job_configuration.required_memory
+    }
+  ]
+  batch_resource_requirements_ec2_gpu = concat(local.batch_resource_requirements_fargate_cpu, [
+    {
+      type  = "GPU"
+      value = var.batch_job_configuration.required_gpu
+    }
+  ])
 }
 
 resource "aws_batch_compute_environment" "qatalyst_compute_environment" {
   provider                 = aws.batch_region
-  compute_environment_name = var.batch_compute
+  compute_environment_name = local.batch_compute_name
+  service_role             = var.batch_service_role
+  type                     = "MANAGED"
 
   compute_resources {
-    max_vcpus          = 200
-    min_vcpus          = 0
-    security_group_ids = [var.sg_id]
-    subnets            = var.private_subnets
-    type               = "FARGATE"
+    instance_role = var.batch_job_configuration.type == "EC2" ? var.batch_iam_instance_profile : null
+
+    dynamic "launch_template" {
+      for_each = var.batch_job_configuration.type == "EC2" ? [1] : []
+      content {
+        launch_template_id = aws_launch_template.aws_batch_launch_template.id
+      }
+    }
+
+    instance_type      = var.batch_job_configuration.type == "EC2" ? var.batch_job_configuration.instance_types : null
+    max_vcpus          = var.batch_job_configuration.max_vcpus
+    min_vcpus          = var.batch_job_configuration.min_vcpus
+    security_group_ids = toset([var.security_group_id])
+    subnets = [
+      try("${var.subnet_ids[0]}", ""),
+      try("${var.subnet_ids[1]}", ""),
+      try("${var.subnet_ids[2]}", "")
+    ]
+    tags = var.batch_job_configuration.type == "EC2" ? merge(tomap({ "Name" : join("-", [var.batch_job_configuration.name, "instance"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS) : null
+    type = var.batch_job_configuration.type
   }
 
-  service_role = var.batch_service_role
-  type         = "MANAGED"
 
-  tags = merge(tomap({ "Name" : join("-", [var.batch_compute, var.STAGE]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+  tags = merge(tomap({ "Name" : join("-", [local.batch_compute_name, var.STAGE]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
 resource "aws_batch_job_queue" "qatalyst_job_queue" {
   provider = aws.batch_region
-  name     = var.batch_job_queue
+  name     = local.batch_job_queue
   state    = "ENABLED"
   priority = 1
-  compute_environments = [
-    aws_batch_compute_environment.qatalyst_compute_environment.arn
-  ]
 
-  tags = merge(tomap({ "Name" : join("-", [var.batch_job_queue, var.STAGE]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+  compute_environment_order {
+    order               = 1
+    compute_environment = aws_batch_compute_environment.qatalyst_compute_environment.arn
+  }
+
+  tags = merge(tomap({ "Name" : join("-", [local.batch_job_queue, var.STAGE]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
-resource "aws_batch_job_definition" "qatalyst_job_definition" {
+resource "aws_batch_job_definition" "qatalyst-media-processing-job-definition" {
   provider = aws.batch_region
-  name     = var.batch_job_definition
+  name     = local.batch_job_definition_name
   type     = "container"
 
   platform_capabilities = [
     "FARGATE",
   ]
-
   container_properties = jsonencode({
-    jobRoleArn = var.batch_job_role
-    image      = local.ecr_repo
-    fargatePlatformConfiguration = {
-      platformVersion = "LATEST"
-    }
-
-    resourceRequirements = [
+    image                        = local.ecr_repo
+    jobRoleArn                   = var.batch_job_role
+    executionRoleArn             = var.batch_execution_role
+    fargatePlatformConfiguration = var.batch_job_configuration.type == "FARGATE" ? { platformVersion = "LATEST" } : null
+    resourceRequirements         = var.batch_job_configuration.type == "FARGATE" ? local.batch_resource_requirements_fargate_cpu : local.batch_resource_requirements_ec2_gpu,
+    mountPoints = try(var.batch_job_configuration.efs, null) != null ? [
       {
-        type  = "VCPU"
-        value = "4"
-      },
-      {
-        type  = "MEMORY"
-        value = "8192"
+        sourceVolume  = var.batch_job_configuration.efs
+        containerPath = var.batch_job_configuration.efs_path
+        readOnly      = false
       }
-    ],
-
+    ] : []
+    volumes = try(var.batch_job_configuration.efs, null) != null ? [
+      {
+        efsVolumeConfiguration = {
+          fileSystemId      = var.file_system_id
+          rootDirectory     = "/"
+          transitEncryption = "ENABLED"
+          authorizationConfig = {
+            accessPointId = var.access_point_id
+            "iam"         = "ENABLED"
+          }
+        }
+        name = var.batch_job_configuration.efs
+      }
+    ] : []
+    command = try(var.batch_job_configuration.command, null)
     environment = [
       {
         name  = "STAGE"
@@ -105,10 +150,6 @@ resource "aws_batch_job_definition" "qatalyst_job_definition" {
         value = "INFO"
       },
       {
-        name  = "OPENSEARCH_DOMAIN",
-        value = join("", ["https://", data.aws_opensearch_domain.qatalyst_domain.endpoint])
-      },
-      {
         name  = "SENTRY_SAMPLE_RATE"
         value = "1"
       },
@@ -120,15 +161,6 @@ resource "aws_batch_job_definition" "qatalyst_job_definition" {
         name  = "SENTRY_PROFILING_SAMPLE_RATE"
         value = "0"
       }
-    ],
-
-    secrets = [
-      {
-        name      = "MEDIACONVERT_ENDPOINT"
-        valueFrom = "MEDIACONVERT_ENDPOINT" #This ssm stored via platform platform infra
-      }
     ]
-
-    executionRoleArn = var.batch_execution_role
   })
 }

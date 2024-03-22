@@ -167,7 +167,7 @@ variable "open_ai_api" {
 
 variable "batch_configurations" {
   type = map(object({
-    name            = string
+    service_name    = string
     instance_types  = optional(list(string))
     max_vcpus       = number
     min_vcpus       = number
@@ -194,4 +194,3 @@ variable "opensearch_config" {
   type        = map(any)
   description = "Opensearch domain configurations"
 }
-
