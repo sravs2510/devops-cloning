@@ -81,7 +81,7 @@ resource "aws_iam_policy" "qatalyst_helios_ecs_task_iam_policy" {
 
 resource "aws_iam_role" "qatalyst_helios_ecs_task_role" {
   provider = aws.iam_region
-  name     = "qatalyst-ecs-task-iam-role"
+  name     = "qatalyst-helios-ecs-task-iam-role"
   assume_role_policy = jsonencode(
     {
       "Version" : "2012-10-17",
@@ -96,7 +96,7 @@ resource "aws_iam_role" "qatalyst_helios_ecs_task_role" {
         }
       ]
   })
-  tags = merge(tomap({ "Name" : "qatalyst-ecs-task-role" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+  tags = merge(tomap({ "Name" : "qatalyst-helios-ecs-task-iam-role" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
 resource "aws_iam_role_policy_attachment" "qatalyst_helios_ecs_task_role_policy_attachment" {
