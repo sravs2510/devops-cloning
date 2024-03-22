@@ -7,9 +7,15 @@ variable "DEFAULT_TAGS" {
   type        = map(any)
   description = "Default Tags for all resources"
 }
-variable "batch_job_configuration" {
-  type        = any
-  description = "Batch Jobs Configuration"
+
+variable "security_group_id" {
+  type        = string
+  description = "Id of the Security Group"
+}
+
+variable "subnet_ids" {
+  type        = list(string)
+  description = "Id of the private subnet 1 and 2"
 }
 
 variable "batch_service_role" {
@@ -27,32 +33,27 @@ variable "batch_execution_role" {
   description = "Arn for job role for container"
 }
 
+variable "batch_iam_instance_profile" {
+  type        = string
+  description = "EC2 Instance Profile Role ARN"
+}
+
 variable "datacenter_codes" {
   type        = map(any)
   description = "Datacenter Codes"
 }
 
-variable "batch_compute" {
-  type        = string
-  description = "Arn for job role for container"
+variable "batch_job_configuration" {
+  type        = any
+  description = "Batch Jobs Configuration"
 }
 
-variable "batch_job_queue" {
+variable "file_system_id" {
   type        = string
-  description = "Arn for job role for container"
+  description = "EFS File System ID"
 }
 
-variable "batch_job_definition" {
+variable "access_point_id" {
   type        = string
-  description = "Arn for job role for container"
-}
-
-variable "private_subnets" {
-  type        = list(string)
-  description = "Private Subnets for Mount target"
-}
-
-variable "sg_id" {
-  type        = string
-  description = "security group id"
+  description = "EFS Access Point ID"
 }

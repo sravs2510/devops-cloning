@@ -481,8 +481,8 @@ qatalyst_media_bucket_transfer_acceleration = "qatalyst-media"
 
 # Batch
 batch_configurations = {
-  qatalyst-helios = {
-    name            = "qatalyst-helios"
+  helios = {
+    service_name    = "helios"
     max_vcpus       = 200
     min_vcpus       = 0
     type            = "FARGATE"
