@@ -373,6 +373,25 @@ table_details = {
     table_name = "qatalyst-media-notes"
     hash_key   = "media_id"
     range_key  = "note_id"
+  },
+    "qatalyst_copilot" : {
+    table_name = "qatalyst-copilot"
+    hash_key   = "workspace_id"
+    range_key  = "user_id"
+    attributes = [
+      {
+        name = "created_date"
+        type = "S"
+      }
+    ]
+    global_secondary_indexes = [
+      {
+        name            = "qatalyst-query-details-date-gsi"
+        hash_key        = "workspace_id"
+        range_key       = "created_date"
+        projection_type = "ALL"
+      }
+    ]
   }
 }
 
