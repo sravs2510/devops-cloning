@@ -377,7 +377,7 @@ table_details = {
     "qatalyst_copilot" : {
     table_name = "qatalyst-copilot"
     hash_key   = "workspace_id"
-    range_key  = "user_id"
+    range_key  = "query_id"
     attributes = [
       {
         name = "created_date"
