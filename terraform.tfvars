@@ -374,7 +374,7 @@ table_details = {
     hash_key   = "media_id"
     range_key  = "note_id"
   },
-    "qatalyst_copilot" : {
+  "qatalyst_copilot" : {
     table_name = "qatalyst-copilot"
     hash_key   = "workspace_id"
     range_key  = "query_id"
@@ -514,7 +514,7 @@ batch_configurations = {
 
 opensearch_config = {
   domain_name     = "qatalyst"
-  instance_type   = "t3.small.search"
+  instance_type   = "t3.medium.search"
   instance_count  = 3
   ebs_volume_size = 10
 }
