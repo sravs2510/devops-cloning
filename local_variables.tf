@@ -131,6 +131,10 @@ locals {
     {
       name      = "OPENSEARCH_DOMAIN"
       valueFrom = "qatalyst-dashboard-opensearch-endpoint"
+    },
+    {
+      name      = "OPENAI_API_KEY"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "open-ai-key"])
     }
   ]
   qatalyst_cyborg_ecs_task_environment_secrets = [
