@@ -392,6 +392,11 @@ table_details = {
         projection_type = "ALL"
       }
     ]
+  },
+  "teams_details" : {
+    table_name = "qatalyst-teams"
+    hash_key   = "workspace_id"
+    range_key  = "team_id"
   }
 }
 
