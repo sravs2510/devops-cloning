@@ -66,7 +66,7 @@ resource "aws_ssm_parameter" "qatalyst_ssm_secure_values" {
     join("-", ["qatalyst", var.STAGE, "feature-flag-auth"])     = random_uuid.feature_flag_auth.result
     join("-", ["qatalyst", var.STAGE, "open-ai-key"])           = local.openai_key
     "qatalyst-dashboard-opensearch-endpoint"                    = join("", ["https://", var.opensearch_host])
-
+    "qatalyst-lucid-sha1-key"                                   = "#LUCID_SHA1_KEY"
   }
   name  = each.key
   type  = "SecureString"
