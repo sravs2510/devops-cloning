@@ -135,6 +135,10 @@ locals {
     {
       name      = "OPENAI_API_KEY"
       valueFrom = join("-", ["qatalyst", var.STAGE, "open-ai-key"])
+    },
+    {
+      name      = "LUCID_SHA1_KEY"
+      valueFrom = join("-", ["qatalyst", "lucid", "sha1", "key"])
     }
   ]
   qatalyst_cyborg_ecs_task_environment_secrets = [
