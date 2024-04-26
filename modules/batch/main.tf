@@ -15,11 +15,6 @@ data "aws_caller_identity" "current" {
   provider = aws.batch_region
 }
 
-data "aws_opensearch_domain" "qatalyst_domain" {
-  provider    = aws.batch_region
-  domain_name = join("-", ["converz", var.STAGE, "search", local.datacenter_code])
-}
-
 locals {
   datacenter_code           = lookup(var.datacenter_codes, data.aws_region.batch_region.name)
   account_id                = data.aws_caller_identity.current.account_id
