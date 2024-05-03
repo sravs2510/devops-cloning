@@ -113,6 +113,24 @@ resource "aws_lb_target_group" "qatalyst_tester_view_tg" {
   tags = merge(tomap({ "Name" : "qatalyst-tester-view-tg" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
+resource "aws_lb_target_group" "qatalyst_copilot_tg" {
+  provider             = aws.alb_region
+  name                 = "qatalyst-copilot-tg"
+  port                 = 80
+  protocol             = "HTTP"
+  target_type          = "ip"
+  vpc_id               = var.vpc_id
+  deregistration_delay = 90 #sec
+
+  health_check {
+    path                = "/health"
+    interval            = local.lb_target_interval
+    timeout             = local.lb_target_timeout
+    healthy_threshold   = local.lb_target_healthy_threshold
+    unhealthy_threshold = local.lb_target_unhealthy_threshold
+  }
+  tags = merge(tomap({ "Name" : "qatalyst-copilot-tg" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+}
 resource "aws_lb_listener" "qatalyst_alb_listener" {
   provider          = aws.alb_region
   certificate_arn   = var.alb_certficate_arn
@@ -182,15 +200,31 @@ resource "aws_lb_listener_rule" "qatalyst_alb_listener_tester_view_rule" {
   }
 }
 
+resource "aws_lb_listener_rule" "qatalyst_alb_listener_copilot_rule" {
+  listener_arn = aws_lb_listener.qatalyst_alb_listener.arn
+  provider     = aws.alb_region
+  priority     = 102
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.qatalyst_copilot_tg.arn
+  }
+  condition {
+    path_pattern {
+      values = [local.path_pattern_copilot]
+    }
+  }
+}
 
 # ALB Domain Mapping
 locals {
-  datacenter_code              = lookup(var.datacenter_codes, data.aws_region.current.name)
-  alb_domain_name              = var.STAGE == "prod" ? join(".", [local.datacenter_code, var.sub_domain, var.base_domain]) : join(".", [local.datacenter_code, var.STAGE, var.sub_domain, var.base_domain])
-  path_prefix                  = "/"
-  path_pattern                 = join("", [local.path_prefix, "v1", local.path_prefix, local.datacenter_code, local.path_prefix, "*"])
-  path_pattern_testers         = join("", [local.path_prefix, "v1", local.path_prefix, "testers", local.path_prefix, "*"])
-  path_pattern_test            = join("", [local.path_prefix, "v1", local.path_prefix, "test", local.path_prefix, "*"])
+  datacenter_code      = lookup(var.datacenter_codes, data.aws_region.current.name)
+  alb_domain_name      = var.STAGE == "prod" ? join(".", [local.datacenter_code, var.sub_domain, var.base_domain]) : join(".", [local.datacenter_code, var.STAGE, var.sub_domain, var.base_domain])
+  path_prefix          = "/"
+  path_pattern         = join("", [local.path_prefix, "v1", local.path_prefix, local.datacenter_code, local.path_prefix, "*"])
+  path_pattern_testers = join("", [local.path_prefix, "v1", local.path_prefix, "testers", local.path_prefix, "*"])
+  path_pattern_test    = join("", [local.path_prefix, "v1", local.path_prefix, "test", local.path_prefix, "*"])
+  path_pattern_copilot = join("", [local.path_prefix, "v1", local.path_prefix, "copilot", local.path_prefix, "*"])
+
 }
 
 data "aws_route53_zone" "domain_hosted_zone" {
