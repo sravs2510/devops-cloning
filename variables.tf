@@ -103,12 +103,6 @@ variable "table_details" {
   description = "DDB Tables details"
 }
 
-variable "point_in_time_recovery" {
-  type        = bool
-  description = "Point in time recovery value"
-  default     = false
-}
-
 variable "dashboard_acm_arn" {
   type        = string
   description = "Dashboard ACM ARN"
