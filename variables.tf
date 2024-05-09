@@ -88,6 +88,11 @@ variable "fargate_cpu_memory" {
   description = "Fargate CPU and Memory Details"
 }
 
+variable "fargate_cpu_memory_mammoth" {
+  type        = map(any)
+  description = "Fargate CPU and Memory Details for mammoth service."
+}
+
 variable "fargate_cpu_memory_qa_eu" {
   type        = map(any)
   description = "Fargate CPU and Memory Details for qa,eu region"
