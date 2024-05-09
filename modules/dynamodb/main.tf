@@ -44,8 +44,9 @@ resource "aws_dynamodb_table" "table" {
   dynamic "replica" {
     for_each = try(each.value.is_global, null) != null ? toset(local.region_name) : toset([])
     content {
-      region_name    = replica.key
-      propagate_tags = true
+      region_name            = replica.key
+      propagate_tags         = true
+      point_in_time_recovery = var.STAGE == "prod" ? true : false
     }
   }
 

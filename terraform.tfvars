@@ -496,6 +496,7 @@ service_names = {
   mammoth    = "mammoth"
   backend    = "backend"
   helios     = "helios"
+  copilot    = "copilot"
 }
 
 open_ai_api = {
