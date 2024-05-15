@@ -121,9 +121,10 @@ module "create_eu_cloudwatch_copilot_dashboard" {
   tg_arn_suffix    = try(module.create_eu_alb[0].qatalyst_alb_target_group_copilot_arn_suffix, "")
   datacenter_codes = var.datacenter_codes
   dashboard_name   = local.qatalyst_cloudwatch_dashboard_name_copilot
-
+  service          = "copilot"
   providers = {
-    aws.cw_region = aws.eu_region
+    aws.cw_region  = aws.eu_region
+    aws.sns_region = aws.eu_region
   }
 }
 
@@ -137,9 +138,10 @@ module "create_in_cloudwatch_copilot_dashboard" {
   tg_arn_suffix    = module.create_in_alb.qatalyst_alb_target_group_copilot_arn_suffix
   datacenter_codes = var.datacenter_codes
   dashboard_name   = local.qatalyst_cloudwatch_dashboard_name_copilot
-
+  service          = "copilot"
   providers = {
-    aws.cw_region = aws.in_region
+    aws.cw_region  = aws.in_region
+    aws.sns_region = aws.in_region
   }
 }
 
@@ -153,9 +155,10 @@ module "create_sea_cloudwatch_copilot_dashboard" {
   tg_arn_suffix    = module.create_sea_alb.qatalyst_alb_target_group_copilot_arn_suffix
   datacenter_codes = var.datacenter_codes
   dashboard_name   = local.qatalyst_cloudwatch_dashboard_name_copilot
-
+  service          = "copilot"
   providers = {
-    aws.cw_region = aws.sea_region
+    aws.cw_region  = aws.sea_region
+    aws.sns_region = aws.sea_region
   }
 }
 
@@ -170,8 +173,9 @@ module "create_us_cloudwatch_copilot_dashboard" {
   tg_arn_suffix    = try(module.create_us_alb[0].qatalyst_alb_target_group_copilot_arn_suffix, "")
   datacenter_codes = var.datacenter_codes
   dashboard_name   = local.qatalyst_cloudwatch_dashboard_name_copilot
-
+  service          = "copilot"
   providers = {
-    aws.cw_region = aws.us_region
+    aws.cw_region  = aws.us_region
+    aws.sns_region = aws.us_region
   }
 }

@@ -349,3 +349,27 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
   })
 }
 
+data "aws_sns_topic" "devops_sns_topic" {
+  name     = "DevOps-Alerts-Topic"
+  provider = aws.sns_region
+}
+
+#Cloudwatch Metrics
+resource "aws_cloudwatch_metric_alarm" "qatalyst_sqs_cw_alarm" {
+  provider            = aws.cw_region
+  alarm_name          = "sqs-queue-visibility-alarm"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  evaluation_periods  = "2"
+  metric_name         = "ApproximateAgeOfOldestMessage"
+  namespace           = "AWS/SQS"
+  period              = "300" // 5 minutes
+  statistic           = "SampleCount"
+  threshold           = "300" // 5 minutes
+  alarm_description   = "Alarm if the age of the oldest message in the queue is greater than 5 minutes."
+
+  dimensions = {
+    name  = "QueueName"
+    value = join("-", ["qatalyst", var.service, "processing-queue"])
+  }
+  alarm_actions = [data.aws_sns_topic.devops_sns_topic.arn] // Define actions to take when the alarm state changes
+}
