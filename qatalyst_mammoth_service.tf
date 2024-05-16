@@ -225,7 +225,7 @@ module "create_us_ecs_mammoth_service" {
     aws.ecs_region = aws.us_region
   }
 }
-
+/*
 module "create_us_cloudwatch_mammoth_dashboard" {
   source           = "./modules/cloudwatch"
   count            = contains(["dev"], var.STAGE) ? 0 : 1
@@ -280,3 +280,4 @@ module "create_sea_cloudwatch_mammoth_dashboard" {
     aws.cw_region = aws.sea_region
   }
 }
+*/

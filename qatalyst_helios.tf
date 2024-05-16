@@ -123,7 +123,7 @@ module "create_us_batch_helios" {
   }
 }
 
-#Cloudwatch
+/*#Cloudwatch
 
 module "create_eu_cloudwatch_helios_dashboard" {
   source           = "./modules/cloudwatch"
@@ -183,4 +183,4 @@ module "create_in_cloudwatch_helios_dashboard" {
     aws.cw_region = aws.in_region
   }
 }
-
+*/

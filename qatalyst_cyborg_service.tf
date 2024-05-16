@@ -224,7 +224,7 @@ module "create_us_ecs_cyborg_service" {
   }
 }
 
-module "create_us_cloudwatch_cyborg_dashboard" {
+/*module "create_us_cloudwatch_cyborg_dashboard" {
   source           = "./modules/cloudwatch"
   count            = contains(["dev"], var.STAGE) ? 0 : 1
   DEFAULT_TAGS     = var.DEFAULT_TAGS
@@ -277,4 +277,4 @@ module "create_in_cloudwatch_cyborg_dashboard" {
   providers = {
     aws.cw_region = aws.in_region
   }
-}
+}*/

@@ -295,7 +295,7 @@ module "create_us_furyblade_eventbridge_group" {
     aws.eventbridge_region = aws.us_region
   }
 }
-
+/*
 module "create_eu_cloudwatch_furyblade_dashboard" {
   source           = "./modules/cloudwatch"
   count            = contains(["dev"], var.STAGE) ? 0 : 1
@@ -349,4 +349,4 @@ module "create_in_cloudwatch_furyblade_dashboard" {
   providers = {
     aws.cw_region = aws.in_region
   }
-}
+}*/
