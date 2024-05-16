@@ -13,16 +13,21 @@ locals {
   datacenter_code  = lookup(var.datacenter_codes, data.aws_region.current.name)
   ecs_service_name = join("-", [var.ecs_service_name, var.STAGE, local.datacenter_code])
   ecs_cluster_name = join("-", [var.ecs_cluster_name, var.STAGE, local.datacenter_code])
+  dashboard_name   = join("-", [var.ecs_service_name, var.STAGE, local.datacenter_code])
 }
 
 data "aws_region" "current" {
+  provider = aws.cw_region
+}
+data "aws_sns_topic" "current" {
+  name     = "DevOps-Alerts-Topic"
   provider = aws.cw_region
 }
 
 # Create CloudWatch dashboard
 resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
   provider       = aws.cw_region
-  dashboard_name = join("-", [var.dashboard_name, local.datacenter_code])
+  dashboard_name = local.dashboard_name
 
   dashboard_body = jsonencode({
     widgets = [
@@ -349,3 +354,25 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
   })
 }
 
+locals {
+
+}
+#Cloudwatch Metrics
+resource "aws_cloudwatch_metric_alarm" "qatalyst_sqs_cw_alarm" {
+  provider            = aws.cw_region
+  alarm_name          = "sqs-queue-visibility-alarm"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  evaluation_periods  = "2"
+  metric_name         = "ApproximateAgeOfOldestMessage"
+  namespace           = "AWS/SQS"
+  period              = "300" // 5 minutes
+  statistic           = "SampleCount"
+  threshold           = "300" // 5 minutes
+  alarm_description   = "Alarm if the age of the oldest message in the queue is greater than 5 minutes."
+
+  dimensions = {
+    name  = "QueueName"
+    value = join("-", ["qatalyst", var.service, "processing-queue"])
+  }
+  alarm_actions = [data.aws_sns_topic.current.arn] // Define actions to take when the alarm state changes
+}

@@ -16,6 +16,7 @@ variable "alb_arn_suffix" {
 
 variable "tg_arn_suffix" {
   type        = string
+  default     = ""
   description = "TG Arn Suffix"
 }
 
@@ -34,7 +35,12 @@ variable "datacenter_codes" {
   description = "Data center code values"
 }
 
-variable "dashboard_name" {
+/*variable "dashboard_name" {
   type        = string
   description = "Name of the Cloudwatch Dashboard"
+}*/
+
+variable "service" {
+  type        = string
+  description = "name of the services"
 }
