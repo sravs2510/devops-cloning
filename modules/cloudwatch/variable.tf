@@ -16,6 +16,7 @@ variable "alb_arn_suffix" {
 
 variable "tg_arn_suffix" {
   type        = string
+  default     = ""
   description = "TG Arn Suffix"
 }
 

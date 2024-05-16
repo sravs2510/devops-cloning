@@ -3,34 +3,25 @@ data "aws_caller_identity" "current" {
 }
 
 locals {
-  dasboard_domain                                = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.base_domain])
-  tester_view_domain                             = var.STAGE == "prod" ? join(".", [var.tester_view_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.tester_view_sub_domain, var.base_domain])
-  qatalyst_ecs_cluster_name                      = "qatalyst-ecs-cluster"
-  qatalyst_dashboard_service_name                = "qatalyst-dashboard-service"
-  qatalyst_reports_service_name                  = "qatalyst-reports-service"
-  qatalyst_tester_view_service_name              = "qatalyst-tester-view-service"
-  qatalyst_cloudwatch_dashboard_name_dashboard   = "Qatalyst-Dashboard"
-  qatalyst_cloudwatch_dashboard_name_reports     = "Qatalyst-Reports"
-  qatalyst_cloudwatch_dashboard_name_tester_view = "Qatalyst-Tester-View"
-  qatalyst_cloudwatch_dashboard_name_prototype   = "Qatalyst-Prototype"
-  qatalyst_cloudwatch_dashboard_name_copilot     = "Qatalyst-copilot"
-  qatalyst_cloudwatch_dashboard_name_cyborg      = "Qatalyst-cyborg"
-  qatalyst_cloudwatch_dashboard_name_furyblade   = "Qatalyst-furyblade"
-  qatalyst_cloudwatch_dashboard_name_mammoth     = "Qatalyst-mammoth"
-  qatalyst_cloudwatch_dashboard_name_helios      = "Qatalyst-helios"
-  qatalyst_sender_email                          = var.STAGE == "prod" ? join("", ["noreply@", var.base_domain]) : join("", ["noreply@", var.STAGE, ".", var.base_domain])
-  qatalyst_cyborg_service_name                   = "qatalyst-cyborg-service"
-  qatalyst_furyblade_service_name                = "qatalyst-furyblade-service"
-  qatalyst_prototype_service_name                = "qatalyst-prototype-service"
-  qatalyst_mammoth_service_name                  = "qatalyst-mammoth-service"
-  qatalyst_copilot_service_name                  = "qatalyst-copilot-service"
-  qatalyst_helios_service_name                   = "qatalyst-helios-service"
-  fargate_cpu_memory                             = var.STAGE == "qa" ? var.fargate_cpu_memory_qa_eu : var.fargate_cpu_memory
-  account_id                                     = data.aws_caller_identity.current.account_id
-  qatalyst_healthcheck_api                       = "GET /health,GET */health"
-  qatalyst_batch_job_definition                  = "qatalyst-helios-job-definition"
-  qatalyst_batch_compute                         = "qatalyst-helios-batch-compute"
-  qatalyst_batch_job_queue                       = "qatalyst-helios-batch-job-queue"
+  dasboard_domain                   = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.base_domain])
+  tester_view_domain                = var.STAGE == "prod" ? join(".", [var.tester_view_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.tester_view_sub_domain, var.base_domain])
+  qatalyst_ecs_cluster_name         = "qatalyst-ecs-cluster"
+  qatalyst_dashboard_service_name   = "qatalyst-dashboard-service"
+  qatalyst_reports_service_name     = "qatalyst-reports-service"
+  qatalyst_tester_view_service_name = "qatalyst-tester-view-service"
+  qatalyst_sender_email             = var.STAGE == "prod" ? join("", ["noreply@", var.base_domain]) : join("", ["noreply@", var.STAGE, ".", var.base_domain])
+  qatalyst_cyborg_service_name      = "qatalyst-cyborg-service"
+  qatalyst_furyblade_service_name   = "qatalyst-furyblade-service"
+  qatalyst_prototype_service_name   = "qatalyst-prototype-service"
+  qatalyst_mammoth_service_name     = "qatalyst-mammoth-service"
+  qatalyst_copilot_service_name     = "qatalyst-copilot-service"
+  qatalyst_helios_service_name      = "qatalyst-helios-service"
+  fargate_cpu_memory                = var.STAGE == "qa" ? var.fargate_cpu_memory_qa_eu : var.fargate_cpu_memory
+  account_id                        = data.aws_caller_identity.current.account_id
+  qatalyst_healthcheck_api          = "GET /health,GET */health"
+  qatalyst_batch_job_definition     = "qatalyst-helios-job-definition"
+  qatalyst_batch_compute            = "qatalyst-helios-batch-compute"
+  qatalyst_batch_job_queue          = "qatalyst-helios-batch-job-queue"
   qatalyst_ecs_task_environment_variables = [
     {
       name  = "COGNITO_USER_POOL_ID"

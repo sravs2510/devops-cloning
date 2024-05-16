@@ -18,6 +18,10 @@ locals {
 data "aws_region" "current" {
   provider = aws.cw_region
 }
+data "aws_sns_topic" "current" {
+  name     = "DevOps-Alerts-Topic"
+  provider = aws.cw_region
+}
 
 # Create CloudWatch dashboard
 resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
@@ -349,11 +353,9 @@ resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
   })
 }
 
-data "aws_sns_topic" "devops_sns_topic" {
-  name     = "DevOps-Alerts-Topic"
-  provider = aws.sns_region
-}
+locals {
 
+}
 #Cloudwatch Metrics
 resource "aws_cloudwatch_metric_alarm" "qatalyst_sqs_cw_alarm" {
   provider            = aws.cw_region
@@ -371,5 +373,5 @@ resource "aws_cloudwatch_metric_alarm" "qatalyst_sqs_cw_alarm" {
     name  = "QueueName"
     value = join("-", ["qatalyst", var.service, "processing-queue"])
   }
-  alarm_actions = [data.aws_sns_topic.devops_sns_topic.arn] // Define actions to take when the alarm state changes
+  alarm_actions = [data.aws_sns_topic.current.arn] // Define actions to take when the alarm state changes
 }
