@@ -13,6 +13,7 @@ locals {
   datacenter_code  = lookup(var.datacenter_codes, data.aws_region.current.name)
   ecs_service_name = join("-", [var.ecs_service_name, var.STAGE, local.datacenter_code])
   ecs_cluster_name = join("-", [var.ecs_cluster_name, var.STAGE, local.datacenter_code])
+  dashboard_name   = join("-", [var.ecs_service_name, var.STAGE])
 }
 
 data "aws_region" "current" {
@@ -26,7 +27,7 @@ data "aws_sns_topic" "current" {
 # Create CloudWatch dashboard
 resource "aws_cloudwatch_dashboard" "qatalyst_cw_dashboard" {
   provider       = aws.cw_region
-  dashboard_name = join("-", [var.dashboard_name, local.datacenter_code])
+  dashboard_name = local.dashboard_name
 
   dashboard_body = jsonencode({
     widgets = [

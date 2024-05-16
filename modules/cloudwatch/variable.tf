@@ -35,10 +35,10 @@ variable "datacenter_codes" {
   description = "Data center code values"
 }
 
-variable "dashboard_name" {
+/*variable "dashboard_name" {
   type        = string
   description = "Name of the Cloudwatch Dashboard"
-}
+}*/
 
 variable "service" {
   type        = string
