@@ -61,8 +61,7 @@ resource "aws_cloudwatch_metric_alarm" "qatalyst_sqs_cw_alarm" {
   alarm_description   = "Alarm if the age of the oldest message in the queue is greater than 5 minutes."
 
   dimensions = {
-    name  = "QueueName"
-    value = each.value.queue_name
+    QueueName = each.value.queue_name
   }
   alarm_actions = [data.aws_sns_topic.current.arn] // Define actions to take when the alarm state changes
 }
@@ -80,8 +79,7 @@ resource "aws_cloudwatch_metric_alarm" "qatalyst_sqs_dl_cw_alarm" {
   alarm_description   = "Alarm if the age of the oldest message in the queue is greater than 5 minutes."
 
   dimensions = {
-    name  = "QueueName"
-    value = "${each.value.queue_name}-dl"
+    QueueName = "${each.value.queue_name}-dl"
   }
   alarm_actions = [data.aws_sns_topic.current.arn] // Define actions to take when the alarm state changes
 }
