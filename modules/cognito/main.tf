@@ -26,7 +26,7 @@ locals {
 resource "aws_cognito_user_pool" "user_pool" {
   provider            = aws.cognito_region
   name                = var.user_pool_name
-  deletion_protection = "INACTIVE"
+  deletion_protection = "ACTIVE"
   username_attributes = ["email"]
 
   account_recovery_setting {
