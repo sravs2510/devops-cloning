@@ -78,3 +78,32 @@ resource "aws_dynamodb_table" "table" {
 
   tags = merge(tomap({ "Name" : each.value.table_name }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
+
+data "aws_sns_topic" "current" {
+  name     = "DevOps-Alerts-Topic"
+  provider = aws.dynamo_region
+}
+
+resource "aws_cloudwatch_metric_alarm" "dynamodb_successful_request_latency_alarm" {
+
+  provider            = aws.dynamo_region
+  for_each            = var.table_details
+  alarm_name          ="${each.key}-ddb-latency"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  evaluation_periods  = 2
+  threshold           = 200
+  statistic           = "Average"
+  period              = 60
+  namespace           = "AWS/DynamoDB"
+  metric_name         = "SuccessfulRequestLatency"
+  alarm_description  = "Alarm for DynamoDB Successful Request Latency for table"
+  treat_missing_data = "missing"
+  alarm_actions = [data.aws_sns_topic.current.arn]
+  dimensions = {
+    TableName = each.value.table_name
+  } 
+}
+
+
+
+
