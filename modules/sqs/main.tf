@@ -53,12 +53,12 @@ resource "aws_cloudwatch_metric_alarm" "qatalyst_sqs_cw_alarm" {
   alarm_name          = join("-", [each.value.queue_name, "visibility-alarm"])
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = "2"
-  metric_name         = "ApproximateAgeOfOldestMessage"
+  metric_name         = "ApproximateNumberOfMessagesVisible"
   namespace           = "AWS/SQS"
   period              = "300" // 5 minutes
   statistic           = "SampleCount"
   threshold           = "300" // 5 minutes
-  alarm_description   = "Alarm if the age of the oldest message in the queue is greater than 5 minutes."
+  alarm_description   = "Alarm if the number of visible messages in the queue is greater than or equal to 300 for two consecutive 5-minute periods."
 
   dimensions = {
     QueueName = each.value.queue_name
@@ -71,12 +71,12 @@ resource "aws_cloudwatch_metric_alarm" "qatalyst_sqs_dl_cw_alarm" {
   alarm_name          = join("-", [each.value.queue_name, "dl", "visibility-alarm"])
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = "2"
-  metric_name         = "ApproximateAgeOfOldestMessage"
+  metric_name         = "ApproximateNumberOfMessagesVisible"
   namespace           = "AWS/SQS"
   period              = "300" // 5 minutes
   statistic           = "SampleCount"
   threshold           = "300" // 5 minutes
-  alarm_description   = "Alarm if the age of the oldest message in the queue is greater than 5 minutes."
+  alarm_description   = "Alarm if the number of visible messages in the queue is greater than or equal to 300 for two consecutive 5-minute periods."
 
   dimensions = {
     QueueName = "${each.value.queue_name}-dl"
