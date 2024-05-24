@@ -430,10 +430,11 @@ mediaconvert_queues = {
 }
 
 lb_target_health = {
-  "lb_target_interval"            = 30
-  "lb_target_timeout"             = 25
+  "lb_target_interval"            = 60
+  "lb_target_timeout"             = 30
   "lb_target_healthy_threshold"   = 2
   "lb_target_unhealthy_threshold" = 2
+  "lb_deregistration_delay"       = 60
 }
 
 sqs_details = {

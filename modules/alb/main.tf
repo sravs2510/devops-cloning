@@ -16,6 +16,7 @@ locals {
   lb_target_timeout             = lookup(var.lb_target_health, "lb_target_timeout")
   lb_target_healthy_threshold   = lookup(var.lb_target_health, "lb_target_healthy_threshold")
   lb_target_unhealthy_threshold = lookup(var.lb_target_health, "lb_target_unhealthy_threshold")
+  lb_deregistration_delay       = lookup(var.lb_target_health, "lb_deregistration_delay")
 }
 resource "aws_security_group" "qatalyst_alb_sg" {
   provider    = aws.alb_region
@@ -63,7 +64,7 @@ resource "aws_lb_target_group" "qatalyst_tg" {
   protocol             = "HTTP"
   target_type          = "ip"
   vpc_id               = var.vpc_id
-  deregistration_delay = 90 #sec
+  deregistration_delay = local.lb_deregistration_delay
 
   health_check {
     path                = "/health"
@@ -82,7 +83,7 @@ resource "aws_lb_target_group" "qatalyst_reports_tg" {
   protocol             = "HTTP"
   target_type          = "ip"
   vpc_id               = var.vpc_id
-  deregistration_delay = 90 #sec
+  deregistration_delay = local.lb_deregistration_delay
 
   health_check {
     path                = "/health"
@@ -101,7 +102,7 @@ resource "aws_lb_target_group" "qatalyst_tester_view_tg" {
   protocol             = "HTTP"
   target_type          = "ip"
   vpc_id               = var.vpc_id
-  deregistration_delay = 90 #sec
+  deregistration_delay = local.lb_deregistration_delay
 
   health_check {
     path                = "/health"
@@ -120,7 +121,7 @@ resource "aws_lb_target_group" "qatalyst_copilot_tg" {
   protocol             = "HTTP"
   target_type          = "ip"
   vpc_id               = var.vpc_id
-  deregistration_delay = 90 #sec
+  deregistration_delay = local.lb_deregistration_delay
 
   health_check {
     path                = "/health"
