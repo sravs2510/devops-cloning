@@ -269,3 +269,21 @@ resource "aws_cloudwatch_metric_alarm" "target_response_time_alarm" {
     LoadBalancer = aws_lb.qatalyst_alb.arn_suffix
   }
 }
+
+resource "aws_cloudwatch_metric_alarm" "error_monitoring_alarm" {
+  provider            = aws.alb_region
+  alarm_name          = "qatalyst-alb-error-monitoring"
+  comparison_operator = "GreaterThanThreshold"
+  evaluation_periods  = "2"
+  metric_name         = "HTTPCode_Target_5XX_Count"
+  namespace           = "AWS/ApplicationELB"
+  period              = "300" // 5 minutes
+  statistic           = "Average"
+  threshold           = 300
+  alarm_description   = "Alarm when error monitoring Time exceeds threshold"
+  actions_enabled     = true
+  alarm_actions       = [data.aws_sns_topic.current.arn]
+  dimensions = {
+    LoadBalancer = aws_lb.qatalyst_alb.arn_suffix
+  }
+}
