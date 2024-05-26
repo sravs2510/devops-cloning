@@ -246,3 +246,26 @@ resource "aws_route53_record" "qatalyst_api_domain_record" {
     evaluate_target_health = false
   }
 }
+
+data "aws_sns_topic" "current" {
+  name     = "DevOps-Alerts-Topic"
+  provider = aws.alb_region
+}
+
+resource "aws_cloudwatch_metric_alarm" "target_response_time_alarm" {
+  provider            = aws.alb_region
+  alarm_name          = "qatalyst-alb-latency-monitoring"
+  comparison_operator = "GreaterThanThreshold"
+  evaluation_periods  = "2"
+  metric_name         = "TargetResponseTime"
+  namespace           = "AWS/ApplicationELB"
+  period              = "300" // 5 minutes
+  statistic           = "Average"
+  threshold           = 300
+  alarm_description   = "Alarm when TargetResponseTime exceeds threshold"
+  actions_enabled     = true
+  alarm_actions       = [data.aws_sns_topic.current.arn]
+  dimensions = {
+    LoadBalancer = aws_lb.qatalyst_alb.arn_suffix
+  }
+}
