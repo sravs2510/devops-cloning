@@ -23,7 +23,7 @@ module "create_sea_furyblade_ecr" {
 
 module "create_eu_furyblade_ecr" {
   source       = "./modules/ecr"
-  count        = contains(["dev"], var.STAGE) ? 0 : 1
+  count        = contains(["dev", "playground"], var.STAGE) ? 0 : 1
   service_name = var.service_names["furyblade"]
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
@@ -35,7 +35,7 @@ module "create_eu_furyblade_ecr" {
 
 module "create_us_furyblade_ecr" {
   source       = "./modules/ecr"
-  count        = contains(["dev"], var.STAGE) ? 0 : 1
+  count        = contains(["dev", "playground"], var.STAGE) ? 0 : 1
   service_name = var.service_names["furyblade"]
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
@@ -121,7 +121,7 @@ module "create_in_ecs_furyblade_service" {
 
 module "create_us_ecs_furyblade_service" {
   source                      = "./modules/ecs-service"
-  count                       = contains(["dev"], var.STAGE) ? 0 : 1
+  count                       = contains(["dev", "playground"], var.STAGE) ? 0 : 1
   ecs_service_name            = local.qatalyst_furyblade_service_name
   ecs_cluster_id              = try(module.create_us_ecs[0].ecs_cluster_id, "")
   ecs_cluster_name            = try(module.create_us_ecs[0].ecs_cluster_name, "")
@@ -159,7 +159,7 @@ module "create_us_ecs_furyblade_service" {
 
 module "create_eu_ecs_furyblade_service" {
   source                      = "./modules/ecs-service"
-  count                       = contains(["dev"], var.STAGE) ? 0 : 1
+  count                       = contains(["dev", "playground"], var.STAGE) ? 0 : 1
   ecs_service_name            = local.qatalyst_furyblade_service_name
   ecs_cluster_id              = try(module.create_eu_ecs[0].ecs_cluster_id, "")
   ecs_cluster_name            = try(module.create_eu_ecs[0].ecs_cluster_name, "")
@@ -197,7 +197,7 @@ module "create_eu_ecs_furyblade_service" {
 
 module "create_eu_furyblade_efs" {
   source            = "./modules/efs"
-  count             = contains(["dev"], var.STAGE) ? 0 : 1
+  count             = contains(["dev", "playground"], var.STAGE) ? 0 : 1
   STAGE             = var.STAGE
   DEFAULT_TAGS      = var.DEFAULT_TAGS
   efs_configuration = var.efs_configurations["furyblade"]
@@ -237,7 +237,7 @@ module "create_sea_furyblade_efs" {
 
 module "create_us_furyblade_efs" {
   source            = "./modules/efs"
-  count             = contains(["dev"], var.STAGE) ? 0 : 1
+  count             = contains(["dev", "playground"], var.STAGE) ? 0 : 1
   STAGE             = var.STAGE
   DEFAULT_TAGS      = var.DEFAULT_TAGS
   efs_configuration = var.efs_configurations["furyblade"]
@@ -252,7 +252,7 @@ module "create_us_furyblade_efs" {
 #Event Bridge Scheduler Group
 module "create_eu_furyblade_eventbridge_group" {
   source       = "./modules/eventbridge"
-  count        = contains(["dev"], var.STAGE) ? 0 : 1
+  count        = contains(["dev", "playground"], var.STAGE) ? 0 : 1
   STAGE        = var.STAGE
   DEFAULT_TAGS = var.DEFAULT_TAGS
   service      = var.service_names["furyblade"]
@@ -286,7 +286,7 @@ module "create_sea_furyblade_eventbridge_group" {
 
 module "create_us_furyblade_eventbridge_group" {
   source       = "./modules/eventbridge"
-  count        = contains(["dev"], var.STAGE) ? 0 : 1
+  count        = contains(["dev", "playground"], var.STAGE) ? 0 : 1
   STAGE        = var.STAGE
   DEFAULT_TAGS = var.DEFAULT_TAGS
   service      = var.service_names["furyblade"]

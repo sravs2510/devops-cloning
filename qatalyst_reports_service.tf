@@ -29,7 +29,7 @@ module "create_in_ecs_reports_service" {
 
 module "create_eu_ecs_reports_service" {
   source                        = "./modules/ecs-service"
-  count                         = contains(["dev"], var.STAGE) ? 0 : 1
+  count                         = contains(["dev", "playground"], var.STAGE) ? 0 : 1
   ecs_service_name              = local.qatalyst_reports_service_name
   ecs_cluster_id                = try(module.create_eu_ecs[0].ecs_cluster_id, "")
   ecs_cluster_name              = try(module.create_eu_ecs[0].ecs_cluster_name, "")
@@ -84,7 +84,7 @@ module "create_sea_ecs_reports_service" {
 
 module "create_us_ecs_reports_service" {
   source                        = "./modules/ecs-service"
-  count                         = contains(["dev"], var.STAGE) ? 0 : 1
+  count                         = contains(["dev", "playground"], var.STAGE) ? 0 : 1
   ecs_service_name              = local.qatalyst_reports_service_name
   ecs_cluster_id                = try(module.create_us_ecs[0].ecs_cluster_id, "")
   ecs_cluster_name              = try(module.create_us_ecs[0].ecs_cluster_name, "")
@@ -113,7 +113,7 @@ module "create_us_ecs_reports_service" {
 #Cloudwatch
 module "create_eu_cloudwatch_reports_dashboard" {
   source           = "./modules/cloudwatch"
-  count            = contains(["dev"], var.STAGE) ? 0 : 1
+  count            = contains(["dev", "playground"], var.STAGE) ? 0 : 1
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
   ecs_service_name = local.qatalyst_reports_service_name
@@ -159,7 +159,7 @@ module "create_sea_cloudwatch_reports_dashboard" {
 
 module "create_us_cloudwatch_reports_dashboard" {
   source           = "./modules/cloudwatch"
-  count            = contains(["dev"], var.STAGE) ? 0 : 1
+  count            = contains(["dev", "playground"], var.STAGE) ? 0 : 1
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
   ecs_service_name = local.qatalyst_reports_service_name
@@ -221,7 +221,7 @@ module "create_reports_acm_cf" {
 
 module "create_eu_reports_acm" {
   source           = "./modules/acm"
-  count            = contains(["dev"], var.STAGE) ? 0 : 1
+  count            = contains(["dev", "playground"], var.STAGE) ? 0 : 1
   base_domain      = var.base_domain
   sub_domain       = var.reports_sub_domain
   datacenter_codes = var.datacenter_codes
