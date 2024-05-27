@@ -1,7 +1,7 @@
 #ECR
 module "create_eu_cyborg_ecr" {
   source       = "./modules/ecr"
-  count        = contains(["dev"], var.STAGE) ? 0 : 1
+  count        = contains(["dev", "playground"], var.STAGE) ? 0 : 1
   service_name = var.service_names["cyborg"]
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
@@ -35,7 +35,7 @@ module "create_sea_cyborg_ecr" {
 
 module "create_us_cyborg_ecr" {
   source       = "./modules/ecr"
-  count        = contains(["dev"], var.STAGE) ? 0 : 1
+  count        = contains(["dev", "playground"], var.STAGE) ? 0 : 1
   service_name = var.service_names["cyborg"]
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
@@ -48,7 +48,7 @@ module "create_us_cyborg_ecr" {
 #EFS
 module "create_eu_cyborg_efs" {
   source            = "./modules/efs"
-  count             = contains(["dev"], var.STAGE) ? 0 : 1
+  count             = contains(["dev", "playground"], var.STAGE) ? 0 : 1
   STAGE             = var.STAGE
   DEFAULT_TAGS      = var.DEFAULT_TAGS
   efs_configuration = var.efs_configurations["cyborg"]
@@ -88,7 +88,7 @@ module "create_sea_cyborg_efs" {
 
 module "create_us_cyborg_efs" {
   source            = "./modules/efs"
-  count             = contains(["dev"], var.STAGE) ? 0 : 1
+  count             = contains(["dev", "playground"], var.STAGE) ? 0 : 1
   STAGE             = var.STAGE
   DEFAULT_TAGS      = var.DEFAULT_TAGS
   efs_configuration = var.efs_configurations["cyborg"]
@@ -103,7 +103,7 @@ module "create_us_cyborg_efs" {
 #ECS
 module "create_eu_ecs_cyborg_service" {
   source                        = "./modules/ecs-service"
-  count                         = contains(["dev"], var.STAGE) ? 0 : 1
+  count                         = contains(["dev", "playground"], var.STAGE) ? 0 : 1
   ecs_service_name              = local.qatalyst_cyborg_service_name
   ecs_cluster_id                = try(module.create_eu_ecs[0].ecs_cluster_id, "")
   ecs_cluster_name              = try(module.create_eu_ecs[0].ecs_cluster_name, "")
@@ -195,7 +195,7 @@ module "create_sea_ecs_cyborg_service" {
 
 module "create_us_ecs_cyborg_service" {
   source                        = "./modules/ecs-service"
-  count                         = contains(["dev"], var.STAGE) ? 0 : 1
+  count                         = contains(["dev", "playground"], var.STAGE) ? 0 : 1
   ecs_service_name              = local.qatalyst_cyborg_service_name
   ecs_cluster_id                = try(module.create_us_ecs[0].ecs_cluster_id, "")
   ecs_cluster_name              = try(module.create_us_ecs[0].ecs_cluster_name, "")

@@ -1,7 +1,7 @@
 #ECS
 module "create_eu_ecs_testerview_service" {
   source                        = "./modules/ecs-service"
-  count                         = contains(["dev"], var.STAGE) ? 0 : 1
+  count                         = contains(["dev", "playground"], var.STAGE) ? 0 : 1
   ecs_service_name              = local.qatalyst_tester_view_service_name
   ecs_cluster_id                = try(module.create_eu_ecs[0].ecs_cluster_id, "")
   ecs_cluster_name              = try(module.create_eu_ecs[0].ecs_cluster_name, "")
@@ -83,7 +83,7 @@ module "create_sea_ecs_testerview_service" {
 
 module "create_us_ecs_testerview_service" {
   source                        = "./modules/ecs-service"
-  count                         = contains(["dev"], var.STAGE) ? 0 : 1
+  count                         = contains(["dev", "playground"], var.STAGE) ? 0 : 1
   ecs_service_name              = local.qatalyst_tester_view_service_name
   ecs_cluster_id                = try(module.create_us_ecs[0].ecs_cluster_id, "")
   ecs_cluster_name              = try(module.create_us_ecs[0].ecs_cluster_name, "")
@@ -112,7 +112,7 @@ module "create_us_ecs_testerview_service" {
 #Cloudwatch
 module "create_eu_cloudwatch_tester_view_dashboard" {
   source           = "./modules/cloudwatch"
-  count            = contains(["dev"], var.STAGE) ? 0 : 1
+  count            = contains(["dev", "playground"], var.STAGE) ? 0 : 1
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
   ecs_service_name = local.qatalyst_tester_view_service_name
@@ -158,7 +158,7 @@ module "create_sea_cloudwatch_tester_view_dashboard" {
 
 module "create_us_cloudwatch_tester_view_dashboard" {
   source           = "./modules/cloudwatch"
-  count            = contains(["dev"], var.STAGE) ? 0 : 1
+  count            = contains(["dev", "playground"], var.STAGE) ? 0 : 1
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
   ecs_service_name = local.qatalyst_tester_view_service_name
@@ -197,7 +197,7 @@ module "create_sea_tester_view_acm" {
 }
 module "create_eu_tester_view_acm" {
   source       = "./modules/acm-fe"
-  count        = contains(["dev"], var.STAGE) ? 0 : 1
+  count        = contains(["dev", "playground"], var.STAGE) ? 0 : 1
   base_domain  = var.base_domain
   domain_name  = local.tester_view_domain
   DEFAULT_TAGS = var.DEFAULT_TAGS
