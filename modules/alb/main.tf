@@ -261,7 +261,7 @@ resource "aws_cloudwatch_metric_alarm" "target_response_time_alarm" {
   namespace           = "AWS/ApplicationELB"
   period              = "300" // 5 minutes
   statistic           = "Average"
-  threshold           = 300
+  threshold           = 30
   alarm_description   = "Alarm when TargetResponseTime exceeds threshold"
   actions_enabled     = true
   alarm_actions       = [data.aws_sns_topic.current.arn]
@@ -279,7 +279,7 @@ resource "aws_cloudwatch_metric_alarm" "error_monitoring_alarm" {
   namespace           = "AWS/ApplicationELB"
   period              = "300" // 5 minutes
   statistic           = "Average"
-  threshold           = 300
+  threshold           = 10
   alarm_description   = "Alarm when error monitoring Time exceeds threshold"
   actions_enabled     = true
   alarm_actions       = [data.aws_sns_topic.current.arn]
