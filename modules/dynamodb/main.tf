@@ -9,7 +9,6 @@ terraform {
 
 locals {
   region_name = ["ap-south-1", "eu-north-1", "ap-southeast-1"]
-  operations = ["GetItem", "PutItem", "Scan", "Query"]
 }
 
 resource "aws_dynamodb_table" "table" {
@@ -89,7 +88,7 @@ resource "aws_cloudwatch_metric_alarm" "dynamodb_successful_request_latency_alar
 
   provider            = aws.dynamo_region
   for_each            = var.table_details
-  alarm_name          ="${each.value.table_name}-ddb-latency"
+  alarm_name          ="${each.key}-ddb-latency"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = "2"
   threshold           = "100"
@@ -106,7 +105,4 @@ resource "aws_cloudwatch_metric_alarm" "dynamodb_successful_request_latency_alar
     }
   
 }
-
-
-
 
