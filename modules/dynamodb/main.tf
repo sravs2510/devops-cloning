@@ -97,14 +97,12 @@ resource "aws_cloudwatch_metric_alarm" "dynamodb_successful_request_latency_alar
   namespace           = "AWS/DynamoDB"
   metric_name         = "SuccessfulRequestLatency"
   alarm_description  = "Alarm for DynamoDB Successful Request Latency for table"
-  treat_missing_data = "missing"
+  treat_missing_data = "notBreaching"
   alarm_actions = [data.aws_sns_topic.current.arn]
   dimensions = {
-    TableName = each.value.table_name
-    Operation = "Query"
-  } 
+      TableName         = each.value.table_name
+      Operation         = "Query"
+    }
+  
 }
-
-
-
 
