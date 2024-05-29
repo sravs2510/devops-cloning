@@ -132,3 +132,43 @@ resource "aws_opensearch_domain" "opensearch_domain" {
     "STAGE" : var.STAGE
   }), var.DEFAULT_TAGS)
 }
+
+data "aws_sns_topic" "current" {
+  name     = "DevOps-Alerts-Topic"
+  provider = aws.opensearch_region
+}
+resource "aws_cloudwatch_metric_alarm" "opensearch_cluster_status_cw_alarm" {
+  provider            = aws.opensearch_region
+  alarm_name          = "opensearch-cpu-utilization"
+  comparison_operator = "GreaterThanThreshold"
+  evaluation_periods  = "2"
+  metric_name         = "ClusterStatus.red"
+  namespace           = "AWS/ES"
+  period              = "300" // 5 minutes
+  statistic           = "Maximum"
+  threshold           = 0
+  alarm_description   = "Alarm for Opensearch cluster status Red"
+  alarm_actions       = [data.aws_sns_topic.current.arn]
+  dimensions = {
+    DomainName = var.service_name
+    ClientID   = data.aws_caller_identity.current.account_id
+  }
+}
+
+resource "aws_cloudwatch_metric_alarm" "opensearch_cpu_cw_alarm" {
+  provider            = aws.opensearch_region
+  alarm_name          = "opensearch-cpu-utilization"
+  comparison_operator = "GreaterThanThreshold"
+  evaluation_periods  = "2"
+  metric_name         = "CPUtilization"
+  namespace           = "AWS/ES"
+  period              = "300" // 5 minutes
+  statistic           = "Maximum"
+  threshold           = 0
+  alarm_description   = "Alarm for Opensearch CPUtilization"
+  alarm_actions       = [data.aws_sns_topic.current.arn]
+  dimensions = {
+    DomainName = var.service_name
+    ClientID   = data.aws_caller_identity.current.account_id
+  }
+}
