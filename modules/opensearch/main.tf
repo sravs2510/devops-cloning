@@ -163,8 +163,8 @@ resource "aws_cloudwatch_metric_alarm" "opensearch_cpu_cw_alarm" {
   metric_name         = "CPUtilization"
   namespace           = "AWS/ES"
   period              = "300" // 5 minutes
-  statistic           = "Maximum"
-  threshold           = 0
+  statistic           = "Average"
+  threshold           = 70
   alarm_description   = "Alarm for Opensearch CPUtilization"
   alarm_actions       = [data.aws_sns_topic.current.arn]
   dimensions = {
