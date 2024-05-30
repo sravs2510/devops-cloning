@@ -2,7 +2,7 @@
 
 module "create_eu_vpc" {
   source          = "./modules/vpc"
-  count           = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count           = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   cidr_block      = var.cidr_block
   public_subnets  = var.public_subnets
   private_subnets = var.private_subnets
@@ -16,7 +16,7 @@ module "create_eu_vpc" {
 
 module "create_eu_s3_bucket" {
   source                     = "./modules/s3"
-  count                      = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count                      = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   bucket_prefix              = var.media_sub_domain
   DEFAULT_TAGS               = var.DEFAULT_TAGS
   STAGE                      = var.STAGE
@@ -35,7 +35,7 @@ module "create_eu_s3_bucket" {
 
 module "create_eu_acm_media_cf" {
   source           = "./modules/acm"
-  count            = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count            = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   base_domain      = var.base_domain
   sub_domain       = var.media_sub_domain
   datacenter_codes = var.datacenter_codes
@@ -51,7 +51,7 @@ module "create_eu_acm_media_cf" {
 
 module "create_eu_meet_acm_cf" {
   source           = "./modules/acm"
-  count            = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count            = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   base_domain      = var.base_domain
   sub_domain       = var.meet_sub_domain
   datacenter_codes = var.datacenter_codes
@@ -67,7 +67,7 @@ module "create_eu_meet_acm_cf" {
 
 module "create_eu_acm_invite_alb" {
   source           = "./modules/acm"
-  count            = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count            = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   base_domain      = var.base_domain
   sub_domain       = var.invite_sub_domain
   datacenter_codes = var.datacenter_codes
@@ -82,7 +82,7 @@ module "create_eu_acm_invite_alb" {
 }
 module "create_eu_media_cloudfront" {
   source                      = "./modules/cloudfront"
-  count                       = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count                       = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   base_domain                 = var.base_domain
   sub_domain                  = var.media_sub_domain
   datacenter_codes            = var.datacenter_codes
@@ -103,7 +103,7 @@ module "create_eu_media_cloudfront" {
 
 module "create_eu_acm_api" {
   source           = "./modules/acm"
-  count            = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count            = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   base_domain      = var.base_domain
   sub_domain       = var.api_sub_domain
   datacenter_codes = var.datacenter_codes
@@ -119,7 +119,7 @@ module "create_eu_acm_api" {
 
 module "create_eu_alb" {
   source              = "./modules/alb"
-  count               = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count               = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   vpc_id              = try(module.create_eu_vpc[0].vpc_id, "")
   alb_subnets         = try(module.create_eu_vpc[0].public_subnets, [])
   alb_certficate_arn  = try(module.create_eu_acm_api[0].acm_arn, "")
@@ -141,7 +141,7 @@ module "create_eu_alb" {
 
 module "create_eu_ecs" {
   source             = "./modules/ecs-cluster"
-  count              = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count              = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   ecs_cluster_name   = local.qatalyst_ecs_cluster_name
   vpc_id             = try(module.create_eu_vpc[0].vpc_id, "")
   alb_security_group = try(module.create_eu_alb[0].qatalyst_alb_sg_id, "")
@@ -156,7 +156,7 @@ module "create_eu_ecs" {
 
 module "create_eu_dynamodb" {
   source        = "./modules/dynamodb"
-  count         = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count         = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   DEFAULT_TAGS  = var.DEFAULT_TAGS
   STAGE         = var.STAGE
   table_details = var.table_details
@@ -168,7 +168,7 @@ module "create_eu_dynamodb" {
 
 module "create_eu_ssm" {
   source                                = "./modules/ssm"
-  count                                 = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count                                 = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   DEFAULT_TAGS                          = var.DEFAULT_TAGS
   STAGE                                 = var.STAGE
   datacenter_codes                      = var.datacenter_codes
@@ -185,7 +185,7 @@ module "create_eu_ssm" {
 
 module "create_eu_ecr" {
   source       = "./modules/ecr"
-  count        = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count        = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   service_name = var.service_names["backend"]
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
@@ -197,7 +197,7 @@ module "create_eu_ecr" {
 
 module "create_eu_media_convert_queue" {
   source              = "./modules/mediaconvert"
-  count               = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count               = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   mediaconvert_queues = var.mediaconvert_queues
   DEFAULT_TAGS        = var.DEFAULT_TAGS
   providers = {
@@ -206,7 +206,7 @@ module "create_eu_media_convert_queue" {
 }
 module "create_eu_sqs" {
   source       = "./modules/sqs"
-  count        = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count        = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
   sqs_details  = var.sqs_details
@@ -218,7 +218,7 @@ module "create_eu_sqs" {
 
 module "create_eu_qatalyst_media_bucket" {
   source                           = "./modules/s3"
-  count                            = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count                            = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   bucket_prefix                    = var.qatalyst_media_bucket_transfer_acceleration
   DEFAULT_TAGS                     = var.DEFAULT_TAGS
   STAGE                            = var.STAGE
@@ -239,7 +239,7 @@ module "create_eu_qatalyst_media_bucket" {
 
 module "create_eu_opensearch" {
   source            = "./modules/opensearch"
-  count             = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count             = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   DEFAULT_TAGS      = var.DEFAULT_TAGS
   STAGE             = var.STAGE
   datacenter_codes  = var.datacenter_codes
@@ -730,7 +730,7 @@ module "create_sea_opensearch" {
 # US Resources
 module "create_us_vpc" {
   source          = "./modules/vpc"
-  count           = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count           = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   cidr_block      = var.cidr_block
   public_subnets  = var.public_subnets
   private_subnets = var.private_subnets
@@ -744,7 +744,7 @@ module "create_us_vpc" {
 
 module "create_us_s3_bucket" {
   source                     = "./modules/s3"
-  count                      = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count                      = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   bucket_prefix              = var.media_sub_domain
   DEFAULT_TAGS               = var.DEFAULT_TAGS
   STAGE                      = var.STAGE
@@ -915,7 +915,7 @@ module "create_us_meet_acm_cf" {
 
 module "create_us_acm_media_cf" {
   source           = "./modules/acm"
-  count            = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count            = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   base_domain      = var.base_domain
   sub_domain       = var.media_sub_domain
   datacenter_codes = var.datacenter_codes
@@ -931,7 +931,7 @@ module "create_us_acm_media_cf" {
 
 module "create_us_media_cloudfront" {
   source                      = "./modules/cloudfront"
-  count                       = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count                       = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   base_domain                 = var.base_domain
   sub_domain                  = var.media_sub_domain
   datacenter_codes            = var.datacenter_codes
@@ -952,7 +952,7 @@ module "create_us_media_cloudfront" {
 
 module "create_us_acm_api" {
   source           = "./modules/acm"
-  count            = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count            = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   base_domain      = var.base_domain
   sub_domain       = var.api_sub_domain
   datacenter_codes = var.datacenter_codes
@@ -968,7 +968,7 @@ module "create_us_acm_api" {
 
 module "create_us_alb" {
   source              = "./modules/alb"
-  count               = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count               = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   vpc_id              = try(module.create_us_vpc[0].vpc_id, "")
   alb_subnets         = try(module.create_us_vpc[0].public_subnets, [])
   alb_certficate_arn  = try(module.create_us_acm_api[0].acm_arn, "")
@@ -990,7 +990,7 @@ module "create_us_alb" {
 
 module "create_us_ecs" {
   source             = "./modules/ecs-cluster"
-  count              = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count              = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   ecs_cluster_name   = local.qatalyst_ecs_cluster_name
   vpc_id             = try(module.create_us_vpc[0].vpc_id, "")
   alb_security_group = try(module.create_us_alb[0].qatalyst_alb_sg_id, "")
@@ -1005,7 +1005,7 @@ module "create_us_ecs" {
 
 module "create_us_dynamodb" {
   source        = "./modules/dynamodb"
-  count         = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count         = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   DEFAULT_TAGS  = var.DEFAULT_TAGS
   STAGE         = var.STAGE
   table_details = var.table_details
@@ -1016,7 +1016,7 @@ module "create_us_dynamodb" {
 
 module "create_us_qatalyst_media_bucket" {
   source                           = "./modules/s3"
-  count                            = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count                            = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   bucket_prefix                    = var.qatalyst_media_bucket_transfer_acceleration
   DEFAULT_TAGS                     = var.DEFAULT_TAGS
   STAGE                            = var.STAGE
@@ -1048,7 +1048,7 @@ module "create_global_dynamodb" {
 }
 module "create_us_ssm" {
   source                                = "./modules/ssm"
-  count                                 = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count                                 = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   DEFAULT_TAGS                          = var.DEFAULT_TAGS
   STAGE                                 = var.STAGE
   datacenter_codes                      = var.datacenter_codes
@@ -1077,7 +1077,7 @@ module "create_ecr" {
 }
 module "create_us_ecr" {
   source       = "./modules/ecr"
-  count        = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count        = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   service_name = var.service_names["backend"]
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
@@ -1088,7 +1088,7 @@ module "create_us_ecr" {
 }
 module "create_us_media_convert_queue" {
   source              = "./modules/mediaconvert"
-  count               = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count               = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   mediaconvert_queues = var.mediaconvert_queues
   DEFAULT_TAGS        = var.DEFAULT_TAGS
   providers = {
@@ -1126,7 +1126,7 @@ module "create_cdn_cache_policy" {
 }
 module "create_us_sqs" {
   source       = "./modules/sqs"
-  count        = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count        = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
   sqs_details  = var.sqs_details
@@ -1138,7 +1138,7 @@ module "create_us_sqs" {
 
 module "create_us_opensearch" {
   source            = "./modules/opensearch"
-  count             = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count             = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   DEFAULT_TAGS      = var.DEFAULT_TAGS
   STAGE             = var.STAGE
   datacenter_codes  = var.datacenter_codes

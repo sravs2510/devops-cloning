@@ -1,7 +1,7 @@
 #ECS
 module "create_eu_ecs_copilot_service" {
   source                        = "./modules/ecs-service"
-  count                         = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count                         = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   ecs_service_name              = local.qatalyst_copilot_service_name
   ecs_cluster_id                = try(module.create_eu_ecs[0].ecs_cluster_id, "")
   ecs_cluster_name              = try(module.create_eu_ecs[0].ecs_cluster_name, "")
@@ -83,7 +83,7 @@ module "create_sea_ecs_copilot_service" {
 
 module "create_us_ecs_copilot_service" {
   source                        = "./modules/ecs-service"
-  count                         = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count                         = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   ecs_service_name              = local.qatalyst_copilot_service_name
   ecs_cluster_id                = try(module.create_us_ecs[0].ecs_cluster_id, "")
   ecs_cluster_name              = try(module.create_us_ecs[0].ecs_cluster_name, "")
@@ -112,7 +112,7 @@ module "create_us_ecs_copilot_service" {
 #Cloudwatch
 module "create_eu_cloudwatch_copilot_dashboard" {
   source           = "./modules/cloudwatch"
-  count            = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count            = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
   ecs_service_name = local.qatalyst_copilot_service_name
@@ -160,7 +160,7 @@ module "create_sea_cloudwatch_copilot_dashboard" {
 
 module "create_us_cloudwatch_copilot_dashboard" {
   source           = "./modules/cloudwatch"
-  count            = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count            = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
   ecs_service_name = local.qatalyst_copilot_service_name
