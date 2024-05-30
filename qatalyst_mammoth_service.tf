@@ -25,7 +25,7 @@ module "create_sea_mammoth_ecr" {
 
 module "create_eu_mammoth_ecr" {
   source       = "./modules/ecr"
-  count        = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count        = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   service_name = var.service_names["mammoth"]
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
@@ -37,7 +37,7 @@ module "create_eu_mammoth_ecr" {
 
 module "create_us_mammoth_ecr" {
   source       = "./modules/ecr"
-  count        = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count        = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   service_name = var.service_names["mammoth"]
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
@@ -50,7 +50,7 @@ module "create_us_mammoth_ecr" {
 #EFS
 module "create_eu_mammoth_efs" {
   source            = "./modules/efs"
-  count             = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count             = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   STAGE             = var.STAGE
   DEFAULT_TAGS      = var.DEFAULT_TAGS
   efs_configuration = var.efs_configurations["mammoth"]
@@ -90,7 +90,7 @@ module "create_sea_mammoth_efs" {
 
 module "create_us_mammoth_efs" {
   source            = "./modules/efs"
-  count             = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count             = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   STAGE             = var.STAGE
   DEFAULT_TAGS      = var.DEFAULT_TAGS
   efs_configuration = var.efs_configurations["mammoth"]
@@ -105,7 +105,7 @@ module "create_us_mammoth_efs" {
 #ECS
 module "create_eu_ecs_mammoth_service" {
   source                        = "./modules/ecs-service"
-  count                         = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count                         = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   ecs_service_name              = local.qatalyst_mammoth_service_name
   ecs_cluster_id                = try(module.create_eu_ecs[0].ecs_cluster_id, "")
   ecs_cluster_name              = try(module.create_eu_ecs[0].ecs_cluster_name, "")
@@ -197,7 +197,7 @@ module "create_sea_ecs_mammoth_service" {
 
 module "create_us_ecs_mammoth_service" {
   source                        = "./modules/ecs-service"
-  count                         = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count                         = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   ecs_service_name              = local.qatalyst_mammoth_service_name
   ecs_cluster_id                = try(module.create_us_ecs[0].ecs_cluster_id, "")
   ecs_cluster_name              = try(module.create_us_ecs[0].ecs_cluster_name, "")

@@ -1,6 +1,6 @@
 module "create_eu_ecr_helios" {
   source       = "./modules/ecr"
-  count        = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count        = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   service_name = var.service_names["helios"]
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
@@ -12,7 +12,7 @@ module "create_eu_ecr_helios" {
 
 module "create_eu_batch_helios" {
   source                     = "./modules/batch"
-  count                      = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count                      = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   subnet_ids                 = module.create_eu_vpc[0].private_subnets
   DEFAULT_TAGS               = var.DEFAULT_TAGS
   STAGE                      = var.STAGE
@@ -93,7 +93,7 @@ module "create_sea_batch_helios" {
 
 module "create_us_ecr_helios" {
   source       = "./modules/ecr"
-  count        = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count        = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   service_name = var.service_names["helios"]
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
@@ -105,7 +105,7 @@ module "create_us_ecr_helios" {
 
 module "create_us_batch_helios" {
   source                     = "./modules/batch"
-  count                      = contains(["dev", "playground"], var.STAGE) ? 0 : 1
+  count                      = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   subnet_ids                 = module.create_us_vpc[0].private_subnets
   DEFAULT_TAGS               = var.DEFAULT_TAGS
   STAGE                      = var.STAGE
