@@ -296,3 +296,42 @@ resource "aws_appautoscaling_policy" "qatalyst_ecs_asp_memory_average" {
     scale_out_cooldown = 300
   }
 }
+
+data "aws_sns_topic" "current" {
+  name     = "DevOps-Alerts-Topic"
+  provider = aws.ecs_region
+}
+resource "aws_cloudwatch_metric_alarm" "ecs_cluster_cpu_cw_alarm" {
+  provider            = aws.ecs_region
+  alarm_name          = "qatalyst-ecs-cluster-cpu-utilization"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  evaluation_periods  = "2"
+  metric_name         = "CPUUtilization"
+  namespace           = "AWS/ECS"
+  period              = "300" // 5 minutes
+  statistic           = "Average"
+  threshold           = 70
+  alarm_description   = "Alarm for ECS Cluster CPUtilization"
+  alarm_actions       = [data.aws_sns_topic.current.arn]
+  dimensions = {
+    ClusterName = var.ecs_cluster_name
+    ServiceName = local.ecs_service_name
+  }
+}
+resource "aws_cloudwatch_metric_alarm" "ecs_cluster_memory_cw_alarm" {
+  provider            = aws.ecs_region
+  alarm_name          = "qatalyst-ecs-cluster-memory-utilization"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  evaluation_periods  = "2"
+  metric_name         = "MemoryUtilization"
+  namespace           = "AWS/ECS"
+  period              = "300" // 5 minutes
+  statistic           = "Average"
+  threshold           = 70
+  alarm_description   = "Alarm for ECS Cluster MemoryUtilization"
+  alarm_actions       = [data.aws_sns_topic.current.arn]
+  dimensions = {
+    ClusterName = var.ecs_cluster_name
+    ServiceName = local.ecs_service_name
+  }
+}

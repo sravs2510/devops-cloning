@@ -38,12 +38,6 @@ resource "aws_s3_bucket_ownership_controls" "s3_bucket_ownership_controls" {
   }
 }
 
-resource "aws_s3_bucket_acl" "s3_bucket_acl" {
-  provider = aws.s3_region
-  bucket   = aws_s3_bucket.s3_bucket.id
-  acl      = "private"
-}
-
 resource "aws_s3_bucket_public_access_block" "s3_bucket_public_access_block" {
   provider                = aws.s3_region
   bucket                  = aws_s3_bucket.s3_bucket.id
