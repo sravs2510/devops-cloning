@@ -137,6 +137,14 @@ locals {
     {
       name      = "LUCID_SHA1_KEY"
       valueFrom = join("-", ["qatalyst", "lucid", "sha1", "key"])
+    },
+    {
+      name      = "QATALYST_G2_API_TOKEN"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "g2-api-token"])
+    },
+    {
+      name      = "QATALYST_G2_PRODUCT_ID"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "g2-product-id"])
     }
   ]
   qatalyst_cyborg_ecs_task_environment_secrets = [
