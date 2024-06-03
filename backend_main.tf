@@ -1088,7 +1088,7 @@ module "create_us_ssm" {
 }
 
 #ECR 
-module "create_ecr" {
+module "create_sea_ecr" {
   source       = "./modules/ecr"
   service_name = var.service_names["backend"]
   DEFAULT_TAGS = var.DEFAULT_TAGS
@@ -1099,7 +1099,7 @@ module "create_ecr" {
   }
 }
 
-module "create_base_image_ecr" {
+module "create_base_image_sea_ecr" {
   source       = "./modules/ecr"
   service_name = join("-", [var.service_names["backend"], "base-image"])
   DEFAULT_TAGS = var.DEFAULT_TAGS
