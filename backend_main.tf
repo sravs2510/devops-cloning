@@ -195,6 +195,18 @@ module "create_eu_ecr" {
   }
 }
 
+module "create_base_image_eu_ecr" {
+  source       = "./modules/ecr"
+  count        = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
+  service_name = join("-", [var.service_names["backend"], "base-image"])
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
+
+  providers = {
+    aws.ecr_region = aws.eu_region
+  }
+}
+
 module "create_eu_media_convert_queue" {
   source              = "./modules/mediaconvert"
   count               = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
@@ -434,6 +446,17 @@ module "create_in_ssm" {
 module "create_in_ecr" {
   source       = "./modules/ecr"
   service_name = var.service_names["backend"]
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
+
+  providers = {
+    aws.ecr_region = aws.in_region
+  }
+}
+
+module "create_base_image_in_ecr" {
+  source       = "./modules/ecr"
+  service_name = join("-", [var.service_names["backend"], "base-image"])
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
 
@@ -1075,6 +1098,18 @@ module "create_ecr" {
     aws.ecr_region = aws.sea_region
   }
 }
+
+module "create_base_image_ecr" {
+  source       = "./modules/ecr"
+  service_name = join("-", [var.service_names["backend"], "base-image"])
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
+
+  providers = {
+    aws.ecr_region = aws.sea_region
+  }
+}
+
 module "create_us_ecr" {
   source       = "./modules/ecr"
   count        = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
@@ -1086,6 +1121,19 @@ module "create_us_ecr" {
     aws.ecr_region = aws.us_region
   }
 }
+
+module "create_base_image_us_ecr" {
+  source       = "./modules/ecr"
+  count        = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
+  service_name = join("-", [var.service_names["backend"], "base-image"])
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
+
+  providers = {
+    aws.ecr_region = aws.us_region
+  }
+}
+
 module "create_us_media_convert_queue" {
   source              = "./modules/mediaconvert"
   count               = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
