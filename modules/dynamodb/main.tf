@@ -8,7 +8,7 @@ terraform {
 }
 
 locals {
-  region_name = ["ap-south-1", "eu-north-1", "ap-southeast-1"]
+  replica_regions = contains(["dev", "playground", "qa"], var.STAGE) ? ["ap-south-1"] : ["ap-south-1", "eu-north-1", "us-east-1"]
 }
 
 resource "aws_dynamodb_table" "table" {
@@ -42,7 +42,7 @@ resource "aws_dynamodb_table" "table" {
   }
 
   dynamic "replica" {
-    for_each = try(each.value.is_global, null) != null ? toset(local.region_name) : toset([])
+    for_each = try(each.value.is_global, null) != null ? toset(local.replica_regions) : toset([])
     content {
       region_name            = replica.key
       propagate_tags         = true
@@ -88,7 +88,7 @@ resource "aws_cloudwatch_metric_alarm" "dynamodb_successful_request_latency_alar
 
   provider            = aws.dynamo_region
   for_each            = var.table_details
-  alarm_name          ="${each.key}-ddb-latency"
+  alarm_name          = "${each.key}-ddb-latency"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = "2"
   threshold           = "100"
@@ -96,13 +96,13 @@ resource "aws_cloudwatch_metric_alarm" "dynamodb_successful_request_latency_alar
   period              = "300"
   namespace           = "AWS/DynamoDB"
   metric_name         = "SuccessfulRequestLatency"
-  alarm_description  = "Alarm for DynamoDB Successful Request Latency for table"
-  treat_missing_data = "notBreaching"
-  alarm_actions = [data.aws_sns_topic.current.arn]
+  alarm_description   = "Alarm for DynamoDB Successful Request Latency for table"
+  treat_missing_data  = "notBreaching"
+  alarm_actions       = [data.aws_sns_topic.current.arn]
   dimensions = {
-      TableName         = each.value.table_name
-      Operation         = "Query"
-    }
-  
+    TableName = each.value.table_name
+    Operation = "Query"
+  }
+
 }
 
