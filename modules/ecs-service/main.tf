@@ -303,7 +303,7 @@ data "aws_sns_topic" "current" {
 }
 resource "aws_cloudwatch_metric_alarm" "ecs_cluster_cpu_cw_alarm" {
   provider            = aws.ecs_region
-  alarm_name          = "qatalyst-ecs-cluster-cpu-utilization"
+  alarm_name          = "qatalyst-${var.service}-cpu-utilization"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = "2"
   metric_name         = "CPUUtilization"
@@ -320,7 +320,7 @@ resource "aws_cloudwatch_metric_alarm" "ecs_cluster_cpu_cw_alarm" {
 }
 resource "aws_cloudwatch_metric_alarm" "ecs_cluster_memory_cw_alarm" {
   provider            = aws.ecs_region
-  alarm_name          = "qatalyst-ecs-cluster-memory-utilization"
+  alarm_name          = "qatalyst-${var.service}-memory-utilization"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = "2"
   metric_name         = "MemoryUtilization"
