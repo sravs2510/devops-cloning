@@ -139,7 +139,7 @@ data "aws_sns_topic" "current" {
 }
 resource "aws_cloudwatch_metric_alarm" "opensearch_cluster_status_cw_alarm" {
   provider            = aws.opensearch_region
-  alarm_name          = "opensearch-cpu-utilization"
+  alarm_name          = join("-", [var.service_name, "opensearch", "clusterstatus"])
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = "2"
   metric_name         = "ClusterStatus.red"
@@ -157,7 +157,7 @@ resource "aws_cloudwatch_metric_alarm" "opensearch_cluster_status_cw_alarm" {
 
 resource "aws_cloudwatch_metric_alarm" "opensearch_cpu_cw_alarm" {
   provider            = aws.opensearch_region
-  alarm_name          = "opensearch-cpu-utilization"
+  alarm_name          = join("-", [var.service_name, "opensearch", "cpu-utilization"])
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = "2"
   metric_name         = "CPUtilization"
