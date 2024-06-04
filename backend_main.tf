@@ -1088,7 +1088,7 @@ module "create_us_ssm" {
 }
 
 #ECR 
-module "create_sea_ecr" {
+module "create_ecr" {
   source       = "./modules/ecr"
   service_name = var.service_names["backend"]
   DEFAULT_TAGS = var.DEFAULT_TAGS
