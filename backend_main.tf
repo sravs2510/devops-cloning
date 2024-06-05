@@ -163,6 +163,9 @@ module "create_eu_dynamodb" {
 
   providers = {
     aws.dynamo_region = aws.eu_region
+    aws.dynamo_eu     = aws.eu_region
+    aws.dynamo_in     = aws.in_region
+    aws.dynamo_sea    = aws.sea_region
   }
 }
 
@@ -423,6 +426,9 @@ module "create_in_dynamodb" {
 
   providers = {
     aws.dynamo_region = aws.in_region
+    aws.dynamo_eu     = aws.eu_region
+    aws.dynamo_sea    = aws.sea_region
+    aws.dynamo_in     = aws.in_region
   }
 }
 
@@ -674,6 +680,9 @@ module "create_sea_dynamodb" {
 
   providers = {
     aws.dynamo_region = aws.sea_region
+    aws.dynamo_eu     = aws.eu_region
+    aws.dynamo_in     = aws.in_region
+    aws.dynamo_sea    = aws.sea_region
   }
 }
 
@@ -1034,6 +1043,9 @@ module "create_us_dynamodb" {
   table_details = var.table_details
   providers = {
     aws.dynamo_region = aws.us_region
+    aws.dynamo_eu     = aws.eu_region
+    aws.dynamo_in     = aws.in_region
+    aws.dynamo_sea    = aws.sea_region
   }
 }
 
@@ -1067,8 +1079,12 @@ module "create_global_dynamodb" {
 
   providers = {
     aws.dynamo_region = aws.us_region
+    aws.dynamo_sea    = aws.sea_region
+    aws.dynamo_eu     = aws.eu_region
+    aws.dynamo_in     = aws.in_region
   }
 }
+
 module "create_us_ssm" {
   source                                = "./modules/ssm"
   count                                 = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1

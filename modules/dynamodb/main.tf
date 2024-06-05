@@ -2,13 +2,33 @@ terraform {
   required_providers {
     aws = {
       source                = "hashicorp/aws"
-      configuration_aliases = [aws.dynamo_region]
+      configuration_aliases = [aws.dynamo_region, aws.dynamo_sea, aws.dynamo_in, aws.dynamo_eu]
     }
   }
 }
 
 locals {
   replica_regions = contains(["dev", "playground", "qa"], var.STAGE) ? ["ap-south-1", "ap-southeast-1"] : ["ap-south-1", "eu-north-1", "ap-southeast-1"]
+}
+
+data "aws_sns_topic" "current" {
+  name     = "DevOps-Alerts-Topic"
+  provider = aws.dynamo_region
+}
+
+data "aws_sns_topic" "eu" {
+  name     = "DevOps-Alerts-Topic"
+  provider = aws.dynamo_eu
+}
+
+data "aws_sns_topic" "in" {
+  name     = "DevOps-Alerts-Topic"
+  provider = aws.dynamo_in
+}
+
+data "aws_sns_topic" "sea" {
+  name     = "DevOps-Alerts-Topic"
+  provider = aws.dynamo_sea
 }
 
 resource "aws_dynamodb_table" "table" {
@@ -79,11 +99,6 @@ resource "aws_dynamodb_table" "table" {
   tags = merge(tomap({ "Name" : each.value.table_name }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
-data "aws_sns_topic" "current" {
-  name     = "DevOps-Alerts-Topic"
-  provider = aws.dynamo_region
-}
-
 resource "aws_cloudwatch_metric_alarm" "dynamodb_successful_request_latency_alarm" {
 
   provider            = aws.dynamo_region
@@ -106,3 +121,63 @@ resource "aws_cloudwatch_metric_alarm" "dynamodb_successful_request_latency_alar
 
 }
 
+
+resource "aws_cloudwatch_metric_alarm" "dynamodb_successful_request_latency_alarm_eu" {
+  provider            = aws.dynamo_eu
+  for_each            = { for key, value in var.table_details : key => value if(value.is_global != null) ? value.is_global : false }
+  alarm_name          = "${each.value.table_name}-ddb-latency-eu"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  evaluation_periods  = "2"
+  threshold           = "100"
+  statistic           = "Average"
+  period              = "300"
+  namespace           = "AWS/DynamoDB"
+  metric_name         = "SuccessfulRequestLatency"
+  alarm_description   = "Alarm for DynamoDB Successful Request Latency for table in EU"
+  treat_missing_data  = "notBreaching"
+  alarm_actions       = [data.aws_sns_topic.eu.arn]
+  dimensions = {
+    TableName = each.value.table_name
+    Operation = "Query"
+  }
+}
+
+resource "aws_cloudwatch_metric_alarm" "dynamodb_successful_request_latency_alarm_in" {
+  provider            = aws.dynamo_in
+  for_each            = { for key, value in var.table_details : key => value if(value.is_global != null) ? value.is_global : false }
+  alarm_name          = "${each.value.table_name}-ddb-latency-in"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  evaluation_periods  = "2"
+  threshold           = "100"
+  statistic           = "Average"
+  period              = "300"
+  namespace           = "AWS/DynamoDB"
+  metric_name         = "SuccessfulRequestLatency"
+  alarm_description   = "Alarm for DynamoDB Successful Request Latency for table in IN"
+  treat_missing_data  = "notBreaching"
+  alarm_actions       = [data.aws_sns_topic.in.arn]
+  dimensions = {
+    TableName = each.value.table_name
+    Operation = "Query"
+  }
+}
+
+resource "aws_cloudwatch_metric_alarm" "dynamodb_successful_request_latency_alarm_sea" {
+  provider            = aws.dynamo_sea
+  for_each            = { for key, value in var.table_details : key => value if(value.is_global != null) ? value.is_global : false }
+  alarm_name          = "${each.value.table_name}-ddb-latency-sea"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  evaluation_periods  = "2"
+  threshold           = "100"
+  statistic           = "Average"
+  period              = "300"
+  namespace           = "AWS/DynamoDB"
+  metric_name         = "SuccessfulRequestLatency"
+  alarm_description   = "Alarm for DynamoDB Successful Request Latency for table in SEA"
+  treat_missing_data  = "notBreaching"
+  alarm_actions       = [data.aws_sns_topic.sea.arn]
+  dimensions = {
+    TableName = each.value.table_name
+    Operation = "Query"
+  }
+}
