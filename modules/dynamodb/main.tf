@@ -8,7 +8,7 @@ terraform {
 }
 
 locals {
-  replica_regions = contains(["dev", "playground", "qa"], var.STAGE) ? ["ap-south-1"] : ["ap-south-1", "eu-north-1", "ap-southeast-1"]
+  replica_regions = contains(["dev", "playground", "qa"], var.STAGE) ? ["ap-south-1", "ap-southeast-1"] : ["ap-south-1", "eu-north-1", "ap-southeast-1"]
 }
 
 resource "aws_dynamodb_table" "table" {
