@@ -8,8 +8,7 @@ terraform {
 }
 
 locals {
-  replica_regions = contains(["dev", "playground", "qa"], var.STAGE) ? ["ap-south-1"] : ["ap-south-1", "eu-north-1", "ap-southeast-1"]
-
+  replica_regions = contains(["dev", "playground", "qa"], var.STAGE) ? ["ap-south-1", "ap-southeast-1"] : ["ap-south-1", "eu-north-1", "ap-southeast-1"]
 }
 
 data "aws_sns_topic" "current" {
@@ -31,7 +30,6 @@ data "aws_sns_topic" "sea" {
   name     = "DevOps-Alerts-Topic"
   provider = aws.dynamo_sea
 }
-
 
 resource "aws_dynamodb_table" "table" {
   provider = aws.dynamo_region
