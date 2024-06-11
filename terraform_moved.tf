@@ -134,7 +134,7 @@ moved {
 }
 moved {
   from = module.create_eu_dynamodb.aws_dynamodb_table.table["media_notes"]
-  to   = module.create_eu_dynamodb.aws_dynamodb_table.table["qatalyst-media-note"]
+  to   = module.create_eu_dynamodb.aws_dynamodb_table.table["qatalyst-media-notes"]
 }
 moved {
   from = module.create_eu_dynamodb.aws_dynamodb_table.table["panel_testers"]
@@ -247,7 +247,7 @@ moved {
 }
 moved {
   from = module.create_sea_dynamodb.aws_dynamodb_table.table["media_notes"]
-  to   = module.create_sea_dynamodb.aws_dynamodb_table.table["qatalyst-media-note"]
+  to   = module.create_sea_dynamodb.aws_dynamodb_table.table["qatalyst-media-notes"]
 }
 moved {
   from = module.create_sea_dynamodb.aws_dynamodb_table.table["panel_testers"]
@@ -360,7 +360,7 @@ moved {
 }
 moved {
   from = module.create_us_dynamodb.aws_dynamodb_table.table["media_notes"]
-  to   = module.create_us_dynamodb.aws_dynamodb_table.table["qatalyst-media-note"]
+  to   = module.create_us_dynamodb.aws_dynamodb_table.table["qatalyst-media-notes"]
 }
 moved {
   from = module.create_us_dynamodb.aws_dynamodb_table.table["panel_testers"]
