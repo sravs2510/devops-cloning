@@ -45,16 +45,20 @@ user_pool_web_client_name = "qatalyst-web-app"
 
 global_table_details = {
   "qatalyst-configurations" = {
-    table_name = "qatalyst-configurations"
-    hash_key   = "PK"
-    range_key  = "SK"
-    is_global  = true
+    hash_key  = "PK"
+    range_key = "SK"
+    stream = {
+      enabled   = true
+      view_type = "NEW_AND_OLD_IMAGES"
+    }
   },
   "qatalyst-user-workspace-mapping" = {
-    table_name = "qatalyst-user-workspace-mapping"
-    hash_key   = "user_id"
-    range_key  = "workspace_id"
-    is_global  = true
+    hash_key  = "user_id"
+    range_key = "workspace_id"
+    stream = {
+      enabled   = true
+      view_type = "NEW_AND_OLD_IMAGES"
+    }
     attributes = []
     "global_secondary_indexes" = [{
       name            = "qatalyst-workspace-user-mapping-gsi"
@@ -64,10 +68,12 @@ global_table_details = {
     }]
   },
   "qatalyst-user-invites" = {
-    table_name = "qatalyst-user-invites"
-    hash_key   = "workspace_id"
-    range_key  = "email_id"
-    is_global  = true
+    hash_key  = "workspace_id"
+    range_key = "email_id"
+    stream = {
+      enabled   = true
+      view_type = "NEW_AND_OLD_IMAGES"
+    }
     attributes = [
       {
         name = "invitee_id"
@@ -81,10 +87,12 @@ global_table_details = {
       projection_type = "ALL"
     }]
   },
-  "workspaces" = {
-    table_name = "qatalyst-workspace-info"
-    hash_key   = "workspace_id"
-    is_global  = true
+  "qatalyst-workspace-info" = {
+    hash_key = "workspace_id"
+    stream = {
+      enabled   = true
+      view_type = "NEW_AND_OLD_IMAGES"
+    }
     attributes = [
       {
         name = "name"
@@ -97,10 +105,12 @@ global_table_details = {
       projection_type = "ALL"
     }]
   },
-  "user_profile" = {
-    table_name = "qatalyst-user-profile"
-    hash_key   = "user_id"
-    is_global  = true
+  "qatalyst-user-profile" = {
+    hash_key = "user_id"
+    stream = {
+      enabled   = true
+      view_type = "NEW_AND_OLD_IMAGES"
+    }
     attributes = [
       {
         name = "email_id"
@@ -110,23 +120,23 @@ global_table_details = {
     "global_secondary_indexes" = [{
       name            = "qatalyst-user-email-gsi"
       hash_key        = "email_id"
-      is_global       = true
       projection_type = "ALL"
       }
     ]
   },
   "qatalyst-cognito-mapping" = {
-    table_name = "qatalyst-cognito-mapping"
-    hash_key   = "cognito_user_id"
-    is_global  = true
+    hash_key = "cognito_user_id"
+    stream = {
+      enabled   = true
+      view_type = "NEW_AND_OLD_IMAGES"
+    }
   }
 }
 
 table_details = {
-  "study_details" : {
-    table_name = "qatalyst-study-details"
-    hash_key   = "workspace_id"
-    range_key  = "study_id"
+  "qatalyst-study-details" : {
+    hash_key  = "workspace_id"
+    range_key = "study_id"
     stream = {
       enabled   = true
       view_type = "NEW_AND_OLD_IMAGES"
@@ -146,10 +156,9 @@ table_details = {
       }
     ]
   },
-  "transcripts_highlights" : {
-    table_name = "qatalyst-transcripts-highlights"
-    hash_key   = "transcript_id"
-    range_key  = "highlight_id"
+  "qatalyst-transcripts-highlights" : {
+    hash_key  = "transcript_id"
+    range_key = "highlight_id"
     attributes = [
       {
         name = "media_id"
@@ -165,10 +174,9 @@ table_details = {
       },
     ]
   },
-  "transcripts_tags" : {
-    table_name = "qatalyst-transcripts-tags"
-    hash_key   = "highlight_id"
-    range_key  = "tag_id"
+  "qatalyst-transcripts-tags" : {
+    hash_key  = "highlight_id"
+    range_key = "tag_id"
     attributes = [
       {
         name = "workspace_id"
@@ -198,20 +206,17 @@ table_details = {
       },
     ]
   },
-  "block-details" : {
-    table_name = "qatalyst-block-details"
-    hash_key   = "study_id"
-    range_key  = "block_id"
+  "qatalyst-block-details" : {
+    hash_key  = "study_id"
+    range_key = "block_id"
   },
-  "tester-details" : {
-    table_name = "qatalyst-tester-details"
-    hash_key   = "study_id"
-    range_key  = "tester_id"
+  "qatalyst-tester-details" : {
+    hash_key  = "study_id"
+    range_key = "tester_id"
   },
-  "tester-response-details" : {
-    table_name = "qatalyst-tester-responses"
-    hash_key   = "block_id"
-    range_key  = "tester_id"
+  "qatalyst-tester-responses" : {
+    hash_key  = "block_id"
+    range_key = "tester_id"
     stream = {
       enabled   = true
       view_type = "NEW_AND_OLD_IMAGES"
@@ -225,35 +230,29 @@ table_details = {
       }
     ]
   },
-  "tester-events-details" : {
-    table_name = "qatalyst-tester-events"
-    hash_key   = "block_id"
-    range_key  = "tester_id"
+  "qatalyst-tester-events" : {
+    hash_key  = "block_id"
+    range_key = "tester_id"
   },
-  "workspace-configurations" : {
-    table_name = "qatalyst-workspace-configurations"
-    hash_key   = "workspace_id"
-    range_key  = "organisation_id"
+  "qatalyst-workspace-configurations" : {
+    hash_key  = "workspace_id"
+    range_key = "organisation_id"
   },
-  "workspace-testers-email" : {
-    table_name = "qatalyst-workspace-testers-email"
-    hash_key   = "workspace_id"
-    range_key  = "tester_email_id"
+  "qatalyst-workspace-testers-email" : {
+    hash_key  = "workspace_id"
+    range_key = "tester_email_id"
   },
-  "reports-collab-info" : {
-    table_name = "qatalyst-reports-collab"
-    hash_key   = "report_id"
-    range_key  = "user_id"
+  "qatalyst-reports-collab" : {
+    hash_key  = "report_id"
+    range_key = "user_id"
   },
-  "workspace-metrics" : {
-    table_name = "qatalyst-workspace-metrics"
-    hash_key   = "workspace_id"
-    range_key  = "organisation_id"
+  "qatalyst-workspace-metrics" : {
+    hash_key  = "workspace_id"
+    range_key = "organisation_id"
   },
-  "session-meetings" : {
-    table_name = "qatalyst-session-meetings"
-    hash_key   = "block_id"
-    range_key  = "meeting_id"
+  "qatalyst-session-meetings" : {
+    hash_key  = "block_id"
+    range_key = "meeting_id"
     global_secondary_indexes = [
       {
         name            = "qatalyst-meeting-id-gsi"
@@ -263,15 +262,13 @@ table_details = {
       }
     ]
   },
-  "tester-logs" : {
-    table_name = "qatalyst-tester-logs"
-    hash_key   = "block_id"
-    range_key  = "tester_id"
+  "qatalyst-tester-logs" : {
+    hash_key  = "block_id"
+    range_key = "tester_id"
   }
-  "media-details" : {
-    table_name = "qatalyst-media-details"
-    hash_key   = "block_id"
-    range_key  = "media_id"
+  "qatalyst-media-details" : {
+    hash_key  = "block_id"
+    range_key = "media_id"
     global_secondary_indexes = [
       {
         name            = "qatalyst-media-id-gsi"
@@ -280,10 +277,9 @@ table_details = {
       }
     ]
   },
-  "transcripts-details" : {
-    table_name = "qatalyst-transcripts-details"
-    hash_key   = "media_id"
-    range_key  = "transcript_id"
+  "qatalyst-transcripts-details" : {
+    hash_key  = "media_id"
+    range_key = "transcript_id"
     attributes = [
       {
         name = "created_date"
@@ -298,25 +294,21 @@ table_details = {
       }
     ]
   },
-  "panel_testers" : {
-    table_name = "qatalyst-panel-testers"
-    hash_key   = "workspace_id"
-    range_key  = "email_id"
+  "qatalyst-panel-testers" : {
+    hash_key  = "workspace_id"
+    range_key = "email_id"
   },
-  "study_panel_testers" : {
-    table_name = "qatalyst-study-panel-testers"
-    hash_key   = "study_id"
-    range_key  = "email_id"
+  "qatalyst-study-panel-testers" : {
+    hash_key  = "study_id"
+    range_key = "email_id"
   },
-  "study_custom_insights" : {
-    table_name = "qatalyst-custom-insights"
-    hash_key   = "study_id"
-    range_key  = "custom_insight_id"
+  "qatalyst-custom-insights" : {
+    hash_key  = "study_id"
+    range_key = "custom_insight_id"
   },
-  "subscription_orders" : {
-    table_name = "qatalyst-subscription-orders"
-    hash_key   = "workspace_id"
-    range_key  = "SK"
+  "qatalyst-subscription-orders" : {
+    hash_key  = "workspace_id"
+    range_key = "SK"
     attributes = [
       {
         name = "latest"
@@ -332,32 +324,26 @@ table_details = {
       }
     ]
   },
-  "external-panel-project" : {
-    table_name = "qatalyst-external-panel-project"
-    hash_key   = "study_id"
-    range_key  = "project_id"
+  "qatalyst-external-panel-project" : {
+    hash_key  = "study_id"
+    range_key = "project_id"
   },
-  "reports-lookup" : {
-    table_name = "qatalyst-report-details"
-    hash_key   = "report_id"
+  "qatalyst-report-details" : {
+    hash_key = "report_id"
   },
-  "stripe-events" : {
-    table_name = "qatalyst-stripe-events"
-    hash_key   = "event_id"
+  "qatalyst-stripe-events" : {
+    hash_key = "event_id"
   },
-  "workspace-usage" : {
-    table_name = "qatalyst-workspace-usage"
-    hash_key   = "workspace_id"
+  "qatalyst-workspace-usage" : {
+    hash_key = "workspace_id"
   },
-  "study-publish-details" : {
-    table_name = "qatalyst-study-publish"
-    hash_key   = "study_id"
-    range_key  = "published_version"
+  "qatalyst-study-publish" : {
+    hash_key  = "study_id"
+    range_key = "published_version"
   },
-  "workflow-management" : {
-    table_name = "qatalyst-workflow-management"
-    hash_key   = "workspace_id"
-    range_key  = "workflow_id"
+  "qatalyst-workflow-management" : {
+    hash_key  = "workspace_id"
+    range_key = "workflow_id"
     attributes = [
       {
         name = "last_modified_date"
@@ -371,15 +357,13 @@ table_details = {
       projection_type = "ALL"
     }]
   },
-  "media_notes" : {
-    table_name = "qatalyst-media-notes"
-    hash_key   = "media_id"
-    range_key  = "note_id"
+  "qatalyst-media-notes" : {
+    hash_key  = "media_id"
+    range_key = "note_id"
   },
-  "qatalyst_copilot" : {
-    table_name = "qatalyst-copilot"
-    hash_key   = "workspace_id"
-    range_key  = "query_id"
+  "qatalyst-copilot" : {
+    hash_key  = "workspace_id"
+    range_key = "query_id"
     attributes = [
       {
         name = "created_date"
@@ -395,10 +379,9 @@ table_details = {
       }
     ]
   },
-  "teams_details" : {
-    table_name = "qatalyst-teams"
-    hash_key   = "workspace_id"
-    range_key  = "team_id"
+  "qatalyst-teams" : {
+    hash_key  = "workspace_id"
+    range_key = "team_id"
   }
 }
 
