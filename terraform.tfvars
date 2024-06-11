@@ -128,7 +128,8 @@ table_details = {
     hash_key   = "workspace_id"
     range_key  = "study_id"
     stream = {
-      enabled = true
+      enabled   = true
+      view_type = "NEW_AND_OLD_IMAGES"
     }
     attributes = [
       {
@@ -212,7 +213,8 @@ table_details = {
     hash_key   = "block_id"
     range_key  = "tester_id"
     stream = {
-      enabled = true
+      enabled   = true
+      view_type = "NEW_AND_OLD_IMAGES"
     }
     global_secondary_indexes = [
       {

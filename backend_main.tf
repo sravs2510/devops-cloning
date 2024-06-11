@@ -155,7 +155,7 @@ module "create_eu_ecs" {
 }
 
 module "create_eu_dynamodb" {
-  source        = "./modules/dynamodb"
+  source        = "git@github.com:EntropikTechnologies/terraform-modules.git//dynamodb"
   count         = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   DEFAULT_TAGS  = var.DEFAULT_TAGS
   STAGE         = var.STAGE
@@ -166,6 +166,7 @@ module "create_eu_dynamodb" {
     aws.dynamo_eu     = aws.eu_region
     aws.dynamo_in     = aws.in_region
     aws.dynamo_sea    = aws.sea_region
+    aws.dynamo_us     = aws.us_region
   }
 }
 
@@ -177,7 +178,7 @@ module "create_eu_ssm" {
   datacenter_codes                      = var.datacenter_codes
   open_ai_api                           = var.open_ai_api
   opensearch_host                       = try(module.create_eu_opensearch[0].opensearch_host, "")
-  qatalyst_study_details_ddb_stream_arn = try(module.create_eu_dynamodb[0].qatalyst_study_details_ddb_stream_arn, "")
+  qatalyst_study_details_ddb_stream_arn = try(module.create_eu_dynamodb[0].ddb_stream_arns["decode-cx-study-details"], "")
   qatalyst_lambda_sg_id                 = try(module.create_eu_vpc[0].lambda_security_group_id, "")
   private_subnets                       = try(module.create_eu_vpc[0].private_subnets, "")
   providers = {
@@ -419,7 +420,7 @@ module "create_in_ecs" {
 }
 
 module "create_in_dynamodb" {
-  source        = "./modules/dynamodb"
+  source        = "git@github.com:EntropikTechnologies/terraform-modules.git//dynamodb"
   DEFAULT_TAGS  = var.DEFAULT_TAGS
   STAGE         = var.STAGE
   table_details = var.table_details
@@ -427,8 +428,9 @@ module "create_in_dynamodb" {
   providers = {
     aws.dynamo_region = aws.in_region
     aws.dynamo_eu     = aws.eu_region
-    aws.dynamo_sea    = aws.sea_region
     aws.dynamo_in     = aws.in_region
+    aws.dynamo_sea    = aws.sea_region
+    aws.dynamo_us     = aws.us_region
   }
 }
 
@@ -439,7 +441,7 @@ module "create_in_ssm" {
   datacenter_codes                      = var.datacenter_codes
   open_ai_api                           = var.open_ai_api
   opensearch_host                       = module.create_in_opensearch.opensearch_host
-  qatalyst_study_details_ddb_stream_arn = module.create_in_dynamodb.qatalyst_study_details_ddb_stream_arn
+  qatalyst_study_details_ddb_stream_arn = module.create_in_dynamodb.ddb_stream_arns["decode-cx-study-details"]
   qatalyst_lambda_sg_id                 = module.create_in_vpc.lambda_security_group_id
   private_subnets                       = module.create_in_vpc.private_subnets
 
@@ -673,7 +675,7 @@ module "create_sea_ecs" {
 }
 
 module "create_sea_dynamodb" {
-  source        = "./modules/dynamodb"
+  source        = "git@github.com:EntropikTechnologies/terraform-modules.git//dynamodb"
   DEFAULT_TAGS  = var.DEFAULT_TAGS
   STAGE         = var.STAGE
   table_details = var.table_details
@@ -683,6 +685,7 @@ module "create_sea_dynamodb" {
     aws.dynamo_eu     = aws.eu_region
     aws.dynamo_in     = aws.in_region
     aws.dynamo_sea    = aws.sea_region
+    aws.dynamo_us     = aws.us_region
   }
 }
 
@@ -693,7 +696,7 @@ module "create_sea_ssm" {
   datacenter_codes                      = var.datacenter_codes
   open_ai_api                           = var.open_ai_api
   opensearch_host                       = module.create_sea_opensearch.opensearch_host
-  qatalyst_study_details_ddb_stream_arn = module.create_sea_dynamodb.qatalyst_study_details_ddb_stream_arn
+  qatalyst_study_details_ddb_stream_arn = module.create_sea_dynamodb.ddb_stream_arns["decode-cx-study-details"]
   qatalyst_lambda_sg_id                 = module.create_sea_vpc.lambda_security_group_id
   private_subnets                       = module.create_sea_vpc.private_subnets
   providers = {
@@ -1036,7 +1039,7 @@ module "create_us_ecs" {
 }
 
 module "create_us_dynamodb" {
-  source        = "./modules/dynamodb"
+  source        = "git@github.com:EntropikTechnologies/terraform-modules.git//dynamodb"
   count         = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
   DEFAULT_TAGS  = var.DEFAULT_TAGS
   STAGE         = var.STAGE
@@ -1046,6 +1049,7 @@ module "create_us_dynamodb" {
     aws.dynamo_eu     = aws.eu_region
     aws.dynamo_in     = aws.in_region
     aws.dynamo_sea    = aws.sea_region
+    aws.dynamo_us     = aws.us_region
   }
 }
 
@@ -1072,16 +1076,18 @@ module "create_us_qatalyst_media_bucket" {
 
 #Global DDB Tables
 module "create_global_dynamodb" {
-  source        = "./modules/dynamodb"
-  DEFAULT_TAGS  = var.DEFAULT_TAGS
-  STAGE         = var.STAGE
-  table_details = var.global_table_details
+  source          = "git@github.com:EntropikTechnologies/terraform-modules.git//dynamodb"
+  DEFAULT_TAGS    = var.DEFAULT_TAGS
+  STAGE           = var.STAGE
+  table_details   = var.global_table_details
+  replica_regions = contains(["dev", "playground", "qa"], var.STAGE) ? ["ap-south-1", "ap-southeast-1"] : ["eu-north-1", "ap-south-1", "ap-southeast-1"]
 
   providers = {
     aws.dynamo_region = aws.us_region
-    aws.dynamo_sea    = aws.sea_region
     aws.dynamo_eu     = aws.eu_region
     aws.dynamo_in     = aws.in_region
+    aws.dynamo_sea    = aws.sea_region
+    aws.dynamo_us     = aws.us_region
   }
 }
 
@@ -1093,7 +1099,7 @@ module "create_us_ssm" {
   datacenter_codes                      = var.datacenter_codes
   open_ai_api                           = var.open_ai_api
   opensearch_host                       = try(module.create_us_opensearch[0].opensearch_host, "")
-  qatalyst_study_details_ddb_stream_arn = try(module.create_us_dynamodb[0].qatalyst_study_details_ddb_stream_arn, "")
+  qatalyst_study_details_ddb_stream_arn = try(module.create_us_dynamodb[0].ddb_stream_arns["decode-cx-study-details"], "")
   qatalyst_lambda_sg_id                 = try(module.create_us_vpc[0].lambda_security_group_id, "")
   private_subnets                       = try(module.create_us_vpc[0].private_subnets, "")
 
