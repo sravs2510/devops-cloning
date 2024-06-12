@@ -1,13 +1,14 @@
 # EU Resources
 
 module "create_eu_vpc" {
-  source          = "./modules/vpc"
-  count           = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
-  cidr_block      = var.cidr_block
-  public_subnets  = var.public_subnets
-  private_subnets = var.private_subnets
-  DEFAULT_TAGS    = var.DEFAULT_TAGS
-  STAGE           = var.STAGE
+  source           = "./modules/vpc"
+  count            = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
+  cidr_block       = var.cidr_block
+  public_subnets   = var.public_subnets
+  private_subnets  = var.private_subnets
+  DEFAULT_TAGS     = var.DEFAULT_TAGS
+  STAGE            = var.STAGE
+  datacenter_codes = var.datacenter_codes
 
   providers = {
     aws.vpc_region = aws.eu_region
@@ -271,13 +272,13 @@ module "create_eu_opensearch" {
 
 # INDIA Resources
 module "create_in_vpc" {
-  source          = "./modules/vpc"
-  cidr_block      = var.cidr_block
-  public_subnets  = var.public_subnets
-  private_subnets = var.private_subnets
-  DEFAULT_TAGS    = var.DEFAULT_TAGS
-  STAGE           = var.STAGE
-
+  source           = "./modules/vpc"
+  cidr_block       = var.cidr_block
+  public_subnets   = var.public_subnets
+  private_subnets  = var.private_subnets
+  DEFAULT_TAGS     = var.DEFAULT_TAGS
+  STAGE            = var.STAGE
+  datacenter_codes = var.datacenter_codes
   providers = {
     aws.vpc_region = aws.in_region
   }
@@ -528,12 +529,13 @@ module "create_in_opensearch" {
 
 # SEA Resources
 module "create_sea_vpc" {
-  source          = "./modules/vpc"
-  cidr_block      = var.cidr_block
-  public_subnets  = var.public_subnets
-  private_subnets = var.private_subnets
-  DEFAULT_TAGS    = var.DEFAULT_TAGS
-  STAGE           = var.STAGE
+  source           = "./modules/vpc"
+  cidr_block       = var.cidr_block
+  public_subnets   = var.public_subnets
+  private_subnets  = var.private_subnets
+  DEFAULT_TAGS     = var.DEFAULT_TAGS
+  STAGE            = var.STAGE
+  datacenter_codes = var.datacenter_codes
 
   providers = {
     aws.vpc_region = aws.sea_region
@@ -761,13 +763,14 @@ module "create_sea_opensearch" {
 
 # US Resources
 module "create_us_vpc" {
-  source          = "./modules/vpc"
-  count           = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
-  cidr_block      = var.cidr_block
-  public_subnets  = var.public_subnets
-  private_subnets = var.private_subnets
-  DEFAULT_TAGS    = var.DEFAULT_TAGS
-  STAGE           = var.STAGE
+  source           = "./modules/vpc"
+  count            = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
+  cidr_block       = var.cidr_block
+  public_subnets   = var.public_subnets
+  private_subnets  = var.private_subnets
+  DEFAULT_TAGS     = var.DEFAULT_TAGS
+  STAGE            = var.STAGE
+  datacenter_codes = var.datacenter_codes
 
   providers = {
     aws.vpc_region = aws.us_region

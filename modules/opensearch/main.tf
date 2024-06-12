@@ -150,8 +150,8 @@ resource "aws_cloudwatch_metric_alarm" "opensearch_cluster_status_cw_alarm" {
   alarm_description   = "Alarm for Opensearch cluster status Red"
   alarm_actions       = [data.aws_sns_topic.current.arn]
   dimensions = {
-    DomainName = var.service_name
     ClientID   = data.aws_caller_identity.current.account_id
+    DomainName = var.service_name
   }
 }
 
@@ -168,7 +168,7 @@ resource "aws_cloudwatch_metric_alarm" "opensearch_cpu_cw_alarm" {
   alarm_description   = "Alarm for Opensearch CPUtilization"
   alarm_actions       = [data.aws_sns_topic.current.arn]
   dimensions = {
-    DomainName = var.service_name
     ClientID   = data.aws_caller_identity.current.account_id
+    DomainName = var.service_name
   }
 }
