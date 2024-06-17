@@ -15,6 +15,10 @@ data "aws_availability_zones" "available" {
   provider = aws.vpc_region
 }
 
+locals {
+  datacenter_code = lookup(var.datacenter_codes, data.aws_region.current.name)
+  log_bucket_name = join("-", ["entropik-logs", var.STAGE, local.datacenter_code])
+}
 resource "aws_vpc" "main" {
   provider             = aws.vpc_region
   cidr_block           = lookup(var.cidr_block, data.aws_region.current.name)
@@ -183,4 +187,19 @@ resource "aws_security_group" "lambda_security_group" {
   }
 
   tags = merge(tomap({ "Name" : "qatalyst-lambda-sg" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+}
+
+data "aws_s3_bucket" "log_bucket" {
+  bucket   = local.log_bucket_name
+  provider = aws.vpc_region
+}
+resource "aws_flow_log" "vpc_main_flow_logs" {
+  provider                 = aws.vpc_region
+  log_destination          = data.aws_s3_bucket.log_bucket.arn
+  max_aggregation_interval = 600
+  log_destination_type     = "s3"
+  traffic_type             = "ALL"
+  vpc_id                   = aws_vpc.main.id
+
+  tags = merge(tomap({ "Name" : "qatalyst-vpc-flow-log" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
