@@ -195,6 +195,7 @@ data "aws_s3_bucket" "log_bucket" {
 }
 resource "aws_flow_log" "vpc_main_flow_logs" {
   provider                 = aws.vpc_region
+  count                    = contains(["prod"], var.STAGE) ? 1 : 0
   log_destination          = data.aws_s3_bucket.log_bucket.arn
   max_aggregation_interval = 600
   log_destination_type     = "s3"
