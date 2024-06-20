@@ -83,3 +83,41 @@ resource "aws_cloudwatch_metric_alarm" "qatalyst_sqs_dl_cw_alarm" {
   }
   alarm_actions = [data.aws_sns_topic.current.arn] // Define actions to take when the alarm state changes
 }
+
+resource "aws_cloudwatch_metric_alarm" "qatalyst_sqs_age_cw_alarm" {
+  provider            = aws.sqs_region
+  for_each            = var.sqs_details
+  alarm_name          = join("-", [each.value.queue_name, "age-alarm"])
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  evaluation_periods  = "2"
+  metric_name         = "ApproximateAgeOfOldestMessage"
+  namespace           = "AWS/SQS"
+  period              = "60" 
+  statistic           = "Maximum"
+  threshold           = "1" 
+  alarm_description   = "Alarm if the age of the oldest message in the queue is greater than or equal to 10 minutes for two consecutive 5-minute periods."
+
+  dimensions = {
+    QueueName = each.value.queue_name
+  }
+  alarm_actions = [data.aws_sns_topic.current.arn]
+}
+
+resource "aws_cloudwatch_metric_alarm" "qatalyst_sqs_dl_age_cw_alarm" {
+  provider            = aws.sqs_region
+  for_each            = var.sqs_details
+  alarm_name          = join("-", [each.value.queue_name, "dl", "age-alarm"])
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  evaluation_periods  = "2"
+  metric_name         = "ApproximateAgeOfOldestMessage"
+  namespace           = "AWS/SQS"
+  period              = "60" 
+  statistic           = "Maximum"
+  threshold           = "1" 
+  alarm_description   = "Alarm if the age of the oldest message in the DLQ is greater than or equal to 10 minutes for two consecutive 5-minute periods."
+
+  dimensions = {
+    QueueName = "${each.value.queue_name}-dl"
+  }
+  alarm_actions = [data.aws_sns_topic.current.arn] 
+}
