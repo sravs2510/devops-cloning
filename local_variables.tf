@@ -266,7 +266,12 @@ locals {
     {
       name  = "DD_APM_IGNORE_RESOURCES"
       value = local.qatalyst_healthcheck_api
+    },
+    {
+      name  = "DD_CONTAINER_EXCLUDE"
+      value = "image:public.ecr.aws/datadog/agent:latest;image:aws-fargate-supervisor:latest"
     }
+
   ]
 
   qatalyst_datadog_environment_secrets = [
