@@ -269,7 +269,7 @@ locals {
     },
     {
       name  = "DD_CONTAINER_EXCLUDE"
-      value = "image:public.ecr.aws/datadog/agent:latest image:aws-fargate-supervisor:latest"
+      value = "name:^datadog*  name:^aws-fargate-supervisor$"
     }
 
   ]
