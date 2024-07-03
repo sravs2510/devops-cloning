@@ -193,3 +193,13 @@ variable "opensearch_config" {
   type        = map(any)
   description = "Opensearch domain configurations"
 }
+variable "deploy_regions" {
+  type        = map(string)
+  description = "AWS Regions to deploy the resources"
+  default = {
+    "eu-north-1"     = true
+    "ap-south-1"     = true
+    "ap-southeast-1" = true
+    "us-east-1"      = true
+  }
+}
