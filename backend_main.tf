@@ -698,7 +698,7 @@ module "create_sea_ssm" {
   STAGE                                 = var.STAGE
   datacenter_codes                      = var.datacenter_codes
   open_ai_api                           = var.open_ai_api
-  opensearch_host                       = try(module.create_in_opensearch[0].opensearch_host, "NA")
+  opensearch_host                       = try(module.create_sea_opensearch[0].opensearch_host, "NA")
   qatalyst_study_details_ddb_stream_arn = module.create_sea_dynamodb.ddb_stream_arns["qatalyst-study-details"]
   qatalyst_lambda_sg_id                 = module.create_sea_vpc.lambda_security_group_id
   private_subnets                       = module.create_sea_vpc.private_subnets
