@@ -441,7 +441,7 @@ module "create_in_ssm" {
   STAGE                                 = var.STAGE
   datacenter_codes                      = var.datacenter_codes
   open_ai_api                           = var.open_ai_api
-  opensearch_host                       = module.create_in_opensearch.opensearch_host
+  opensearch_host                       = try(module.create_in_opensearch[0].opensearch_host, "NA")
   qatalyst_study_details_ddb_stream_arn = module.create_in_dynamodb.ddb_stream_arns["qatalyst-study-details"]
   qatalyst_lambda_sg_id                 = module.create_in_vpc.lambda_security_group_id
   private_subnets                       = module.create_in_vpc.private_subnets
@@ -515,6 +515,7 @@ module "create_in_qatalyst_media_bucket" {
 
 module "create_in_opensearch" {
   source            = "./modules/opensearch"
+  count             = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
   DEFAULT_TAGS      = var.DEFAULT_TAGS
   STAGE             = var.STAGE
   datacenter_codes  = var.datacenter_codes
@@ -697,7 +698,7 @@ module "create_sea_ssm" {
   STAGE                                 = var.STAGE
   datacenter_codes                      = var.datacenter_codes
   open_ai_api                           = var.open_ai_api
-  opensearch_host                       = module.create_sea_opensearch.opensearch_host
+  opensearch_host                       = try(module.create_in_opensearch[0].opensearch_host, "NA")
   qatalyst_study_details_ddb_stream_arn = module.create_sea_dynamodb.ddb_stream_arns["qatalyst-study-details"]
   qatalyst_lambda_sg_id                 = module.create_sea_vpc.lambda_security_group_id
   private_subnets                       = module.create_sea_vpc.private_subnets
@@ -750,6 +751,7 @@ module "create_sea_qatalyst_media_bucket" {
 
 module "create_sea_opensearch" {
   source            = "./modules/opensearch"
+  count             = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
   DEFAULT_TAGS      = var.DEFAULT_TAGS
   STAGE             = var.STAGE
   datacenter_codes  = var.datacenter_codes
