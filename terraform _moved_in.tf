@@ -1178,6 +1178,14 @@ moved {
   from = module.create_in_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-client-id-us"]
   to   = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-client-id-us"]
 }
+moved {
+  from = module.create_in_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-client-id-sea"]
+  to   = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-client-id-sea"]
+}
+moved {
+  from = module.create_in_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-client-id-eu"]
+  to   = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-client-id-eu"]
+}
 
 moved {
   from = module.create_in_ssm.aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-realm-id"]
