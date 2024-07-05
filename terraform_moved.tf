@@ -483,31 +483,31 @@ moved {
   to   = module.create_in_opensearch[0].random_password.opensearch_master_password
 }
 moved {
- from = module.create_sea_opensearch.aws_cloudwatch_metric_alarm.opensearch_cluster_status_cw_alarm
- to = module.create_sea_opensearch[0].aws_cloudwatch_metric_alarm.opensearch_cluster_status_cw_alarm
- }
+  from = module.create_sea_opensearch.aws_cloudwatch_metric_alarm.opensearch_cluster_status_cw_alarm
+  to   = module.create_sea_opensearch[0].aws_cloudwatch_metric_alarm.opensearch_cluster_status_cw_alarm
+}
 
 moved {
- from = module.create_sea_opensearch.aws_cloudwatch_metric_alarm.opensearch_cpu_cw_alarm
- to = module.create_sea_opensearch[0].aws_cloudwatch_metric_alarm.opensearch_cpu_cw_alarm
- }
+  from = module.create_sea_opensearch.aws_cloudwatch_metric_alarm.opensearch_cpu_cw_alarm
+  to   = module.create_sea_opensearch[0].aws_cloudwatch_metric_alarm.opensearch_cpu_cw_alarm
+}
 
 moved {
- from = module.create_sea_opensearch.aws_opensearch_domain.opensearch_domain
- to = module.create_sea_opensearch[0].aws_opensearch_domain.opensearch_domain
- }
+  from = module.create_sea_opensearch.aws_opensearch_domain.opensearch_domain
+  to   = module.create_sea_opensearch[0].aws_opensearch_domain.opensearch_domain
+}
 
 moved {
- from = module.create_sea_opensearch.aws_security_group.opensearch_sg
- to = module.create_sea_opensearch[0].aws_security_group.opensearch_sg
- }
+  from = module.create_sea_opensearch.aws_security_group.opensearch_sg
+  to   = module.create_sea_opensearch[0].aws_security_group.opensearch_sg
+}
 
 moved {
- from = module.create_sea_opensearch.aws_ssm_parameter.ssm_opensearch_master_password
- to = module.create_sea_opensearch[0].aws_ssm_parameter.ssm_opensearch_master_password
- }
+  from = module.create_sea_opensearch.aws_ssm_parameter.ssm_opensearch_master_password
+  to   = module.create_sea_opensearch[0].aws_ssm_parameter.ssm_opensearch_master_password
+}
 
 moved {
- from = module.create_sea_opensearch.random_password.opensearch_master_password
- to = module.create_sea_opensearch[0].random_password.opensearch_master_password
- }
+  from = module.create_sea_opensearch.random_password.opensearch_master_password
+  to   = module.create_sea_opensearch[0].random_password.opensearch_master_password
+}

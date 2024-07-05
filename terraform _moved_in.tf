@@ -1946,5 +1946,5 @@ moved {
 }
 moved {
   from = module.create_in_vpc.aws_flow_log.vpc_main_flow_logs[0]
-to = module.create_in_vpc[0].aws_flow_log.vpc_main_flow_logs[0]
+  to   = module.create_in_vpc[0].aws_flow_log.vpc_main_flow_logs[0]
 }

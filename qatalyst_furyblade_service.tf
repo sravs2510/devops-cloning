@@ -59,7 +59,7 @@ module "create_sea_ecs_furyblade_service" {
   alb_target_group_arn        = ""
   ecs_task_execution_role_arn = module.create_iam.ecs_task_execution_role_arn
   ecs_task_role_arn           = module.create_iam.furyblade_ecs_task_role_arn
-  fargate_cpu_memory          = var.fargate_cpu_memory
+  fargate_cpu_memory          = var.fargate_service_configurations["default"]
   service_environment_variables = concat(local.qatalyst_furyblade_ecs_task_environment_variables,
     [
       { name  = "EVENT_BRIDE_SCHEDULER_GROUP_ARN"
@@ -96,7 +96,7 @@ module "create_in_ecs_furyblade_service" {
   alb_target_group_arn        = ""
   ecs_task_execution_role_arn = module.create_iam.ecs_task_execution_role_arn
   ecs_task_role_arn           = module.create_iam.furyblade_ecs_task_role_arn
-  fargate_cpu_memory          = var.fargate_cpu_memory
+  fargate_cpu_memory          = var.fargate_service_configurations["default"]
   service_environment_variables = concat(local.qatalyst_furyblade_ecs_task_environment_variables,
     [
       {
@@ -134,7 +134,7 @@ module "create_us_ecs_furyblade_service" {
   alb_target_group_arn        = ""
   ecs_task_execution_role_arn = module.create_iam.ecs_task_execution_role_arn
   ecs_task_role_arn           = module.create_iam.furyblade_ecs_task_role_arn
-  fargate_cpu_memory          = var.fargate_cpu_memory
+  fargate_cpu_memory          = var.fargate_service_configurations["default"]
   service_environment_variables = concat(local.qatalyst_furyblade_ecs_task_environment_variables,
     [
       {
@@ -172,7 +172,7 @@ module "create_eu_ecs_furyblade_service" {
   alb_target_group_arn        = ""
   ecs_task_execution_role_arn = module.create_iam.ecs_task_execution_role_arn
   ecs_task_role_arn           = module.create_iam.furyblade_ecs_task_role_arn
-  fargate_cpu_memory          = var.fargate_cpu_memory
+  fargate_cpu_memory          = var.fargate_service_configurations["default"]
   service_environment_variables = concat(local.qatalyst_furyblade_ecs_task_environment_variables,
     [
       {

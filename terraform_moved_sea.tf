@@ -1461,7 +1461,7 @@ moved {
 }
 moved {
   from = module.create_sea_vpc.aws_flow_log.vpc_main_flow_logs[0]
-to = module.create_sea_vpc[0].aws_flow_log.vpc_main_flow_logs[0]
+  to   = module.create_sea_vpc[0].aws_flow_log.vpc_main_flow_logs[0]
 }
 moved {
   from = module.create_sea_media_cloudfront.aws_cloudfront_distribution.media_cf_distribution
