@@ -1048,9 +1048,9 @@ module "create_us_alb" {
   sub_domain          = var.api_sub_domain
   DEFAULT_TAGS        = var.DEFAULT_TAGS
   STAGE               = var.STAGE
-  meet_acm_arn        = module.create_us_meet_acm_cf[0].acm_arn
+  meet_acm_arn        = module.create_us_meet_acm_cf.acm_arn
   lb_target_health    = var.lb_target_health
-  invite_acm_arn      = module.create_us_invite_acm_cf_alb[0].acm_arn
+  invite_acm_arn      = module.create_us_invite_acm_cf_alb.acm_arn
   tester_view_acm_arn = module.create_tester_view_acm.acm_arn
 
   providers = {
