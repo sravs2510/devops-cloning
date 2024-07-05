@@ -281,12 +281,17 @@ locals {
     }
   ]
 
-  # Append EU if not null
-  eu_dns_names = try(module.create_eu_alb[0].qatalyst_alb_dns_name, null) != null ? { "eu" = try(module.create_eu_alb[0].qatalyst_alb_dns_name, null) } : {}
-  eu_in_sea_dns_names = merge({
-    "in"  = module.create_in_alb.qatalyst_alb_dns_name
-    "sea" = module.create_sea_alb.qatalyst_alb_dns_name
-  }, local.eu_dns_names)
-  # Append US if not null
-  alb_dns_names = try(module.create_us_alb[0].qatalyst_alb_dns_name, null) != null ? merge(local.eu_in_sea_dns_names, { "us" = try(module.create_us_alb[0].qatalyst_alb_dns_name, null) }) : local.eu_in_sea_dns_names
+  eu_alb_dns_name  = lookup(var.deploy_regions, data.aws_region.eu.name) ? { "eu" = try(module.create_eu_alb[0].qatalyst_alb_dns_name, null) } : {}
+  us_alb_dns_name  = lookup(var.deploy_regions, data.aws_region.us.name) ? { "us" = try(module.create_us_alb[0].qatalyst_alb_dns_name, null) } : {}
+  in_alb_dns_name  = lookup(var.deploy_regions, data.aws_region.in.name) ? { "in" = try(module.create_in_alb[0].qatalyst_alb_dns_name, null) } : {}
+  sea_alb_dns_name = lookup(var.deploy_regions, data.aws_region.sea.name) ? { "sea" = try(module.create_sea_alb[0].qatalyst_alb_dns_name, null) } : {}
+  alb_dns_names    = merge(local.eu_alb_dns_name, local.us_alb_dns_name, local.in_alb_dns_name, local.sea_alb_dns_name)
+
+  replica_region_in  = lookup(var.deploy_regions, data.aws_region.in.name) ? [data.aws_region.in.name] : []
+  replica_region_sea = lookup(var.deploy_regions, data.aws_region.sea.name) ? [data.aws_region.sea.name] : []
+  replica_region_eu  = lookup(var.deploy_regions, data.aws_region.eu.name) ? [data.aws_region.eu.name] : []
+  replica_regions    = concat(local.replica_region_eu, local.replica_region_in, local.replica_region_sea)
+
 }
+
+
