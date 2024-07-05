@@ -1944,3 +1944,7 @@ moved {
   from = module.create_in_dynamodb.aws_dynamodb_table.table["qatalyst-workspace-usage"]
   to   = module.create_in_dynamodb[0].aws_dynamodb_table.table["qatalyst-workspace-usage"]
 }
+moved {
+  from = module.create_in_vpc.aws_flow_log.vpc_main_flow_logs[0]
+to = module.create_in_vpc[0].aws_flow_log.vpc_main_flow_logs[0]
+}
