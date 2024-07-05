@@ -2,7 +2,7 @@
 
 module "create_eu_vpc" {
   source           = "./modules/vpc"
-  count            = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
+  count            = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
   cidr_block       = var.cidr_block
   public_subnets   = var.public_subnets
   private_subnets  = var.private_subnets
@@ -17,7 +17,7 @@ module "create_eu_vpc" {
 
 module "create_eu_s3_bucket" {
   source                     = "./modules/s3"
-  count                      = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
+  count                      = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
   bucket_prefix              = var.media_sub_domain
   DEFAULT_TAGS               = var.DEFAULT_TAGS
   STAGE                      = var.STAGE
@@ -36,7 +36,7 @@ module "create_eu_s3_bucket" {
 
 module "create_eu_acm_media_cf" {
   source           = "./modules/acm"
-  count            = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
+  count            = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
   base_domain      = var.base_domain
   sub_domain       = var.media_sub_domain
   datacenter_codes = var.datacenter_codes
@@ -52,7 +52,7 @@ module "create_eu_acm_media_cf" {
 
 module "create_eu_meet_acm_cf" {
   source           = "./modules/acm"
-  count            = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
+  count            = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
   base_domain      = var.base_domain
   sub_domain       = var.meet_sub_domain
   datacenter_codes = var.datacenter_codes
@@ -68,7 +68,7 @@ module "create_eu_meet_acm_cf" {
 
 module "create_eu_acm_invite_alb" {
   source           = "./modules/acm"
-  count            = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
+  count            = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
   base_domain      = var.base_domain
   sub_domain       = var.invite_sub_domain
   datacenter_codes = var.datacenter_codes
@@ -83,7 +83,7 @@ module "create_eu_acm_invite_alb" {
 }
 module "create_eu_media_cloudfront" {
   source                      = "./modules/cloudfront"
-  count                       = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
+  count                       = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
   base_domain                 = var.base_domain
   sub_domain                  = var.media_sub_domain
   datacenter_codes            = var.datacenter_codes
@@ -104,7 +104,7 @@ module "create_eu_media_cloudfront" {
 
 module "create_eu_acm_api" {
   source           = "./modules/acm"
-  count            = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
+  count            = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
   base_domain      = var.base_domain
   sub_domain       = var.api_sub_domain
   datacenter_codes = var.datacenter_codes
@@ -120,7 +120,7 @@ module "create_eu_acm_api" {
 
 module "create_eu_alb" {
   source              = "./modules/alb"
-  count               = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
+  count               = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
   vpc_id              = try(module.create_eu_vpc[0].vpc_id, "")
   alb_subnets         = try(module.create_eu_vpc[0].public_subnets, [])
   alb_certficate_arn  = try(module.create_eu_acm_api[0].acm_arn, "")
@@ -142,7 +142,7 @@ module "create_eu_alb" {
 
 module "create_eu_ecs" {
   source             = "./modules/ecs-cluster"
-  count              = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
+  count              = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
   ecs_cluster_name   = local.qatalyst_ecs_cluster_name
   vpc_id             = try(module.create_eu_vpc[0].vpc_id, "")
   alb_security_group = try(module.create_eu_alb[0].qatalyst_alb_sg_id, "")
@@ -157,7 +157,7 @@ module "create_eu_ecs" {
 
 module "create_eu_dynamodb" {
   source        = "git@github.com:EntropikTechnologies/terraform-modules.git//dynamodb"
-  count         = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
+  count         = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
   DEFAULT_TAGS  = var.DEFAULT_TAGS
   STAGE         = var.STAGE
   table_details = var.table_details
@@ -173,7 +173,7 @@ module "create_eu_dynamodb" {
 
 module "create_eu_ssm" {
   source                                = "./modules/ssm"
-  count                                 = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
+  count                                 = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
   DEFAULT_TAGS                          = var.DEFAULT_TAGS
   STAGE                                 = var.STAGE
   datacenter_codes                      = var.datacenter_codes
@@ -190,7 +190,7 @@ module "create_eu_ssm" {
 
 module "create_eu_ecr" {
   source       = "./modules/ecr"
-  count        = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
+  count        = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
   service_name = var.service_names["backend"]
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
@@ -202,7 +202,7 @@ module "create_eu_ecr" {
 
 module "create_base_image_eu_ecr" {
   source       = "./modules/ecr"
-  count        = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
+  count        = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
   service_name = join("-", [var.service_names["backend"], "base-image"])
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
@@ -214,7 +214,7 @@ module "create_base_image_eu_ecr" {
 
 module "create_eu_media_convert_queue" {
   source              = "./modules/mediaconvert"
-  count               = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
+  count               = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
   mediaconvert_queues = var.mediaconvert_queues
   DEFAULT_TAGS        = var.DEFAULT_TAGS
   providers = {
@@ -223,7 +223,7 @@ module "create_eu_media_convert_queue" {
 }
 module "create_eu_sqs" {
   source       = "./modules/sqs"
-  count        = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
+  count        = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
   sqs_details  = var.sqs_details
@@ -235,7 +235,7 @@ module "create_eu_sqs" {
 
 module "create_eu_qatalyst_media_bucket" {
   source                           = "./modules/s3"
-  count                            = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
+  count                            = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
   bucket_prefix                    = var.qatalyst_media_bucket_transfer_acceleration
   DEFAULT_TAGS                     = var.DEFAULT_TAGS
   STAGE                            = var.STAGE
@@ -256,7 +256,7 @@ module "create_eu_qatalyst_media_bucket" {
 
 module "create_eu_opensearch" {
   source            = "./modules/opensearch"
-  count             = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
+  count             = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
   DEFAULT_TAGS      = var.DEFAULT_TAGS
   STAGE             = var.STAGE
   datacenter_codes  = var.datacenter_codes
@@ -274,6 +274,7 @@ module "create_eu_opensearch" {
 # INDIA Resources
 module "create_in_vpc" {
   source           = "./modules/vpc"
+  count            = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
   cidr_block       = var.cidr_block
   public_subnets   = var.public_subnets
   private_subnets  = var.private_subnets
@@ -287,6 +288,7 @@ module "create_in_vpc" {
 
 module "create_in_s3_bucket" {
   source                     = "./modules/s3"
+  count                      = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
   bucket_prefix              = var.media_sub_domain
   DEFAULT_TAGS               = var.DEFAULT_TAGS
   STAGE                      = var.STAGE
@@ -306,6 +308,7 @@ module "create_in_s3_bucket" {
 
 module "create_in_acm_media_cf" {
   source           = "./modules/acm"
+  count            = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
   base_domain      = var.base_domain
   sub_domain       = var.media_sub_domain
   datacenter_codes = var.datacenter_codes
@@ -323,6 +326,7 @@ module "create_in_acm_media_cf" {
 
 module "create_in_meet_acm_cf" {
   source           = "./modules/acm"
+  count            = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
   base_domain      = var.base_domain
   sub_domain       = var.meet_sub_domain
   datacenter_codes = var.datacenter_codes
@@ -338,6 +342,7 @@ module "create_in_meet_acm_cf" {
 
 module "create_in_acm_invite_alb" {
   source           = "./modules/acm"
+  count            = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
   base_domain      = var.base_domain
   sub_domain       = var.invite_sub_domain
   datacenter_codes = var.datacenter_codes
@@ -352,13 +357,14 @@ module "create_in_acm_invite_alb" {
 }
 module "create_in_media_cloudfront" {
   source                      = "./modules/cloudfront"
+  count                       = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
   base_domain                 = var.base_domain
   sub_domain                  = var.media_sub_domain
   datacenter_codes            = var.datacenter_codes
-  bucket_arn                  = module.create_in_s3_bucket.s3_bucket_arn
-  bucket_id                   = module.create_in_s3_bucket.s3_bucket_id
-  bucket_regional_domain_name = module.create_in_s3_bucket.s3_bucket_regional_domain_name
-  acm_certificate_arn         = module.create_in_acm_media_cf.acm_arn
+  bucket_arn                  = module.create_in_s3_bucket[0].s3_bucket_arn
+  bucket_id                   = module.create_in_s3_bucket[0].s3_bucket_id
+  bucket_regional_domain_name = module.create_in_s3_bucket[0].s3_bucket_regional_domain_name
+  acm_certificate_arn         = module.create_in_acm_media_cf[0].acm_arn
   cache_policy_id             = module.create_cdn_cache_policy.cdn_cache_policy_id
   is_multi_region             = true
   DEFAULT_TAGS                = var.DEFAULT_TAGS
@@ -372,6 +378,7 @@ module "create_in_media_cloudfront" {
 
 module "create_in_acm_api" {
   source           = "./modules/acm"
+  count            = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
   base_domain      = var.base_domain
   sub_domain       = var.api_sub_domain
   datacenter_codes = var.datacenter_codes
@@ -387,19 +394,20 @@ module "create_in_acm_api" {
 
 module "create_in_alb" {
   source              = "./modules/alb"
-  vpc_id              = module.create_in_vpc.vpc_id
-  alb_subnets         = module.create_in_vpc.public_subnets
-  alb_certficate_arn  = module.create_in_acm_api.acm_arn
-  reports_acm_arn     = module.create_in_reports_acm.acm_arn
+  count               = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
+  vpc_id              = module.create_in_vpc[0].vpc_id
+  alb_subnets         = module.create_in_vpc[0].public_subnets
+  alb_certficate_arn  = module.create_in_acm_api[0].acm_arn
+  reports_acm_arn     = module.create_in_reports_acm[0].acm_arn
   datacenter_codes    = var.datacenter_codes
   base_domain         = var.base_domain
   sub_domain          = var.api_sub_domain
   DEFAULT_TAGS        = var.DEFAULT_TAGS
   STAGE               = var.STAGE
-  meet_acm_arn        = module.create_in_meet_acm_cf.acm_arn
+  meet_acm_arn        = module.create_in_meet_acm_cf[0].acm_arn
   lb_target_health    = var.lb_target_health
-  invite_acm_arn      = module.create_in_acm_invite_alb.acm_arn
-  tester_view_acm_arn = module.create_in_tester_view_acm.acm_arn
+  invite_acm_arn      = module.create_in_acm_invite_alb[0].acm_arn
+  tester_view_acm_arn = module.create_in_tester_view_acm[0].acm_arn
 
   providers = {
     aws.alb_region = aws.in_region
@@ -408,9 +416,10 @@ module "create_in_alb" {
 
 module "create_in_ecs" {
   source             = "./modules/ecs-cluster"
+  count              = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
   ecs_cluster_name   = local.qatalyst_ecs_cluster_name
-  vpc_id             = module.create_in_vpc.vpc_id
-  alb_security_group = module.create_in_alb.qatalyst_alb_sg_id
+  vpc_id             = module.create_in_vpc[0].vpc_id
+  alb_security_group = module.create_in_alb[0].qatalyst_alb_sg_id
   datacenter_codes   = var.datacenter_codes
   DEFAULT_TAGS       = var.DEFAULT_TAGS
   STAGE              = var.STAGE
@@ -423,6 +432,7 @@ module "create_in_ecs" {
 module "create_in_dynamodb" {
   source        = "git@github.com:EntropikTechnologies/terraform-modules.git//dynamodb"
   DEFAULT_TAGS  = var.DEFAULT_TAGS
+  count         = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
   STAGE         = var.STAGE
   table_details = var.table_details
 
@@ -437,14 +447,15 @@ module "create_in_dynamodb" {
 
 module "create_in_ssm" {
   source                                = "./modules/ssm"
+  count                                 = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
   DEFAULT_TAGS                          = var.DEFAULT_TAGS
   STAGE                                 = var.STAGE
   datacenter_codes                      = var.datacenter_codes
   open_ai_api                           = var.open_ai_api
   opensearch_host                       = try(module.create_in_opensearch[0].opensearch_host, "NA")
-  qatalyst_study_details_ddb_stream_arn = module.create_in_dynamodb.ddb_stream_arns["qatalyst-study-details"]
-  qatalyst_lambda_sg_id                 = module.create_in_vpc.lambda_security_group_id
-  private_subnets                       = module.create_in_vpc.private_subnets
+  qatalyst_study_details_ddb_stream_arn = module.create_in_dynamodb[0].ddb_stream_arns["qatalyst-study-details"]
+  qatalyst_lambda_sg_id                 = module.create_in_vpc[0].lambda_security_group_id
+  private_subnets                       = module.create_in_vpc[0].private_subnets
 
   providers = {
     aws.ssm_region = aws.in_region
@@ -454,6 +465,7 @@ module "create_in_ssm" {
 
 module "create_in_ecr" {
   source       = "./modules/ecr"
+  count        = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
   service_name = var.service_names["backend"]
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
@@ -465,6 +477,7 @@ module "create_in_ecr" {
 
 module "create_base_image_in_ecr" {
   source       = "./modules/ecr"
+  count        = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
   service_name = join("-", [var.service_names["backend"], "base-image"])
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
@@ -476,6 +489,7 @@ module "create_base_image_in_ecr" {
 
 module "create_in_media_convert_queue" {
   source              = "./modules/mediaconvert"
+  count               = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
   mediaconvert_queues = var.mediaconvert_queues
   DEFAULT_TAGS        = var.DEFAULT_TAGS
   providers = {
@@ -484,6 +498,7 @@ module "create_in_media_convert_queue" {
 }
 module "create_in_sqs" {
   source       = "./modules/sqs"
+  count        = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
   sqs_details  = var.sqs_details
@@ -495,6 +510,7 @@ module "create_in_sqs" {
 
 module "create_in_qatalyst_media_bucket" {
   source                           = "./modules/s3"
+  count                            = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
   bucket_prefix                    = var.qatalyst_media_bucket_transfer_acceleration
   DEFAULT_TAGS                     = var.DEFAULT_TAGS
   STAGE                            = var.STAGE
@@ -521,8 +537,8 @@ module "create_in_opensearch" {
   datacenter_codes  = var.datacenter_codes
   service_name      = join("-", ["qatalyst", var.service_names["dashboard"]])
   opensearch_config = var.opensearch_config
-  vpc_id            = module.create_in_vpc.vpc_id
-  private_subnets   = module.create_in_vpc.private_subnets
+  vpc_id            = module.create_in_vpc[0].vpc_id
+  private_subnets   = module.create_in_vpc[0].private_subnets
 
   providers = {
     aws.opensearch_region = aws.in_region
@@ -533,6 +549,7 @@ module "create_in_opensearch" {
 # SEA Resources
 module "create_sea_vpc" {
   source           = "./modules/vpc"
+  count            = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
   cidr_block       = var.cidr_block
   public_subnets   = var.public_subnets
   private_subnets  = var.private_subnets
@@ -547,6 +564,7 @@ module "create_sea_vpc" {
 
 module "create_sea_s3_bucket" {
   source                     = "./modules/s3"
+  count                      = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
   bucket_prefix              = var.media_sub_domain
   DEFAULT_TAGS               = var.DEFAULT_TAGS
   STAGE                      = var.STAGE
@@ -565,6 +583,7 @@ module "create_sea_s3_bucket" {
 
 module "create_sea_acm_media_cf" {
   source           = "./modules/acm"
+  count            = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
   base_domain      = var.base_domain
   sub_domain       = var.media_sub_domain
   datacenter_codes = var.datacenter_codes
@@ -580,6 +599,7 @@ module "create_sea_acm_media_cf" {
 
 module "create_sea_meet_acm_cf" {
   source           = "./modules/acm"
+  count            = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
   base_domain      = var.base_domain
   sub_domain       = var.meet_sub_domain
   datacenter_codes = var.datacenter_codes
@@ -595,6 +615,7 @@ module "create_sea_meet_acm_cf" {
 
 module "create_sea_acm_invite_alb" {
   source           = "./modules/acm"
+  count            = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
   base_domain      = var.base_domain
   sub_domain       = var.invite_sub_domain
   datacenter_codes = var.datacenter_codes
@@ -609,13 +630,14 @@ module "create_sea_acm_invite_alb" {
 }
 module "create_sea_media_cloudfront" {
   source                      = "./modules/cloudfront"
+  count                       = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
   base_domain                 = var.base_domain
   sub_domain                  = var.media_sub_domain
   datacenter_codes            = var.datacenter_codes
-  bucket_arn                  = module.create_sea_s3_bucket.s3_bucket_arn
-  bucket_id                   = module.create_sea_s3_bucket.s3_bucket_id
-  bucket_regional_domain_name = module.create_sea_s3_bucket.s3_bucket_regional_domain_name
-  acm_certificate_arn         = module.create_sea_acm_media_cf.acm_arn
+  bucket_arn                  = module.create_sea_s3_bucket[0].s3_bucket_arn
+  bucket_id                   = module.create_sea_s3_bucket[0].s3_bucket_id
+  bucket_regional_domain_name = module.create_sea_s3_bucket[0].s3_bucket_regional_domain_name
+  acm_certificate_arn         = module.create_sea_acm_media_cf[0].acm_arn
   cache_policy_id             = module.create_cdn_cache_policy.cdn_cache_policy_id
   is_multi_region             = true
   DEFAULT_TAGS                = var.DEFAULT_TAGS
@@ -629,6 +651,7 @@ module "create_sea_media_cloudfront" {
 
 module "create_sea_acm_api" {
   source           = "./modules/acm"
+  count            = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
   base_domain      = var.base_domain
   sub_domain       = var.api_sub_domain
   datacenter_codes = var.datacenter_codes
@@ -644,19 +667,20 @@ module "create_sea_acm_api" {
 
 module "create_sea_alb" {
   source              = "./modules/alb"
-  vpc_id              = module.create_sea_vpc.vpc_id
-  alb_subnets         = module.create_sea_vpc.public_subnets
-  alb_certficate_arn  = module.create_sea_acm_api.acm_arn
-  reports_acm_arn     = module.create_sea_reports_acm.acm_arn
+  count               = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
+  vpc_id              = module.create_sea_vpc[0].vpc_id
+  alb_subnets         = module.create_sea_vpc[0].public_subnets
+  alb_certficate_arn  = module.create_sea_acm_api[0].acm_arn
+  reports_acm_arn     = module.create_sea_reports_acm[0].acm_arn
   datacenter_codes    = var.datacenter_codes
   base_domain         = var.base_domain
   sub_domain          = var.api_sub_domain
   DEFAULT_TAGS        = var.DEFAULT_TAGS
   STAGE               = var.STAGE
-  meet_acm_arn        = module.create_sea_meet_acm_cf.acm_arn
-  invite_acm_arn      = module.create_sea_acm_invite_alb.acm_arn
+  meet_acm_arn        = module.create_sea_meet_acm_cf[0].acm_arn
+  invite_acm_arn      = module.create_sea_acm_invite_alb[0].acm_arn
   lb_target_health    = var.lb_target_health
-  tester_view_acm_arn = module.create_sea_tester_view_acm.acm_arn
+  tester_view_acm_arn = module.create_sea_tester_view_acm[0].acm_arn
 
   providers = {
     aws.alb_region = aws.sea_region
@@ -665,9 +689,10 @@ module "create_sea_alb" {
 
 module "create_sea_ecs" {
   source             = "./modules/ecs-cluster"
+  count              = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
   ecs_cluster_name   = local.qatalyst_ecs_cluster_name
-  vpc_id             = module.create_sea_vpc.vpc_id
-  alb_security_group = module.create_sea_alb.qatalyst_alb_sg_id
+  vpc_id             = module.create_sea_vpc[0].vpc_id
+  alb_security_group = module.create_sea_alb[0].qatalyst_alb_sg_id
   datacenter_codes   = var.datacenter_codes
   DEFAULT_TAGS       = var.DEFAULT_TAGS
   STAGE              = var.STAGE
@@ -679,6 +704,7 @@ module "create_sea_ecs" {
 
 module "create_sea_dynamodb" {
   source        = "git@github.com:EntropikTechnologies/terraform-modules.git//dynamodb"
+  count         = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
   DEFAULT_TAGS  = var.DEFAULT_TAGS
   STAGE         = var.STAGE
   table_details = var.table_details
@@ -694,14 +720,15 @@ module "create_sea_dynamodb" {
 
 module "create_sea_ssm" {
   source                                = "./modules/ssm"
+  count                                 = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
   DEFAULT_TAGS                          = var.DEFAULT_TAGS
   STAGE                                 = var.STAGE
   datacenter_codes                      = var.datacenter_codes
   open_ai_api                           = var.open_ai_api
   opensearch_host                       = try(module.create_sea_opensearch[0].opensearch_host, "NA")
-  qatalyst_study_details_ddb_stream_arn = module.create_sea_dynamodb.ddb_stream_arns["qatalyst-study-details"]
-  qatalyst_lambda_sg_id                 = module.create_sea_vpc.lambda_security_group_id
-  private_subnets                       = module.create_sea_vpc.private_subnets
+  qatalyst_study_details_ddb_stream_arn = module.create_sea_dynamodb[0].ddb_stream_arns["qatalyst-study-details"]
+  qatalyst_lambda_sg_id                 = module.create_sea_vpc[0].lambda_security_group_id
+  private_subnets                       = module.create_sea_vpc[0].private_subnets
   providers = {
     aws.ssm_region = aws.sea_region
     random.random  = random.random
@@ -710,6 +737,7 @@ module "create_sea_ssm" {
 
 module "create_sea_media_convert_queue" {
   source              = "./modules/mediaconvert"
+  count               = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
   mediaconvert_queues = var.mediaconvert_queues
   DEFAULT_TAGS        = var.DEFAULT_TAGS
   providers = {
@@ -719,6 +747,7 @@ module "create_sea_media_convert_queue" {
 
 module "create_sea_sqs" {
   source       = "./modules/sqs"
+  count        = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
   sqs_details  = var.sqs_details
@@ -731,6 +760,7 @@ module "create_sea_sqs" {
 
 module "create_sea_qatalyst_media_bucket" {
   source                           = "./modules/s3"
+  count                            = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
   bucket_prefix                    = var.qatalyst_media_bucket_transfer_acceleration
   DEFAULT_TAGS                     = var.DEFAULT_TAGS
   STAGE                            = var.STAGE
@@ -757,8 +787,8 @@ module "create_sea_opensearch" {
   datacenter_codes  = var.datacenter_codes
   service_name      = join("-", ["qatalyst", var.service_names["dashboard"]])
   opensearch_config = var.opensearch_config
-  vpc_id            = module.create_sea_vpc.vpc_id
-  private_subnets   = module.create_sea_vpc.private_subnets
+  vpc_id            = module.create_sea_vpc[0].vpc_id
+  private_subnets   = module.create_sea_vpc[0].private_subnets
 
   providers = {
     aws.opensearch_region = aws.sea_region
@@ -769,7 +799,7 @@ module "create_sea_opensearch" {
 # US Resources
 module "create_us_vpc" {
   source           = "./modules/vpc"
-  count            = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
+  count            = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
   cidr_block       = var.cidr_block
   public_subnets   = var.public_subnets
   private_subnets  = var.private_subnets
@@ -784,7 +814,7 @@ module "create_us_vpc" {
 
 module "create_us_s3_bucket" {
   source                     = "./modules/s3"
-  count                      = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
+  count                      = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
   bucket_prefix              = var.media_sub_domain
   DEFAULT_TAGS               = var.DEFAULT_TAGS
   STAGE                      = var.STAGE
@@ -955,7 +985,7 @@ module "create_us_meet_acm_cf" {
 
 module "create_us_acm_media_cf" {
   source           = "./modules/acm"
-  count            = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
+  count            = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
   base_domain      = var.base_domain
   sub_domain       = var.media_sub_domain
   datacenter_codes = var.datacenter_codes
@@ -971,7 +1001,7 @@ module "create_us_acm_media_cf" {
 
 module "create_us_media_cloudfront" {
   source                      = "./modules/cloudfront"
-  count                       = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
+  count                       = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
   base_domain                 = var.base_domain
   sub_domain                  = var.media_sub_domain
   datacenter_codes            = var.datacenter_codes
@@ -992,7 +1022,7 @@ module "create_us_media_cloudfront" {
 
 module "create_us_acm_api" {
   source           = "./modules/acm"
-  count            = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
+  count            = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
   base_domain      = var.base_domain
   sub_domain       = var.api_sub_domain
   datacenter_codes = var.datacenter_codes
@@ -1008,7 +1038,7 @@ module "create_us_acm_api" {
 
 module "create_us_alb" {
   source              = "./modules/alb"
-  count               = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
+  count               = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
   vpc_id              = try(module.create_us_vpc[0].vpc_id, "")
   alb_subnets         = try(module.create_us_vpc[0].public_subnets, [])
   alb_certficate_arn  = try(module.create_us_acm_api[0].acm_arn, "")
@@ -1018,9 +1048,9 @@ module "create_us_alb" {
   sub_domain          = var.api_sub_domain
   DEFAULT_TAGS        = var.DEFAULT_TAGS
   STAGE               = var.STAGE
-  meet_acm_arn        = module.create_us_meet_acm_cf.acm_arn
+  meet_acm_arn        = module.create_us_meet_acm_cf[0].acm_arn
   lb_target_health    = var.lb_target_health
-  invite_acm_arn      = module.create_us_invite_acm_cf_alb.acm_arn
+  invite_acm_arn      = module.create_us_invite_acm_cf_alb[0].acm_arn
   tester_view_acm_arn = module.create_tester_view_acm.acm_arn
 
   providers = {
@@ -1030,7 +1060,7 @@ module "create_us_alb" {
 
 module "create_us_ecs" {
   source             = "./modules/ecs-cluster"
-  count              = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
+  count              = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
   ecs_cluster_name   = local.qatalyst_ecs_cluster_name
   vpc_id             = try(module.create_us_vpc[0].vpc_id, "")
   alb_security_group = try(module.create_us_alb[0].qatalyst_alb_sg_id, "")
@@ -1045,7 +1075,7 @@ module "create_us_ecs" {
 
 module "create_us_dynamodb" {
   source        = "git@github.com:EntropikTechnologies/terraform-modules.git//dynamodb"
-  count         = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
+  count         = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
   DEFAULT_TAGS  = var.DEFAULT_TAGS
   STAGE         = var.STAGE
   table_details = var.table_details
@@ -1060,7 +1090,7 @@ module "create_us_dynamodb" {
 
 module "create_us_qatalyst_media_bucket" {
   source                           = "./modules/s3"
-  count                            = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
+  count                            = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
   bucket_prefix                    = var.qatalyst_media_bucket_transfer_acceleration
   DEFAULT_TAGS                     = var.DEFAULT_TAGS
   STAGE                            = var.STAGE
@@ -1085,8 +1115,7 @@ module "create_global_dynamodb" {
   DEFAULT_TAGS    = var.DEFAULT_TAGS
   STAGE           = var.STAGE
   table_details   = var.global_table_details
-  replica_regions = contains(["dev", "playground", "qa"], var.STAGE) ? ["ap-south-1", "ap-southeast-1"] : ["eu-north-1", "ap-south-1", "ap-southeast-1"]
-
+  replica_regions = local.replica_regions
   providers = {
     aws.dynamo_region = aws.us_region
     aws.dynamo_eu     = aws.eu_region
@@ -1098,7 +1127,7 @@ module "create_global_dynamodb" {
 
 module "create_us_ssm" {
   source                                = "./modules/ssm"
-  count                                 = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
+  count                                 = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
   DEFAULT_TAGS                          = var.DEFAULT_TAGS
   STAGE                                 = var.STAGE
   datacenter_codes                      = var.datacenter_codes
@@ -1128,6 +1157,7 @@ module "create_ecr" {
 
 module "create_base_image_sea_ecr" {
   source       = "./modules/ecr"
+  count        = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
   service_name = join("-", [var.service_names["backend"], "base-image"])
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
@@ -1139,7 +1169,7 @@ module "create_base_image_sea_ecr" {
 
 module "create_us_ecr" {
   source       = "./modules/ecr"
-  count        = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
+  count        = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
   service_name = var.service_names["backend"]
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
@@ -1151,7 +1181,7 @@ module "create_us_ecr" {
 
 module "create_base_image_us_ecr" {
   source       = "./modules/ecr"
-  count        = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
+  count        = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
   service_name = join("-", [var.service_names["backend"], "base-image"])
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
@@ -1163,7 +1193,7 @@ module "create_base_image_us_ecr" {
 
 module "create_us_media_convert_queue" {
   source              = "./modules/mediaconvert"
-  count               = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
+  count               = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
   mediaconvert_queues = var.mediaconvert_queues
   DEFAULT_TAGS        = var.DEFAULT_TAGS
   providers = {
@@ -1201,7 +1231,7 @@ module "create_cdn_cache_policy" {
 }
 module "create_us_sqs" {
   source       = "./modules/sqs"
-  count        = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
+  count        = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
   sqs_details  = var.sqs_details
@@ -1213,7 +1243,7 @@ module "create_us_sqs" {
 
 module "create_us_opensearch" {
   source            = "./modules/opensearch"
-  count             = contains(["dev", "playground", "qa"], var.STAGE) ? 0 : 1
+  count             = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
   DEFAULT_TAGS      = var.DEFAULT_TAGS
   STAGE             = var.STAGE
   datacenter_codes  = var.datacenter_codes

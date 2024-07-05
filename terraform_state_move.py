@@ -1,5 +1,5 @@
 terraform_moved_param = "moved {\n from = #FROM to = #TO\n }\n"
-terraform_move = open("terraform_moved.tf", "w")
+terraform_move = open("terraform_moved_new.tf", "w")
 # Using readlines()
 terraform_resources_state = open("terraform_state_resources.txt", "r")
 Lines = terraform_resources_state.readlines()
