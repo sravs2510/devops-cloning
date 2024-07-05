@@ -16,7 +16,6 @@ locals {
   qatalyst_mammoth_service_name     = "qatalyst-mammoth-service"
   qatalyst_copilot_service_name     = "qatalyst-copilot-service"
   qatalyst_helios_service_name      = "qatalyst-helios-service"
-  fargate_cpu_memory                = var.STAGE == "qa" ? var.fargate_cpu_memory_qa_eu : var.fargate_cpu_memory
   account_id                        = data.aws_caller_identity.current.account_id
   qatalyst_healthcheck_api          = "GET /health,GET */health"
   qatalyst_batch_job_definition     = "qatalyst-helios-job-definition"

@@ -83,21 +83,6 @@ variable "global_table_details" {
   description = "DDB Global Tables details"
 }
 
-variable "fargate_cpu_memory" {
-  type        = map(any)
-  description = "Fargate CPU and Memory Details"
-}
-
-variable "fargate_cpu_memory_mammoth" {
-  type        = map(any)
-  description = "Fargate CPU and Memory Details for mammoth service."
-}
-
-variable "fargate_cpu_memory_qa_eu" {
-  type        = map(any)
-  description = "Fargate CPU and Memory Details for qa,eu region"
-}
-
 variable "cw_logs_retention_in_days" {
   type        = string
   description = "CloudWatch Logs Retention Period in Days"
@@ -202,4 +187,12 @@ variable "deploy_regions" {
     "ap-southeast-1" = true
     "us-east-1"      = true
   }
+}
+
+variable "fargate_service_configurations" {
+  type = map(object({
+    cpu    = number
+    memory = number
+  }))
+  description = "Fargate Service Configuration"
 }

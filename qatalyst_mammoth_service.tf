@@ -118,7 +118,7 @@ module "create_eu_ecs_mammoth_service" {
   alb_target_group_arn          = ""
   ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
   ecs_task_role_arn             = module.create_iam.mammoth_ecs_task_role_arn
-  fargate_cpu_memory            = var.fargate_cpu_memory_mammoth
+  fargate_cpu_memory            = var.fargate_service_configurations["mammoth"]
   service_environment_variables = local.qatalyst_mammoth_ecs_task_environment_variables
   service_environment_secrets   = local.qatalyst_mammoth_ecs_task_environment_secrets
   dd_environment_variables      = local.qatalyst_datadog_environment_variables
@@ -149,7 +149,7 @@ module "create_in_ecs_mammoth_service" {
   alb_target_group_arn          = ""
   ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
   ecs_task_role_arn             = module.create_iam.mammoth_ecs_task_role_arn
-  fargate_cpu_memory            = var.fargate_cpu_memory_mammoth
+  fargate_cpu_memory            = var.fargate_service_configurations["mammoth"]
   service_environment_variables = local.qatalyst_mammoth_ecs_task_environment_variables
   service_environment_secrets   = local.qatalyst_mammoth_ecs_task_environment_secrets
   dd_environment_variables      = local.qatalyst_datadog_environment_variables
@@ -180,7 +180,7 @@ module "create_sea_ecs_mammoth_service" {
   alb_target_group_arn          = ""
   ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
   ecs_task_role_arn             = module.create_iam.mammoth_ecs_task_role_arn
-  fargate_cpu_memory            = var.fargate_cpu_memory_mammoth
+  fargate_cpu_memory            = var.fargate_service_configurations["mammoth"]
   service_environment_variables = local.qatalyst_mammoth_ecs_task_environment_variables
   service_environment_secrets   = local.qatalyst_mammoth_ecs_task_environment_secrets
   dd_environment_variables      = local.qatalyst_datadog_environment_variables
@@ -212,7 +212,7 @@ module "create_us_ecs_mammoth_service" {
   alb_target_group_arn          = ""
   ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
   ecs_task_role_arn             = module.create_iam.mammoth_ecs_task_role_arn
-  fargate_cpu_memory            = var.fargate_cpu_memory_mammoth
+  fargate_cpu_memory            = var.fargate_service_configurations["mammoth"]
   service_environment_variables = local.qatalyst_mammoth_ecs_task_environment_variables
   service_environment_secrets   = local.qatalyst_mammoth_ecs_task_environment_secrets
   dd_environment_variables      = local.qatalyst_datadog_environment_variables

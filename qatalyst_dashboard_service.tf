@@ -10,7 +10,7 @@ module "create_eu_ecs_dashboard_service" {
   alb_target_group_arn          = try(module.create_eu_alb[0].qatalyst_alb_target_group_arn, "")
   ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
   ecs_task_role_arn             = module.create_iam.ecs_task_role_arn
-  fargate_cpu_memory            = var.fargate_cpu_memory
+  fargate_cpu_memory            = var.fargate_service_configurations["default"]
   service_environment_variables = local.qatalyst_ecs_task_environment_variables
   service_environment_secrets   = local.qatalyst_ecs_task_environment_secrets
   dd_environment_variables      = local.qatalyst_datadog_environment_variables
@@ -36,7 +36,7 @@ module "create_in_ecs_dashboard_service" {
   alb_target_group_arn          = module.create_in_alb[0].qatalyst_alb_target_group_arn
   ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
   ecs_task_role_arn             = module.create_iam.ecs_task_role_arn
-  fargate_cpu_memory            = var.fargate_cpu_memory
+  fargate_cpu_memory            = var.fargate_service_configurations["default"]
   service_environment_variables = local.qatalyst_ecs_task_environment_variables
   service_environment_secrets   = local.qatalyst_ecs_task_environment_secrets
   dd_environment_variables      = local.qatalyst_datadog_environment_variables
@@ -64,7 +64,7 @@ module "create_sea_ecs_dashboard_service" {
   alb_target_group_arn          = module.create_sea_alb[0].qatalyst_alb_target_group_arn
   ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
   ecs_task_role_arn             = module.create_iam.ecs_task_role_arn
-  fargate_cpu_memory            = var.fargate_cpu_memory
+  fargate_cpu_memory            = var.fargate_service_configurations["default"]
   service_environment_variables = local.qatalyst_ecs_task_environment_variables
   service_environment_secrets   = local.qatalyst_ecs_task_environment_secrets
   dd_environment_variables      = local.qatalyst_datadog_environment_variables
@@ -92,7 +92,7 @@ module "create_us_ecs_dashboard_service" {
   alb_target_group_arn          = try(module.create_us_alb[0].qatalyst_alb_target_group_arn, "")
   ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
   ecs_task_role_arn             = module.create_iam.ecs_task_role_arn
-  fargate_cpu_memory            = var.fargate_cpu_memory
+  fargate_cpu_memory            = var.fargate_service_configurations["default"]
   service_environment_variables = local.qatalyst_ecs_task_environment_variables
   service_environment_secrets   = local.qatalyst_ecs_task_environment_secrets
   dd_environment_variables      = local.qatalyst_datadog_environment_variables

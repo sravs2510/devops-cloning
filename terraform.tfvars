@@ -385,22 +385,6 @@ table_details = {
   }
 }
 
-
-fargate_cpu_memory = {
-  "cpu" : 1024
-  "memory" : 2048
-}
-
-fargate_cpu_memory_mammoth = {
-  "cpu" : 2048
-  "memory" : 4096
-}
-
-fargate_cpu_memory_qa_eu = {
-  "cpu" : 2048
-  "memory" : 4096
-}
-
 uvicorn_workers_count = 4
 
 # Datadog
@@ -514,4 +498,23 @@ opensearch_config = {
   instance_type   = "t3.medium.search"
   instance_count  = 3
   ebs_volume_size = 10
+}
+
+fargate_service_configurations = {
+  "mammoth" = {
+    cpu    = 2048
+    memory = 4096
+  },
+  "copilot" = {
+    cpu    = 1024
+    memory = 2048
+  },
+  "reports" = {
+    cpu    = 1024
+    memory = 2048
+  }
+  "default" = {
+    cpu    = 1024
+    memory = 2048
+  }
 }
