@@ -203,6 +203,10 @@ resource "aws_ecs_service" "qatalyst_ecs_service" {
     assign_public_ip = false
     security_groups  = var.ecs_security_groups
   }
+  deployment_circuit_breaker {
+    enable   = true
+    rollback = true
+  }
 
   dynamic "load_balancer" {
     for_each = var.service != "cyborg" && var.service != "furyblade" && var.service != "mammoth" ? [1] : []
@@ -220,7 +224,7 @@ resource "aws_ecs_service" "qatalyst_ecs_service" {
 resource "aws_appautoscaling_target" "qatalyst_ecs_ast" {
   provider           = aws.ecs_region
   min_capacity       = 1
-  max_capacity       = contains(["dev","qa","playground"], var.STAGE ) ? 1 : local.is_sqs_service ? 25 : 5
+  max_capacity       = contains(["dev", "qa", "playground"], var.STAGE) ? 1 : local.is_sqs_service ? 25 : 5
   resource_id        = join("/", ["service", var.ecs_cluster_name, aws_ecs_service.qatalyst_ecs_service.name])
   scalable_dimension = "ecs:service:DesiredCount"
   service_namespace  = "ecs"
