@@ -15,8 +15,11 @@ fargate_service_configurations = {
   "reports" = {
     cpu    = 1024
     memory = 3072
+  },
+  "mammoth" = {
+    cpu    = 2048
+    memory = 4096
   }
-
 }
 opensearch_config = {
   domain_name     = "qatalyst"
