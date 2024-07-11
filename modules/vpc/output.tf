@@ -17,3 +17,7 @@ output "security_group_id" {
 output "lambda_security_group_id" {
   value = aws_security_group.lambda_security_group.id
 }
+
+output "private_route_table_id" {
+  value = aws_route_table.private_route_table.id
+}
