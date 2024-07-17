@@ -352,6 +352,19 @@ resource "aws_wafv2_web_acl" "alb_web_acl" {
             }
           }
         }
+        statement {
+          byte_match_statement {
+            field_to_match {
+              uri_path {}
+            }
+            positional_constraint = "STARTS_WITH"
+            search_string         = "/health"
+            text_transformation {
+              priority = 1
+              type     = "NONE"
+            }
+          }
+        }
       }
     }
     visibility_config {
