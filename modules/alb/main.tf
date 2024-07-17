@@ -43,17 +43,22 @@ resource "aws_security_group" "qatalyst_alb_sg" {
   tags = merge(tomap({ "Name" : "qatalyst-alb-sg" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 resource "aws_lb" "qatalyst_alb" {
-  provider           = aws.alb_region
-  name               = "qatalyst-alb"
-  internal           = false
-  idle_timeout       = "60"
-  load_balancer_type = "application"
-
-  security_groups = [aws_security_group.qatalyst_alb_sg.id]
-  subnets         = var.alb_subnets
-
+  provider                   = aws.alb_region
+  name                       = "qatalyst-alb"
+  internal                   = false
+  idle_timeout               = "60"
+  load_balancer_type         = "application"
+  security_groups            = [aws_security_group.qatalyst_alb_sg.id]
+  subnets                    = var.alb_subnets
   enable_deletion_protection = true
-
+  dynamic "access_logs" {
+    for_each = var.STAGE == "prod" ? [1] : []
+    content {
+      bucket  = data.aws_s3_bucket.log_bucket.id
+      prefix  = "qatalyst/alb"
+      enabled = true
+    }
+  }
   tags = merge(tomap({ "Name" : "qatalyst-alb" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
@@ -225,6 +230,9 @@ locals {
   path_pattern_testers = join("", [local.path_prefix, "v1", local.path_prefix, "testers", local.path_prefix, "*"])
   path_pattern_test    = join("", [local.path_prefix, "v1", local.path_prefix, "test", local.path_prefix, "*"])
   path_pattern_copilot = join("", [local.path_prefix, "v1", local.path_prefix, "copilot", local.path_prefix, "*"])
+  log_bucket_name      = join("-", ["entropik-logs", var.STAGE, local.datacenter_code])
+  waf_log_bucket_name  = join("-", ["aws-waf-logs-entropik", var.STAGE, local.datacenter_code])
+
 
 }
 
@@ -285,5 +293,107 @@ resource "aws_cloudwatch_metric_alarm" "error_monitoring_alarm" {
   alarm_actions       = [data.aws_sns_topic.current.arn]
   dimensions = {
     LoadBalancer = aws_lb.qatalyst_alb.arn_suffix
+  }
+}
+
+resource "aws_wafv2_web_acl" "alb_web_acl" {
+  provider = aws.alb_region
+  name     = "qatalyst-waf-web-acl"
+  scope    = "REGIONAL"
+
+  default_action {
+    block {}
+  }
+
+  rule {
+    name     = "regular-rule-allow-specific-uri-paths"
+    priority = 1
+    action {
+      allow {}
+    }
+    statement {
+      or_statement {
+        statement {
+          byte_match_statement {
+            field_to_match {
+              uri_path {}
+            }
+            positional_constraint = "STARTS_WITH"
+            search_string         = "/v1"
+            text_transformation {
+              priority = 1
+              type     = "NONE"
+            }
+          }
+        }
+        statement {
+          byte_match_statement {
+            field_to_match {
+              uri_path {}
+            }
+            positional_constraint = "STARTS_WITH"
+            search_string         = "/docs"
+            text_transformation {
+              priority = 1
+              type     = "NONE"
+            }
+          }
+        }
+        statement {
+          byte_match_statement {
+            field_to_match {
+              uri_path {}
+            }
+            positional_constraint = "STARTS_WITH"
+            search_string         = "/openapi.json"
+            text_transformation {
+              priority = 1
+              type     = "NONE"
+            }
+          }
+        }
+      }
+    }
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      metric_name                = "regular-rule-block-specific-uri-paths"
+      sampled_requests_enabled   = true
+    }
+  }
+
+  visibility_config {
+    cloudwatch_metrics_enabled = false
+    metric_name                = "qatalyst-waf-web-acl"
+    sampled_requests_enabled   = true
+  }
+}
+
+########### This is the association code
+resource "aws_wafv2_web_acl_association" "web_acl_association" {
+  provider     = aws.alb_region
+  resource_arn = aws_lb.qatalyst_alb.arn
+  web_acl_arn  = aws_wafv2_web_acl.alb_web_acl.arn
+}
+
+data "aws_s3_bucket" "wat_log_bucket" {
+  bucket   = local.waf_log_bucket_name
+  provider = aws.alb_region
+}
+resource "aws_wafv2_web_acl_logging_configuration" "s3_waf_logging_configuration" {
+  provider                = aws.alb_region
+  log_destination_configs = [data.aws_s3_bucket.wat_log_bucket.arn]
+  resource_arn            = aws_wafv2_web_acl.alb_web_acl.arn
+  logging_filter {
+    default_behavior = "DROP"
+
+    filter {
+      behavior    = "KEEP"
+      requirement = "MEETS_ANY"
+      condition {
+        action_condition {
+          action = "BLOCK"
+        }
+      }
+    }
   }
 }
