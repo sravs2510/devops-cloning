@@ -10,6 +10,10 @@ terraform {
 data "aws_region" "current" {
   provider = aws.alb_region
 }
+data "aws_s3_bucket" "log_bucket" {
+  bucket   = local.log_bucket_name
+  provider = aws.alb_region
+}
 
 locals {
   lb_target_interval            = lookup(var.lb_target_health, "lb_target_interval")
