@@ -10,6 +10,10 @@ terraform {
 data "aws_region" "current" {
   provider = aws.alb_region
 }
+data "aws_s3_bucket" "log_bucket" {
+  bucket   = local.log_bucket_name
+  provider = aws.alb_region
+}
 
 locals {
   lb_target_interval            = lookup(var.lb_target_health, "lb_target_interval")
@@ -388,13 +392,13 @@ resource "aws_wafv2_web_acl_association" "web_acl_association" {
   web_acl_arn  = aws_wafv2_web_acl.alb_web_acl.arn
 }
 
-data "aws_s3_bucket" "wat_log_bucket" {
+data "aws_s3_bucket" "waf_log_bucket" {
   bucket   = local.waf_log_bucket_name
   provider = aws.alb_region
 }
 resource "aws_wafv2_web_acl_logging_configuration" "s3_waf_logging_configuration" {
   provider                = aws.alb_region
-  log_destination_configs = [data.aws_s3_bucket.wat_log_bucket.arn]
+  log_destination_configs = [data.aws_s3_bucket.waf_log_bucket.arn]
   resource_arn            = aws_wafv2_web_acl.alb_web_acl.arn
   logging_filter {
     default_behavior = "DROP"
