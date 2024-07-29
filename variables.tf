@@ -123,7 +123,7 @@ variable "lb_target_health" {
   description = "ALB target health checks"
 }
 
-variable "sqs_details" {
+variable "sqs_queues" {
   type        = map(any)
   description = "SQS details"
 }

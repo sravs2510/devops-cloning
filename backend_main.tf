@@ -222,11 +222,12 @@ module "create_eu_media_convert_queue" {
   }
 }
 module "create_eu_sqs" {
-  source       = "./modules/sqs"
-  count        = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
-  DEFAULT_TAGS = var.DEFAULT_TAGS
-  STAGE        = var.STAGE
-  sqs_details  = var.sqs_details
+  source           = "git@github.com:EntropikTechnologies/terraform-modules.git//sqs"
+  count            = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
+  DEFAULT_TAGS     = var.DEFAULT_TAGS
+  STAGE            = var.STAGE
+  sqs_queues       = var.sqs_queues
+  datacenter_codes = var.datacenter_codes
 
   providers = {
     aws.sqs_region = aws.eu_region
@@ -497,11 +498,12 @@ module "create_in_media_convert_queue" {
   }
 }
 module "create_in_sqs" {
-  source       = "./modules/sqs"
-  count        = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
-  DEFAULT_TAGS = var.DEFAULT_TAGS
-  STAGE        = var.STAGE
-  sqs_details  = var.sqs_details
+  source           = "git@github.com:EntropikTechnologies/terraform-modules.git//sqs"
+  count            = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
+  DEFAULT_TAGS     = var.DEFAULT_TAGS
+  STAGE            = var.STAGE
+  sqs_queues       = var.sqs_queues
+  datacenter_codes = var.datacenter_codes
 
   providers = {
     aws.sqs_region = aws.in_region
@@ -746,11 +748,12 @@ module "create_sea_media_convert_queue" {
 }
 
 module "create_sea_sqs" {
-  source       = "./modules/sqs"
-  count        = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
-  DEFAULT_TAGS = var.DEFAULT_TAGS
-  STAGE        = var.STAGE
-  sqs_details  = var.sqs_details
+  source           = "git@github.com:EntropikTechnologies/terraform-modules.git//sqs"
+  count            = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
+  DEFAULT_TAGS     = var.DEFAULT_TAGS
+  STAGE            = var.STAGE
+  sqs_queues       = var.sqs_queues
+  datacenter_codes = var.datacenter_codes
 
   providers = {
     aws.sqs_region = aws.sea_region
@@ -1230,11 +1233,12 @@ module "create_cdn_cache_policy" {
   }
 }
 module "create_us_sqs" {
-  source       = "./modules/sqs"
-  count        = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
-  DEFAULT_TAGS = var.DEFAULT_TAGS
-  STAGE        = var.STAGE
-  sqs_details  = var.sqs_details
+  source           = "git@github.com:EntropikTechnologies/terraform-modules.git//sqs"
+  count            = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
+  DEFAULT_TAGS     = var.DEFAULT_TAGS
+  STAGE            = var.STAGE
+  sqs_queues       = var.sqs_queues
+  datacenter_codes = var.datacenter_codes
 
   providers = {
     aws.sqs_region = aws.us_region
