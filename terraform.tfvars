@@ -406,38 +406,46 @@ lb_target_health = {
   "lb_deregistration_delay"       = 60
 }
 
-sqs_details = {
-  "qatalyst-cyborg-processing-sqs" : {
+sqs_queues = {
+  "qatalyst-cyborg-processing-queue" : {
     queue_name                 = "qatalyst-cyborg-processing-queue"
+    dl_queue_name              = "qatalyst-cyborg-processing-queue-dl"
     delay_seconds              = 0
     max_message_size           = 262144 # 256KB
     message_retention_seconds  = 86400
     receive_wait_time_seconds  = 20   #Long Polling
     visibility_timeout_seconds = 1200 # 20 Minutes
+    enable_dead_letter_queue   = true
   },
-  "qatalyst-furyblade-processing-sqs" : {
+  "qatalyst-furyblade-processing-queue" : {
     queue_name                 = "qatalyst-furyblade-processing-queue"
+    dl_queue_name              = "qatalyst-furyblade-processing-queue-dl"
     delay_seconds              = 0
     max_message_size           = 262144 # 256KB
     message_retention_seconds  = 86400
     receive_wait_time_seconds  = 20   #Long Polling
     visibility_timeout_seconds = 1200 # 20 Minutes
+    enable_dead_letter_queue   = true
   },
-  "qatalyst-mammoth-processing-sqs" : {
+  "qatalyst-mammoth-processing-queue" : {
     queue_name                 = "qatalyst-mammoth-processing-queue"
+    dl_queue_name              = "qatalyst-mammoth-processing-queue-dl"
     delay_seconds              = 0
     max_message_size           = 131072 # 128KB
     message_retention_seconds  = 86400
     receive_wait_time_seconds  = 20   #Long Polling
     visibility_timeout_seconds = 1200 # 20 Minutes
+    enable_dead_letter_queue   = true
   },
-  "qatalyst-user-journey-processing-sqs" : {
+  "qatalyst-user-journey-processing-queue" : {
     queue_name                 = "qatalyst-user-journey-processing-queue"
+    dl_queue_name              = "qatalyst-user-journey-processing-queue-dl"
     delay_seconds              = 0
     max_message_size           = 262144 # 128KB
     message_retention_seconds  = 86400
     receive_wait_time_seconds  = 20   #Long Polling
     visibility_timeout_seconds = 1200 # 20 Minutes
+    enable_dead_letter_queue   = true
   }
 }
 # EFS
