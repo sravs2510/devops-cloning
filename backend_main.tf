@@ -1149,7 +1149,7 @@ module "create_us_ssm" {
 #ECR 
 module "create_ecr" {
   source       = "git@github.com:EntropikTechnologies/terraform-modules.git//ecr"
-  repo_details = var.repo_backend_details
+  repo_details = var.repo_sea_details
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
 
