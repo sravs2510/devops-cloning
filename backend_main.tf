@@ -200,18 +200,6 @@ module "create_eu_ecr" {
   }
 }
 
-# module "create_base_image_eu_ecr" {
-#   source       = "git@github.com:EntropikTechnologies/terraform-modules.git//ecr"
-#   count        = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
-#   repo_details = var.repo_details
-#   DEFAULT_TAGS = var.DEFAULT_TAGS
-#   STAGE        = var.STAGE
-
-#   providers = {
-#     aws.ecr_region = aws.eu_region
-#   }
-# }
-
 module "create_eu_media_convert_queue" {
   source              = "./modules/mediaconvert"
   count               = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
@@ -475,18 +463,6 @@ module "create_in_ecr" {
     aws.ecr_region = aws.in_region
   }
 }
-
-# module "create_base_image_in_ecr" {
-#   source       = "git@github.com:EntropikTechnologies/terraform-modules.git//ecr"
-#   count        = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
-#   repo_details = var.repo_details
-#   DEFAULT_TAGS = var.DEFAULT_TAGS
-#   STAGE        = var.STAGE
-
-#   providers = {
-#     aws.ecr_region = aws.in_region
-#   }
-# }
 
 module "create_in_media_convert_queue" {
   source              = "./modules/mediaconvert"
@@ -1158,18 +1134,6 @@ module "create_ecr" {
   }
 }
 
-# module "create_base_image_sea_ecr" {
-#   source       = "git@github.com:EntropikTechnologies/terraform-modules.git//ecr"
-#   count        = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
-#   repo_details = var.repo_details
-#   DEFAULT_TAGS = var.DEFAULT_TAGS
-#   STAGE        = var.STAGE
-
-#   providers = {
-#     aws.ecr_region = aws.sea_region
-#   }
-# }
-
 module "create_us_ecr" {
   source       = "git@github.com:EntropikTechnologies/terraform-modules.git//ecr"
   count        = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
@@ -1181,18 +1145,6 @@ module "create_us_ecr" {
     aws.ecr_region = aws.us_region
   }
 }
-
-# module "create_base_image_us_ecr" {
-#   source       = "git@github.com:EntropikTechnologies/terraform-modules.git//ecr"
-#   count        = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
-#   repo_details = var.repo_details
-#   DEFAULT_TAGS = var.DEFAULT_TAGS
-#   STAGE        = var.STAGE
-
-#   providers = {
-#     aws.ecr_region = aws.us_region
-#   }
-# }
 
 module "create_us_media_convert_queue" {
   source              = "./modules/mediaconvert"
