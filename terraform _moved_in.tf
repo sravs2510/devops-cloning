@@ -1950,33 +1950,119 @@ moved {
 }
 moved {
   from = module.create_in_sqs[0].aws_sqs_queue.qatalyst_service_queue_deadletter["qatalyst-user-journey-processing-sqs"]
-to = module.create_in_sqs[0].aws_sqs_queue.sqs_queues_deadletter["qatalyst-user-journey-processing-queue"]
+  to   = module.create_in_sqs[0].aws_sqs_queue.sqs_queues_deadletter["qatalyst-user-journey-processing-queue"]
 }
 moved {
-  from =  module.create_in_sqs[0].aws_sqs_queue.qatalyst_service_queue_deadletter["qatalyst-mammoth-processing-sqs"]
-  to =  module.create_in_sqs[0].aws_sqs_queue.sqs_queues_deadletter["qatalyst-mammoth-processing-queue"]
+  from = module.create_in_sqs[0].aws_sqs_queue.qatalyst_service_queue_deadletter["qatalyst-mammoth-processing-sqs"]
+  to   = module.create_in_sqs[0].aws_sqs_queue.sqs_queues_deadletter["qatalyst-mammoth-processing-queue"]
 }
 moved {
   from = module.create_in_sqs[0].aws_sqs_queue.qatalyst_service_queue_deadletter["qatalyst-furyblade-processing-sqs"]
-  to = module.create_in_sqs[0].aws_sqs_queue.sqs_queues_deadletter["qatalyst-furyblade-processing-queue"]
+  to   = module.create_in_sqs[0].aws_sqs_queue.sqs_queues_deadletter["qatalyst-furyblade-processing-queue"]
 }
 moved {
-  from =  module.create_in_sqs[0].aws_sqs_queue.qatalyst_service_queue_deadletter["qatalyst-cyborg-processing-sqs"]
-  to = module.create_in_sqs[0].aws_sqs_queue.sqs_queues_deadletter["qatalyst-cyborg-processing-queue"]
+  from = module.create_in_sqs[0].aws_sqs_queue.qatalyst_service_queue_deadletter["qatalyst-cyborg-processing-sqs"]
+  to   = module.create_in_sqs[0].aws_sqs_queue.sqs_queues_deadletter["qatalyst-cyborg-processing-queue"]
 }
 moved {
   from = module.create_in_sqs[0].aws_sqs_queue.qatalyst_service_queue["qatalyst-user-journey-processing-sqs"]
-  to = module.create_in_sqs[0].aws_sqs_queue.sqs_queues["qatalyst-user-journey-processing-queue"]
+  to   = module.create_in_sqs[0].aws_sqs_queue.sqs_queues["qatalyst-user-journey-processing-queue"]
 }
 moved {
-  from =  module.create_in_sqs[0].aws_sqs_queue.qatalyst_service_queue["qatalyst-mammoth-processing-sqs"]
-  to =  module.create_in_sqs[0].aws_sqs_queue.sqs_queues["qatalyst-mammoth-processing-queue"]
+  from = module.create_in_sqs[0].aws_sqs_queue.qatalyst_service_queue["qatalyst-mammoth-processing-sqs"]
+  to   = module.create_in_sqs[0].aws_sqs_queue.sqs_queues["qatalyst-mammoth-processing-queue"]
 }
 moved {
   from = module.create_in_sqs[0].aws_sqs_queue.qatalyst_service_queue["qatalyst-furyblade-processing-sqs"]
-  to = module.create_in_sqs[0].aws_sqs_queue.sqs_queues["qatalyst-furyblade-processing-queue"]
+  to   = module.create_in_sqs[0].aws_sqs_queue.sqs_queues["qatalyst-furyblade-processing-queue"]
 }
 moved {
   from = module.create_in_sqs[0].aws_sqs_queue.qatalyst_service_queue["qatalyst-cyborg-processing-sqs"]
-  to = module.create_in_sqs[0].aws_sqs_queue.sqs_queues["qatalyst-cyborg-processing-queue"]
+  to   = module.create_in_sqs[0].aws_sqs_queue.sqs_queues["qatalyst-cyborg-processing-queue"]
+}
+
+#Opensearch
+moved {
+  from = module.create_in_opensearch.aws_cloudwatch_metric_alarm.opensearch_cluster_status_cw_alarm
+  to   = module.create_in_opensearch[0].aws_cloudwatch_metric_alarm.opensearch_cluster_status_cw_alarm
+}
+moved {
+  from = module.create_in_opensearch.aws_cloudwatch_metric_alarm.opensearch_cpu_cw_alarm
+  to   = module.create_in_opensearch[0].aws_cloudwatch_metric_alarm.opensearch_cpu_cw_alarm
+}
+moved {
+  from = module.create_in_opensearch.aws_opensearch_domain.opensearch_domain
+  to   = module.create_in_opensearch[0].aws_opensearch_domain.opensearch_domain
+}
+moved {
+  from = module.create_in_opensearch.aws_security_group.opensearch_sg
+  to   = module.create_in_opensearch[0].aws_security_group.opensearch_sg
+}
+moved {
+  from = module.create_in_opensearch.aws_ssm_parameter.ssm_opensearch_master_password
+  to   = module.create_in_opensearch[0].aws_ssm_parameter.ssm_opensearch_master_password
+}
+moved {
+  from = module.create_in_opensearch.random_password.opensearch_master_password
+  to   = module.create_in_opensearch[0].random_password.opensearch_master_password
+}
+
+#ECR
+
+moved {
+  from = module.create_in_mammoth_ecr[0].aws_ecr_repository.qatalyst_repository
+  to   = module.create_in_ecr[0].aws_ecr_repository.ecr_repository["qatalyst-mammoth"]
+}
+
+moved {
+  from = module.create_in_cyborg_ecr[0].aws_ecr_repository.qatalyst_repository
+  to   = module.create_in_ecr[0].aws_ecr_repository.ecr_repository["qatalyst-cyborg"]
+}
+
+moved {
+  from = module.create_in_ecr_helios[0].aws_ecr_repository.qatalyst_repository
+  to   = module.create_in_ecr[0].aws_ecr_repository.ecr_repository["qatalyst-helios"]
+}
+
+moved {
+  from = module.create_in_furyblade_ecr[0].aws_ecr_repository.qatalyst_repository
+  to   = module.create_in_ecr[0].aws_ecr_repository.ecr_repository["qatalyst-furyblade"]
+}
+
+moved {
+  from = module.create_in_ecr[0].aws_ecr_repository.qatalyst_repository
+  to   = module.create_in_ecr[0].aws_ecr_repository.ecr_repository["qatalyst-backend"]
+}
+moved {
+  from = module.create_base_image_in_ecr[0].aws_ecr_repository.qatalyst_repository
+  to   = module.create_in_ecr[0].aws_ecr_repository.ecr_repository["qatalyst-backend-base-image"]
+}
+
+moved {
+  from = module.create_base_image_in_ecr[0].aws_ecr_lifecycle_policy.qatalyst_repository_lifecycle
+  to   = module.create_in_ecr[0].aws_ecr_lifecycle_policy.ecr_lifecycle_policy["qatalyst-backend-base-image"]
+}
+moved {
+  from = module.create_in_mammoth_ecr[0].aws_ecr_lifecycle_policy.qatalyst_repository_lifecycle
+  to   = module.create_in_ecr[0].aws_ecr_lifecycle_policy.ecr_lifecycle_policy["qatalyst-mammoth"]
+}
+
+moved {
+  from = module.create_in_ecr[0].aws_ecr_lifecycle_policy.qatalyst_repository_lifecycle
+  to   = module.create_in_ecr[0].aws_ecr_lifecycle_policy.ecr_lifecycle_policy["qatalyst-backend"]
+}
+
+moved {
+  from = module.create_in_cyborg_ecr[0].aws_ecr_lifecycle_policy.qatalyst_repository_lifecycle
+  to   = module.create_in_ecr[0].aws_ecr_lifecycle_policy.ecr_lifecycle_policy["qatalyst-cyborg"]
+}
+
+moved {
+  from = module.create_in_ecr_helios[0].aws_ecr_lifecycle_policy.qatalyst_repository_lifecycle
+  to   = module.create_in_ecr[0].aws_ecr_lifecycle_policy.ecr_lifecycle_policy["qatalyst-helios"]
+}
+
+moved {
+  from = module.create_in_furyblade_ecr[0].aws_ecr_lifecycle_policy.qatalyst_repository_lifecycle
+  to   = module.create_in_ecr[0].aws_ecr_lifecycle_policy.ecr_lifecycle_policy["qatalyst-furyblade"]
 }

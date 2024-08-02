@@ -189,9 +189,9 @@ module "create_eu_ssm" {
 }
 
 module "create_eu_ecr" {
-  source       = "./modules/ecr"
+  source       = "git@github.com:EntropikTechnologies/terraform-modules.git//ecr"
   count        = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
-  service_name = var.service_names["backend"]
+  repo_details = var.repo_details
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
 
@@ -200,17 +200,17 @@ module "create_eu_ecr" {
   }
 }
 
-module "create_base_image_eu_ecr" {
-  source       = "./modules/ecr"
-  count        = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
-  service_name = join("-", [var.service_names["backend"], "base-image"])
-  DEFAULT_TAGS = var.DEFAULT_TAGS
-  STAGE        = var.STAGE
+# module "create_base_image_eu_ecr" {
+#   source       = "git@github.com:EntropikTechnologies/terraform-modules.git//ecr"
+#   count        = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
+#   repo_details = var.repo_details
+#   DEFAULT_TAGS = var.DEFAULT_TAGS
+#   STAGE        = var.STAGE
 
-  providers = {
-    aws.ecr_region = aws.eu_region
-  }
-}
+#   providers = {
+#     aws.ecr_region = aws.eu_region
+#   }
+# }
 
 module "create_eu_media_convert_queue" {
   source              = "./modules/mediaconvert"
@@ -465,9 +465,9 @@ module "create_in_ssm" {
 }
 
 module "create_in_ecr" {
-  source       = "./modules/ecr"
+  source       = "git@github.com:EntropikTechnologies/terraform-modules.git//ecr"
   count        = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
-  service_name = var.service_names["backend"]
+  repo_details = var.repo_details
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
 
@@ -476,17 +476,17 @@ module "create_in_ecr" {
   }
 }
 
-module "create_base_image_in_ecr" {
-  source       = "./modules/ecr"
-  count        = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
-  service_name = join("-", [var.service_names["backend"], "base-image"])
-  DEFAULT_TAGS = var.DEFAULT_TAGS
-  STAGE        = var.STAGE
+# module "create_base_image_in_ecr" {
+#   source       = "git@github.com:EntropikTechnologies/terraform-modules.git//ecr"
+#   count        = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
+#   repo_details = var.repo_details
+#   DEFAULT_TAGS = var.DEFAULT_TAGS
+#   STAGE        = var.STAGE
 
-  providers = {
-    aws.ecr_region = aws.in_region
-  }
-}
+#   providers = {
+#     aws.ecr_region = aws.in_region
+#   }
+# }
 
 module "create_in_media_convert_queue" {
   source              = "./modules/mediaconvert"
@@ -1148,8 +1148,8 @@ module "create_us_ssm" {
 
 #ECR 
 module "create_ecr" {
-  source       = "./modules/ecr"
-  service_name = var.service_names["backend"]
+  source       = "git@github.com:EntropikTechnologies/terraform-modules.git//ecr"
+  repo_details = var.repo_backend_details
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
 
@@ -1158,22 +1158,22 @@ module "create_ecr" {
   }
 }
 
-module "create_base_image_sea_ecr" {
-  source       = "./modules/ecr"
-  count        = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
-  service_name = join("-", [var.service_names["backend"], "base-image"])
-  DEFAULT_TAGS = var.DEFAULT_TAGS
-  STAGE        = var.STAGE
+# module "create_base_image_sea_ecr" {
+#   source       = "git@github.com:EntropikTechnologies/terraform-modules.git//ecr"
+#   count        = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
+#   repo_details = var.repo_details
+#   DEFAULT_TAGS = var.DEFAULT_TAGS
+#   STAGE        = var.STAGE
 
-  providers = {
-    aws.ecr_region = aws.sea_region
-  }
-}
+#   providers = {
+#     aws.ecr_region = aws.sea_region
+#   }
+# }
 
 module "create_us_ecr" {
-  source       = "./modules/ecr"
+  source       = "git@github.com:EntropikTechnologies/terraform-modules.git//ecr"
   count        = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
-  service_name = var.service_names["backend"]
+  repo_details = var.repo_details
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
 
@@ -1182,17 +1182,17 @@ module "create_us_ecr" {
   }
 }
 
-module "create_base_image_us_ecr" {
-  source       = "./modules/ecr"
-  count        = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
-  service_name = join("-", [var.service_names["backend"], "base-image"])
-  DEFAULT_TAGS = var.DEFAULT_TAGS
-  STAGE        = var.STAGE
+# module "create_base_image_us_ecr" {
+#   source       = "git@github.com:EntropikTechnologies/terraform-modules.git//ecr"
+#   count        = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
+#   repo_details = var.repo_details
+#   DEFAULT_TAGS = var.DEFAULT_TAGS
+#   STAGE        = var.STAGE
 
-  providers = {
-    aws.ecr_region = aws.us_region
-  }
-}
+#   providers = {
+#     aws.ecr_region = aws.us_region
+#   }
+# }
 
 module "create_us_media_convert_queue" {
   source              = "./modules/mediaconvert"

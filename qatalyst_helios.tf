@@ -1,15 +1,3 @@
-module "create_eu_ecr_helios" {
-  source       = "./modules/ecr"
-  count        = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
-  service_name = var.service_names["helios"]
-  DEFAULT_TAGS = var.DEFAULT_TAGS
-  STAGE        = var.STAGE
-
-  providers = {
-    aws.ecr_region = aws.eu_region
-  }
-}
-
 module "create_eu_batch_helios" {
   source                     = "./modules/batch"
   count                      = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
@@ -27,18 +15,6 @@ module "create_eu_batch_helios" {
   access_point_id            = ""
   providers = {
     aws.batch_region = aws.eu_region
-  }
-}
-
-module "create_in_ecr_helios" {
-  source       = "./modules/ecr"
-  count        = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
-  service_name = var.service_names["helios"]
-  DEFAULT_TAGS = var.DEFAULT_TAGS
-  STAGE        = var.STAGE
-
-  providers = {
-    aws.ecr_region = aws.in_region
   }
 }
 
@@ -63,18 +39,6 @@ module "create_in_batch_helios" {
   }
 }
 
-module "create_sea_ecr_helios" {
-  source       = "./modules/ecr"
-  count        = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
-  service_name = var.service_names["helios"]
-  DEFAULT_TAGS = var.DEFAULT_TAGS
-  STAGE        = var.STAGE
-
-  providers = {
-    aws.ecr_region = aws.sea_region
-  }
-}
-
 module "create_sea_batch_helios" {
   source                     = "./modules/batch"
   count                      = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
@@ -92,18 +56,6 @@ module "create_sea_batch_helios" {
   access_point_id            = ""
   providers = {
     aws.batch_region = aws.sea_region
-  }
-}
-
-module "create_us_ecr_helios" {
-  source       = "./modules/ecr"
-  count        = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
-  service_name = var.service_names["helios"]
-  DEFAULT_TAGS = var.DEFAULT_TAGS
-  STAGE        = var.STAGE
-
-  providers = {
-    aws.ecr_region = aws.us_region
   }
 }
 
