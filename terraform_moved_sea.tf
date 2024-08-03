@@ -1986,60 +1986,6 @@ moved {
   to   = module.create_sea_sqs[0].aws_sqs_queue.sqs_queues["qatalyst-cyborg-processing-queue"]
 }
 
-#ECR
-moved {
-  from = module.create_sea_mammoth_ecr[0].aws_ecr_repository.qatalyst_repository
-  to   = module.create_ecr.aws_ecr_repository.ecr_repository["qatalyst-mammoth"]
-}
-moved {
-  from = module.create_sea_cyborg_ecr[0].aws_ecr_repository.qatalyst_repository
-  to   = module.create_ecr.aws_ecr_repository.ecr_repository["qatalyst-cyborg"]
-}
-moved {
-  from = module.create_sea_ecr_helios[0].aws_ecr_repository.qatalyst_repository
-  to   = module.create_ecr.aws_ecr_repository.ecr_repository["qatalyst-helios"]
-}
-moved {
-  from = module.create_sea_furyblade_ecr[0].aws_ecr_repository.qatalyst_repository
-  to   = module.create_ecr.aws_ecr_repository.ecr_repository["qatalyst-furyblade"]
-}
-moved {
-  from = module.create_ecr.aws_ecr_repository.qatalyst_repository
-  to   = module.create_ecr.aws_ecr_repository.ecr_repository["qatalyst-backend"]
-}
-moved {
-  from = module.create_base_image_sea_ecr[0].aws_ecr_repository.qatalyst_repository
-  to   = module.create_ecr.aws_ecr_repository.ecr_repository["qatalyst-backend-base-image"]
-}
-
-
-moved {
-  from = module.create_base_image_sea_ecr[0].aws_ecr_lifecycle_policy.qatalyst_repository_lifecycle
-  to   = module.create_ecr.aws_ecr_lifecycle_policy.ecr_lifecycle_policy["qatalyst-backend-base-image"]
-}
-moved {
-  from = module.create_sea_mammoth_ecr[0].aws_ecr_lifecycle_policy.qatalyst_repository_lifecycle
-  to   = module.create_ecr.aws_ecr_lifecycle_policy.ecr_lifecycle_policy["qatalyst-mammoth"]
-}
-moved {
-  from = module.create_ecr.aws_ecr_lifecycle_policy.qatalyst_repository_lifecycle
-  to   = module.create_ecr.aws_ecr_lifecycle_policy.ecr_lifecycle_policy["qatalyst-backend"]
-}
-
-moved {
-  from = module.create_sea_cyborg_ecr[0].aws_ecr_lifecycle_policy.qatalyst_repository_lifecycle
-  to   = module.create_ecr.aws_ecr_lifecycle_policy.ecr_lifecycle_policy["qatalyst-cyborg"]
-}
-
-moved {
-  from = module.create_sea_ecr_helios[0].aws_ecr_lifecycle_policy.qatalyst_repository_lifecycle
-  to   = module.create_ecr.aws_ecr_lifecycle_policy.ecr_lifecycle_policy["qatalyst-helios"]
-}
-moved {
-  from = module.create_sea_furyblade_ecr[0].aws_ecr_lifecycle_policy.qatalyst_repository_lifecycle
-  to   = module.create_ecr.aws_ecr_lifecycle_policy.ecr_lifecycle_policy["qatalyst-furyblade"]
-}
-
 #Opensearch
 
 moved {
@@ -2070,4 +2016,68 @@ moved {
 moved {
   from = module.create_sea_opensearch.random_password.opensearch_master_password
   to   = module.create_sea_opensearch[0].random_password.opensearch_master_password
+}
+
+#ECR
+
+moved {
+  from = module.create_base_image_sea_ecr[0].aws_ecr_repository.qatalyst_repository
+  to   = module.create_ecr[0].aws_ecr_repository.ecr_repository["qatalyst-backend-base-image"]
+
+}
+moved {
+  from = module.create_base_image_sea_ecr[0].aws_ecr_lifecycle_policy.qatalyst_repository_lifecycle
+  to   = module.create_ecr[0].aws_ecr_lifecycle_policy.ecr_lifecycle_policy["qatalyst-backend-base-image"]
+}
+moved {
+  from = module.create_ecr.aws_ecr_lifecycle_policy.qatalyst_repository_lifecycle
+  to   = module.create_ecr[0].aws_ecr_lifecycle_policy.ecr_lifecycle_policy["qatalyst-backend"]
+
+}
+
+moved {
+  from = module.create_ecr.aws_ecr_repository.qatalyst_repository
+  to   = module.create_ecr[0].aws_ecr_repository.ecr_repository["qatalyst-backend"]
+
+}
+moved {
+  from = module.create_sea_cyborg_ecr[0].aws_ecr_lifecycle_policy.qatalyst_repository_lifecycle
+  to   = module.create_ecr[0].aws_ecr_lifecycle_policy.ecr_lifecycle_policy["qatalyst-cyborg"]
+
+}
+
+moved {
+  from = module.create_sea_cyborg_ecr[0].aws_ecr_repository.qatalyst_repository
+  to   = module.create_ecr[0].aws_ecr_repository.ecr_repository["qatalyst-cyborg"]
+
+}
+moved {
+  from = module.create_sea_ecr_helios[0].aws_ecr_lifecycle_policy.qatalyst_repository_lifecycle
+  to   = module.create_ecr[0].aws_ecr_lifecycle_policy.ecr_lifecycle_policy["qatalyst-helios"]
+
+}
+moved {
+  from = module.create_sea_ecr_helios[0].aws_ecr_repository.qatalyst_repository
+  to   = module.create_ecr[0].aws_ecr_repository.ecr_repository["qatalyst-helios"]
+
+}
+moved {
+  from = module.create_sea_furyblade_ecr[0].aws_ecr_lifecycle_policy.qatalyst_repository_lifecycle
+  to   = module.create_ecr[0].aws_ecr_lifecycle_policy.ecr_lifecycle_policy["qatalyst-furyblade"]
+
+}
+moved {
+  from = module.create_sea_furyblade_ecr[0].aws_ecr_repository.qatalyst_repository
+  to   = module.create_ecr[0].aws_ecr_repository.ecr_repository["qatalyst-furyblade"]
+
+}
+moved {
+  from = module.create_sea_mammoth_ecr[0].aws_ecr_lifecycle_policy.qatalyst_repository_lifecycle
+  to   = module.create_ecr[0].aws_ecr_lifecycle_policy.ecr_lifecycle_policy["qatalyst-mammoth"]
+
+}
+moved {
+  from = module.create_sea_mammoth_ecr[0].aws_ecr_repository.qatalyst_repository
+  to   = module.create_ecr[0].aws_ecr_repository.ecr_repository["qatalyst-mammoth"]
+
 }

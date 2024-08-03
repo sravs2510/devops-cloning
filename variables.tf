@@ -210,11 +210,3 @@ variable "repo_details" {
   ))
   description = "ECR Repo Details"
 }
-
-variable "repo_sea_details" {
-  type = map(object({
-    repo_name = string
-    }
-  ))
-  description = "ECR Repo Details"
-}

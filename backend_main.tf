@@ -1125,7 +1125,8 @@ module "create_us_ssm" {
 #ECR 
 module "create_ecr" {
   source       = "git@github.com:EntropikTechnologies/terraform-modules.git//ecr"
-  repo_details = var.repo_sea_details
+  count        = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
+  repo_details = var.repo_details
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
 
