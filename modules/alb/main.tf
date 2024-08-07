@@ -398,7 +398,7 @@ resource "aws_wafv2_web_acl" "alb_web_acl" {
             }
           }
         }
-        custom_keys {
+        custom_key {
           uri_path {
             text_transformation {
               priority = 0
