@@ -121,6 +121,7 @@ resource "aws_cloudfront_distribution" "reports_cf_distribution" {
     cloudfront_default_certificate = false
     acm_certificate_arn            = var.acm_certificate_arn
     ssl_support_method             = "sni-only"
+    minimum_protocol_version       = "TLSv1.2_2021"
   }
 
   tags = merge(tomap({ "Name" : local.cf_domain_name }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
