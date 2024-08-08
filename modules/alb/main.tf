@@ -332,7 +332,7 @@ resource "aws_wafv2_web_acl" "alb_web_acl" {
     }
     statement {
       rate_based_statement {
-        limit                     = 100
+        limit                     = 150
         evaluation_window_sec     = 60
         aggregate_key_type        = "CUSTOM_KEYS"
         scope_down_statement {
