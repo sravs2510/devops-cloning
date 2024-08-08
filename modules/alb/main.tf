@@ -406,6 +406,10 @@ resource "aws_wafv2_web_acl" "alb_web_acl" {
             }
           }
         }
+
+        custom_key {
+            ip {}
+        }
       }
     }
     visibility_config {
