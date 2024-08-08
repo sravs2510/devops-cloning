@@ -309,9 +309,119 @@ resource "aws_wafv2_web_acl" "alb_web_acl" {
     block {}
   }
 
+  custom_response_body {
+    key           = "too-many-requests"
+    content       = jsonencode({message = "Too many requests. Try after sometime"})
+    content_type  = "APPLICATION_JSON"
+  }
+
+  rule {
+    name     = "rate-based-rule-rate-limiter"
+    priority = 1
+    action {
+      block {
+        custom_response {
+          response_code            = 429
+          custom_response_body_key = "too-many-requests"
+          response_header {
+            name  = "Access-Control-Allow-Origin"
+            value = "*"
+          }
+        }
+      }
+    }
+    statement {
+      rate_based_statement {
+        limit                     = 150
+        evaluation_window_sec     = 60
+        aggregate_key_type        = "CUSTOM_KEYS"
+        scope_down_statement {
+          and_statement {
+            statement {
+              not_statement {
+                statement {
+                  byte_match_statement {
+                    field_to_match {
+                      method {}
+                    }
+                    positional_constraint = "EXACTLY"
+                    search_string         = "OPTIONS"
+                    text_transformation {
+                      priority = 0
+                      type     = "NONE"
+                    }
+                  }
+                }
+              }
+            }
+            statement {
+              or_statement {
+                statement {
+                  byte_match_statement {
+                    field_to_match {
+                      uri_path {}
+                    }
+                    positional_constraint = "CONTAINS"
+                    search_string         = "users/inviteUser"
+                    text_transformation {
+                      priority = 0
+                      type     = "NONE"
+                    }
+                  }
+                }
+                statement {
+                  byte_match_statement {
+                    field_to_match {
+                      uri_path {}
+                    }
+                    positional_constraint = "CONTAINS"
+                    search_string         = "/send-email"
+                    text_transformation {
+                      priority = 0
+                      type     = "NONE"
+                    }
+                  }
+                }
+                statement {
+                  regex_match_statement {
+                    field_to_match {
+                      query_string {}
+                    }
+                    regex_string = ".*secret=.*"
+                    text_transformation {
+                      priority = 0
+                      type     = "NONE"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        custom_key {
+          uri_path {
+            text_transformation {
+              priority = 0
+              type     = "NONE"
+            }
+          }
+        }
+
+        custom_key {
+            ip {}
+        }
+      }
+    }
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      metric_name                = "rate-based-rule-rate-limiter"
+      sampled_requests_enabled   = true
+    }
+  }
+
   rule {
     name     = "regular-rule-allow-specific-uri-paths"
-    priority = 1
+    priority = 2
     action {
       allow {}
     }
@@ -384,6 +494,7 @@ resource "aws_wafv2_web_acl" "alb_web_acl" {
     sampled_requests_enabled   = true
   }
 }
+
 
 ########### This is the association code
 resource "aws_wafv2_web_acl_association" "web_acl_association" {
