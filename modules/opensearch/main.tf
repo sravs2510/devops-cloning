@@ -125,7 +125,7 @@ resource "aws_opensearch_domain" "opensearch_domain" {
 
   vpc_options {
     security_group_ids = [aws_security_group.opensearch_sg.id]
-    subnet_ids         = slice(var.private_subnets, 0, (var.opensearch_config.availability_zone_count - 1))
+    subnet_ids         = slice(var.private_subnets, 0, var.opensearch_config.availability_zone_count)
   }
 
   tags = merge(tomap({ "Name" : join("-", [var.service_name, "opensearch", "domain"]) }), tomap({
