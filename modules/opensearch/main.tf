@@ -85,7 +85,7 @@ resource "aws_opensearch_domain" "opensearch_domain" {
     instance_count = var.opensearch_config.instance_count
     instance_type  = var.opensearch_config.instance_type
     zone_awareness_config {
-      availability_zone_count = 3
+      availability_zone_count = var.opensearch_config.availability_zone_count
     }
     zone_awareness_enabled = true
   }
@@ -125,7 +125,7 @@ resource "aws_opensearch_domain" "opensearch_domain" {
 
   vpc_options {
     security_group_ids = [aws_security_group.opensearch_sg.id]
-    subnet_ids         = var.private_subnets
+    subnet_ids         = slice(var.private_subnets, 0, var.opensearch_config.availability_zone_count)
   }
 
   tags = merge(tomap({ "Name" : join("-", [var.service_name, "opensearch", "domain"]) }), tomap({

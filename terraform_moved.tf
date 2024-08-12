@@ -552,6 +552,7 @@ moved {
   from = module.create_us_cyborg_ecr[0].aws_ecr_repository.qatalyst_repository
   to   = module.create_us_ecr[0].aws_ecr_repository.ecr_repository["qatalyst-cyborg"]
 }
+
 #EU
 moved {
   from = module.create_eu_sqs[0].aws_sqs_queue.qatalyst_service_queue_deadletter["qatalyst-user-journey-processing-sqs"]

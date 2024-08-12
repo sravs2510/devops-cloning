@@ -2079,5 +2079,4 @@ moved {
 moved {
   from = module.create_sea_mammoth_ecr[0].aws_ecr_repository.qatalyst_repository
   to   = module.create_ecr[0].aws_ecr_repository.ecr_repository["qatalyst-mammoth"]
-
 }
