@@ -22,8 +22,9 @@ fargate_service_configurations = {
   }
 }
 opensearch_config = {
-  domain_name     = "qatalyst"
-  instance_type   = "t3.medium.search"
-  instance_count  = 3
-  ebs_volume_size = 50
+  domain_name             = "qatalyst"
+  instance_type           = "t3.medium.search"
+  instance_count          = 3
+  availability_zone_count = 3
+  ebs_volume_size         = 50
 }
