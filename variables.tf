@@ -197,12 +197,6 @@ variable "fargate_service_configurations" {
   description = "Fargate Service Configuration"
 }
 
-variable "product_name" {
-  description = "The name of the product (e.g., qatalyst, platform, decode)"
-  type        = string
-  default     = "qatalyst"
-}
-
 variable "repo_details" {
   type = map(object({
     repo_name = string

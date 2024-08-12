@@ -553,33 +553,3 @@ repo_details = {
     repo_name = "qatalyst-backend-base-image"
   }
 }
-
-# repo_sea_details = {
-#   "qatalyst-backend" = {
-#     repo_name = "qatalyst-backend"
-#   }
-
-#   "qatalyst-mammoth" = {
-#     repo_name = "qatalyst-mammoth"
-#   }
-
-#   "qatalyst-backend" = {
-#     repo_name = "qatalyst-backend"
-#   }
-
-#   "qatalyst-cyborg" = {
-#     repo_name = "qatalyst-cyborg"
-#   }
-
-#   "qatalyst-helios" = {
-#     repo_name = "qatalyst-helios"
-#   }
-
-#   "qatalyst-furyblade" = {
-#     repo_name = "qatalyst-furyblade"
-#   }
-
-#   "qatalyst-backend-base-image" = {
-#     repo_name = "qatalyst-backend-base-image"
-#   }
-# }
