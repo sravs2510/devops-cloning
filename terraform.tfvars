@@ -527,3 +527,30 @@ fargate_service_configurations = {
     memory = 2048
   }
 }
+
+#ECR
+repo_details = {
+  "qatalyst-mammoth" = {
+    repo_name = "qatalyst-mammoth"
+  }
+
+  "qatalyst-backend" = {
+    repo_name = "qatalyst-backend"
+  }
+
+  "qatalyst-cyborg" = {
+    repo_name = "qatalyst-cyborg"
+  }
+
+  "qatalyst-helios" = {
+    repo_name = "qatalyst-helios"
+  }
+
+  "qatalyst-furyblade" = {
+    repo_name = "qatalyst-furyblade"
+  }
+
+  "qatalyst-backend-base-image" = {
+    repo_name = "qatalyst-backend-base-image"
+  }
+}

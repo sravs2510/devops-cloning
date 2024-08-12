@@ -197,3 +197,11 @@ variable "fargate_service_configurations" {
   }))
   description = "Fargate Service Configuration"
 }
+
+variable "repo_details" {
+  type = map(object({
+    repo_name = string
+    }
+  ))
+  description = "ECR Repo Details"
+}
