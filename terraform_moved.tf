@@ -513,69 +513,69 @@ moved {
 }
 moved {
   from = module.create_us_sqs[0].aws_sqs_queue.qatalyst_service_queue_deadletter["qatalyst-user-journey-processing-sqs"]
-to = module.create_us_sqs[0].aws_sqs_queue.sqs_queues_deadletter["qatalyst-user-journey-processing-queue"]
+  to   = module.create_us_sqs[0].aws_sqs_queue.sqs_queues_deadletter["qatalyst-user-journey-processing-queue"]
 }
 moved {
-  from =  module.create_us_sqs[0].aws_sqs_queue.qatalyst_service_queue_deadletter["qatalyst-mammoth-processing-sqs"]
-  to =  module.create_us_sqs[0].aws_sqs_queue.sqs_queues_deadletter["qatalyst-mammoth-processing-queue"]
+  from = module.create_us_sqs[0].aws_sqs_queue.qatalyst_service_queue_deadletter["qatalyst-mammoth-processing-sqs"]
+  to   = module.create_us_sqs[0].aws_sqs_queue.sqs_queues_deadletter["qatalyst-mammoth-processing-queue"]
 }
 moved {
   from = module.create_us_sqs[0].aws_sqs_queue.qatalyst_service_queue_deadletter["qatalyst-furyblade-processing-sqs"]
-  to = module.create_us_sqs[0].aws_sqs_queue.sqs_queues_deadletter["qatalyst-furyblade-processing-queue"]
+  to   = module.create_us_sqs[0].aws_sqs_queue.sqs_queues_deadletter["qatalyst-furyblade-processing-queue"]
 }
 moved {
-  from =  module.create_us_sqs[0].aws_sqs_queue.qatalyst_service_queue_deadletter["qatalyst-cyborg-processing-sqs"]
-  to = module.create_us_sqs[0].aws_sqs_queue.sqs_queues_deadletter["qatalyst-cyborg-processing-queue"]
+  from = module.create_us_sqs[0].aws_sqs_queue.qatalyst_service_queue_deadletter["qatalyst-cyborg-processing-sqs"]
+  to   = module.create_us_sqs[0].aws_sqs_queue.sqs_queues_deadletter["qatalyst-cyborg-processing-queue"]
 }
 moved {
   from = module.create_us_sqs[0].aws_sqs_queue.qatalyst_service_queue["qatalyst-user-journey-processing-sqs"]
-  to = module.create_us_sqs[0].aws_sqs_queue.sqs_queues["qatalyst-user-journey-processing-queue"]
+  to   = module.create_us_sqs[0].aws_sqs_queue.sqs_queues["qatalyst-user-journey-processing-queue"]
 }
 moved {
-  from =  module.create_us_sqs[0].aws_sqs_queue.qatalyst_service_queue["qatalyst-mammoth-processing-sqs"]
-  to =  module.create_us_sqs[0].aws_sqs_queue.sqs_queues["qatalyst-mammoth-processing-queue"]
+  from = module.create_us_sqs[0].aws_sqs_queue.qatalyst_service_queue["qatalyst-mammoth-processing-sqs"]
+  to   = module.create_us_sqs[0].aws_sqs_queue.sqs_queues["qatalyst-mammoth-processing-queue"]
 }
 moved {
   from = module.create_us_sqs[0].aws_sqs_queue.qatalyst_service_queue["qatalyst-furyblade-processing-sqs"]
-  to = module.create_us_sqs[0].aws_sqs_queue.sqs_queues["qatalyst-furyblade-processing-queue"]
+  to   = module.create_us_sqs[0].aws_sqs_queue.sqs_queues["qatalyst-furyblade-processing-queue"]
 }
 moved {
   from = module.create_us_sqs[0].aws_sqs_queue.qatalyst_service_queue["qatalyst-cyborg-processing-sqs"]
-  to = module.create_us_sqs[0].aws_sqs_queue.sqs_queues["qatalyst-cyborg-processing-queue"]
+  to   = module.create_us_sqs[0].aws_sqs_queue.sqs_queues["qatalyst-cyborg-processing-queue"]
 }
-  
+
 
 #EU
 moved {
   from = module.create_eu_sqs[0].aws_sqs_queue.qatalyst_service_queue_deadletter["qatalyst-user-journey-processing-sqs"]
-to = module.create_eu_sqs[0].aws_sqs_queue.sqs_queues_deadletter["qatalyst-user-journey-processing-queue"]
+  to   = module.create_eu_sqs[0].aws_sqs_queue.sqs_queues_deadletter["qatalyst-user-journey-processing-queue"]
 }
 moved {
-  from =  module.create_eu_sqs[0].aws_sqs_queue.qatalyst_service_queue_deadletter["qatalyst-mammoth-processing-sqs"]
-  to =  module.create_eu_sqs[0].aws_sqs_queue.sqs_queues_deadletter["qatalyst-mammoth-processing-queue"]
+  from = module.create_eu_sqs[0].aws_sqs_queue.qatalyst_service_queue_deadletter["qatalyst-mammoth-processing-sqs"]
+  to   = module.create_eu_sqs[0].aws_sqs_queue.sqs_queues_deadletter["qatalyst-mammoth-processing-queue"]
 }
 moved {
   from = module.create_eu_sqs[0].aws_sqs_queue.qatalyst_service_queue_deadletter["qatalyst-furyblade-processing-sqs"]
-  to = module.create_eu_sqs[0].aws_sqs_queue.sqs_queues_deadletter["qatalyst-furyblade-processing-queue"]
+  to   = module.create_eu_sqs[0].aws_sqs_queue.sqs_queues_deadletter["qatalyst-furyblade-processing-queue"]
 }
 moved {
-  from =  module.create_eu_sqs[0].aws_sqs_queue.qatalyst_service_queue_deadletter["qatalyst-cyborg-processing-sqs"]
-  to = module.create_eu_sqs[0].aws_sqs_queue.sqs_queues_deadletter["qatalyst-cyborg-processing-queue"]
+  from = module.create_eu_sqs[0].aws_sqs_queue.qatalyst_service_queue_deadletter["qatalyst-cyborg-processing-sqs"]
+  to   = module.create_eu_sqs[0].aws_sqs_queue.sqs_queues_deadletter["qatalyst-cyborg-processing-queue"]
 }
 moved {
   from = module.create_eu_sqs[0].aws_sqs_queue.qatalyst_service_queue["qatalyst-user-journey-processing-sqs"]
-  to = module.create_eu_sqs[0].aws_sqs_queue.sqs_queues["qatalyst-user-journey-processing-queue"]
+  to   = module.create_eu_sqs[0].aws_sqs_queue.sqs_queues["qatalyst-user-journey-processing-queue"]
 }
 moved {
-  from =  module.create_eu_sqs[0].aws_sqs_queue.qatalyst_service_queue["qatalyst-mammoth-processing-sqs"]
-  to =  module.create_eu_sqs[0].aws_sqs_queue.sqs_queues["qatalyst-mammoth-processing-queue"]
+  from = module.create_eu_sqs[0].aws_sqs_queue.qatalyst_service_queue["qatalyst-mammoth-processing-sqs"]
+  to   = module.create_eu_sqs[0].aws_sqs_queue.sqs_queues["qatalyst-mammoth-processing-queue"]
 }
 moved {
   from = module.create_eu_sqs[0].aws_sqs_queue.qatalyst_service_queue["qatalyst-furyblade-processing-sqs"]
-  to = module.create_eu_sqs[0].aws_sqs_queue.sqs_queues["qatalyst-furyblade-processing-queue"]
+  to   = module.create_eu_sqs[0].aws_sqs_queue.sqs_queues["qatalyst-furyblade-processing-queue"]
 }
 moved {
   from = module.create_eu_sqs[0].aws_sqs_queue.qatalyst_service_queue["qatalyst-cyborg-processing-sqs"]
-  to = module.create_eu_sqs[0].aws_sqs_queue.sqs_queues["qatalyst-cyborg-processing-queue"]
+  to   = module.create_eu_sqs[0].aws_sqs_queue.sqs_queues["qatalyst-cyborg-processing-queue"]
 }
   

@@ -504,7 +504,7 @@ batch_configurations = {
 opensearch_config = {
   domain_name     = "qatalyst"
   instance_type   = "t3.medium.search"
-  instance_count  = 3
+  instance_count  = 2
   ebs_volume_size = 10
 }
 
