@@ -50,7 +50,7 @@ resource "aws_lb" "qatalyst_alb" {
   provider                   = aws.alb_region
   name                       = "qatalyst-alb"
   internal                   = false
-  idle_timeout               = "60"
+  idle_timeout               = "120"
   load_balancer_type         = "application"
   security_groups            = [aws_security_group.qatalyst_alb_sg.id]
   subnets                    = var.alb_subnets
