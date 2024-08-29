@@ -244,16 +244,15 @@ module "create_eu_qatalyst_media_bucket" {
 }
 
 module "create_eu_opensearch" {
-  source            = "./modules/opensearch"
-  count             = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
-  DEFAULT_TAGS      = var.DEFAULT_TAGS
-  STAGE             = var.STAGE
-  datacenter_codes  = var.datacenter_codes
-  service_name      = join("-", ["qatalyst", var.service_names["dashboard"]])
-  opensearch_config = var.opensearch_config
-  vpc_id            = try(module.create_eu_vpc[0].vpc_id, "")
-  private_subnets   = try(module.create_eu_vpc[0].private_subnets, [])
-
+  source           = "git@github.com:EntropikTechnologies/terraform-modules.git//opensearch"
+  count            = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
+  DEFAULT_TAGS     = var.DEFAULT_TAGS
+  STAGE            = var.STAGE
+  datacenter_codes = var.datacenter_codes
+  opensearch_config = merge(var.opensearch_config, {
+    vpc_id          = try(module.create_eu_vpc[0].vpc_id, ""),
+    private_subnets = try(module.create_eu_vpc[0].private_subnets, [])
+  })
   providers = {
     aws.opensearch_region = aws.eu_region
     random.random         = random.random
@@ -508,16 +507,15 @@ module "create_in_qatalyst_media_bucket" {
 }
 
 module "create_in_opensearch" {
-  source            = "./modules/opensearch"
-  count             = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
-  DEFAULT_TAGS      = var.DEFAULT_TAGS
-  STAGE             = var.STAGE
-  datacenter_codes  = var.datacenter_codes
-  service_name      = join("-", ["qatalyst", var.service_names["dashboard"]])
-  opensearch_config = var.opensearch_config
-  vpc_id            = module.create_in_vpc[0].vpc_id
-  private_subnets   = module.create_in_vpc[0].private_subnets
-
+  source           = "git@github.com:EntropikTechnologies/terraform-modules.git//opensearch"
+  count            = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
+  DEFAULT_TAGS     = var.DEFAULT_TAGS
+  STAGE            = var.STAGE
+  datacenter_codes = var.datacenter_codes
+  opensearch_config = merge(var.opensearch_config, {
+    vpc_id          = try(module.create_in_vpc[0].vpc_id, ""),
+    private_subnets = try(module.create_in_vpc[0].private_subnets, [])
+  })
   providers = {
     aws.opensearch_region = aws.in_region
     random.random         = random.random
@@ -759,16 +757,15 @@ module "create_sea_qatalyst_media_bucket" {
 }
 
 module "create_sea_opensearch" {
-  source            = "./modules/opensearch"
-  count             = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
-  DEFAULT_TAGS      = var.DEFAULT_TAGS
-  STAGE             = var.STAGE
-  datacenter_codes  = var.datacenter_codes
-  service_name      = join("-", ["qatalyst", var.service_names["dashboard"]])
-  opensearch_config = var.opensearch_config
-  vpc_id            = module.create_sea_vpc[0].vpc_id
-  private_subnets   = module.create_sea_vpc[0].private_subnets
-
+  source           = "git@github.com:EntropikTechnologies/terraform-modules.git//opensearch"
+  count            = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
+  DEFAULT_TAGS     = var.DEFAULT_TAGS
+  STAGE            = var.STAGE
+  datacenter_codes = var.datacenter_codes
+  opensearch_config = merge(var.opensearch_config, {
+    vpc_id          = try(module.create_sea_vpc[0].vpc_id, ""),
+    private_subnets = try(module.create_sea_vpc[0].private_subnets, [])
+  })
   providers = {
     aws.opensearch_region = aws.sea_region
     random.random         = random.random
@@ -1199,16 +1196,15 @@ module "create_us_sqs" {
 }
 
 module "create_us_opensearch" {
-  source            = "./modules/opensearch"
-  count             = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
-  DEFAULT_TAGS      = var.DEFAULT_TAGS
-  STAGE             = var.STAGE
-  datacenter_codes  = var.datacenter_codes
-  service_name      = join("-", ["qatalyst", var.service_names["dashboard"]])
-  opensearch_config = var.opensearch_config
-  vpc_id            = try(module.create_us_vpc[0].vpc_id, "")
-  private_subnets   = try(module.create_us_vpc[0].private_subnets, [])
-
+  source           = "git@github.com:EntropikTechnologies/terraform-modules.git//opensearch"
+  count            = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
+  DEFAULT_TAGS     = var.DEFAULT_TAGS
+  STAGE            = var.STAGE
+  datacenter_codes = var.datacenter_codes
+  opensearch_config = merge(var.opensearch_config, {
+    vpc_id          = try(module.create_us_vpc[0].vpc_id, ""),
+    private_subnets = try(module.create_us_vpc[0].private_subnets, [])
+  })
   providers = {
     aws.opensearch_region = aws.us_region
     random.random         = random.random
