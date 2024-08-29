@@ -382,6 +382,10 @@ table_details = {
   "qatalyst-teams" : {
     hash_key  = "workspace_id"
     range_key = "team_id"
+  },
+  "qatalyst-website-journeys-info" : {
+    hash_key  = "study_id"
+    range_key = "block_id"
   }
 }
 
