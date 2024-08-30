@@ -175,7 +175,14 @@ variable "batch_configurations" {
 }
 
 variable "opensearch_config" {
-  type        = map(any)
+  type = object({
+    domain_name             = string
+    instance_type           = string
+    instance_count          = number
+    availability_zone_count = number
+    ebs_volume_size         = number
+    engine_version          = string
+  })
   description = "Opensearch domain configurations"
 }
 
