@@ -27,4 +27,5 @@ opensearch_config = {
   instance_count          = 3
   availability_zone_count = 3
   ebs_volume_size         = 50
+  engine_version          = "OpenSearch_2.11"
 }
