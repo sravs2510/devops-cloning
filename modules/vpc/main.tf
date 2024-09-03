@@ -111,7 +111,7 @@ resource "aws_route_table" "private_route_table" {
   }
   # Qatalyst TGW Route for VPN Connection in Prod
   dynamic "route" {
-    for_each = var.STAGE == "prod" ? [1] : []
+    for_each = var.STAGE == "prod" ? [] : []
     content {
       cidr_block         = "192.168.0.0/16"
       transit_gateway_id = data.aws_ec2_transit_gateway.ec2_transit_gateway[0].id
