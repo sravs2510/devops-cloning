@@ -251,7 +251,7 @@ module "create_eu_opensearch" {
   datacenter_codes = var.datacenter_codes
   opensearch_config = merge(var.opensearch_config, {
     vpc_id          = try(module.create_eu_vpc[0].vpc_id, ""),
-    private_subnets = try(module.create_eu_vpc[0].private_subnets, [])
+    private_subnets = slice(try(module.create_eu_vpc[0].private_subnets, []), 0, var.opensearch_config.availability_zone_count)
   })
   providers = {
     aws.opensearch_region = aws.eu_region
@@ -514,7 +514,7 @@ module "create_in_opensearch" {
   datacenter_codes = var.datacenter_codes
   opensearch_config = merge(var.opensearch_config, {
     vpc_id          = try(module.create_in_vpc[0].vpc_id, ""),
-    private_subnets = try(module.create_in_vpc[0].private_subnets, [])
+    private_subnets = slice(try(module.create_in_vpc[0].private_subnets, []), 0, var.opensearch_config.availability_zone_count)
   })
   providers = {
     aws.opensearch_region = aws.in_region
@@ -764,7 +764,7 @@ module "create_sea_opensearch" {
   datacenter_codes = var.datacenter_codes
   opensearch_config = merge(var.opensearch_config, {
     vpc_id          = try(module.create_sea_vpc[0].vpc_id, ""),
-    private_subnets = try(module.create_sea_vpc[0].private_subnets, [])
+    private_subnets = slice(try(module.create_sea_vpc[0].private_subnets, []), 0, var.opensearch_config.availability_zone_count)
   })
   providers = {
     aws.opensearch_region = aws.sea_region
@@ -1203,7 +1203,7 @@ module "create_us_opensearch" {
   datacenter_codes = var.datacenter_codes
   opensearch_config = merge(var.opensearch_config, {
     vpc_id          = try(module.create_us_vpc[0].vpc_id, ""),
-    private_subnets = try(module.create_us_vpc[0].private_subnets, [])
+    private_subnets = slice(try(module.create_us_vpc[0].private_subnets, []), 0, var.opensearch_config.availability_zone_count)
   })
   providers = {
     aws.opensearch_region = aws.us_region
