@@ -13,8 +13,3 @@ variable "service" {
   description = "Name of the Service to create event bridge scheduler group"
 }
 
-variable "schedule_group" {
-  type        = any
-  description = "Name of the adhoc scheduler group"
-  default     = ""
-}

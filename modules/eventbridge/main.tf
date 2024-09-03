@@ -8,15 +8,11 @@ terraform {
 }
 
 locals {
-  schedule_groups = {
-    group_name = join("-", ["qatalyst", var.service])
-    schedule_group_name = join("-", ["qatalyst", var.schedule_group])
-  }
+  group_name = join("-", ["qatalyst", var.service])
 }
 
 resource "aws_scheduler_schedule_group" "qatalyst_schedule_group" {
-  for_each = local.schedule_groups
   provider = aws.eventbridge_region
-  name     = local.value
+  name     = local.group_name
   tags     = merge(tomap({ "Name" : local.group_name }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
