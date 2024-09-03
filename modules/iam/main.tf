@@ -151,6 +151,21 @@ resource "aws_iam_policy" "qatalyst_ecs_task_iam_policy" {
           "arn:aws:batch:*:${local.account_id}:job-queue/qatalyst*",
           "arn:aws:batch:*:${local.account_id}:compute-environment/qatalyst*"
         ]
+      },
+      {
+        Action = [
+          "scheduler:CreateSchedule",
+          "scheduler:DeleteSchedule",
+          "scheduler:TagResource",
+          "scheduler:UntagResource",
+          "scheduler:ListTagsForResource",
+          "scheduler:GetSchedule",
+          "scheduler:GetScheduleGroup",
+          "scheduler:ListSchedules",
+          "scheduler:ListScheduleGroups"
+        ],
+        Effect   = "Allow",
+        Resource = local.qatalyst_eventbridge_scheduler_arn
       }
     ]
   })
