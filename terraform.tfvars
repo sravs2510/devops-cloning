@@ -382,6 +382,10 @@ table_details = {
   "qatalyst-teams" : {
     hash_key  = "workspace_id"
     range_key = "team_id"
+  },
+  "qatalyst-website-journeys-info" : {
+    hash_key  = "study_id"
+    range_key = "block_id"
   }
 }
 
@@ -502,11 +506,12 @@ batch_configurations = {
 }
 
 opensearch_config = {
-  domain_name             = "qatalyst"
+  domain_name             = "qatalyst-dashboard"
   instance_type           = "t3.medium.search"
   instance_count          = 2
   availability_zone_count = 2
   ebs_volume_size         = 10
+  engine_version          = "OpenSearch_2.11"
 }
 
 fargate_service_configurations = {
@@ -555,6 +560,7 @@ repo_details = {
   }
 }
 
+# Event bridge schedule group names
 schedule_group_names = {
   precomputation = "precomputation"
 }
