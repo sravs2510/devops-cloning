@@ -194,7 +194,6 @@ module "create_in_precomputation_eventbridge_group" {
   }
 }
 
-
 module "create_sea_precomputation_eventbridge_group" {
   source       = "./modules/eventbridge"
   count        = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
