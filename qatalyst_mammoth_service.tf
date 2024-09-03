@@ -180,3 +180,15 @@ module "create_us_ecs_mammoth_service" {
     aws.ecs_region = aws.us_region
   }
 }
+
+module "create_in_precomputation_eventbridge_group" {
+  source              = "./modules/eventbridge"
+  count               = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
+  STAGE               = var.STAGE
+  DEFAULT_TAGS        = var.DEFAULT_TAGS
+  schedule_group      = var.schedule_group_names["precomputation"]
+
+  providers = {
+    aws.eventbridge_region = aws.in_region
+  }
+}

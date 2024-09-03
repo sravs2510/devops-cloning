@@ -16,3 +16,13 @@ resource "aws_scheduler_schedule_group" "qatalyst_schedule_group" {
   name     = local.group_name
   tags     = merge(tomap({ "Name" : local.group_name }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
+
+locals {
+  group_name = join("-", ["qatalyst", var.schedule_group])
+}
+
+resource "aws_scheduler_schedule_group" "qatalyst_schedule_group" {
+  provider = aws.eventbridge_region
+  name     = local.group_name
+  tags     = merge(tomap({ "Name" : local.group_name }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
+}
