@@ -166,6 +166,11 @@ resource "aws_iam_policy" "qatalyst_ecs_task_iam_policy" {
         ],
         Effect   = "Allow",
         Resource = local.qatalyst_eventbridge_scheduler_arn
+      },
+      {
+        Action   = ["iam:PassRole"]
+        Effect   = "Allow"
+        Resource = local.qatalyst_iam_passrole_arn
       }
     ]
   })
