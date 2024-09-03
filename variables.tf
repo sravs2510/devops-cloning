@@ -212,3 +212,8 @@ variable "repo_details" {
   ))
   description = "ECR Repo Details"
 }
+
+variable "schedule_group_names" {
+  type        = map(string)
+  description = "Map of event bridge schedule group names"
+}

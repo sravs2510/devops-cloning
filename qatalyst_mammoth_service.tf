@@ -180,3 +180,52 @@ module "create_us_ecs_mammoth_service" {
     aws.ecs_region = aws.us_region
   }
 }
+
+#Event bridge schedule groups
+module "create_in_precomputation_eventbridge_group" {
+  source          = "./modules/eventbridge"
+  count           = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
+  STAGE           = var.STAGE
+  DEFAULT_TAGS    = var.DEFAULT_TAGS
+  service         = var.schedule_group_names["precomputation"]
+
+  providers = {
+    aws.eventbridge_region = aws.in_region
+  }
+}
+
+module "create_sea_precomputation_eventbridge_group" {
+  source       = "./modules/eventbridge"
+  count        = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
+  STAGE        = var.STAGE
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  service      = var.schedule_group_names["precomputation"]
+
+  providers = {
+    aws.eventbridge_region = aws.sea_region
+  }
+}
+
+module "create_us_precomputation_eventbridge_group" {
+  source       = "./modules/eventbridge"
+  count        = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
+  STAGE        = var.STAGE
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  service      = var.schedule_group_names["precomputation"]
+
+  providers = {
+    aws.eventbridge_region = aws.us_region
+  }
+}
+
+module "create_eu_precomputation_eventbridge_group" {
+  source       = "./modules/eventbridge"
+  count        = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
+  STAGE        = var.STAGE
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  service      = var.schedule_group_names["precomputation"]
+
+  providers = {
+    aws.eventbridge_region = aws.eu_region
+  }
+}

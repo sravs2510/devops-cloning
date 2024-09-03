@@ -559,3 +559,8 @@ repo_details = {
     repo_name = "qatalyst-backend-base-image"
   }
 }
+
+# Event bridge schedule group names
+schedule_group_names = {
+  precomputation = "precomputation"
+}
