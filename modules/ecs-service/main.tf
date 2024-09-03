@@ -224,7 +224,7 @@ resource "aws_ecs_service" "qatalyst_ecs_service" {
 resource "aws_appautoscaling_target" "qatalyst_ecs_ast" {
   provider           = aws.ecs_region
   min_capacity       = 1
-  max_capacity       = contains(["dev", "qa", "playground"], var.STAGE) ? 1 : local.is_sqs_service ? 25 : 5
+  max_capacity       = 5 #set max value to 5 for all services
   resource_id        = join("/", ["service", var.ecs_cluster_name, aws_ecs_service.qatalyst_ecs_service.name])
   scalable_dimension = "ecs:service:DesiredCount"
   service_namespace  = "ecs"
@@ -232,7 +232,7 @@ resource "aws_appautoscaling_target" "qatalyst_ecs_ast" {
 
 resource "aws_appautoscaling_policy" "qatalyst_ecs_asp_sqs_sum" {
   provider           = aws.ecs_region
-  count              = local.is_sqs_service ? 1 : 0
+  count              = (contains(["staging", "prod"], var.STAGE) && local.is_sqs_service) ? 1 : 0
   name               = "qatalyst-ecs-asp-sqs-sum-${var.service}"
   policy_type        = "TargetTrackingScaling"
   resource_id        = aws_appautoscaling_target.qatalyst_ecs_ast.resource_id
@@ -267,6 +267,7 @@ resource "aws_appautoscaling_policy" "qatalyst_ecs_asp_sqs_sum" {
 # Define the Auto Scaling policy for the ECS service
 resource "aws_appautoscaling_policy" "qatalyst_ecs_asp_cpu_average" {
   provider           = aws.ecs_region
+  count              = contains(["staging", "prod"], var.STAGE) ? 1 : 0
   name               = "qatalyst-ecs-asp-cpu"
   policy_type        = "TargetTrackingScaling"
   resource_id        = aws_appautoscaling_target.qatalyst_ecs_ast.resource_id
@@ -285,6 +286,7 @@ resource "aws_appautoscaling_policy" "qatalyst_ecs_asp_cpu_average" {
 
 resource "aws_appautoscaling_policy" "qatalyst_ecs_asp_memory_average" {
   provider           = aws.ecs_region
+  count              = contains(["staging", "prod"], var.STAGE) ? 1 : 0
   name               = "qatalyst-ecs-asp-memory"
   policy_type        = "TargetTrackingScaling"
   resource_id        = aws_appautoscaling_target.qatalyst_ecs_ast.resource_id
