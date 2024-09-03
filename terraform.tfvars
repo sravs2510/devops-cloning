@@ -554,3 +554,7 @@ repo_details = {
     repo_name = "qatalyst-backend-base-image"
   }
 }
+
+schedule_group_names = {
+  precomputation = "precomputation"
+}
