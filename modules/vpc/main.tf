@@ -93,14 +93,15 @@ resource "aws_nat_gateway" "nat_gateway" {
   tags          = merge(tomap({ "Name" : "qatalyst-nat-gw" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
   depends_on    = [aws_internet_gateway.vpc_gateway, aws_eip.eip_nat_gateway]
 }
-data "aws_ec2_transit_gateway" "ec2_transit_gateway" {
-  provider = aws.vpc_region
-  count    = var.STAGE == "prod" ? 1 : 0
-  filter {
-    name   = "tag:Name"
-    values = ["entropik-transit-gateway"]
-  }
-}
+
+# data "aws_ec2_transit_gateway" "ec2_transit_gateway" {
+#   provider = aws.vpc_region
+#   count    = var.STAGE == "prod" ? 1 : 0
+#   filter {
+#     name   = "tag:Name"
+#     values = ["entropik-transit-gateway"]
+#   }
+# }
 
 resource "aws_route_table" "private_route_table" {
   vpc_id   = aws_vpc.main.id
@@ -110,13 +111,13 @@ resource "aws_route_table" "private_route_table" {
     nat_gateway_id = aws_nat_gateway.nat_gateway.id
   }
   # Qatalyst TGW Route for VPN Connection in Prod
-  dynamic "route" {
-    for_each = var.STAGE == "prod" ? [] : []
-    content {
-      cidr_block         = "192.168.0.0/16"
-      transit_gateway_id = data.aws_ec2_transit_gateway.ec2_transit_gateway[0].id
-    }
-  }
+  # dynamic "route" {
+  #   for_each = var.STAGE == "prod" ? [1] : []
+  #   content {
+  #     cidr_block         = "192.168.0.0/16"
+  #     transit_gateway_id = data.aws_ec2_transit_gateway.ec2_transit_gateway[0].id
+  #   }
+  # }
   tags = merge(tomap({ "Name" : "qatalyst-private-rt" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
