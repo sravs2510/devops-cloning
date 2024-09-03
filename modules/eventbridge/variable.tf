@@ -12,4 +12,3 @@ variable "service" {
   type        = any
   description = "Name of the Service to create event bridge scheduler group"
 }
-
