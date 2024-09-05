@@ -386,6 +386,14 @@ table_details = {
   "qatalyst-website-journeys-info" : {
     hash_key  = "study_id"
     range_key = "block_id"
+  },
+  "qatalyst-ddb-lock-table" : {
+    hash_key  = "lock_key"
+    range_key = "sort_key"
+    ttl = {
+      enabled        = true
+      attribute_name = "expiry_time"
+    }
   }
 }
 
