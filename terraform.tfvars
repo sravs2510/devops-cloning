@@ -572,3 +572,19 @@ repo_details = {
 schedule_group_names = {
   precomputation = "precomputation"
 }
+
+cognito_google_id_secret = {
+    client_id        = "#QATALYST_GOOGLE_CLIENT_ID"
+    client_secret    = "#QATALYST_GOOGLE_CLIENT_SECRET"
+}
+cognito_amazon_id_secret = {
+    client_id        = "#QATALYST_AMAZON_CLIENT_ID"
+    client_secret    = "#QATALYST_AMAZON_CLIENT_SECRET"
+}
+cognito_auth0_id_secret = {
+    client_id        = "#QATALYST_AUTH0_CLIENT_ID"
+    client_secret    = "#QATALYST_AUTH0_CLIENT_SECRET"
+}
+
+ oidc_issuer               = "https://getqatalyst.us.auth0.com"
+
