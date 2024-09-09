@@ -218,24 +218,29 @@ variable "schedule_group_names" {
   description = "Map of event bridge schedule group names"
 }
 
-variable "cognito_google_id_secret" {
-type = map(string)
-description = "cognito ID and Secret for Google"
+variable "google_config" {
+  type = object({
+    client_id     = string
+    client_secret = string
+  })
+  description = "Cognito google configurations"
 }
 
-variable "cognito_amazon_id_secret" {
-type = map(string)
-description = "cognito ID and Secret for Amazon"
+variable "amazon_config" {
+  type = object({
+    client_id     = string
+    client_secret = string
+  })
+  description = "Cognito amazon configurations"
 }
 
-variable "cognito_auth0_id_secret" {
-type = map(string)
-description = "cognito ID and Secret for Auth"
-}
-
-variable "oidc_issuer" {
-  type        = string
-  description = "oidc issuer for auth0 "
+variable "auth0_config" {
+  type = object({
+    client_id     = string
+    client_secret = string
+    oidc_issuer   = string
+  })
+  description = "Cognito auth0 configurations"
 }
 
 variable "product_name" {
