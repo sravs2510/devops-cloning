@@ -46,13 +46,17 @@ module "create_cognito_custom_domain_acm" {
 
 #Cognito
 module "create_cognito_user_pool" {
-  source                        = "./modules/cognito"
+  source                        = "git@github.com:EntropikTechnologies/terraform-modules.git//cognito"
   user_pool_name                = var.user_pool_name
   user_pool_web_client_name     = var.user_pool_web_client_name
   cognito_custom_domain         = local.cognito_custom_domain
   cognito_custom_domain_acm_arn = module.create_cognito_custom_domain_acm.acm_arn
   cognito_callback_url          = join("", ["https://", local.dasboard_domain, "/callback?"])
   base_domain                   = var.base_domain
+  product_name                  = var.product_name
+  amazon_config                 = var.amazon_config
+  google_config                 = var.google_config
+  auth0_config                  = var.auth0_config
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
 

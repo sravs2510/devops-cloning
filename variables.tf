@@ -217,3 +217,34 @@ variable "schedule_group_names" {
   type        = map(string)
   description = "Map of event bridge schedule group names"
 }
+
+variable "google_config" {
+  type = object({
+    client_id     = string
+    client_secret = string
+  })
+  description = "Cognito google configurations"
+}
+
+variable "amazon_config" {
+  type = object({
+    client_id     = string
+    client_secret = string
+  })
+  description = "Cognito amazon configurations"
+}
+
+variable "auth0_config" {
+  type = object({
+    client_id     = string
+    client_secret = string
+    oidc_issuer   = string
+  })
+  description = "Cognito auth0 configurations"
+}
+
+variable "product_name" {
+  description = "The name of the product (e.g., qatalyst, platform, decode)"
+  type        = string
+  default     = "qatalyst"
+}

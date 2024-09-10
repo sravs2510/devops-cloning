@@ -572,3 +572,17 @@ repo_details = {
 schedule_group_names = {
   precomputation = "precomputation"
 }
+
+google_config = {
+  client_id     = "#QATALYST_GOOGLE_CLIENT_ID"
+  client_secret = "#QATALYST_GOOGLE_CLIENT_SECRET"
+}
+amazon_config = {
+  client_id     = "#QATALYST_AMAZON_CLIENT_ID"
+  client_secret = "#QATALYST_AMAZON_CLIENT_SECRET"
+}
+auth0_config = {
+  client_id     = "#QATALYST_AUTH0_CLIENT_ID"
+  client_secret = "#QATALYST_AUTH0_CLIENT_SECRET"
+  oidc_issuer   = "https://getqatalyst.us.auth0.com"
+}
