@@ -7,16 +7,20 @@ fargate_service_configurations = {
   "default" = {
     cpu    = 2048
     memory = 4096
-  },
+  }
   "copilot" = {
     cpu    = 1024
     memory = 3072
-  },
+  }
   "reports" = {
     cpu    = 1024
     memory = 3072
-  },
+  }
   "mammoth" = {
+    cpu    = 2048
+    memory = 4096
+  }
+  "dashboard" = {
     cpu    = 2048
     memory = 4096
   }
