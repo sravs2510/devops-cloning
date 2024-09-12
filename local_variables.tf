@@ -207,7 +207,7 @@ locals {
   qatalyst_furyblade_ecs_task_environment_secrets = [
     {
       name      = "GOOGLE_AUTHENTICATION_DATA"
-      valueFrom = "GOOGLE_AUTHENTICATION_DATA"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "google-credentials"])
     },
     {
       name      = "OPENAI_API_KEY"
