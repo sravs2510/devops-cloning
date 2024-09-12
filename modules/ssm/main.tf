@@ -69,6 +69,7 @@ resource "aws_ssm_parameter" "qatalyst_ssm_secure_values" {
     join("-", ["qatalyst", "lucid", "sha1", "key"])             = "#LUCID_SHA1_KEY"
     join("-", ["qatalyst", var.STAGE, "g2-api-token"])          = "#QATALYST_G2_API_TOKEN"
     join("-", ["qatalyst", var.STAGE, "g2-product-id"])         = "#QATALYST_G2_PRODUCT_ID"
+    join("-", ["qatalyst", var.STAGE, "google-credentials"])    = "#GOOGLE_AUTHENTICATION_DATA"
   }
   name  = each.key
   type  = "SecureString"
