@@ -355,45 +355,16 @@ resource "aws_wafv2_web_acl" "alb_web_acl" {
               }
             }
             statement {
-              or_statement {
-                statement {
-                  byte_match_statement {
-                    field_to_match {
-                      uri_path {}
-                    }
-                    positional_constraint = "CONTAINS"
-                    search_string         = "users/inviteUser"
-                    text_transformation {
-                      priority = 0
-                      type     = "NONE"
-                    }
-                  }
+              byte_match_statement {
+                search_string = "/v1/"
+                field_to_match {
+                  uri_path {}
                 }
-                statement {
-                  byte_match_statement {
-                    field_to_match {
-                      uri_path {}
-                    }
-                    positional_constraint = "CONTAINS"
-                    search_string         = "/send-email"
-                    text_transformation {
-                      priority = 0
-                      type     = "NONE"
-                    }
-                  }
+                text_transformation {
+                  priority = 0
+                  type     = "NONE"
                 }
-                statement {
-                  regex_match_statement {
-                    field_to_match {
-                      query_string {}
-                    }
-                    regex_string = ".*secret=.*"
-                    text_transformation {
-                      priority = 0
-                      type     = "NONE"
-                    }
-                  }
-                }
+                positional_constraint = "STARTS_WITH"
               }
             }
           }
@@ -409,6 +380,16 @@ resource "aws_wafv2_web_acl" "alb_web_acl" {
 
         custom_key {
             ip {}
+        }
+
+        custom_key {
+          header {
+            name = "User-Agent"
+            text_transformation {
+              priority = 0
+              type     = "NONE"
+            }
+          }
         }
       }
     }
