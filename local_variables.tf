@@ -244,7 +244,7 @@ locals {
   qatalyst_datadog_environment_variables = [
     {
       name  = "DD_APM_ENABLED",
-      value = "true"
+      value = "false"
     },
     {
       name  = "ECS_FARGATE",
@@ -268,7 +268,7 @@ locals {
     },
     {
       name  = "DD_CONTAINER_EXCLUDE"
-      value = "name:^datadog*  name:^aws-fargate-supervisor$"
+      value = "name:^datadog* name:^log-router* name:^aws-fargate-supervisor$"
     }
 
   ]
