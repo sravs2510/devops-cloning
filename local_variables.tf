@@ -248,7 +248,7 @@ locals {
     },
     {
       name  = "ECS_FARGATE",
-      value = "true"
+      value = "false"
     },
     {
       name  = "DD_LOGS_INJECTION",
