@@ -108,11 +108,6 @@ variable "uvicorn_workers_count" {
   description = "Uvicorn Workers Count in Container"
 }
 
-variable "datadog_docker_image" {
-  type        = string
-  description = "Datadog Docker Image"
-}
-
 variable "mediaconvert_queues" {
   type        = map(any)
   description = "Mediaconvert Queues"

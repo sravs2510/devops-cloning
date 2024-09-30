@@ -399,9 +399,6 @@ table_details = {
 
 uvicorn_workers_count = 4
 
-# Datadog
-datadog_docker_image = "public.ecr.aws/datadog/agent:latest"
-
 mediaconvert_queues = {
   "qatalyst" : {
     name         = "qatalyst"

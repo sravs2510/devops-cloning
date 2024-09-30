@@ -14,14 +14,12 @@ module "create_in_ecs_reports_service" {
   fargate_cpu_memory            = var.fargate_service_configurations["reports"]
   service_environment_variables = local.qatalyst_ecs_task_environment_variables
   service_environment_secrets   = local.qatalyst_ecs_task_environment_secrets
-  dd_environment_variables      = local.qatalyst_datadog_environment_variables
-  dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
-  datadog_docker_image          = var.datadog_docker_image
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
   repo_name                     = var.service_names["backend"]
   service                       = var.service_names["reports"]
+  logs_retention_in_days        = var.cw_logs_retention_in_days
 
   providers = {
     aws.ecs_region = aws.in_region
@@ -42,14 +40,12 @@ module "create_eu_ecs_reports_service" {
   fargate_cpu_memory            = var.fargate_service_configurations["reports"]
   service_environment_variables = local.qatalyst_ecs_task_environment_variables
   service_environment_secrets   = local.qatalyst_ecs_task_environment_secrets
-  dd_environment_variables      = local.qatalyst_datadog_environment_variables
-  dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
-  datadog_docker_image          = var.datadog_docker_image
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
   repo_name                     = var.service_names["backend"]
   service                       = var.service_names["reports"]
+  logs_retention_in_days        = var.cw_logs_retention_in_days
 
   providers = {
     aws.ecs_region = aws.eu_region
@@ -70,14 +66,12 @@ module "create_sea_ecs_reports_service" {
   fargate_cpu_memory            = var.fargate_service_configurations["reports"]
   service_environment_variables = local.qatalyst_ecs_task_environment_variables
   service_environment_secrets   = local.qatalyst_ecs_task_environment_secrets
-  dd_environment_variables      = local.qatalyst_datadog_environment_variables
-  dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
-  datadog_docker_image          = var.datadog_docker_image
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
   repo_name                     = var.service_names["backend"]
   service                       = var.service_names["reports"]
+  logs_retention_in_days        = var.cw_logs_retention_in_days
 
   providers = {
     aws.ecs_region = aws.sea_region
@@ -98,14 +92,12 @@ module "create_us_ecs_reports_service" {
   fargate_cpu_memory            = var.fargate_service_configurations["reports"]
   service_environment_variables = local.qatalyst_ecs_task_environment_variables
   service_environment_secrets   = local.qatalyst_ecs_task_environment_secrets
-  dd_environment_variables      = local.qatalyst_datadog_environment_variables
-  dd_environment_secrets        = local.qatalyst_datadog_environment_secrets
-  datadog_docker_image          = var.datadog_docker_image
   datacenter_codes              = var.datacenter_codes
   DEFAULT_TAGS                  = var.DEFAULT_TAGS
   STAGE                         = var.STAGE
   repo_name                     = var.service_names["backend"]
   service                       = var.service_names["reports"]
+  logs_retention_in_days        = var.cw_logs_retention_in_days
 
   providers = {
     aws.ecs_region = aws.us_region
