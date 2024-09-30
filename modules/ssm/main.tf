@@ -48,7 +48,6 @@ resource "aws_ssm_parameter" "qatalyst_ssm_secure_values" {
     join("-", ["qatalyst", var.STAGE, "bitly-bearer-token"])    = "#BITLY_BEARER_TOKEN"
     join("-", ["qatalyst", var.STAGE, "sendgrid-key"])          = "#SENDGRID_KEY"
     join("-", ["qatalyst", var.STAGE, "figma-access-token"])    = "#FIGMA_ACCESS_TOKEN"
-    join("-", ["datadog", var.STAGE, "api-key"])                = "#DD_API_KEY"
     join("-", ["qatalyst", var.STAGE, "fingerprint-token"])     = "#FINGERPRINT_API_TOKEN"
     join("-", ["qatalyst", var.STAGE, "100ms-access-key"])      = "#QATALYST_100MS_ACCESS_KEY"
     join("-", ["qatalyst", var.STAGE, "100ms-secret-key"])      = "#QATALYST_100MS_SECRET_KEY"

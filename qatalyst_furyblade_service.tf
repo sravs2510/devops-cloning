@@ -19,9 +19,6 @@ module "create_sea_ecs_furyblade_service" {
     ]
   )
   service_environment_secrets = local.qatalyst_furyblade_ecs_task_environment_secrets
-  dd_environment_variables    = local.qatalyst_datadog_environment_variables
-  dd_environment_secrets      = local.qatalyst_datadog_environment_secrets
-  datadog_docker_image        = var.datadog_docker_image
   datacenter_codes            = var.datacenter_codes
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE
@@ -30,6 +27,7 @@ module "create_sea_ecs_furyblade_service" {
   efs_file_system_id          = module.create_sea_furyblade_efs[0].efs_id
   efs_access_point_id         = module.create_sea_furyblade_efs[0].access_point_id
   efs_configuration           = var.efs_configurations["furyblade"]
+  logs_retention_in_days      = var.cw_logs_retention_in_days
 
   providers = {
     aws.ecs_region = aws.sea_region
@@ -57,9 +55,6 @@ module "create_in_ecs_furyblade_service" {
     ]
   )
   service_environment_secrets = local.qatalyst_furyblade_ecs_task_environment_secrets
-  dd_environment_variables    = local.qatalyst_datadog_environment_variables
-  dd_environment_secrets      = local.qatalyst_datadog_environment_secrets
-  datadog_docker_image        = var.datadog_docker_image
   datacenter_codes            = var.datacenter_codes
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE
@@ -68,6 +63,7 @@ module "create_in_ecs_furyblade_service" {
   efs_file_system_id          = module.create_in_furyblade_efs[0].efs_id
   efs_access_point_id         = module.create_in_furyblade_efs[0].access_point_id
   efs_configuration           = var.efs_configurations["furyblade"]
+  logs_retention_in_days      = var.cw_logs_retention_in_days
 
   providers = {
     aws.ecs_region = aws.in_region
@@ -95,9 +91,6 @@ module "create_us_ecs_furyblade_service" {
     ]
   )
   service_environment_secrets = local.qatalyst_furyblade_ecs_task_environment_secrets
-  dd_environment_variables    = local.qatalyst_datadog_environment_variables
-  dd_environment_secrets      = local.qatalyst_datadog_environment_secrets
-  datadog_docker_image        = var.datadog_docker_image
   datacenter_codes            = var.datacenter_codes
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE
@@ -106,6 +99,7 @@ module "create_us_ecs_furyblade_service" {
   efs_file_system_id          = try(module.create_us_furyblade_efs[0].efs_id, "")
   efs_access_point_id         = try(module.create_us_furyblade_efs[0].access_point_id, "")
   efs_configuration           = var.efs_configurations["furyblade"]
+  logs_retention_in_days      = var.cw_logs_retention_in_days
 
   providers = {
     aws.ecs_region = aws.us_region
@@ -133,9 +127,6 @@ module "create_eu_ecs_furyblade_service" {
     ]
   )
   service_environment_secrets = local.qatalyst_furyblade_ecs_task_environment_secrets
-  dd_environment_variables    = local.qatalyst_datadog_environment_variables
-  dd_environment_secrets      = local.qatalyst_datadog_environment_secrets
-  datadog_docker_image        = var.datadog_docker_image
   datacenter_codes            = var.datacenter_codes
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE
@@ -144,6 +135,7 @@ module "create_eu_ecs_furyblade_service" {
   efs_file_system_id          = try(module.create_eu_furyblade_efs[0].efs_id, "")
   efs_access_point_id         = try(module.create_eu_furyblade_efs[0].access_point_id, "")
   efs_configuration           = var.efs_configurations["furyblade"]
+  logs_retention_in_days      = var.cw_logs_retention_in_days
 
   providers = {
     aws.ecs_region = aws.eu_region

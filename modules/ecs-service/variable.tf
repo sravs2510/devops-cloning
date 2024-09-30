@@ -44,11 +44,6 @@ variable "ecs_task_role_arn" {
   description = "ECS Task Role Arn"
 }
 
-variable "datadog_docker_image" {
-  type        = string
-  description = "Datadog Docker Image"
-}
-
 variable "ecs_cluster_id" {
   type        = string
   description = "ECS Cluster ID"
@@ -72,16 +67,6 @@ variable "service_environment_variables" {
 variable "service_environment_secrets" {
   type        = list(any)
   description = "ECS Service Environment Secrets"
-}
-
-variable "dd_environment_variables" {
-  type        = list(any)
-  description = "DataDog Environment Variables"
-}
-
-variable "dd_environment_secrets" {
-  type        = list(any)
-  description = "DataDog Environment Secrets"
 }
 
 variable "repo_name" {
@@ -110,4 +95,9 @@ variable "efs_configuration" {
   type        = any
   description = "EFS Configurations"
   default     = null
+}
+
+variable "logs_retention_in_days" {
+  type        = string
+  description = "CloudWatch Logs Retention Period in Days"
 }

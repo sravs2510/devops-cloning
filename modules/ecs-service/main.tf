@@ -22,9 +22,14 @@ locals {
   account_id           = data.aws_caller_identity.current.account_id
   ecr_repo             = join(".", [local.account_id, "dkr.ecr", data.aws_region.ecs_region.name, "amazonaws.com/qatalyst-${var.repo_name}:latest"])
   datacenter_code      = lookup(var.datacenter_codes, data.aws_region.ecs_region.name)
-  dd_api_key_ssm_param = join("-", ["datadog", var.STAGE, "api-key"])
-  dd_service_name      = join("-", [var.ecs_service_name, var.STAGE])
   is_sqs_service       = contains(["mammoth", "furyblade", "cyborg"], var.service) ? true : false
+}
+
+resource "aws_cloudwatch_log_group" "ecs_cw_log_group" {
+  provider          = aws.ecs_region
+  name              = join("-", [var.ecs_cluster_name, var.service])
+  retention_in_days = var.logs_retention_in_days
+  tags              = merge(tomap({ "Name" : join("-", [var.ecs_cluster_name, "keycloak"]) }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
 resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
@@ -64,10 +69,6 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
           {
             name  = "LOG_LEVEL"
             value = "INFO"
-          },
-          {
-            name  = "DD_SERVICE"
-            value = local.dd_service_name
           }
         ]),
         secrets = concat(var.service_environment_secrets, [
@@ -102,69 +103,12 @@ resource "aws_ecs_task_definition" "qatalyst_ecs_task_definition" {
           startPeriod = 30
         }
         logConfiguration = {
-          logDriver = "awsfirelens"
+          logDriver = "awslogs"
           options = {
-            Name            = "datadog"
-            Host            = "http-intake.logs.datadoghq.com"
-            dd_service      = local.dd_service_name
-            dd_source       = join("-", ["qatalyst", var.STAGE])
-            dd_tags         = "project:qatalyst"
-            dd_message_key  = "log"
-            TLS             = "on"
-            provider        = "ecs"
-            exclude-pattern = ".*\\/health.*"
+            "awslogs-group" : join("-", [var.ecs_cluster_name, var.service])
+            "awslogs-region" : data.aws_region.ecs_region.name,
+            "awslogs-stream-prefix" : var.service
           }
-          secretOptions = [
-            {
-              name      = "apikey"
-              valueFrom = local.dd_api_key_ssm_param
-            }
-          ]
-        }
-        dockerLabels = {
-          "com.datadoghq.tags.env"     = var.STAGE
-          "com.datadoghq.tags.region"  = data.aws_region.ecs_region.name
-          "com.datadoghq.tags.service" = local.dd_service_name
-        }
-      },
-      {
-        cpu          = 0
-        environment  = []
-        mountPoints  = []
-        name         = "log-router"
-        portMappings = []
-        user         = "0"
-        volumesFrom  = []
-        image        = "amazon/aws-for-fluent-bit:stable"
-        essential    = true
-        firelensConfiguration = {
-          type = "fluentbit"
-          options = {
-            enable-ecs-log-metadata = "true"
-          }
-        }
-      },
-      {
-        cpu          = 0
-        mountPoints  = []
-        name         = "datadog-agent"
-        portMappings = []
-        volumesFrom  = []
-        image        = var.datadog_docker_image
-        essential    = true
-        environment = concat(var.dd_environment_variables, [
-          {
-            name  = "DD_SERVICE",
-            value = local.dd_service_name
-          }
-        ])
-        secrets = var.dd_environment_secrets
-        healthCheck = {
-          retries     = 3
-          command     = ["CMD-SHELL", "agent health"]
-          timeout     = 5
-          interval    = 30
-          startPeriod = 15
         }
       }
   ])

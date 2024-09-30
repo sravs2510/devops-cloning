@@ -241,44 +241,6 @@ locals {
       valueFrom = join("-", ["platform", var.STAGE, "realm-id"])
     }
   ]
-  qatalyst_datadog_environment_variables = [
-    {
-      name  = "DD_APM_ENABLED",
-      value = "false"
-    },
-    {
-      name  = "ECS_FARGATE",
-      value = "false"
-    },
-    {
-      name  = "DD_LOGS_INJECTION",
-      value = "true"
-    },
-    {
-      name  = "DD_ENV",
-      value = var.STAGE
-    },
-    {
-      name  = "DD_TRACE_TELEMETRY_ENABLED",
-      value = "false"
-    },
-    {
-      name  = "DD_APM_IGNORE_RESOURCES"
-      value = local.qatalyst_healthcheck_api
-    },
-    {
-      name  = "DD_CONTAINER_EXCLUDE"
-      value = "name:^datadog* name:^log-router* name:^aws-fargate-supervisor$"
-    }
-
-  ]
-
-  qatalyst_datadog_environment_secrets = [
-    {
-      name      = "DD_API_KEY",
-      valueFrom = join("-", ["datadog", var.STAGE, "api-key"])
-    }
-  ]
 
   eu_alb_dns_name  = lookup(var.deploy_regions, data.aws_region.eu.name) ? { "eu" = try(module.create_eu_alb[0].qatalyst_alb_dns_name, null) } : {}
   us_alb_dns_name  = lookup(var.deploy_regions, data.aws_region.us.name) ? { "us" = try(module.create_us_alb[0].qatalyst_alb_dns_name, null) } : {}
