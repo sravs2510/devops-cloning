@@ -229,6 +229,10 @@ table_details = {
         projection_type = "ALL"
       }
     ]
+    ttl = {
+      enabled        = true
+      attribute_name = "expiry_time"
+    }
   },
   "qatalyst-tester-events" : {
     hash_key  = "block_id"
