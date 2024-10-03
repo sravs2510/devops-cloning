@@ -140,21 +140,6 @@ module "create_eu_alb" {
   }
 }
 
-module "create_eu_ecs" {
-  source             = "./modules/ecs-cluster"
-  count              = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
-  ecs_cluster_name   = local.qatalyst_ecs_cluster_name
-  vpc_id             = try(module.create_eu_vpc[0].vpc_id, "")
-  alb_security_group = try(module.create_eu_alb[0].qatalyst_alb_sg_id, "")
-  datacenter_codes   = var.datacenter_codes
-  DEFAULT_TAGS       = var.DEFAULT_TAGS
-  STAGE              = var.STAGE
-
-  providers = {
-    aws.ecs_region = aws.eu_region
-  }
-}
-
 module "create_eu_dynamodb" {
   source        = "git@github.com:EntropikTechnologies/terraform-modules.git//dynamodb"
   count         = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
@@ -256,6 +241,21 @@ module "create_eu_opensearch" {
   providers = {
     aws.opensearch_region = aws.eu_region
     random.random         = random.random
+  }
+}
+
+module "create_eu_ecs" {
+  source             = "git@github.com:EntropikTechnologies/terraform-modules.git//ecs-cluster"
+  count              = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
+  vpc_id             = module.create_eu_vpc[0].vpc_id
+  alb_security_group = module.create_eu_alb[0].qatalyst_alb_sg_id
+  DEFAULT_TAGS       = var.DEFAULT_TAGS
+  STAGE              = var.STAGE
+  product_name       = "qatalyst"
+  datacenter_codes   = var.datacenter_codes
+
+  providers = {
+    aws.ecs_region = aws.eu_region
   }
 }
 
@@ -402,21 +402,6 @@ module "create_in_alb" {
   }
 }
 
-module "create_in_ecs" {
-  source             = "./modules/ecs-cluster"
-  count              = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
-  ecs_cluster_name   = local.qatalyst_ecs_cluster_name
-  vpc_id             = module.create_in_vpc[0].vpc_id
-  alb_security_group = module.create_in_alb[0].qatalyst_alb_sg_id
-  datacenter_codes   = var.datacenter_codes
-  DEFAULT_TAGS       = var.DEFAULT_TAGS
-  STAGE              = var.STAGE
-
-  providers = {
-    aws.ecs_region = aws.in_region
-  }
-}
-
 module "create_in_dynamodb" {
   source        = "git@github.com:EntropikTechnologies/terraform-modules.git//dynamodb"
   DEFAULT_TAGS  = var.DEFAULT_TAGS
@@ -519,6 +504,21 @@ module "create_in_opensearch" {
   providers = {
     aws.opensearch_region = aws.in_region
     random.random         = random.random
+  }
+}
+
+module "create_in_ecs" {
+  source             = "git@github.com:EntropikTechnologies/terraform-modules.git//ecs-cluster"
+  count              = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
+  vpc_id             = module.create_in_vpc[0].vpc_id
+  alb_security_group = module.create_in_alb[0].qatalyst_alb_sg_id
+  DEFAULT_TAGS       = var.DEFAULT_TAGS
+  STAGE              = var.STAGE
+  product_name       = "qatalyst"
+  datacenter_codes   = var.datacenter_codes
+
+  providers = {
+    aws.ecs_region = aws.in_region
   }
 }
 
@@ -663,21 +663,6 @@ module "create_sea_alb" {
   }
 }
 
-module "create_sea_ecs" {
-  source             = "./modules/ecs-cluster"
-  count              = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
-  ecs_cluster_name   = local.qatalyst_ecs_cluster_name
-  vpc_id             = module.create_sea_vpc[0].vpc_id
-  alb_security_group = module.create_sea_alb[0].qatalyst_alb_sg_id
-  datacenter_codes   = var.datacenter_codes
-  DEFAULT_TAGS       = var.DEFAULT_TAGS
-  STAGE              = var.STAGE
-
-  providers = {
-    aws.ecs_region = aws.sea_region
-  }
-}
-
 module "create_sea_dynamodb" {
   source        = "git@github.com:EntropikTechnologies/terraform-modules.git//dynamodb"
   count         = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
@@ -772,6 +757,22 @@ module "create_sea_opensearch" {
   }
 }
 
+module "create_sea_ecs" {
+  source             = "git@github.com:EntropikTechnologies/terraform-modules.git//ecs-cluster"
+  count              = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
+  vpc_id             = module.create_sea_vpc[0].vpc_id
+  alb_security_group = module.create_sea_alb[0].qatalyst_alb_sg_id
+  DEFAULT_TAGS       = var.DEFAULT_TAGS
+  STAGE              = var.STAGE
+  product_name       = "qatalyst"
+  datacenter_codes   = var.datacenter_codes
+
+
+  providers = {
+    aws.ecs_region = aws.sea_region
+  }
+}
+
 # US Resources
 module "create_us_vpc" {
   source           = "./modules/vpc"
@@ -858,6 +859,22 @@ module "create_common_cloudfront" {
     aws.bucket_region     = aws.us_region
   }
 }
+
+module "create_us_ecs" {
+  source             = "git@github.com:EntropikTechnologies/terraform-modules.git//ecs-cluster"
+  count              = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
+  vpc_id             = module.create_us_vpc[0].vpc_id
+  alb_security_group = module.create_us_alb[0].qatalyst_alb_sg_id
+  DEFAULT_TAGS       = var.DEFAULT_TAGS
+  STAGE              = var.STAGE
+  product_name       = "qatalyst"
+  datacenter_codes   = var.datacenter_codes
+
+  providers = {
+    aws.ecs_region = aws.us_region
+  }
+}
+
 #ACM or cloudfront & ALB
 module "create_cloudfront_meet" {
   source                      = "./modules/cloudfront-fe-be"
@@ -1031,21 +1048,6 @@ module "create_us_alb" {
 
   providers = {
     aws.alb_region = aws.us_region
-  }
-}
-
-module "create_us_ecs" {
-  source             = "./modules/ecs-cluster"
-  count              = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
-  ecs_cluster_name   = local.qatalyst_ecs_cluster_name
-  vpc_id             = try(module.create_us_vpc[0].vpc_id, "")
-  alb_security_group = try(module.create_us_alb[0].qatalyst_alb_sg_id, "")
-  datacenter_codes   = var.datacenter_codes
-  DEFAULT_TAGS       = var.DEFAULT_TAGS
-  STAGE              = var.STAGE
-
-  providers = {
-    aws.ecs_region = aws.us_region
   }
 }
 
