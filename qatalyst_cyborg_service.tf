@@ -60,9 +60,9 @@ module "create_eu_ecs_cyborg_service" {
   source                        = "./modules/ecs-service"
   count                         = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
   ecs_service_name              = local.qatalyst_cyborg_service_name
-  ecs_cluster_id                = try(module.create_eu_ecs[0].ecs_cluster_id, "")
+  ecs_cluster_id                = try(module.create_eu_ecs[0].cluster_id, "")
   ecs_cluster_name              = try(module.create_eu_ecs[0].ecs_cluster_name, "")
-  ecs_security_groups           = try(module.create_eu_ecs[0].ecs_security_group_ids, [])
+  ecs_security_groups           = try(module.create_eu_ecs[0].ecs_security_group_id, [])
   ecs_subnets                   = try(module.create_eu_vpc[0].private_subnets, [])
   alb_target_group_arn          = ""
   ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
@@ -89,9 +89,9 @@ module "create_in_ecs_cyborg_service" {
   source                        = "./modules/ecs-service"
   count                         = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
   ecs_service_name              = local.qatalyst_cyborg_service_name
-  ecs_cluster_id                = module.create_in_ecs[0].ecs_cluster_id
+  ecs_cluster_id                = module.create_in_ecs[0].cluster_id
   ecs_cluster_name              = module.create_in_ecs[0].ecs_cluster_name
-  ecs_security_groups           = module.create_in_ecs[0].ecs_security_group_ids
+  ecs_security_groups           = module.create_in_ecs[0].ecs_security_group_id
   ecs_subnets                   = module.create_in_vpc[0].private_subnets
   alb_target_group_arn          = ""
   ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
@@ -118,9 +118,9 @@ module "create_sea_ecs_cyborg_service" {
   source                        = "./modules/ecs-service"
   count                         = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
   ecs_service_name              = local.qatalyst_cyborg_service_name
-  ecs_cluster_id                = module.create_sea_ecs[0].ecs_cluster_id
+  ecs_cluster_id                = module.create_sea_ecs[0].cluster_id
   ecs_cluster_name              = module.create_sea_ecs[0].ecs_cluster_name
-  ecs_security_groups           = module.create_sea_ecs[0].ecs_security_group_ids
+  ecs_security_groups           = module.create_sea_ecs[0].ecs_security_group_id
   ecs_subnets                   = module.create_sea_vpc[0].private_subnets
   alb_target_group_arn          = ""
   ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
@@ -148,9 +148,9 @@ module "create_us_ecs_cyborg_service" {
   source                        = "./modules/ecs-service"
   count                         = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
   ecs_service_name              = local.qatalyst_cyborg_service_name
-  ecs_cluster_id                = try(module.create_us_ecs[0].ecs_cluster_id, "")
+  ecs_cluster_id                = try(module.create_us_ecs[0].cluster_id, "")
   ecs_cluster_name              = try(module.create_us_ecs[0].ecs_cluster_name, "")
-  ecs_security_groups           = try(module.create_us_ecs[0].ecs_security_group_ids, [])
+  ecs_security_groups           = try(module.create_us_ecs[0].ecs_security_group_id, [])
   ecs_subnets                   = try(module.create_us_vpc[0].private_subnets, [])
   alb_target_group_arn          = ""
   ecs_task_execution_role_arn   = module.create_iam.ecs_task_execution_role_arn
