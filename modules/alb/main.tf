@@ -310,9 +310,9 @@ resource "aws_wafv2_web_acl" "alb_web_acl" {
   }
 
   custom_response_body {
-    key           = "too-many-requests"
-    content       = jsonencode({message = "Too many requests. Try after sometime"})
-    content_type  = "APPLICATION_JSON"
+    key          = "too-many-requests"
+    content      = jsonencode({ message = "Too many requests. Try after sometime" })
+    content_type = "APPLICATION_JSON"
   }
 
   rule {
@@ -332,9 +332,9 @@ resource "aws_wafv2_web_acl" "alb_web_acl" {
     }
     statement {
       rate_based_statement {
-        limit                     = 150
-        evaluation_window_sec     = 60
-        aggregate_key_type        = "CUSTOM_KEYS"
+        limit                 = 150
+        evaluation_window_sec = 60
+        aggregate_key_type    = "CUSTOM_KEYS"
         scope_down_statement {
           and_statement {
             statement {
@@ -379,7 +379,7 @@ resource "aws_wafv2_web_acl" "alb_web_acl" {
         }
 
         custom_key {
-            ip {}
+          ip {}
         }
 
         custom_key {
@@ -504,5 +504,81 @@ resource "aws_wafv2_web_acl_logging_configuration" "s3_waf_logging_configuration
         }
       }
     }
+  }
+}
+
+resource "aws_cloudwatch_metric_alarm" "healthy_host_count_alarm" {
+  provider            = aws.alb_region
+  alarm_name          = "qatalyst-alb-healthy-host-monitoring"
+  comparison_operator = "GreaterThanThreshold"
+  evaluation_periods  = "2"
+  metric_name         = "HealthyHostCount"
+  namespace           = "AWS/ApplicationELB"
+  period              = "300" // 5 minutes
+  statistic           = "Average"
+  threshold           = 1
+  alarm_description   = "Alarm when health monitoring Time exceeds threshold"
+  actions_enabled     = true
+  alarm_actions       = [data.aws_sns_topic.current.arn]
+  dimensions = {
+    LoadBalancer = aws_lb.qatalyst_alb.arn_suffix
+    TargetGroup  = aws_lb_target_group.qatalyst_tg.arn_suffix
+  }
+}
+
+resource "aws_cloudwatch_metric_alarm" "testerview_healthy_host_count_alarm" {
+  provider            = aws.alb_region
+  alarm_name          = "qatalyst-alb-testerview-healthy-host-monitoring"
+  comparison_operator = "GreaterThanThreshold"
+  evaluation_periods  = "2"
+  metric_name         = "HealthyHostCount"
+  namespace           = "AWS/ApplicationELB"
+  period              = "300" // 5 minutes
+  statistic           = "Average"
+  threshold           = 1
+  alarm_description   = "Alarm when health monitoring Time exceeds threshold for Testerview"
+  actions_enabled     = true
+  alarm_actions       = [data.aws_sns_topic.current.arn]
+  dimensions = {
+    LoadBalancer = aws_lb.qatalyst_alb.arn_suffix
+    TargetGroup  = aws_lb_target_group.qatalyst_tester_view_tg.arn_suffix
+  }
+}
+
+resource "aws_cloudwatch_metric_alarm" "reports_healthy_host_count_alarm" {
+  provider            = aws.alb_region
+  alarm_name          = "qatalyst-alb-reports-healthy-host-monitoring"
+  comparison_operator = "GreaterThanThreshold"
+  evaluation_periods  = "2"
+  metric_name         = "HealthyHostCount"
+  namespace           = "AWS/ApplicationELB"
+  period              = "300" // 5 minutes
+  statistic           = "Average"
+  threshold           = 1
+  alarm_description   = "Alarm when health monitoring Time exceeds threshold for Reports"
+  actions_enabled     = true
+  alarm_actions       = [data.aws_sns_topic.current.arn]
+  dimensions = {
+    LoadBalancer = aws_lb.qatalyst_alb.arn_suffix
+    TargetGroup  = aws_lb_target_group.qatalyst_reports_tg.arn_suffix
+  }
+}
+
+resource "aws_cloudwatch_metric_alarm" "copilot_healthy_host_count_alarm" {
+  provider            = aws.alb_region
+  alarm_name          = "qatalyst-alb-copilot-healthy-host-monitoring"
+  comparison_operator = "GreaterThanThreshold"
+  evaluation_periods  = "2"
+  metric_name         = "HealthyHostCount"
+  namespace           = "AWS/ApplicationELB"
+  period              = "300" // 5 minutes
+  statistic           = "Average"
+  threshold           = 1
+  alarm_description   = "Alarm when health monitoring Time exceeds threshold for Copilot"
+  actions_enabled     = true
+  alarm_actions       = [data.aws_sns_topic.current.arn]
+  dimensions = {
+    LoadBalancer = aws_lb.qatalyst_alb.arn_suffix
+    TargetGroup  = aws_lb_target_group.qatalyst_copilot_tg.arn_suffix
   }
 }
