@@ -466,17 +466,17 @@ efs_configurations = {
   cyborg = {
     name          = "cyborg"
     path          = "/cyborg"
-    enable_backup = true
+    enable_backup = false
   }
   furyblade = {
     name          = "furyblade"
     path          = "/furyblade"
-    enable_backup = true
+    enable_backup = false
   }
   mammoth = {
     name          = "mammoth"
     path          = "/mammoth"
-    enable_backup = true
+    enable_backup = false
   }
 }
 
