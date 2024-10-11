@@ -464,16 +464,19 @@ sqs_queues = {
 # EFS
 efs_configurations = {
   cyborg = {
-    name = "cyborg"
-    path = "/cyborg"
+    name          = "cyborg"
+    path          = "/cyborg"
+    enable_backup = true
   }
   furyblade = {
-    name = "furyblade"
-    path = "/furyblade"
+    name          = "furyblade"
+    path          = "/furyblade"
+    enable_backup = true
   }
   mammoth = {
-    name = "mammoth"
-    path = "/mammoth"
+    name          = "mammoth"
+    path          = "/mammoth"
+    enable_backup = true
   }
 }
 
