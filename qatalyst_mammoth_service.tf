@@ -1,6 +1,6 @@
 #EFS
 module "create_eu_mammoth_efs" {
-  source            = "./modules/efs"
+  source            = "git@github.com:EntropikTechnologies/terraform-modules.git//efs"
   count             = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
   STAGE             = var.STAGE
   DEFAULT_TAGS      = var.DEFAULT_TAGS
@@ -14,7 +14,7 @@ module "create_eu_mammoth_efs" {
 }
 
 module "create_in_mammoth_efs" {
-  source            = "./modules/efs"
+  source            = "git@github.com:EntropikTechnologies/terraform-modules.git//efs"
   count             = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
   STAGE             = var.STAGE
   DEFAULT_TAGS      = var.DEFAULT_TAGS
@@ -28,7 +28,7 @@ module "create_in_mammoth_efs" {
 }
 
 module "create_sea_mammoth_efs" {
-  source            = "./modules/efs"
+  source            = "git@github.com:EntropikTechnologies/terraform-modules.git//efs"
   count             = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
   STAGE             = var.STAGE
   DEFAULT_TAGS      = var.DEFAULT_TAGS
@@ -42,7 +42,7 @@ module "create_sea_mammoth_efs" {
 }
 
 module "create_us_mammoth_efs" {
-  source            = "./modules/efs"
+  source            = "git@github.com:EntropikTechnologies/terraform-modules.git//efs"
   count             = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
   STAGE             = var.STAGE
   DEFAULT_TAGS      = var.DEFAULT_TAGS
