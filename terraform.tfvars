@@ -39,6 +39,7 @@ meet_sub_domain        = "meet"
 invite_sub_domain      = "invite"
 reports_sub_domain     = "reports"
 common_sub_domain      = "common"
+calendar_sub_domain    = "calendar"
 
 user_pool_name            = "qatalyst-user-pool"
 user_pool_web_client_name = "qatalyst-web-app"

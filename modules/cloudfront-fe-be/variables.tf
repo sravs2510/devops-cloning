@@ -42,3 +42,8 @@ variable "qatalyst_alb_dns_names" {
   type        = map(any)
   description = "Qatalyst ALB DNS Name Values"
 }
+
+variable "calendar_sub_domain" {
+  type        = string
+  description = "Calendar Domain Name"
+}

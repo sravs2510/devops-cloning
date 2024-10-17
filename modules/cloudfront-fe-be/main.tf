@@ -15,6 +15,7 @@ locals {
   r53_hosted_zone_domain_name = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.sub_domain, var.base_domain])
   domain_suffix               = join(".", [var.sub_domain, var.base_domain])
   cf_domain_name              = var.STAGE == "prod" ? local.domain_suffix : join(".", [var.STAGE, local.domain_suffix])
+  calendar_domain_name        = var.calendar_sub_domain != "" ? var.STAGE == "prod" ? join(".", [var.calendar_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.calendar_sub_domain, var.base_domain]) : null
   api_http_allowed_methods    = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
   api_http_cache_methods      = ["GET", "HEAD", "OPTIONS"]
 }
@@ -76,9 +77,10 @@ resource "aws_cloudfront_distribution" "reports_cf_distribution" {
       }
     }
   }
-  aliases = [
-    local.cf_domain_name
-  ]
+  aliases = compact([
+    local.cf_domain_name,
+    local.calendar_domain_name
+  ])
   default_root_object = "index.html"
 
   enabled = true

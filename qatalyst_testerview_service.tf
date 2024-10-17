@@ -222,6 +222,7 @@ module "create_tester_view_cloudfront" {
   source                      = "./modules/cloudfront-fe-be"
   base_domain                 = var.base_domain
   sub_domain                  = var.tester_view_sub_domain
+  calendar_sub_domain         = var.calendar_sub_domain
   bucket_arn                  = module.create_tester_view_s3_bucket.s3_bucket_arn
   bucket_id                   = module.create_tester_view_s3_bucket.s3_bucket_id
   bucket_regional_domain_name = module.create_tester_view_s3_bucket.s3_bucket_regional_domain_name
@@ -233,5 +234,55 @@ module "create_tester_view_cloudfront" {
   providers = {
     aws.cloudfront_region = aws.us_region
     aws.bucket_region     = aws.sea_region
+  }
+}
+
+module "create_in_calendar_acm" {
+  source       = "./modules/acm-fe"
+  count        = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
+  base_domain  = var.base_domain
+  domain_name  = local.calendar_domain
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
+
+  providers = {
+    aws.acm_region = aws.in_region
+  }
+}
+
+module "create_sea_calendar_acm" {
+  source       = "./modules/acm-fe"
+  count        = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
+  base_domain  = var.base_domain
+  domain_name  = local.calendar_domain
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
+
+  providers = {
+    aws.acm_region = aws.sea_region
+  }
+}
+module "create_eu_calendar_acm" {
+  source       = "./modules/acm-fe"
+  count        = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
+  base_domain  = var.base_domain
+  domain_name  = local.calendar_domain
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
+
+  providers = {
+    aws.acm_region = aws.eu_region
+  }
+}
+
+module "create_calendar_acm" {
+  source       = "./modules/acm-fe"
+  base_domain  = var.base_domain
+  domain_name  = local.calendar_domain
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
+
+  providers = {
+    aws.acm_region = aws.us_region
   }
 }

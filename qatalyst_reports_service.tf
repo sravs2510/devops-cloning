@@ -256,6 +256,7 @@ module "create_cloudfront_reports" {
   STAGE                       = var.STAGE
   base_domain                 = var.base_domain
   sub_domain                  = var.reports_sub_domain
+  calendar_sub_domain         = ""
   bucket_id                   = module.create_reports_s3_sub_domain.s3_bucket_id
   bucket_arn                  = module.create_reports_s3_sub_domain.s3_bucket_arn
   acm_certificate_arn         = module.create_reports_acm_cf.acm_arn

@@ -141,6 +141,7 @@ resource "aws_lb_target_group" "qatalyst_copilot_tg" {
   }
   tags = merge(tomap({ "Name" : "qatalyst-copilot-tg" }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
+
 resource "aws_lb_listener" "qatalyst_alb_listener" {
   provider          = aws.alb_region
   certificate_arn   = var.alb_certficate_arn
@@ -178,6 +179,12 @@ resource "aws_lb_listener_certificate" "qatalyst_tester_view_listener_certificat
   provider        = aws.alb_region
   listener_arn    = aws_lb_listener.qatalyst_alb_listener.arn
   certificate_arn = var.tester_view_acm_arn
+}
+
+resource "aws_lb_listener_certificate" "qatalyst_calendar_listener_certificate" {
+  provider        = aws.alb_region
+  listener_arn    = aws_lb_listener.qatalyst_alb_listener.arn
+  certificate_arn = var.calendar_acm_arn
 }
 
 resource "aws_lb_listener_rule" "qatalyst_alb_listener_reports_rule" {
@@ -221,6 +228,21 @@ resource "aws_lb_listener_rule" "qatalyst_alb_listener_copilot_rule" {
   condition {
     path_pattern {
       values = [local.path_pattern_copilot]
+    }
+  }
+}
+
+resource "aws_lb_listener_rule" "qatalyst_alb_listener_calendar_rule" {
+  listener_arn = aws_lb_listener.qatalyst_alb_listener.arn
+  provider     = aws.alb_region
+  priority     = 103
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.qatalyst_tester_view_tg.arn
+  }
+  condition {
+    path_pattern {
+      values = [local.path_pattern]
     }
   }
 }

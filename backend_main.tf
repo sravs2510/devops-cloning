@@ -134,6 +134,7 @@ module "create_eu_alb" {
   lb_target_health    = var.lb_target_health
   invite_acm_arn      = try(module.create_eu_acm_invite_alb[0].acm_arn, "")
   tester_view_acm_arn = try(module.create_eu_tester_view_acm[0].acm_arn, "")
+  calendar_acm_arn    = try(module.create_eu_calendar_acm[0].acm_arn, "")
 
   providers = {
     aws.alb_region = aws.eu_region
@@ -396,6 +397,7 @@ module "create_in_alb" {
   lb_target_health    = var.lb_target_health
   invite_acm_arn      = module.create_in_acm_invite_alb[0].acm_arn
   tester_view_acm_arn = module.create_in_tester_view_acm[0].acm_arn
+  calendar_acm_arn    = module.create_in_calendar_acm[0].acm_arn
 
   providers = {
     aws.alb_region = aws.in_region
@@ -657,6 +659,7 @@ module "create_sea_alb" {
   invite_acm_arn      = module.create_sea_acm_invite_alb[0].acm_arn
   lb_target_health    = var.lb_target_health
   tester_view_acm_arn = module.create_sea_tester_view_acm[0].acm_arn
+  calendar_acm_arn    = module.create_sea_calendar_acm[0].acm_arn
 
   providers = {
     aws.alb_region = aws.sea_region
@@ -882,6 +885,7 @@ module "create_cloudfront_meet" {
   STAGE                       = var.STAGE
   base_domain                 = var.base_domain
   sub_domain                  = var.meet_sub_domain
+  calendar_sub_domain         = ""
   bucket_id                   = module.create_meet_s3_sub_domain.s3_bucket_id
   bucket_arn                  = module.create_meet_s3_sub_domain.s3_bucket_arn
   acm_certificate_arn         = module.create_us_meet_acm_cf.acm_arn
@@ -934,6 +938,7 @@ module "create_cloudfront_invite" {
   STAGE                       = var.STAGE
   base_domain                 = var.base_domain
   sub_domain                  = var.invite_sub_domain
+  calendar_sub_domain         = ""
   bucket_id                   = module.create_invite_s3_sub_domain.s3_bucket_id
   bucket_arn                  = module.create_invite_s3_sub_domain.s3_bucket_arn
   acm_certificate_arn         = module.create_us_invite_acm_cf_alb.acm_arn
@@ -1045,6 +1050,7 @@ module "create_us_alb" {
   lb_target_health    = var.lb_target_health
   invite_acm_arn      = module.create_us_invite_acm_cf_alb.acm_arn
   tester_view_acm_arn = module.create_tester_view_acm.acm_arn
+  calendar_acm_arn    = module.create_calendar_acm.acm_arn
 
   providers = {
     aws.alb_region = aws.us_region
