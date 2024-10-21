@@ -293,7 +293,7 @@ module "create_calendar_cloudfront" {
   bucket_arn                  = module.create_tester_view_s3_bucket.s3_bucket_arn
   bucket_id                   = module.create_tester_view_s3_bucket.s3_bucket_id
   bucket_regional_domain_name = module.create_tester_view_s3_bucket.s3_bucket_regional_domain_name
-  acm_certificate_arn         = module.create_tester_view_acm.acm_arn
+  acm_certificate_arn         = module.create_calendar_acm.acm_arn
   qatalyst_alb_dns_names      = local.alb_dns_names
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE
