@@ -243,3 +243,8 @@ variable "product_name" {
   type        = string
   default     = "qatalyst"
 }
+
+variable "calendar_sub_domain" {
+  type        = string
+  description = "Calendar Domain Name"
+}

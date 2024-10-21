@@ -5,6 +5,7 @@ data "aws_caller_identity" "current" {
 locals {
   dasboard_domain                   = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.base_domain])
   tester_view_domain                = var.STAGE == "prod" ? join(".", [var.tester_view_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.tester_view_sub_domain, var.base_domain])
+  calendar_domain                   = var.STAGE == "prod" ? join(".", [var.calendar_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.calendar_sub_domain, var.base_domain])
   qatalyst_ecs_cluster_name         = "qatalyst-ecs-cluster"
   qatalyst_dashboard_service_name   = "qatalyst-dashboard-service"
   qatalyst_reports_service_name     = "qatalyst-reports-service"

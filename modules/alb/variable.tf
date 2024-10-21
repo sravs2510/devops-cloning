@@ -62,3 +62,8 @@ variable "tester_view_acm_arn" {
   type        = string
   description = "Testerview ACM "
 }
+
+variable "calendar_acm_arn" {
+  type        = string
+  description = "Calendar ACM "
+}
