@@ -885,7 +885,6 @@ module "create_cloudfront_meet" {
   STAGE                       = var.STAGE
   base_domain                 = var.base_domain
   sub_domain                  = var.meet_sub_domain
-  calendar_sub_domain         = ""
   bucket_id                   = module.create_meet_s3_sub_domain.s3_bucket_id
   bucket_arn                  = module.create_meet_s3_sub_domain.s3_bucket_arn
   acm_certificate_arn         = module.create_us_meet_acm_cf.acm_arn
@@ -938,7 +937,6 @@ module "create_cloudfront_invite" {
   STAGE                       = var.STAGE
   base_domain                 = var.base_domain
   sub_domain                  = var.invite_sub_domain
-  calendar_sub_domain         = ""
   bucket_id                   = module.create_invite_s3_sub_domain.s3_bucket_id
   bucket_arn                  = module.create_invite_s3_sub_domain.s3_bucket_arn
   acm_certificate_arn         = module.create_us_invite_acm_cf_alb.acm_arn

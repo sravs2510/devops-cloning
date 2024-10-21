@@ -232,21 +232,6 @@ resource "aws_lb_listener_rule" "qatalyst_alb_listener_copilot_rule" {
   }
 }
 
-resource "aws_lb_listener_rule" "qatalyst_alb_listener_calendar_rule" {
-  listener_arn = aws_lb_listener.qatalyst_alb_listener.arn
-  provider     = aws.alb_region
-  priority     = 103
-  action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.qatalyst_tester_view_tg.arn
-  }
-  condition {
-    path_pattern {
-      values = [local.path_pattern]
-    }
-  }
-}
-
 # ALB Domain Mapping
 locals {
   datacenter_code      = lookup(var.datacenter_codes, data.aws_region.current.name)
