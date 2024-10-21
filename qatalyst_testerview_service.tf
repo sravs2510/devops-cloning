@@ -287,7 +287,7 @@ module "create_calendar_acm" {
 }
 
 module "create_calendar_cloudfront" {
-  source                      = "./modules/cloudfront-calendar"
+  source                      = "./modules/cloudfront-fe-be"
   base_domain                 = var.base_domain
   sub_domain                  = var.calendar_sub_domain
   bucket_arn                  = module.create_tester_view_s3_bucket.s3_bucket_arn
