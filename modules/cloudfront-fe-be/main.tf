@@ -11,12 +11,17 @@ data "aws_region" "current" {
   provider = aws.bucket_region
 }
 
+data "aws_caller_identity" "current" {
+  provider = aws.bucket_region
+}
+
 locals {
   r53_hosted_zone_domain_name = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.sub_domain, var.base_domain])
   domain_suffix               = join(".", [var.sub_domain, var.base_domain])
   cf_domain_name              = var.STAGE == "prod" ? local.domain_suffix : join(".", [var.STAGE, local.domain_suffix])
   api_http_allowed_methods    = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
   api_http_cache_methods      = ["GET", "HEAD", "OPTIONS"]
+  account_id                  = data.aws_caller_identity.current.account_id
 }
 
 data "aws_cloudfront_cache_policy" "cache_policy" {
@@ -148,7 +153,7 @@ data "aws_iam_policy_document" "reports_s3_bucket_policy_document" {
     condition {
       test     = "StringEquals"
       variable = "AWS:SourceArn"
-      values   = [var.s3_origin_access_control_id]
+      values   = ["arn:aws:cloudfront:*:${local.account_id}:distribution/*"]
     }
   }
 }
