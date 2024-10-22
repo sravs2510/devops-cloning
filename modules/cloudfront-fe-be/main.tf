@@ -151,9 +151,9 @@ data "aws_iam_policy_document" "reports_s3_bucket_policy_document" {
       identifiers = ["cloudfront.amazonaws.com"] # Use the service principal for CloudFront
     }
     condition {
-      test     = "StringEquals"
+      test     = "StringLike"
       variable = "AWS:SourceArn"
-      values   = ["arn:aws:cloudfront:*:${local.account_id}:distribution/*"]
+      values   = ["arn:aws:cloudfront::${local.account_id}:distribution/*"]
     }
   }
 }
