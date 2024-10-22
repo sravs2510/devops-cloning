@@ -286,3 +286,22 @@ module "create_calendar_acm" {
     aws.acm_region = aws.us_region
   }
 }
+
+module "create_calendar_cloudfront" {
+  source                      = "./modules/cloudfront-fe-be"
+  base_domain                 = var.base_domain
+  sub_domain                  = var.calendar_sub_domain
+  bucket_arn                  = module.create_tester_view_s3_bucket.s3_bucket_arn
+  bucket_id                   = module.create_tester_view_s3_bucket.s3_bucket_id
+  bucket_regional_domain_name = module.create_tester_view_s3_bucket.s3_bucket_regional_domain_name
+  acm_certificate_arn         = module.create_calendar_acm.acm_arn
+  qatalyst_alb_dns_names      = local.alb_dns_names
+  s3_origin_access_control_id = module.create_cdn_cache_policy.s3_origin_access_control_id
+  DEFAULT_TAGS                = var.DEFAULT_TAGS
+  STAGE                       = var.STAGE
+
+  providers = {
+    aws.cloudfront_region = aws.us_region
+    aws.bucket_region     = aws.sea_region
+  }
+}

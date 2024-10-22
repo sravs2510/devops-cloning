@@ -68,24 +68,12 @@ module "create_cognito_user_pool" {
 
 locals {
   s3_bucket_name          = var.STAGE == "prod" ? join(".", [var.tester_view_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.tester_view_sub_domain, var.base_domain])
-  s3_calendar_bucket_name = var.STAGE == "prod" ? join(".", [var.calendar_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.calendar_sub_domain, var.base_domain])
-}
+  }
 
 # Tester view Resources
 module "create_tester_view_s3_bucket" {
   source       = "./modules/s3-fe"
   bucket_name  = local.s3_bucket_name
-  DEFAULT_TAGS = var.DEFAULT_TAGS
-  STAGE        = var.STAGE
-
-  providers = {
-    aws.s3_region = aws.sea_region
-  }
-}
-
-module "create_calendar_s3_bucket" {
-  source       = "./modules/s3-fe"
-  bucket_name  = local.s3_calendar_bucket_name
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
 
