@@ -39,9 +39,19 @@ data "aws_cloudfront_origin_request_policy" "origin_request_policy_api" {
   name     = "Managed-AllViewer"
 }
 # CF OAI
+
 resource "aws_cloudfront_origin_access_identity" "reports_s3_origin_identity" {
   provider = aws.cloudfront_region
-  comment  = local.cf_domain_name
+  comment  = var.bucket_id
+}
+
+resource "aws_cloudfront_origin_access_control" "s3_origin_access_control" {
+  provider                          = aws.cloudfront_region
+  name                              = var.bucket_id
+  description                       = "Cloudfront origin access Control"
+  origin_access_control_origin_type = "s3"
+  signing_behavior                  = "always"
+  signing_protocol                  = "sigv4"
 }
 
 # CF Distribution
@@ -49,12 +59,9 @@ resource "aws_cloudfront_distribution" "reports_cf_distribution" {
   provider = aws.cloudfront_region
   #s3-origin
   origin {
-    domain_name = var.bucket_regional_domain_name
-    origin_id   = local.cf_domain_name
-
-    s3_origin_config {
-      origin_access_identity = "origin-access-identity/cloudfront/${aws_cloudfront_origin_access_identity.reports_s3_origin_identity.id}"
-    }
+    domain_name              = var.bucket_regional_domain_name
+    origin_id                = local.cf_domain_name
+    origin_access_control_id = aws_cloudfront_origin_access_control.s3_origin_access_control.id
   }
 
   dynamic "origin" {
@@ -137,6 +144,20 @@ data "aws_iam_policy_document" "reports_s3_bucket_policy_document" {
     principals {
       type        = "AWS"
       identifiers = [aws_cloudfront_origin_access_identity.reports_s3_origin_identity.iam_arn]
+    }
+  }
+  statement {
+    actions   = ["s3:GetObject"]
+    resources = ["${var.bucket_arn}/*"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["cloudfront.amazonaws.com"] # Use the service principal for CloudFront
+    }
+    condition {
+      test     = "StringEquals"
+      variable = "AWS:SourceArn"
+      values   = [aws_cloudfront_origin_access_control.s3_origin_access_control.id]
     }
   }
 }
