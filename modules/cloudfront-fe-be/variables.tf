@@ -42,3 +42,8 @@ variable "qatalyst_alb_dns_names" {
   type        = map(any)
   description = "Qatalyst ALB DNS Name Values"
 }
+
+variable "s3_origin_access_control_id" {
+  type        = string
+  description = "S3 Origin access control"
+}

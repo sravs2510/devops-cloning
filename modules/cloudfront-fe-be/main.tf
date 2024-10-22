@@ -45,15 +45,6 @@ resource "aws_cloudfront_origin_access_identity" "reports_s3_origin_identity" {
   comment  = var.bucket_id
 }
 
-resource "aws_cloudfront_origin_access_control" "s3_origin_access_control" {
-  provider                          = aws.cloudfront_region
-  name                              = var.bucket_id
-  description                       = "Cloudfront origin access Control"
-  origin_access_control_origin_type = "s3"
-  signing_behavior                  = "always"
-  signing_protocol                  = "sigv4"
-}
-
 # CF Distribution
 resource "aws_cloudfront_distribution" "reports_cf_distribution" {
   provider = aws.cloudfront_region
@@ -61,7 +52,7 @@ resource "aws_cloudfront_distribution" "reports_cf_distribution" {
   origin {
     domain_name              = var.bucket_regional_domain_name
     origin_id                = local.cf_domain_name
-    origin_access_control_id = aws_cloudfront_origin_access_control.s3_origin_access_control.id
+    origin_access_control_id = var.s3_origin_access_control_id
   }
 
   dynamic "origin" {
@@ -157,7 +148,7 @@ data "aws_iam_policy_document" "reports_s3_bucket_policy_document" {
     condition {
       test     = "StringEquals"
       variable = "AWS:SourceArn"
-      values   = [aws_cloudfront_origin_access_control.s3_origin_access_control.id]
+      values   = [var.s3_origin_access_control_id]
     }
   }
 }
