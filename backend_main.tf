@@ -890,6 +890,7 @@ module "create_cloudfront_meet" {
   acm_certificate_arn         = module.create_us_meet_acm_cf.acm_arn
   bucket_regional_domain_name = module.create_meet_s3_sub_domain.s3_bucket_regional_domain_name
   qatalyst_alb_dns_names      = local.alb_dns_names
+  s3_origin_access_control_id = module.create_cdn_cache_policy.s3_origin_access_control_id
 
   providers = {
     aws.cloudfront_region = aws.us_region
@@ -942,6 +943,7 @@ module "create_cloudfront_invite" {
   acm_certificate_arn         = module.create_us_invite_acm_cf_alb.acm_arn
   bucket_regional_domain_name = module.create_invite_s3_sub_domain.s3_bucket_regional_domain_name
   qatalyst_alb_dns_names      = local.alb_dns_names
+  s3_origin_access_control_id = module.create_cdn_cache_policy.s3_origin_access_control_id
 
   providers = {
     aws.cloudfront_region = aws.us_region

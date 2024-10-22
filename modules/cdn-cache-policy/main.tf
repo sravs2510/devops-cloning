@@ -33,3 +33,12 @@ resource "aws_cloudfront_cache_policy" "qatalyst_cdn_cache_policy" {
     enable_accept_encoding_brotli = true
   }
 }
+
+resource "aws_cloudfront_origin_access_control" "s3_origin_access_control" {
+  provider                          = aws.cloudfront_region
+  name                              = "qatalyst-origin-access-control"
+  description                       = "Cloudfront origin access Control"
+  origin_access_control_origin_type = "s3"
+  signing_behavior                  = "always"
+  signing_protocol                  = "sigv4"
+}
