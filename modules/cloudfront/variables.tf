@@ -52,3 +52,8 @@ variable "cache_policy_id" {
   type        = string
   description = "cdn custom policy id"
 }
+
+variable "s3_origin_access_control_id" {
+  type        = string
+  description = "S3 Origin access control"
+}

@@ -11,6 +11,10 @@ data "aws_region" "current" {
   provider = aws.bucket_region
 }
 
+data "aws_caller_identity" "current" {
+  provider = aws.bucket_region
+}
+
 locals {
   datacenter_code             = lookup(var.datacenter_codes, data.aws_region.current.name)
   r53_hosted_zone_domain_name = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.sub_domain, var.base_domain])
@@ -18,6 +22,7 @@ locals {
   multi_region_domain         = var.STAGE == "prod" ? join(".", [local.datacenter_code, local.domain_suffix]) : join(".", [local.datacenter_code, var.STAGE, local.domain_suffix])
   global_domain               = var.STAGE == "prod" ? local.domain_suffix : join(".", [var.STAGE, local.domain_suffix])
   cf_domain_name              = var.is_multi_region ? local.multi_region_domain : local.global_domain
+  account_id                  = data.aws_caller_identity.current.account_id
 }
 
 data "aws_cloudfront_response_headers_policy" "response_headers_policy" {
@@ -28,19 +33,16 @@ data "aws_cloudfront_response_headers_policy" "response_headers_policy" {
 # CF OAI
 resource "aws_cloudfront_origin_access_identity" "media_s3_origin_identity" {
   provider = aws.cloudfront_region
-  comment  = local.cf_domain_name
+  comment  = var.bucket_id
 }
 
 # CF Distribution
 resource "aws_cloudfront_distribution" "media_cf_distribution" {
   provider = aws.cloudfront_region
   origin {
-    domain_name = var.bucket_regional_domain_name
-    origin_id   = local.cf_domain_name
-
-    s3_origin_config {
-      origin_access_identity = "origin-access-identity/cloudfront/${aws_cloudfront_origin_access_identity.media_s3_origin_identity.id}"
-    }
+    domain_name              = var.bucket_regional_domain_name
+    origin_id                = local.cf_domain_name
+    origin_access_control_id = var.s3_origin_access_control_id
   }
 
   aliases = [
@@ -85,6 +87,20 @@ data "aws_iam_policy_document" "media_s3_bucket_policy_document" {
     principals {
       type        = "AWS"
       identifiers = [aws_cloudfront_origin_access_identity.media_s3_origin_identity.iam_arn]
+    }
+  }
+  statement {
+    actions   = ["s3:GetObject"]
+    resources = ["${var.bucket_arn}/*"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["cloudfront.amazonaws.com"] # Use the service principal for CloudFront
+    }
+    condition {
+      test     = "StringLike"
+      variable = "AWS:SourceArn"
+      values   = ["arn:aws:cloudfront::${local.account_id}:distribution/*"]
     }
   }
 }
