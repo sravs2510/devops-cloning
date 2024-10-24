@@ -18,6 +18,7 @@ module "create_dashboard_cloudfront" {
   bucket_id                   = module.create_dashboard_s3_bucket.s3_bucket_id
   bucket_regional_domain_name = module.create_dashboard_s3_bucket.s3_bucket_regional_domain_name
   acm_certificate_arn         = var.dashboard_acm_arn
+  s3_origin_access_control_id = module.create_cdn_cache_policy.s3_origin_access_control_id
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE
 

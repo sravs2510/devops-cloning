@@ -93,6 +93,7 @@ module "create_eu_media_cloudfront" {
   acm_certificate_arn         = try(module.create_eu_acm_media_cf[0].acm_arn, "")
   cache_policy_id             = module.create_cdn_cache_policy.cdn_cache_policy_id
   is_multi_region             = true
+  s3_origin_access_control_id = module.create_cdn_cache_policy.s3_origin_access_control_id
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE
 
@@ -356,6 +357,7 @@ module "create_in_media_cloudfront" {
   acm_certificate_arn         = module.create_in_acm_media_cf[0].acm_arn
   cache_policy_id             = module.create_cdn_cache_policy.cdn_cache_policy_id
   is_multi_region             = true
+  s3_origin_access_control_id = module.create_cdn_cache_policy.s3_origin_access_control_id
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE
 
@@ -618,6 +620,7 @@ module "create_sea_media_cloudfront" {
   acm_certificate_arn         = module.create_sea_acm_media_cf[0].acm_arn
   cache_policy_id             = module.create_cdn_cache_policy.cdn_cache_policy_id
   is_multi_region             = true
+  s3_origin_access_control_id = module.create_cdn_cache_policy.s3_origin_access_control_id
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE
 
@@ -854,6 +857,7 @@ module "create_common_cloudfront" {
   acm_certificate_arn         = module.create_common_acm_cf.acm_arn
   cache_policy_id             = module.create_cdn_cache_policy.cdn_cache_policy_id
   is_multi_region             = false
+  s3_origin_access_control_id = module.create_cdn_cache_policy.s3_origin_access_control_id
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE
 
@@ -1009,6 +1013,7 @@ module "create_us_media_cloudfront" {
   acm_certificate_arn         = try(module.create_us_acm_media_cf[0].acm_arn, "")
   cache_policy_id             = module.create_cdn_cache_policy.cdn_cache_policy_id
   is_multi_region             = true
+  s3_origin_access_control_id = module.create_cdn_cache_policy.s3_origin_access_control_id
   DEFAULT_TAGS                = var.DEFAULT_TAGS
   STAGE                       = var.STAGE
 
