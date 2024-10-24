@@ -106,7 +106,7 @@ module "create_us_ecs_copilot_service" {
 #Cloudwatch
 module "create_eu_cloudwatch_copilot_dashboard" {
   source           = "./modules/cloudwatch"
-  count            = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
+  count            = lookup(var.cloudwatch_deploy_regions, data.aws_region.eu.name) ? 1 : 0
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
   ecs_service_name = local.qatalyst_copilot_service_name
@@ -123,7 +123,7 @@ module "create_eu_cloudwatch_copilot_dashboard" {
 
 module "create_in_cloudwatch_copilot_dashboard" {
   source           = "./modules/cloudwatch"
-  count            = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
+  count            = lookup(var.cloudwatch_deploy_regions, data.aws_region.in.name) ? 1 : 0
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
   ecs_service_name = local.qatalyst_copilot_service_name
@@ -140,7 +140,7 @@ module "create_in_cloudwatch_copilot_dashboard" {
 
 module "create_sea_cloudwatch_copilot_dashboard" {
   source           = "./modules/cloudwatch"
-  count            = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
+  count            = lookup(var.cloudwatch_deploy_regions, data.aws_region.sea.name) ? 1 : 0
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
   ecs_service_name = local.qatalyst_copilot_service_name
@@ -156,7 +156,7 @@ module "create_sea_cloudwatch_copilot_dashboard" {
 
 module "create_us_cloudwatch_copilot_dashboard" {
   source           = "./modules/cloudwatch"
-  count            = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
+  count            = lookup(var.cloudwatch_deploy_regions, data.aws_region.us.name) ? 1 : 0
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
   ecs_service_name = local.qatalyst_copilot_service_name

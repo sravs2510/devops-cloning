@@ -248,3 +248,14 @@ variable "calendar_sub_domain" {
   type        = string
   description = "Calendar Domain Name"
 }
+
+variable "cloudwatch_deploy_regions" {
+  type        = map(string)
+  description = "AWS Regions to deploy the cloudwatch dashboards"
+  default = {
+    "eu-north-1"     = false
+    "ap-south-1"     = false
+    "ap-southeast-1" = false
+    "us-east-1"      = false
+  }
+}
