@@ -188,7 +188,7 @@ module "create_eu_ecr" {
 }
 
 module "create_eu_media_convert_queue" {
-  source              = "./modules/mediaconvert"
+  source              = "git@github.com:EntropikTechnologies/terraform-modules.git//mediaconvert"
   count               = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
   mediaconvert_queues = var.mediaconvert_queues
   DEFAULT_TAGS        = var.DEFAULT_TAGS
@@ -453,7 +453,7 @@ module "create_in_ecr" {
 }
 
 module "create_in_media_convert_queue" {
-  source              = "./modules/mediaconvert"
+  source              = "git@github.com:EntropikTechnologies/terraform-modules.git//mediaconvert"
   count               = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
   mediaconvert_queues = var.mediaconvert_queues
   DEFAULT_TAGS        = var.DEFAULT_TAGS
@@ -703,7 +703,7 @@ module "create_sea_ssm" {
 }
 
 module "create_sea_media_convert_queue" {
-  source              = "./modules/mediaconvert"
+  source              = "git@github.com:EntropikTechnologies/terraform-modules.git//mediaconvert"
   count               = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
   mediaconvert_queues = var.mediaconvert_queues
   DEFAULT_TAGS        = var.DEFAULT_TAGS
@@ -1158,7 +1158,7 @@ module "create_us_ecr" {
 }
 
 module "create_us_media_convert_queue" {
-  source              = "./modules/mediaconvert"
+  source              = "git@github.com:EntropikTechnologies/terraform-modules.git//mediaconvert"
   count               = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
   mediaconvert_queues = var.mediaconvert_queues
   DEFAULT_TAGS        = var.DEFAULT_TAGS
