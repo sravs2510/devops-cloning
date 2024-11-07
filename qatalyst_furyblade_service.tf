@@ -24,8 +24,8 @@ module "create_sea_ecs_furyblade_service" {
   STAGE                       = var.STAGE
   repo_name                   = var.service_names["furyblade"]
   service                     = var.service_names["furyblade"]
-  efs_file_system_id          = module.create_sea_cyborg_efs[0].efs_id
-  efs_access_point_id         = module.create_sea_cyborg_efs[0].access_point_id
+  efs_file_system_id          = module.create_sea_efs[0].efs_id
+  efs_access_point_id         = module.create_sea_efs[0].access_point_id
   efs_configuration           = var.efs_configurations["furyblade"]
   logs_retention_in_days      = var.cw_logs_retention_in_days
 
@@ -60,8 +60,8 @@ module "create_in_ecs_furyblade_service" {
   STAGE                       = var.STAGE
   repo_name                   = var.service_names["furyblade"]
   service                     = var.service_names["furyblade"]
-  efs_file_system_id          = module.create_in_cyborg_efs[0].efs_id
-  efs_access_point_id         = module.create_in_cyborg_efs[0].access_point_id
+  efs_file_system_id          = module.create_in_efs[0].efs_id
+  efs_access_point_id         = module.create_in_efs[0].access_point_id
   efs_configuration           = var.efs_configurations["furyblade"]
   logs_retention_in_days      = var.cw_logs_retention_in_days
 
@@ -96,8 +96,8 @@ module "create_us_ecs_furyblade_service" {
   STAGE                       = var.STAGE
   repo_name                   = var.service_names["furyblade"]
   service                     = var.service_names["furyblade"]
-  efs_file_system_id          = try(module.create_us_cyborg_efs[0].efs_id, "")
-  efs_access_point_id         = try(module.create_us_cyborg_efs[0].access_point_id, "")
+  efs_file_system_id          = try(module.create_us_efs[0].efs_id, "")
+  efs_access_point_id         = try(module.create_us_efs[0].access_point_id, "")
   efs_configuration           = var.efs_configurations["furyblade"]
   logs_retention_in_days      = var.cw_logs_retention_in_days
 
@@ -132,8 +132,8 @@ module "create_eu_ecs_furyblade_service" {
   STAGE                       = var.STAGE
   repo_name                   = var.service_names["furyblade"]
   service                     = var.service_names["furyblade"]
-  efs_file_system_id          = try(module.create_eu_cyborg_efs[0].efs_id, "")
-  efs_access_point_id         = try(module.create_eu_cyborg_efs[0].access_point_id, "")
+  efs_file_system_id          = try(module.create_eu_efs[0].efs_id, "")
+  efs_access_point_id         = try(module.create_eu_efs[0].access_point_id, "")
   efs_configuration           = var.efs_configurations["furyblade"]
   logs_retention_in_days      = var.cw_logs_retention_in_days
 
