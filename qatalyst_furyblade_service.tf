@@ -24,8 +24,8 @@ module "create_sea_ecs_furyblade_service" {
   STAGE                       = var.STAGE
   repo_name                   = var.service_names["furyblade"]
   service                     = var.service_names["furyblade"]
-  efs_file_system_id          = module.create_sea_furyblade_efs[0].efs_id
-  efs_access_point_id         = module.create_sea_furyblade_efs[0].access_point_id
+  efs_file_system_id          = module.create_sea_cyborg_efs[0].efs_id
+  efs_access_point_id         = module.create_sea_cyborg_efs[0].access_point_id
   efs_configuration           = var.efs_configurations["furyblade"]
   logs_retention_in_days      = var.cw_logs_retention_in_days
 
@@ -60,8 +60,8 @@ module "create_in_ecs_furyblade_service" {
   STAGE                       = var.STAGE
   repo_name                   = var.service_names["furyblade"]
   service                     = var.service_names["furyblade"]
-  efs_file_system_id          = module.create_in_furyblade_efs[0].efs_id
-  efs_access_point_id         = module.create_in_furyblade_efs[0].access_point_id
+  efs_file_system_id          = module.create_in_cyborg_efs[0].efs_id
+  efs_access_point_id         = module.create_in_cyborg_efs[0].access_point_id
   efs_configuration           = var.efs_configurations["furyblade"]
   logs_retention_in_days      = var.cw_logs_retention_in_days
 
@@ -96,8 +96,8 @@ module "create_us_ecs_furyblade_service" {
   STAGE                       = var.STAGE
   repo_name                   = var.service_names["furyblade"]
   service                     = var.service_names["furyblade"]
-  efs_file_system_id          = try(module.create_us_furyblade_efs[0].efs_id, "")
-  efs_access_point_id         = try(module.create_us_furyblade_efs[0].access_point_id, "")
+  efs_file_system_id          = try(module.create_us_cyborg_efs[0].efs_id, "")
+  efs_access_point_id         = try(module.create_us_cyborg_efs[0].access_point_id, "")
   efs_configuration           = var.efs_configurations["furyblade"]
   logs_retention_in_days      = var.cw_logs_retention_in_days
 
@@ -132,8 +132,8 @@ module "create_eu_ecs_furyblade_service" {
   STAGE                       = var.STAGE
   repo_name                   = var.service_names["furyblade"]
   service                     = var.service_names["furyblade"]
-  efs_file_system_id          = try(module.create_eu_furyblade_efs[0].efs_id, "")
-  efs_access_point_id         = try(module.create_eu_furyblade_efs[0].access_point_id, "")
+  efs_file_system_id          = try(module.create_eu_cyborg_efs[0].efs_id, "")
+  efs_access_point_id         = try(module.create_eu_cyborg_efs[0].access_point_id, "")
   efs_configuration           = var.efs_configurations["furyblade"]
   logs_retention_in_days      = var.cw_logs_retention_in_days
 
@@ -142,61 +142,62 @@ module "create_eu_ecs_furyblade_service" {
   }
 }
 
-module "create_eu_furyblade_efs" {
-  source            = "git@github.com:EntropikTechnologies/terraform-modules.git//efs"
-  count             = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
-  STAGE             = var.STAGE
-  DEFAULT_TAGS      = var.DEFAULT_TAGS
-  efs_configuration = var.efs_configurations["furyblade"]
-  private_subnets   = try(module.create_eu_vpc[0].private_subnets, [])
-  sg_id             = try(module.create_eu_vpc[0].security_group_id, "")
+# No need to create separate efs for furyblade, use qatalyst common
+# module "create_eu_furyblade_efs" {
+#   source            = "git@github.com:EntropikTechnologies/terraform-modules.git//efs"
+#   count             = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
+#   STAGE             = var.STAGE
+#   DEFAULT_TAGS      = var.DEFAULT_TAGS
+#   efs_configuration = var.efs_configurations["furyblade"]
+#   private_subnets   = try(module.create_eu_vpc[0].private_subnets, [])
+#   sg_id             = try(module.create_eu_vpc[0].security_group_id, "")
 
-  providers = {
-    aws.efs_region = aws.eu_region
-  }
-}
+#   providers = {
+#     aws.efs_region = aws.eu_region
+#   }
+# }
 
-module "create_in_furyblade_efs" {
-  source            = "git@github.com:EntropikTechnologies/terraform-modules.git//efs"
-  count             = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
-  STAGE             = var.STAGE
-  DEFAULT_TAGS      = var.DEFAULT_TAGS
-  efs_configuration = var.efs_configurations["furyblade"]
-  private_subnets   = module.create_in_vpc[0].private_subnets
-  sg_id             = module.create_in_vpc[0].security_group_id
+# module "create_in_furyblade_efs" {
+#   source            = "git@github.com:EntropikTechnologies/terraform-modules.git//efs"
+#   count             = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
+#   STAGE             = var.STAGE
+#   DEFAULT_TAGS      = var.DEFAULT_TAGS
+#   efs_configuration = var.efs_configurations["furyblade"]
+#   private_subnets   = module.create_in_vpc[0].private_subnets
+#   sg_id             = module.create_in_vpc[0].security_group_id
 
-  providers = {
-    aws.efs_region = aws.in_region
-  }
-}
+#   providers = {
+#     aws.efs_region = aws.in_region
+#   }
+# }
 
-module "create_sea_furyblade_efs" {
-  source            = "git@github.com:EntropikTechnologies/terraform-modules.git//efs"
-  count             = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
-  STAGE             = var.STAGE
-  DEFAULT_TAGS      = var.DEFAULT_TAGS
-  efs_configuration = var.efs_configurations["furyblade"]
-  private_subnets   = module.create_sea_vpc[0].private_subnets
-  sg_id             = module.create_sea_vpc[0].security_group_id
+# module "create_sea_furyblade_efs" {
+#   source            = "git@github.com:EntropikTechnologies/terraform-modules.git//efs"
+#   count             = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
+#   STAGE             = var.STAGE
+#   DEFAULT_TAGS      = var.DEFAULT_TAGS
+#   efs_configuration = var.efs_configurations["furyblade"]
+#   private_subnets   = module.create_sea_vpc[0].private_subnets
+#   sg_id             = module.create_sea_vpc[0].security_group_id
 
-  providers = {
-    aws.efs_region = aws.sea_region
-  }
-}
+#   providers = {
+#     aws.efs_region = aws.sea_region
+#   }
+# }
 
-module "create_us_furyblade_efs" {
-  source            = "git@github.com:EntropikTechnologies/terraform-modules.git//efs"
-  count             = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
-  STAGE             = var.STAGE
-  DEFAULT_TAGS      = var.DEFAULT_TAGS
-  efs_configuration = var.efs_configurations["furyblade"]
-  private_subnets   = try(module.create_us_vpc[0].private_subnets, [])
-  sg_id             = try(module.create_us_vpc[0].security_group_id, "")
+# module "create_us_furyblade_efs" {
+#   source            = "git@github.com:EntropikTechnologies/terraform-modules.git//efs"
+#   count             = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
+#   STAGE             = var.STAGE
+#   DEFAULT_TAGS      = var.DEFAULT_TAGS
+#   efs_configuration = var.efs_configurations["furyblade"]
+#   private_subnets   = try(module.create_us_vpc[0].private_subnets, [])
+#   sg_id             = try(module.create_us_vpc[0].security_group_id, "")
 
-  providers = {
-    aws.efs_region = aws.us_region
-  }
-}
+#   providers = {
+#     aws.efs_region = aws.us_region
+#   }
+#}
 
 #Event Bridge Scheduler Group
 module "create_eu_furyblade_eventbridge_group" {
