@@ -479,6 +479,11 @@ efs_configurations = {
     path          = "/mammoth"
     enable_backup = false
   }
+  qatalyst = {
+    name          = "qatalyst"
+    path          = "/qatalyst"
+    enable_backup = false
+  }
 }
 
 service_names = {
