@@ -171,65 +171,53 @@ module "create_us_cloudwatch_reports_dashboard" {
 
 #ACM
 module "create_in_reports_acm" {
-  source           = "./modules/acm"
-  count            = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
-  base_domain      = var.base_domain
-  sub_domain       = var.reports_sub_domain
-  datacenter_codes = var.datacenter_codes
-  is_multi_region  = false
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
+  source             = "git@github.com:EntropikTechnologies/terraform-modules.git//acm"
+  count              = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
+  hosted_zone_domain = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.reports_sub_domain, var.base_domain])
+  domain_name        = var.STAGE == "prod" ? join(".", [var.reports_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.reports_sub_domain, var.base_domain])
+  DEFAULT_TAGS       = var.DEFAULT_TAGS
+  STAGE              = var.STAGE
 
   providers = {
-    aws.acm_region        = aws.in_region
-    aws.datacenter_region = aws.in_region
+    aws.acm_region = aws.in_region
   }
 }
 
 module "create_sea_reports_acm" {
-  source           = "./modules/acm"
-  count            = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
-  base_domain      = var.base_domain
-  sub_domain       = var.reports_sub_domain
-  datacenter_codes = var.datacenter_codes
-  is_multi_region  = false
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
+  source             = "git@github.com:EntropikTechnologies/terraform-modules.git//acm"
+  count              = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
+  hosted_zone_domain = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.reports_sub_domain, var.base_domain])
+  domain_name        = var.STAGE == "prod" ? join(".", [var.reports_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.reports_sub_domain, var.base_domain])
+  DEFAULT_TAGS       = var.DEFAULT_TAGS
+  STAGE              = var.STAGE
 
   providers = {
-    aws.acm_region        = aws.sea_region
-    aws.datacenter_region = aws.sea_region
+    aws.acm_region = aws.sea_region
   }
 }
 
 module "create_reports_acm_cf" {
-  source           = "./modules/acm"
-  base_domain      = var.base_domain
-  sub_domain       = var.reports_sub_domain
-  datacenter_codes = var.datacenter_codes
-  is_multi_region  = false
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
+  source             = "git@github.com:EntropikTechnologies/terraform-modules.git//acm"
+  hosted_zone_domain = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.reports_sub_domain, var.base_domain])
+  domain_name        = var.STAGE == "prod" ? join(".", [var.reports_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.reports_sub_domain, var.base_domain])
+  DEFAULT_TAGS       = var.DEFAULT_TAGS
+  STAGE              = var.STAGE
 
   providers = {
-    aws.acm_region        = aws.us_region
-    aws.datacenter_region = aws.us_region
+    aws.acm_region = aws.us_region
   }
 }
 
 module "create_eu_reports_acm" {
-  source           = "./modules/acm"
-  count            = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
-  base_domain      = var.base_domain
-  sub_domain       = var.reports_sub_domain
-  datacenter_codes = var.datacenter_codes
-  is_multi_region  = false
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
+  source             = "git@github.com:EntropikTechnologies/terraform-modules.git//acm"
+  count              = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
+  hosted_zone_domain = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.reports_sub_domain, var.base_domain])
+  domain_name        = var.STAGE == "prod" ? join(".", [var.reports_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.reports_sub_domain, var.base_domain])
+  DEFAULT_TAGS       = var.DEFAULT_TAGS
+  STAGE              = var.STAGE
 
   providers = {
-    aws.acm_region        = aws.eu_region
-    aws.datacenter_region = aws.eu_region
+    aws.acm_region = aws.eu_region
   }
 }
 
