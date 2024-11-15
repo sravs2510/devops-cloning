@@ -34,11 +34,11 @@ locals {
 
 #Congito Custom Domain ACM
 module "create_cognito_custom_domain_acm" {
-  source       = "./modules/acm-fe"
-  base_domain  = var.base_domain
-  domain_name  = local.cognito_custom_domain
-  DEFAULT_TAGS = var.DEFAULT_TAGS
-  STAGE        = var.STAGE
+  source             = "git@github.com:EntropikTechnologies/terraform-modules.git//acm"
+  hosted_zone_domain = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, "auth", var.base_domain])
+  domain_name        = local.cognito_custom_domain
+  DEFAULT_TAGS       = var.DEFAULT_TAGS
+  STAGE              = var.STAGE
 
   providers = {
     aws.acm_region = aws.us_region
@@ -68,8 +68,8 @@ module "create_cognito_user_pool" {
 }
 
 locals {
-  s3_bucket_name          = var.STAGE == "prod" ? join(".", [var.tester_view_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.tester_view_sub_domain, var.base_domain])
-  }
+  s3_bucket_name = var.STAGE == "prod" ? join(".", [var.tester_view_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.tester_view_sub_domain, var.base_domain])
+}
 
 # Tester view Resources
 module "create_tester_view_s3_bucket" {

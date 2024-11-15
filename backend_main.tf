@@ -35,50 +35,41 @@ module "create_eu_s3_bucket" {
 }
 
 module "create_eu_acm_media_cf" {
-  source           = "./modules/acm"
-  count            = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
-  base_domain      = var.base_domain
-  sub_domain       = var.media_sub_domain
-  datacenter_codes = var.datacenter_codes
-  is_multi_region  = true
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
+  source             = "git@github.com:EntropikTechnologies/terraform-modules.git//acm"
+  count              = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
+  hosted_zone_domain = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.media_sub_domain, var.base_domain])
+  domain_name        = var.STAGE == "prod" ? join(".", [lookup(var.datacenter_codes, data.aws_region.eu.name), var.media_sub_domain, var.base_domain]) : join(".", [lookup(var.datacenter_codes, data.aws_region.eu.name), var.STAGE, var.media_sub_domain, var.base_domain])
+  DEFAULT_TAGS       = var.DEFAULT_TAGS
+  STAGE              = var.STAGE
 
   providers = {
-    aws.acm_region        = aws.us_region
-    aws.datacenter_region = aws.eu_region
+    aws.acm_region = aws.us_region
   }
 }
 
 module "create_eu_meet_acm_cf" {
-  source           = "./modules/acm"
-  count            = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
-  base_domain      = var.base_domain
-  sub_domain       = var.meet_sub_domain
-  datacenter_codes = var.datacenter_codes
-  is_multi_region  = false
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
+  source             = "git@github.com:EntropikTechnologies/terraform-modules.git//acm"
+  count              = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
+  hosted_zone_domain = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.meet_sub_domain, var.base_domain])
+  domain_name        = var.STAGE == "prod" ? join(".", [var.meet_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.meet_sub_domain, var.base_domain])
+  DEFAULT_TAGS       = var.DEFAULT_TAGS
+  STAGE              = var.STAGE
 
   providers = {
-    aws.acm_region        = aws.eu_region
-    aws.datacenter_region = aws.eu_region
+    aws.acm_region = aws.eu_region
   }
 }
 
 module "create_eu_acm_invite_alb" {
-  source           = "./modules/acm"
-  count            = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
-  base_domain      = var.base_domain
-  sub_domain       = var.invite_sub_domain
-  datacenter_codes = var.datacenter_codes
-  is_multi_region  = false
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
+  source             = "git@github.com:EntropikTechnologies/terraform-modules.git//acm"
+  count              = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
+  hosted_zone_domain = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.invite_sub_domain, var.base_domain])
+  domain_name        = var.STAGE == "prod" ? join(".", [var.invite_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.invite_sub_domain, var.base_domain])
+  DEFAULT_TAGS       = var.DEFAULT_TAGS
+  STAGE              = var.STAGE
 
   providers = {
-    aws.acm_region        = aws.eu_region
-    aws.datacenter_region = aws.eu_region
+    aws.acm_region = aws.eu_region
   }
 }
 module "create_eu_media_cloudfront" {
@@ -104,18 +95,15 @@ module "create_eu_media_cloudfront" {
 }
 
 module "create_eu_acm_api" {
-  source           = "./modules/acm"
-  count            = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
-  base_domain      = var.base_domain
-  sub_domain       = var.api_sub_domain
-  datacenter_codes = var.datacenter_codes
-  is_multi_region  = true
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
+  source             = "git@github.com:EntropikTechnologies/terraform-modules.git//acm"
+  count              = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
+  hosted_zone_domain = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.api_sub_domain, var.base_domain])
+  domain_name        = var.STAGE == "prod" ? join(".", [lookup(var.datacenter_codes, data.aws_region.eu.name), var.api_sub_domain, var.base_domain]) : join(".", [lookup(var.datacenter_codes, data.aws_region.eu.name), var.STAGE, var.api_sub_domain, var.base_domain])
+  DEFAULT_TAGS       = var.DEFAULT_TAGS
+  STAGE              = var.STAGE
 
   providers = {
-    aws.acm_region        = aws.eu_region
-    aws.datacenter_region = aws.eu_region
+    aws.acm_region = aws.eu_region
   }
 }
 
@@ -297,52 +285,43 @@ module "create_in_s3_bucket" {
 }
 
 module "create_in_acm_media_cf" {
-  source           = "./modules/acm"
-  count            = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
-  base_domain      = var.base_domain
-  sub_domain       = var.media_sub_domain
-  datacenter_codes = var.datacenter_codes
-  is_multi_region  = true
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
+  source             = "git@github.com:EntropikTechnologies/terraform-modules.git//acm"
+  count              = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
+  hosted_zone_domain = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.media_sub_domain, var.base_domain])
+  domain_name        = var.STAGE == "prod" ? join(".", [lookup(var.datacenter_codes, data.aws_region.in.name), var.media_sub_domain, var.base_domain]) : join(".", [lookup(var.datacenter_codes, data.aws_region.in.name), var.STAGE, var.media_sub_domain, var.base_domain])
+  DEFAULT_TAGS       = var.DEFAULT_TAGS
+  STAGE              = var.STAGE
 
   providers = {
-    aws.acm_region        = aws.us_region
-    aws.datacenter_region = aws.in_region
+    aws.acm_region = aws.us_region
   }
 }
 
 
 
 module "create_in_meet_acm_cf" {
-  source           = "./modules/acm"
-  count            = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
-  base_domain      = var.base_domain
-  sub_domain       = var.meet_sub_domain
-  datacenter_codes = var.datacenter_codes
-  is_multi_region  = false
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
+  source             = "git@github.com:EntropikTechnologies/terraform-modules.git//acm"
+  count              = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
+  hosted_zone_domain = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.meet_sub_domain, var.base_domain])
+  domain_name        = var.STAGE == "prod" ? join(".", [var.meet_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.meet_sub_domain, var.base_domain])
+  DEFAULT_TAGS       = var.DEFAULT_TAGS
+  STAGE              = var.STAGE
 
   providers = {
-    aws.acm_region        = aws.in_region
-    aws.datacenter_region = aws.in_region
+    aws.acm_region = aws.in_region
   }
 }
 
 module "create_in_acm_invite_alb" {
-  source           = "./modules/acm"
-  count            = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
-  base_domain      = var.base_domain
-  sub_domain       = var.invite_sub_domain
-  datacenter_codes = var.datacenter_codes
-  is_multi_region  = false
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
+  source             = "git@github.com:EntropikTechnologies/terraform-modules.git//acm"
+  count              = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
+  hosted_zone_domain = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.invite_sub_domain, var.base_domain])
+  domain_name        = var.STAGE == "prod" ? join(".", [var.invite_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.invite_sub_domain, var.base_domain])
+  DEFAULT_TAGS       = var.DEFAULT_TAGS
+  STAGE              = var.STAGE
 
   providers = {
-    aws.acm_region        = aws.in_region
-    aws.datacenter_region = aws.in_region
+    aws.acm_region = aws.in_region
   }
 }
 module "create_in_media_cloudfront" {
@@ -368,18 +347,15 @@ module "create_in_media_cloudfront" {
 }
 
 module "create_in_acm_api" {
-  source           = "./modules/acm"
-  count            = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
-  base_domain      = var.base_domain
-  sub_domain       = var.api_sub_domain
-  datacenter_codes = var.datacenter_codes
-  is_multi_region  = true
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
+  source             = "git@github.com:EntropikTechnologies/terraform-modules.git//acm"
+  count              = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
+  hosted_zone_domain = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.api_sub_domain, var.base_domain])
+  domain_name        = var.STAGE == "prod" ? join(".", [lookup(var.datacenter_codes, data.aws_region.in.name), var.api_sub_domain, var.base_domain]) : join(".", [lookup(var.datacenter_codes, data.aws_region.in.name), var.STAGE, var.api_sub_domain, var.base_domain])
+  DEFAULT_TAGS       = var.DEFAULT_TAGS
+  STAGE              = var.STAGE
 
   providers = {
-    aws.acm_region        = aws.in_region
-    aws.datacenter_region = aws.in_region
+    aws.acm_region = aws.in_region
   }
 }
 
@@ -562,50 +538,41 @@ module "create_sea_s3_bucket" {
 }
 
 module "create_sea_acm_media_cf" {
-  source           = "./modules/acm"
-  count            = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
-  base_domain      = var.base_domain
-  sub_domain       = var.media_sub_domain
-  datacenter_codes = var.datacenter_codes
-  is_multi_region  = true
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
+  source             = "git@github.com:EntropikTechnologies/terraform-modules.git//acm"
+  count              = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
+  hosted_zone_domain = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.media_sub_domain, var.base_domain])
+  domain_name        = var.STAGE == "prod" ? join(".", [lookup(var.datacenter_codes, data.aws_region.sea.name), var.media_sub_domain, var.base_domain]) : join(".", [lookup(var.datacenter_codes, data.aws_region.sea.name), var.STAGE, var.media_sub_domain, var.base_domain])
+  DEFAULT_TAGS       = var.DEFAULT_TAGS
+  STAGE              = var.STAGE
 
   providers = {
-    aws.acm_region        = aws.us_region
-    aws.datacenter_region = aws.sea_region
+    aws.acm_region = aws.us_region
   }
 }
 
 module "create_sea_meet_acm_cf" {
-  source           = "./modules/acm"
-  count            = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
-  base_domain      = var.base_domain
-  sub_domain       = var.meet_sub_domain
-  datacenter_codes = var.datacenter_codes
-  is_multi_region  = false
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
+  source             = "git@github.com:EntropikTechnologies/terraform-modules.git//acm"
+  count              = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
+  hosted_zone_domain = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.meet_sub_domain, var.base_domain])
+  domain_name        = var.STAGE == "prod" ? join(".", [var.meet_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.meet_sub_domain, var.base_domain])
+  DEFAULT_TAGS       = var.DEFAULT_TAGS
+  STAGE              = var.STAGE
 
   providers = {
-    aws.acm_region        = aws.sea_region
-    aws.datacenter_region = aws.sea_region
+    aws.acm_region = aws.sea_region
   }
 }
 
 module "create_sea_acm_invite_alb" {
-  source           = "./modules/acm"
-  count            = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
-  base_domain      = var.base_domain
-  sub_domain       = var.invite_sub_domain
-  datacenter_codes = var.datacenter_codes
-  is_multi_region  = false
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
+  source             = "git@github.com:EntropikTechnologies/terraform-modules.git//acm"
+  count              = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
+  hosted_zone_domain = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.invite_sub_domain, var.base_domain])
+  domain_name        = var.STAGE == "prod" ? join(".", [var.invite_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.invite_sub_domain, var.base_domain])
+  DEFAULT_TAGS       = var.DEFAULT_TAGS
+  STAGE              = var.STAGE
 
   providers = {
-    aws.acm_region        = aws.sea_region
-    aws.datacenter_region = aws.sea_region
+    aws.acm_region = aws.sea_region
   }
 }
 module "create_sea_media_cloudfront" {
@@ -631,18 +598,15 @@ module "create_sea_media_cloudfront" {
 }
 
 module "create_sea_acm_api" {
-  source           = "./modules/acm"
-  count            = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
-  base_domain      = var.base_domain
-  sub_domain       = var.api_sub_domain
-  datacenter_codes = var.datacenter_codes
-  is_multi_region  = true
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
+  source             = "git@github.com:EntropikTechnologies/terraform-modules.git//acm"
+  count              = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
+  hosted_zone_domain = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.api_sub_domain, var.base_domain])
+  domain_name        = var.STAGE == "prod" ? join(".", [lookup(var.datacenter_codes, data.aws_region.sea.name), var.api_sub_domain, var.base_domain]) : join(".", [lookup(var.datacenter_codes, data.aws_region.sea.name), var.STAGE, var.api_sub_domain, var.base_domain])
+  DEFAULT_TAGS       = var.DEFAULT_TAGS
+  STAGE              = var.STAGE
 
   providers = {
-    aws.acm_region        = aws.sea_region
-    aws.datacenter_region = aws.sea_region
+    aws.acm_region = aws.sea_region
   }
 }
 
@@ -814,17 +778,14 @@ module "create_us_s3_bucket" {
 }
 
 module "create_common_acm_cf" {
-  source           = "./modules/acm"
-  base_domain      = var.base_domain
-  sub_domain       = var.common_sub_domain
-  datacenter_codes = var.datacenter_codes
-  is_multi_region  = false
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
+  source             = "git@github.com:EntropikTechnologies/terraform-modules.git//acm"
+  hosted_zone_domain = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.common_sub_domain, var.base_domain])
+  domain_name        = var.STAGE == "prod" ? join(".", [var.common_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.common_sub_domain, var.base_domain])
+  DEFAULT_TAGS       = var.DEFAULT_TAGS
+  STAGE              = var.STAGE
 
   providers = {
-    aws.acm_region        = aws.us_region
-    aws.datacenter_region = aws.us_region
+    aws.acm_region = aws.us_region
   }
 }
 
@@ -955,49 +916,40 @@ module "create_cloudfront_invite" {
   }
 }
 module "create_us_invite_acm_cf_alb" {
-  source           = "./modules/acm"
-  base_domain      = var.base_domain
-  sub_domain       = var.invite_sub_domain
-  datacenter_codes = var.datacenter_codes
-  is_multi_region  = false
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
+  source             = "git@github.com:EntropikTechnologies/terraform-modules.git//acm"
+  hosted_zone_domain = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.invite_sub_domain, var.base_domain])
+  domain_name        = var.STAGE == "prod" ? join(".", [var.invite_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.invite_sub_domain, var.base_domain])
+  DEFAULT_TAGS       = var.DEFAULT_TAGS
+  STAGE              = var.STAGE
 
   providers = {
-    aws.acm_region        = aws.us_region
-    aws.datacenter_region = aws.us_region
+    aws.acm_region = aws.us_region
   }
 }
 
 #Meet ACM or cloudfront & ALB
 module "create_us_meet_acm_cf" {
-  source           = "./modules/acm"
-  base_domain      = var.base_domain
-  sub_domain       = var.meet_sub_domain
-  datacenter_codes = var.datacenter_codes
-  is_multi_region  = false
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
+  source             = "git@github.com:EntropikTechnologies/terraform-modules.git//acm"
+  hosted_zone_domain = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.meet_sub_domain, var.base_domain])
+  domain_name        = var.STAGE == "prod" ? join(".", [var.meet_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.meet_sub_domain, var.base_domain])
+  DEFAULT_TAGS       = var.DEFAULT_TAGS
+  STAGE              = var.STAGE
 
   providers = {
-    aws.acm_region        = aws.us_region
-    aws.datacenter_region = aws.us_region
+    aws.acm_region = aws.us_region
   }
 }
 
 module "create_us_acm_media_cf" {
-  source           = "./modules/acm"
-  count            = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
-  base_domain      = var.base_domain
-  sub_domain       = var.media_sub_domain
-  datacenter_codes = var.datacenter_codes
-  is_multi_region  = true
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
+  source             = "git@github.com:EntropikTechnologies/terraform-modules.git//acm"
+  count              = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
+  hosted_zone_domain = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.media_sub_domain, var.base_domain])
+  domain_name        = var.STAGE == "prod" ? join(".", [lookup(var.datacenter_codes, data.aws_region.us.name), var.media_sub_domain, var.base_domain]) : join(".", [lookup(var.datacenter_codes, data.aws_region.us.name), var.STAGE, var.media_sub_domain, var.base_domain])
+  DEFAULT_TAGS       = var.DEFAULT_TAGS
+  STAGE              = var.STAGE
 
   providers = {
-    aws.acm_region        = aws.us_region
-    aws.datacenter_region = aws.us_region
+    aws.acm_region = aws.us_region
   }
 }
 
@@ -1024,18 +976,15 @@ module "create_us_media_cloudfront" {
 }
 
 module "create_us_acm_api" {
-  source           = "./modules/acm"
-  count            = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
-  base_domain      = var.base_domain
-  sub_domain       = var.api_sub_domain
-  datacenter_codes = var.datacenter_codes
-  is_multi_region  = true
-  DEFAULT_TAGS     = var.DEFAULT_TAGS
-  STAGE            = var.STAGE
+  source             = "git@github.com:EntropikTechnologies/terraform-modules.git//acm"
+  count              = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
+  hosted_zone_domain = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.api_sub_domain, var.base_domain])
+  domain_name        = var.STAGE == "prod" ? join(".", [lookup(var.datacenter_codes, data.aws_region.us.name), var.api_sub_domain, var.base_domain]) : join(".", [lookup(var.datacenter_codes, data.aws_region.us.name), var.STAGE, var.api_sub_domain, var.base_domain])
+  DEFAULT_TAGS       = var.DEFAULT_TAGS
+  STAGE              = var.STAGE
 
   providers = {
-    aws.acm_region        = aws.us_region
-    aws.datacenter_region = aws.us_region
+    aws.acm_region = aws.us_region
   }
 }
 
