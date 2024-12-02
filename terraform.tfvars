@@ -520,6 +520,7 @@ batch_configurations = {
     required_gpu    = "1"
     required_memory = "8192"
     image           = "com/qatalyst-helios:latest"
+    name            = "helios"
   }
 }
 
