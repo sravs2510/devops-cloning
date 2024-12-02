@@ -21,17 +21,17 @@ module "create_eu_batch_helios" {
 module "create_in_batch_helios" {
   source                          = "git@github.com:EntropikTechnologies/terraform-modules.git//batch?ref=feature/AB#49745"
   count                           = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
-  subnet_ids                      = module.create_in_vpc[0].private_subnets
+  private_subnets                 = module.create_in_vpc[0].private_subnets
   DEFAULT_TAGS                    = var.DEFAULT_TAGS
   STAGE                           = var.STAGE
-  security_group_id               = module.create_in_vpc[0].security_group_id
+  sg_id                           = module.create_in_vpc[0].security_group_id
   batch_service_role              = module.create_iam.qatalyst_batch_service_role_arn
   batch_job_role                  = module.create_iam.qatalyst_ecs_task_role_arn
   batch_execution_role            = module.create_iam.qatalyst_ecs_task_execution_role_arn
   datacenter_codes                = var.datacenter_codes
   batch_job_configuration         = var.batch_configurations["helios"]
   file_system_id                  = ""
-  batch_iam_instance_profile      = ""
+  iam_instance_profile            = ""
   access_point_id                 = ""
   container_environment_variables = var.container_environment_variables
   container_secrets               = ""
