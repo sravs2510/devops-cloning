@@ -259,3 +259,13 @@ variable "cloudwatch_deploy_regions" {
     "us-east-1"      = false
   }
 }
+
+variable "container_environment_variables"{
+  type        = any
+  description = "Environment variables"
+}
+
+variable "container_secrets"{
+  type        = any
+  description = "Container secrets"
+}
