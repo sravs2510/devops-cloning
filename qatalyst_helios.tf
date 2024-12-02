@@ -34,7 +34,7 @@ module "create_in_batch_helios" {
   iam_instance_profile            = ""
   access_point_id                 = ""
   container_environment_variables = var.container_environment_variables
-  container_secrets               = ""
+  container_secrets               = var.container_secrets
   batch_compute_name              = join("-", ["qatalyst", var.batch_configurations["helios"].service_name, "batch-compute"])
   batch_job_queue_name            = join("-", ["qatalyst", var.batch_configurations["helios"].service_name, "batch-job-queue"])
   batch_job_definition_name       = join("-", ["qatalyst", var.batch_configurations["helios"].service_name, "batch-job-definition"])
