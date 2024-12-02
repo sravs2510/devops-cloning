@@ -156,6 +156,7 @@ variable "batch_configurations" {
     required_gpu    = optional(number)
     image           = string
     command         = optional(list(string))
+    name            = optional(string)
 
   }))
   description = "Batch Jobs Configuration"
