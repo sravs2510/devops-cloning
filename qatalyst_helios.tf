@@ -38,6 +38,9 @@ module "create_in_batch_helios" {
   batch_compute_name              = join("-", ["qatalyst", var.batch_configurations["helios"].service_name, "batch-compute"])
   batch_job_queue_name            = join("-", ["qatalyst", var.batch_configurations["helios"].service_name, "batch-job-queue"])
   batch_job_definition_name       = join("-", ["qatalyst", var.batch_configurations["helios"].service_name, "batch-job-definition"])
+  opensearch_required             = false
+  opensearch_domain_name          = ""
+  opensearch_instance_name        = ""
 
   providers = {
     aws.batch_region = aws.in_region
