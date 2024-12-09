@@ -524,16 +524,6 @@ batch_configurations = {
   }
 }
 
-container_environment_variables = {
-  LOG_LEVEL                    = "INFO"
-  SENTRY_SAMPLE_RATE           = "1"
-  SENTRY_TRACES_SAMPLE_RATE    = "0"
-  SENTRY_PROFILING_SAMPLE_RATE = "0"
-}
-
-container_secrets = {
-}
-
 opensearch_config = {
   domain_name             = "qatalyst-dashboard"
   instance_type           = "t3.medium.search"

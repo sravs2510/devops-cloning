@@ -13,14 +13,11 @@ module "create_eu_batch_helios" {
   file_system_id                  = ""
   iam_instance_profile            = ""
   access_point_id                 = ""
-  container_environment_variables = var.container_environment_variables
-  container_secrets               = var.container_secrets
+  container_environment_variables = local.helios_batch_environment_variables
+  container_secrets               = [{}]
   batch_compute_name              = join("-", ["qatalyst", var.batch_configurations["helios"].service_name, "batch-compute"])
   batch_job_queue_name            = join("-", ["qatalyst", var.batch_configurations["helios"].service_name, "batch-job-queue"])
   batch_job_definition_name       = join("-", ["qatalyst", var.batch_configurations["helios"].service_name, "batch-job-definition"])
-  opensearch_required             = false
-  opensearch_domain_name          = ""
-  opensearch_instance_name        = ""
   providers = {
     aws.batch_region = aws.eu_region
   }
@@ -41,14 +38,11 @@ module "create_in_batch_helios" {
   file_system_id                  = ""
   iam_instance_profile            = ""
   access_point_id                 = ""
-  container_environment_variables = var.container_environment_variables
-  container_secrets               = var.container_secrets
+  container_environment_variables = local.helios_batch_environment_variables
+  container_secrets               = [{}]
   batch_compute_name              = join("-", ["qatalyst", var.batch_configurations["helios"].service_name, "batch-compute"])
   batch_job_queue_name            = join("-", ["qatalyst", var.batch_configurations["helios"].service_name, "batch-job-queue"])
   batch_job_definition_name       = join("-", ["qatalyst", var.batch_configurations["helios"].service_name, "batch-job-definition"])
-  opensearch_required             = false
-  opensearch_domain_name          = ""
-  opensearch_instance_name        = ""
 
   providers = {
     aws.batch_region = aws.in_region
@@ -70,14 +64,11 @@ module "create_sea_batch_helios" {
   file_system_id                  = ""
   iam_instance_profile            = ""
   access_point_id                 = ""
-  container_environment_variables = var.container_environment_variables
-  container_secrets               = var.container_secrets
+  container_environment_variables = local.helios_batch_environment_variables
+  container_secrets               = [{}]
   batch_compute_name              = join("-", ["qatalyst", var.batch_configurations["helios"].service_name, "batch-compute"])
   batch_job_queue_name            = join("-", ["qatalyst", var.batch_configurations["helios"].service_name, "batch-job-queue"])
   batch_job_definition_name       = join("-", ["qatalyst", var.batch_configurations["helios"].service_name, "batch-job-definition"])
-  opensearch_required             = false
-  opensearch_domain_name          = ""
-  opensearch_instance_name        = ""
   providers = {
     aws.batch_region = aws.sea_region
   }
@@ -98,14 +89,11 @@ module "create_us_batch_helios" {
   file_system_id                  = ""
   iam_instance_profile            = ""
   access_point_id                 = ""
-  container_environment_variables = var.container_environment_variables
-  container_secrets               = var.container_secrets
+  container_environment_variables = local.helios_batch_environment_variables
+  container_secrets               = [{}]
   batch_compute_name              = join("-", ["qatalyst", var.batch_configurations["helios"].service_name, "batch-compute"])
   batch_job_queue_name            = join("-", ["qatalyst", var.batch_configurations["helios"].service_name, "batch-job-queue"])
   batch_job_definition_name       = join("-", ["qatalyst", var.batch_configurations["helios"].service_name, "batch-job-definition"])
-  opensearch_required             = false
-  opensearch_domain_name          = ""
-  opensearch_instance_name        = ""
   providers = {
     aws.batch_region = aws.us_region
   }
