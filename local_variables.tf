@@ -2,10 +2,6 @@ data "aws_caller_identity" "current" {
   provider = aws.in_region
 }
 
-data "aws_region" "current"{
-  provider = aws.batch_region
-}
-
 locals {
   dasboard_domain                   = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.base_domain])
   tester_view_domain                = var.STAGE == "prod" ? join(".", [var.tester_view_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.tester_view_sub_domain, var.base_domain])
@@ -251,14 +247,6 @@ locals {
       {
         name  = "STAGE"
         value = var.STAGE
-      },
-      {
-        name  = "REGION_NAME",
-        value = data.aws_region.current.name
-      },
-      {
-        name  = "DATACENTER_CODE",
-        value = lookup(var.datacenter_codes, data.aws_region.current.name)
       },
       {
         name  = "AWS_ACCOUNT_ID",
