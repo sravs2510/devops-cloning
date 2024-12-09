@@ -10,9 +10,6 @@ module "create_eu_batch_helios" {
   batch_execution_role            = module.create_iam.qatalyst_ecs_task_execution_role_arn
   datacenter_codes                = var.datacenter_codes
   batch_job_configuration         = var.batch_configurations["helios"]
-  file_system_id                  = ""
-  iam_instance_profile            = ""
-  access_point_id                 = ""
   container_environment_variables = concat(local.helios_batch_environment_variables, 
                                     [{
                                       name  = "REGION_NAME"
@@ -22,7 +19,6 @@ module "create_eu_batch_helios" {
                                       name  = "DATACENTER_CODE"
                                       value = lookup(var.datacenter_codes, data.aws_region.eu.name)
                                     }])
-  container_secrets               = []
   batch_compute_name              = join("-", ["qatalyst", var.batch_configurations["helios"].service_name, "batch-compute"])
   batch_job_queue_name            = join("-", ["qatalyst", var.batch_configurations["helios"].service_name, "batch-job-queue"])
   batch_job_definition_name       = join("-", ["qatalyst", var.batch_configurations["helios"].service_name, "batch-job-definition"])
@@ -43,9 +39,6 @@ module "create_in_batch_helios" {
   batch_execution_role            = module.create_iam.qatalyst_ecs_task_execution_role_arn
   datacenter_codes                = var.datacenter_codes
   batch_job_configuration         = var.batch_configurations["helios"]
-  file_system_id                  = ""
-  iam_instance_profile            = ""
-  access_point_id                 = ""
   container_environment_variables = concat(local.helios_batch_environment_variables, 
                                     [{
                                       name  = "REGION_NAME"
@@ -55,7 +48,6 @@ module "create_in_batch_helios" {
                                       name  = "DATACENTER_CODE"
                                       value = lookup(var.datacenter_codes, data.aws_region.in.name)
                                     }])
-  container_secrets               = []
   batch_compute_name              = join("-", ["qatalyst", var.batch_configurations["helios"].service_name, "batch-compute"])
   batch_job_queue_name            = join("-", ["qatalyst", var.batch_configurations["helios"].service_name, "batch-job-queue"])
   batch_job_definition_name       = join("-", ["qatalyst", var.batch_configurations["helios"].service_name, "batch-job-definition"])
@@ -77,9 +69,6 @@ module "create_sea_batch_helios" {
   batch_execution_role            = module.create_iam.qatalyst_ecs_task_execution_role_arn
   datacenter_codes                = var.datacenter_codes
   batch_job_configuration         = var.batch_configurations["helios"]
-  file_system_id                  = ""
-  iam_instance_profile            = ""
-  access_point_id                 = ""
   container_environment_variables = concat(local.helios_batch_environment_variables, 
                                     [{
                                       name  = "REGION_NAME"
@@ -89,7 +78,6 @@ module "create_sea_batch_helios" {
                                       name  = "DATACENTER_CODE"
                                       value = lookup(var.datacenter_codes, data.aws_region.sea.name)
                                     }])
-  container_secrets               = []
   batch_compute_name              = join("-", ["qatalyst", var.batch_configurations["helios"].service_name, "batch-compute"])
   batch_job_queue_name            = join("-", ["qatalyst", var.batch_configurations["helios"].service_name, "batch-job-queue"])
   batch_job_definition_name       = join("-", ["qatalyst", var.batch_configurations["helios"].service_name, "batch-job-definition"])
@@ -110,9 +98,6 @@ module "create_us_batch_helios" {
   batch_execution_role            = module.create_iam.qatalyst_ecs_task_execution_role_arn
   datacenter_codes                = var.datacenter_codes
   batch_job_configuration         = var.batch_configurations["helios"]
-  file_system_id                  = ""
-  iam_instance_profile            = ""
-  access_point_id                 = ""
   container_environment_variables = concat(local.helios_batch_environment_variables, 
                                     [{
                                       name  = "REGION_NAME"
@@ -122,7 +107,6 @@ module "create_us_batch_helios" {
                                       name  = "DATACENTER_CODE"
                                       value = lookup(var.datacenter_codes, data.aws_region.us.name)
                                     }])
-  container_secrets               = []
   batch_compute_name              = join("-", ["qatalyst", var.batch_configurations["helios"].service_name, "batch-compute"])
   batch_job_queue_name            = join("-", ["qatalyst", var.batch_configurations["helios"].service_name, "batch-job-queue"])
   batch_job_definition_name       = join("-", ["qatalyst", var.batch_configurations["helios"].service_name, "batch-job-definition"])
