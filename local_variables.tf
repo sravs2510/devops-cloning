@@ -2,6 +2,10 @@ data "aws_caller_identity" "current" {
   provider = aws.in_region
 }
 
+data "aws_region" "current"{
+  provider = aws.batch_region
+}
+
 locals {
   dasboard_domain                   = var.STAGE == "prod" ? var.base_domain : join(".", [var.STAGE, var.base_domain])
   tester_view_domain                = var.STAGE == "prod" ? join(".", [var.tester_view_sub_domain, var.base_domain]) : join(".", [var.STAGE, var.tester_view_sub_domain, var.base_domain])
