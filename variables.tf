@@ -259,3 +259,11 @@ variable "cloudwatch_deploy_regions" {
     "us-east-1"      = false
   }
 }
+
+variable "qatalyst_ssm_config" {
+  type = object({
+    parameters        = map(string)
+    secure_parameters = map(string)
+  })
+  description = "SSM parameters for the qatalyst"
+}

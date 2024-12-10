@@ -600,3 +600,30 @@ auth0_config = {
   client_secret = "#QATALYST_AUTH0_CLIENT_SECRET"
   oidc_issuer   = "https://getqatalyst.us.auth0.com"
 }
+
+qatalyst_ssm_config = {
+  parameters = {}
+  secure_parameters = {
+    "qatalyst-bitly-bearer-token"    = "#BITLY_BEARER_TOKEN"
+    "qatalyst-sendgrid-key"          = "#SENDGRID_KEY"
+    "qatalyst-figma-access-token"    = "#FIGMA_ACCESS_TOKEN"
+    "qatalyst-fingerprint-token"     = "#FINGERPRINT_API_TOKEN"
+    "qatalyst-100ms-access-key"      = "#QATALYST_100MS_ACCESS_KEY"
+    "qatalyst-100ms-secret-key"      = "#QATALYST_100MS_SECRET_KEY"
+    "platform-client-id-in"          = "#PLATFORM_CLIENT_ID_IN"
+    "platform-client-id-us"          = "#PLATFORM_CLIENT_ID_US"
+    "platform-client-id-eu"          = "#PLATFORM_CLIENT_ID_EU"
+    "platform-client-id-sea"         = "#PLATFORM_CLIENT_ID_SEA"
+    "platform-secret-in"             = "#PLATFORM_SECRET_IN"
+    "platform-secret-us"             = "#PLATFORM_SECRET_US"
+    "platform-secret-eu"             = "#PLATFORM_SECRET_EU"
+    "platform-secret-sea"            = "#PLATFORM_SECRET_SEA"
+    "platform-realm-id"              = "#PLATFORM_REALM_ID"
+    "qatalyst-stripe-api-key"        = "#QATALYST_STRIPE_API_KEY"
+    "qatalyst-stripe-webhook-secret" = "#QATALYST_STRIPE_WEBHOOK_SECRET"
+    "qatalyst-lucid-sha1-key"        = "#LUCID_SHA1_KEY"
+    "qatalyst-g2-api-token"          = "#QATALYST_G2_API_TOKEN"
+    "qatalyst-g2-product-id"         = "#QATALYST_G2_PRODUCT_ID"
+    "qatalyst-google-credentials"    = "#GOOGLE_AUTHENTICATION_DATA"
+  }
+}
