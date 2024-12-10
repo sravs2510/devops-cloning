@@ -163,7 +163,7 @@ module "create_eu_ssm" {
     secure_parameters = merge(var.qatalyst_ssm_config.secure_parameters,
       {
         join("-", ["qatalyst", var.STAGE, "open-ai-key"])           = lookup(var.open_ai_api, data.aws_region.eu.name)
-        "qatalyst-dashboard-opensearch-endpoint"                    = join("", ["https://", try(module.create_eu_opensearch[0].opensearch_host, "NA")])
+        "qatalyst-dashboard-opensearch-endpoint"                    = join("", ["https://", try(module.create_eu_opensearch[0].opensearch_host, "")])
         join("-", ["qatalyst", var.STAGE, "bitly-bearer-token"])    = "#BITLY_BEARER_TOKEN"
         join("-", ["qatalyst", var.STAGE, "sendgrid-key"])          = "#SENDGRID_KEY"
         join("-", ["qatalyst", var.STAGE, "figma-access-token"])    = "#FIGMA_ACCESS_TOKEN"
@@ -181,7 +181,7 @@ module "create_eu_ssm" {
         join("-", ["platform", var.STAGE, "realm-id"])              = "#PLATFORM_REALM_ID"
         join("-", ["qatalyst", var.STAGE, "stripe-api-key"])        = "#QATALYST_STRIPE_API_KEY"
         join("-", ["qatalyst", var.STAGE, "stripe-webhook-secret"]) = "#QATALYST_STRIPE_WEBHOOK_SECRET"
-        join("-", ["qatalyst", var.STAGE, "feature-flag-auth"])     = random_uuid.feature_flag_auth.result
+        join("-", ["qatalyst", var.STAGE, "feature-flag-auth"])     = random_uuid.feature_flag_auth_eu.result
         join("-", ["qatalyst", "lucid", "sha1", "key"])             = "#LUCID_SHA1_KEY"
         join("-", ["qatalyst", var.STAGE, "g2-api-token"])          = "#QATALYST_G2_API_TOKEN"
         join("-", ["qatalyst", var.STAGE, "g2-product-id"])         = "#QATALYST_G2_PRODUCT_ID"
@@ -463,7 +463,7 @@ module "create_in_ssm" {
         join("-", ["platform", var.STAGE, "realm-id"])              = "#PLATFORM_REALM_ID"
         join("-", ["qatalyst", var.STAGE, "stripe-api-key"])        = "#QATALYST_STRIPE_API_KEY"
         join("-", ["qatalyst", var.STAGE, "stripe-webhook-secret"]) = "#QATALYST_STRIPE_WEBHOOK_SECRET"
-        join("-", ["qatalyst", var.STAGE, "feature-flag-auth"])     = random_uuid.feature_flag_auth.result
+        join("-", ["qatalyst", var.STAGE, "feature-flag-auth"])     = random_uuid.feature_flag_auth_in.result
         join("-", ["qatalyst", "lucid", "sha1", "key"])             = "#LUCID_SHA1_KEY"
         join("-", ["qatalyst", var.STAGE, "g2-api-token"])          = "#QATALYST_G2_API_TOKEN"
         join("-", ["qatalyst", var.STAGE, "g2-product-id"])         = "#QATALYST_G2_PRODUCT_ID"
@@ -744,7 +744,7 @@ module "create_sea_ssm" {
         join("-", ["platform", var.STAGE, "realm-id"])              = "#PLATFORM_REALM_ID"
         join("-", ["qatalyst", var.STAGE, "stripe-api-key"])        = "#QATALYST_STRIPE_API_KEY"
         join("-", ["qatalyst", var.STAGE, "stripe-webhook-secret"]) = "#QATALYST_STRIPE_WEBHOOK_SECRET"
-        join("-", ["qatalyst", var.STAGE, "feature-flag-auth"])     = random_uuid.feature_flag_auth.result
+        join("-", ["qatalyst", var.STAGE, "feature-flag-auth"])     = random_uuid.feature_flag_auth_sea.result
         join("-", ["qatalyst", "lucid", "sha1", "key"])             = "#LUCID_SHA1_KEY"
         join("-", ["qatalyst", var.STAGE, "g2-api-token"])          = "#QATALYST_G2_API_TOKEN"
         join("-", ["qatalyst", var.STAGE, "g2-product-id"])         = "#QATALYST_G2_PRODUCT_ID"
@@ -1170,7 +1170,7 @@ module "create_us_ssm" {
     secure_parameters = merge(var.qatalyst_ssm_config.secure_parameters,
       {
         join("-", ["qatalyst", var.STAGE, "open-ai-key"])           = lookup(var.open_ai_api, data.aws_region.us.name)
-        "qatalyst-dashboard-opensearch-endpoint"                    = join("", ["https://", try(module.create_us_opensearch[0].opensearch_host, "NA")])
+        "qatalyst-dashboard-opensearch-endpoint"                    = join("", ["https://", try(module.create_us_opensearch[0].opensearch_host, "")])
         join("-", ["qatalyst", var.STAGE, "bitly-bearer-token"])    = "#BITLY_BEARER_TOKEN"
         join("-", ["qatalyst", var.STAGE, "sendgrid-key"])          = "#SENDGRID_KEY"
         join("-", ["qatalyst", var.STAGE, "figma-access-token"])    = "#FIGMA_ACCESS_TOKEN"
@@ -1188,7 +1188,7 @@ module "create_us_ssm" {
         join("-", ["platform", var.STAGE, "realm-id"])              = "#PLATFORM_REALM_ID"
         join("-", ["qatalyst", var.STAGE, "stripe-api-key"])        = "#QATALYST_STRIPE_API_KEY"
         join("-", ["qatalyst", var.STAGE, "stripe-webhook-secret"]) = "#QATALYST_STRIPE_WEBHOOK_SECRET"
-        join("-", ["qatalyst", var.STAGE, "feature-flag-auth"])     = random_uuid.feature_flag_auth.result
+        join("-", ["qatalyst", var.STAGE, "feature-flag-auth"])     = random_uuid.feature_flag_auth_us.result
         join("-", ["qatalyst", "lucid", "sha1", "key"])             = "#LUCID_SHA1_KEY"
         join("-", ["qatalyst", var.STAGE, "g2-api-token"])          = "#QATALYST_G2_API_TOKEN"
         join("-", ["qatalyst", var.STAGE, "g2-product-id"])         = "#QATALYST_G2_PRODUCT_ID"

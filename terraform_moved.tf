@@ -49,7 +49,19 @@ moved {
 
 moved {
   from = module.create_in_ssm[0].random_uuid.feature_flag_auth
-  to   = random_uuid.feature_flag_auth
+  to   = random_uuid.feature_flag_auth_in
+}
+moved {
+  from = module.create_us_ssm[0].random_uuid.feature_flag_auth
+  to   = random_uuid.feature_flag_auth_us
+}
+moved {
+  from = module.create_eu_ssm[0].random_uuid.feature_flag_auth
+  to   = random_uuid.feature_flag_auth_eu
+}
+moved {
+  from = module.create_sea_ssm[0].random_uuid.feature_flag_auth
+  to   = random_uuid.feature_flag_auth_sea
 }
 moved {
   from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_values["qatalyst-study-details-ddb-stream-arn"]
