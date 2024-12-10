@@ -154,9 +154,9 @@ module "create_eu_ssm" {
   ssm_config = {
     parameters = merge(var.qatalyst_ssm_config.parameters,
       {
-        "qatalyst-subnet-1"                     = try("${module.create_eu_vpc[0].private_subnets[0]}", ""),
-        "qatalyst-subnet-2"                     = try("${module.create_eu_vpc[0].private_subnets[1]}", ""),
-        "qatalyst-subnet-3"                     = try("${module.create_eu_vpc[0].private_subnets[2]}", ""),
+        "qatalyst-private-1"                    = try("${module.create_eu_vpc[0].private_subnets[0]}", ""),
+        "qatalyst-private-2"                    = try("${module.create_eu_vpc[0].private_subnets[1]}", ""),
+        "qatalyst-private-3"                    = try("${module.create_eu_vpc[0].private_subnets[2]}", ""),
         "qatalyst-study-details-ddb-stream-arn" = module.create_eu_dynamodb[0].ddb_stream_arns["qatalyst-study-details"],
         "qatalyst-lambda-sg-id"                 = module.create_eu_vpc[0].lambda_security_group_id
     }),
@@ -675,9 +675,9 @@ module "create_sea_ssm" {
   ssm_config = {
     parameters = merge(var.qatalyst_ssm_config.parameters,
       {
-        "qatalyst-subnet-1"                     = try("${module.create_sea_vpc[0].private_subnets[0]}", ""),
-        "qatalyst-subnet-2"                     = try("${module.create_sea_vpc[0].private_subnets[1]}", ""),
-        "qatalyst-subnet-3"                     = try("${module.create_sea_vpc[0].private_subnets[2]}", ""),
+        "qatalyst-private-1"                    = try("${module.create_sea_vpc[0].private_subnets[0]}", ""),
+        "qatalyst-private-2"                    = try("${module.create_sea_vpc[0].private_subnets[1]}", ""),
+        "qatalyst-private-3"                    = try("${module.create_sea_vpc[0].private_subnets[2]}", ""),
         "qatalyst-study-details-ddb-stream-arn" = module.create_sea_dynamodb[0].ddb_stream_arns["qatalyst-study-details"],
         "qatalyst-lambda-sg-id"                 = module.create_sea_vpc[0].lambda_security_group_id
     }),
@@ -1098,9 +1098,9 @@ module "create_us_ssm" {
   ssm_config = {
     parameters = merge(var.qatalyst_ssm_config.parameters,
       {
-        "qatalyst-subnet-1"                     = try("${module.create_us_vpc[0].private_subnets[0]}", ""),
-        "qatalyst-subnet-2"                     = try("${module.create_us_vpc[0].private_subnets[1]}", ""),
-        "qatalyst-subnet-3"                     = try("${module.create_us_vpc[0].private_subnets[2]}", ""),
+        "qatalyst-private-1"                    = try("${module.create_us_vpc[0].private_subnets[0]}", ""),
+        "qatalyst-private-2"                    = try("${module.create_us_vpc[0].private_subnets[1]}", ""),
+        "qatalyst-private-3"                    = try("${module.create_us_vpc[0].private_subnets[2]}", ""),
         "qatalyst-study-details-ddb-stream-arn" = module.create_us_dynamodb[0].ddb_stream_arns["qatalyst-study-details"],
         "qatalyst-lambda-sg-id"                 = module.create_us_vpc[0].lambda_security_group_id
     }),
