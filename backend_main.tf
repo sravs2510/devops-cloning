@@ -153,7 +153,7 @@ module "create_eu_ssm" {
   STAGE                                 = var.STAGE
   datacenter_codes                      = var.datacenter_codes
   open_ai_api                           = var.open_ai_api
-  opensearch_host                       = try(module.create_eu_opensearch[0].opensearch_host, "")
+  opensearch_host                       = var.STAGE != "playground" ? join("", ["https://", module.create_eu_opensearch[0].opensearch_host]) : join("", ["http://", module.create_opensearch_eu_ec2[0].private_ip, ":9200"])
   qatalyst_study_details_ddb_stream_arn = try(module.create_eu_dynamodb[0].ddb_stream_arns["qatalyst-study-details"], "")
   qatalyst_lambda_sg_id                 = try(module.create_eu_vpc[0].lambda_security_group_id, "")
   private_subnets                       = try(module.create_eu_vpc[0].private_subnets, "")
@@ -405,7 +405,7 @@ module "create_in_ssm" {
   STAGE                                 = var.STAGE
   datacenter_codes                      = var.datacenter_codes
   open_ai_api                           = var.open_ai_api
-  opensearch_host                       = try(module.create_in_opensearch[0].opensearch_host, "NA")
+  opensearch_host                       = var.STAGE != "playground" ? join("", ["https://", module.create_in_opensearch[0].opensearch_host]) : join("", ["http://", module.create_opensearch_in_ec2[0].private_ip, ":9200"])
   qatalyst_study_details_ddb_stream_arn = module.create_in_dynamodb[0].ddb_stream_arns["qatalyst-study-details"]
   qatalyst_lambda_sg_id                 = module.create_in_vpc[0].lambda_security_group_id
   private_subnets                       = module.create_in_vpc[0].private_subnets
@@ -656,7 +656,7 @@ module "create_sea_ssm" {
   STAGE                                 = var.STAGE
   datacenter_codes                      = var.datacenter_codes
   open_ai_api                           = var.open_ai_api
-  opensearch_host                       = try(module.create_sea_opensearch[0].opensearch_host, "NA")
+  opensearch_host                       = var.STAGE != "playground" ? join("", ["https://", module.create_sea_opensearch[0].opensearch_host]) : join("", ["http://", module.create_opensearch_sea_ec2[0].private_ip, ":9200"])
   qatalyst_study_details_ddb_stream_arn = module.create_sea_dynamodb[0].ddb_stream_arns["qatalyst-study-details"]
   qatalyst_lambda_sg_id                 = module.create_sea_vpc[0].lambda_security_group_id
   private_subnets                       = module.create_sea_vpc[0].private_subnets
@@ -1070,7 +1070,7 @@ module "create_us_ssm" {
   STAGE                                 = var.STAGE
   datacenter_codes                      = var.datacenter_codes
   open_ai_api                           = var.open_ai_api
-  opensearch_host                       = try(module.create_us_opensearch[0].opensearch_host, "")
+  opensearch_host                       = var.STAGE != "playground" ? join("", ["https://", module.create_us_opensearch[0].opensearch_host]) : join("", ["http://", module.create_opensearch_us_ec2[0].private_ip, ":9200"])
   qatalyst_study_details_ddb_stream_arn = try(module.create_us_dynamodb[0].ddb_stream_arns["qatalyst-study-details"], "")
   qatalyst_lambda_sg_id                 = try(module.create_us_vpc[0].lambda_security_group_id, "")
   private_subnets                       = try(module.create_us_vpc[0].private_subnets, "")
