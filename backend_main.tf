@@ -147,7 +147,7 @@ module "create_eu_dynamodb" {
 }
 
 module "create_eu_ssm" {
-  source       = "/Users/sravani/Desktop/cw/terraform-modules/ssm"
+  source       = "git@github.com:EntropikTechnologies/terraform-modules.git//ssm"
   count        = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
@@ -408,7 +408,7 @@ module "create_in_dynamodb" {
 }
 
 module "create_in_ssm" {
-  source       = "/Users/sravani/Desktop/cw/terraform-modules/ssm"
+  source       = "git@github.com:EntropikTechnologies/terraform-modules.git//ssm"
   count        = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
@@ -668,7 +668,7 @@ module "create_sea_dynamodb" {
 }
 
 module "create_sea_ssm" {
-  source       = "/Users/sravani/Desktop/cw/terraform-modules/ssm"
+  source       = "git@github.com:EntropikTechnologies/terraform-modules.git//ssm"
   count        = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
@@ -1091,7 +1091,7 @@ module "create_global_dynamodb" {
 }
 
 module "create_us_ssm" {
-  source       = "/Users/sravani/Desktop/cw/terraform-modules/ssm"
+  source       = "git@github.com:EntropikTechnologies/terraform-modules.git//ssm"
   count        = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
