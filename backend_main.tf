@@ -159,7 +159,7 @@ module "create_eu_ssm" {
       "qatalyst-study-details-ddb-stream-arn" = module.create_eu_dynamodb[0].ddb_stream_arns["qatalyst-study-details"],
       "qatalyst-lambda-sg-id"                 = module.create_eu_vpc[0].lambda_security_group_id
     },
-    secure_parameters = merge(local.qatalyst_ssm_config,
+    secure_parameters = merge(local.qatalyst_ssm_secure_values,
       {
         join("-", ["qatalyst", var.STAGE, "open-ai-key"]) = lookup(var.open_ai_api, data.aws_region.eu.name)
         "qatalyst-dashboard-opensearch-endpoint"          = join("", ["https://", try(module.create_eu_opensearch[0].opensearch_host, "")])
@@ -418,7 +418,7 @@ module "create_in_ssm" {
       "qatalyst-study-details-ddb-stream-arn" = module.create_in_dynamodb[0].ddb_stream_arns["qatalyst-study-details"],
       "qatalyst-lambda-sg-id"                 = module.create_in_vpc[0].lambda_security_group_id
     },
-    secure_parameters = merge(local.qatalyst_ssm_config,
+    secure_parameters = merge(local.qatalyst_ssm_secure_values,
       {
         join("-", ["qatalyst", var.STAGE, "open-ai-key"]) = lookup(var.open_ai_api, data.aws_region.in.name)
         "qatalyst-dashboard-opensearch-endpoint"          = join("", ["https://", try(module.create_in_opensearch[0].opensearch_host, "NA")])
@@ -676,7 +676,7 @@ module "create_sea_ssm" {
       "qatalyst-study-details-ddb-stream-arn" = module.create_sea_dynamodb[0].ddb_stream_arns["qatalyst-study-details"],
       "qatalyst-lambda-sg-id"                 = module.create_sea_vpc[0].lambda_security_group_id
     },
-    secure_parameters = merge(local.qatalyst_ssm_config,
+    secure_parameters = merge(local.qatalyst_ssm_secure_values,
       {
         join("-", ["qatalyst", var.STAGE, "open-ai-key"]) = lookup(var.open_ai_api, data.aws_region.sea.name)
         "qatalyst-dashboard-opensearch-endpoint"          = join("", ["https://", try(module.create_sea_opensearch[0].opensearch_host, "NA")])
@@ -1097,7 +1097,7 @@ module "create_us_ssm" {
       "qatalyst-study-details-ddb-stream-arn" = module.create_us_dynamodb[0].ddb_stream_arns["qatalyst-study-details"],
       "qatalyst-lambda-sg-id"                 = module.create_us_vpc[0].lambda_security_group_id
     },
-    secure_parameters = merge(local.qatalyst_ssm_config,
+    secure_parameters = merge(local.qatalyst_ssm_secure_values,
       {
         join("-", ["qatalyst", var.STAGE, "open-ai-key"]) = lookup(var.open_ai_api, data.aws_region.us.name)
         "qatalyst-dashboard-opensearch-endpoint"          = join("", ["https://", try(module.create_us_opensearch[0].opensearch_host, "")])

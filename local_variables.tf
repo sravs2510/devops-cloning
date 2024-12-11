@@ -254,7 +254,7 @@ locals {
   replica_region_eu  = lookup(var.deploy_regions, data.aws_region.eu.name) ? [data.aws_region.eu.name] : []
   replica_regions    = concat(local.replica_region_eu, local.replica_region_in, local.replica_region_sea)
 
-  qatalyst_ssm_config = {
+  qatalyst_ssm_secure_values = {
     join("-", ["qatalyst", var.STAGE, "bitly-bearer-token"])    = "#BITLY_BEARER_TOKEN"
     join("-", ["qatalyst", var.STAGE, "sendgrid-key"])          = "#SENDGRID_KEY"
     join("-", ["qatalyst", var.STAGE, "figma-access-token"])    = "#FIGMA_ACCESS_TOKEN"
