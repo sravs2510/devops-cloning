@@ -600,8 +600,3 @@ auth0_config = {
   client_secret = "#QATALYST_AUTH0_CLIENT_SECRET"
   oidc_issuer   = "https://getqatalyst.us.auth0.com"
 }
-
-qatalyst_ssm_config = {
-  parameters        = {}
-  secure_parameters = {}
-}

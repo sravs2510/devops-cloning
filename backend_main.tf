@@ -152,40 +152,17 @@ module "create_eu_ssm" {
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
   ssm_config = {
-    parameters = merge(var.qatalyst_ssm_config.parameters,
+    parameters = {
+      "qatalyst-private-1"                    = try("${module.create_eu_vpc[0].private_subnets[0]}", ""),
+      "qatalyst-private-2"                    = try("${module.create_eu_vpc[0].private_subnets[1]}", ""),
+      "qatalyst-private-3"                    = try("${module.create_eu_vpc[0].private_subnets[2]}", ""),
+      "qatalyst-study-details-ddb-stream-arn" = module.create_eu_dynamodb[0].ddb_stream_arns["qatalyst-study-details"],
+      "qatalyst-lambda-sg-id"                 = module.create_eu_vpc[0].lambda_security_group_id
+    },
+    secure_parameters = merge(local.qatalyst_ssm_config,
       {
-        "qatalyst-private-1"                    = try("${module.create_eu_vpc[0].private_subnets[0]}", ""),
-        "qatalyst-private-2"                    = try("${module.create_eu_vpc[0].private_subnets[1]}", ""),
-        "qatalyst-private-3"                    = try("${module.create_eu_vpc[0].private_subnets[2]}", ""),
-        "qatalyst-study-details-ddb-stream-arn" = module.create_eu_dynamodb[0].ddb_stream_arns["qatalyst-study-details"],
-        "qatalyst-lambda-sg-id"                 = module.create_eu_vpc[0].lambda_security_group_id
-    }),
-    secure_parameters = merge(var.qatalyst_ssm_config.secure_parameters,
-      {
-        join("-", ["qatalyst", var.STAGE, "open-ai-key"])           = lookup(var.open_ai_api, data.aws_region.eu.name)
-        "qatalyst-dashboard-opensearch-endpoint"                    = join("", ["https://", try(module.create_eu_opensearch[0].opensearch_host, "")])
-        join("-", ["qatalyst", var.STAGE, "bitly-bearer-token"])    = "#BITLY_BEARER_TOKEN"
-        join("-", ["qatalyst", var.STAGE, "sendgrid-key"])          = "#SENDGRID_KEY"
-        join("-", ["qatalyst", var.STAGE, "figma-access-token"])    = "#FIGMA_ACCESS_TOKEN"
-        join("-", ["qatalyst", var.STAGE, "fingerprint-token"])     = "#FINGERPRINT_API_TOKEN"
-        join("-", ["qatalyst", var.STAGE, "100ms-access-key"])      = "#QATALYST_100MS_ACCESS_KEY"
-        join("-", ["qatalyst", var.STAGE, "100ms-secret-key"])      = "#QATALYST_100MS_SECRET_KEY"
-        join("-", ["platform", var.STAGE, "client-id-in"])          = "#PLATFORM_CLIENT_ID_IN"
-        join("-", ["platform", var.STAGE, "client-id-us"])          = "#PLATFORM_CLIENT_ID_US"
-        join("-", ["platform", var.STAGE, "client-id-eu"])          = "#PLATFORM_CLIENT_ID_EU"
-        join("-", ["platform", var.STAGE, "client-id-sea"])         = "#PLATFORM_CLIENT_ID_SEA"
-        join("-", ["platform", var.STAGE, "secret-in"])             = "#PLATFORM_SECRET_IN"
-        join("-", ["platform", var.STAGE, "secret-us"])             = "#PLATFORM_SECRET_US"
-        join("-", ["platform", var.STAGE, "secret-eu"])             = "#PLATFORM_SECRET_EU"
-        join("-", ["platform", var.STAGE, "secret-sea"])            = "#PLATFORM_SECRET_SEA"
-        join("-", ["platform", var.STAGE, "realm-id"])              = "#PLATFORM_REALM_ID"
-        join("-", ["qatalyst", var.STAGE, "stripe-api-key"])        = "#QATALYST_STRIPE_API_KEY"
-        join("-", ["qatalyst", var.STAGE, "stripe-webhook-secret"]) = "#QATALYST_STRIPE_WEBHOOK_SECRET"
-        join("-", ["qatalyst", var.STAGE, "feature-flag-auth"])     = random_uuid.feature_flag_auth_eu.result
-        join("-", ["qatalyst", "lucid", "sha1", "key"])             = "#LUCID_SHA1_KEY"
-        join("-", ["qatalyst", var.STAGE, "g2-api-token"])          = "#QATALYST_G2_API_TOKEN"
-        join("-", ["qatalyst", var.STAGE, "g2-product-id"])         = "#QATALYST_G2_PRODUCT_ID"
-        join("-", ["qatalyst", var.STAGE, "google-credentials"])    = "#GOOGLE_AUTHENTICATION_DATA"
+        join("-", ["qatalyst", var.STAGE, "open-ai-key"]) = lookup(var.open_ai_api, data.aws_region.eu.name)
+        "qatalyst-dashboard-opensearch-endpoint"          = join("", ["https://", try(module.create_eu_opensearch[0].opensearch_host, "")])
     })
   }
   providers = {
@@ -434,40 +411,17 @@ module "create_in_ssm" {
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
   ssm_config = {
-    parameters = merge(var.qatalyst_ssm_config.parameters,
+    parameters = {
+      "qatalyst-private-1"                    = try("${module.create_in_vpc[0].private_subnets[0]}", ""),
+      "qatalyst-private-2"                    = try("${module.create_in_vpc[0].private_subnets[1]}", ""),
+      "qatalyst-private-3"                    = try("${module.create_in_vpc[0].private_subnets[2]}", ""),
+      "qatalyst-study-details-ddb-stream-arn" = module.create_in_dynamodb[0].ddb_stream_arns["qatalyst-study-details"],
+      "qatalyst-lambda-sg-id"                 = module.create_in_vpc[0].lambda_security_group_id
+    },
+    secure_parameters = merge(local.qatalyst_ssm_config,
       {
-        "qatalyst-private-1"                    = try("${module.create_in_vpc[0].private_subnets[0]}", ""),
-        "qatalyst-private-2"                    = try("${module.create_in_vpc[0].private_subnets[1]}", ""),
-        "qatalyst-private-3"                    = try("${module.create_in_vpc[0].private_subnets[2]}", ""),
-        "qatalyst-study-details-ddb-stream-arn" = module.create_in_dynamodb[0].ddb_stream_arns["qatalyst-study-details"],
-        "qatalyst-lambda-sg-id"                 = module.create_in_vpc[0].lambda_security_group_id
-    }),
-    secure_parameters = merge(var.qatalyst_ssm_config.secure_parameters,
-      {
-        join("-", ["qatalyst", var.STAGE, "open-ai-key"])           = lookup(var.open_ai_api, data.aws_region.in.name)
-        "qatalyst-dashboard-opensearch-endpoint"                    = join("", ["https://", try(module.create_in_opensearch[0].opensearch_host, "NA")])
-        join("-", ["qatalyst", var.STAGE, "bitly-bearer-token"])    = "#BITLY_BEARER_TOKEN"
-        join("-", ["qatalyst", var.STAGE, "sendgrid-key"])          = "#SENDGRID_KEY"
-        join("-", ["qatalyst", var.STAGE, "figma-access-token"])    = "#FIGMA_ACCESS_TOKEN"
-        join("-", ["qatalyst", var.STAGE, "fingerprint-token"])     = "#FINGERPRINT_API_TOKEN"
-        join("-", ["qatalyst", var.STAGE, "100ms-access-key"])      = "#QATALYST_100MS_ACCESS_KEY"
-        join("-", ["qatalyst", var.STAGE, "100ms-secret-key"])      = "#QATALYST_100MS_SECRET_KEY"
-        join("-", ["platform", var.STAGE, "client-id-in"])          = "#PLATFORM_CLIENT_ID_IN"
-        join("-", ["platform", var.STAGE, "client-id-us"])          = "#PLATFORM_CLIENT_ID_US"
-        join("-", ["platform", var.STAGE, "client-id-eu"])          = "#PLATFORM_CLIENT_ID_EU"
-        join("-", ["platform", var.STAGE, "client-id-sea"])         = "#PLATFORM_CLIENT_ID_SEA"
-        join("-", ["platform", var.STAGE, "secret-in"])             = "#PLATFORM_SECRET_IN"
-        join("-", ["platform", var.STAGE, "secret-us"])             = "#PLATFORM_SECRET_US"
-        join("-", ["platform", var.STAGE, "secret-eu"])             = "#PLATFORM_SECRET_EU"
-        join("-", ["platform", var.STAGE, "secret-sea"])            = "#PLATFORM_SECRET_SEA"
-        join("-", ["platform", var.STAGE, "realm-id"])              = "#PLATFORM_REALM_ID"
-        join("-", ["qatalyst", var.STAGE, "stripe-api-key"])        = "#QATALYST_STRIPE_API_KEY"
-        join("-", ["qatalyst", var.STAGE, "stripe-webhook-secret"]) = "#QATALYST_STRIPE_WEBHOOK_SECRET"
-        join("-", ["qatalyst", var.STAGE, "feature-flag-auth"])     = random_uuid.feature_flag_auth_in.result
-        join("-", ["qatalyst", "lucid", "sha1", "key"])             = "#LUCID_SHA1_KEY"
-        join("-", ["qatalyst", var.STAGE, "g2-api-token"])          = "#QATALYST_G2_API_TOKEN"
-        join("-", ["qatalyst", var.STAGE, "g2-product-id"])         = "#QATALYST_G2_PRODUCT_ID"
-        join("-", ["qatalyst", var.STAGE, "google-credentials"])    = "#GOOGLE_AUTHENTICATION_DATA"
+        join("-", ["qatalyst", var.STAGE, "open-ai-key"]) = lookup(var.open_ai_api, data.aws_region.in.name)
+        "qatalyst-dashboard-opensearch-endpoint"          = join("", ["https://", try(module.create_in_opensearch[0].opensearch_host, "NA")])
     })
   }
 
@@ -715,40 +669,17 @@ module "create_sea_ssm" {
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
   ssm_config = {
-    parameters = merge(var.qatalyst_ssm_config.parameters,
+    parameters = {
+      "qatalyst-private-1"                    = try("${module.create_sea_vpc[0].private_subnets[0]}", ""),
+      "qatalyst-private-2"                    = try("${module.create_sea_vpc[0].private_subnets[1]}", ""),
+      "qatalyst-private-3"                    = try("${module.create_sea_vpc[0].private_subnets[2]}", ""),
+      "qatalyst-study-details-ddb-stream-arn" = module.create_sea_dynamodb[0].ddb_stream_arns["qatalyst-study-details"],
+      "qatalyst-lambda-sg-id"                 = module.create_sea_vpc[0].lambda_security_group_id
+    },
+    secure_parameters = merge(local.qatalyst_ssm_config,
       {
-        "qatalyst-private-1"                    = try("${module.create_sea_vpc[0].private_subnets[0]}", ""),
-        "qatalyst-private-2"                    = try("${module.create_sea_vpc[0].private_subnets[1]}", ""),
-        "qatalyst-private-3"                    = try("${module.create_sea_vpc[0].private_subnets[2]}", ""),
-        "qatalyst-study-details-ddb-stream-arn" = module.create_sea_dynamodb[0].ddb_stream_arns["qatalyst-study-details"],
-        "qatalyst-lambda-sg-id"                 = module.create_sea_vpc[0].lambda_security_group_id
-    }),
-    secure_parameters = merge(var.qatalyst_ssm_config.secure_parameters,
-      {
-        join("-", ["qatalyst", var.STAGE, "open-ai-key"])           = lookup(var.open_ai_api, data.aws_region.sea.name)
-        "qatalyst-dashboard-opensearch-endpoint"                    = join("", ["https://", try(module.create_sea_opensearch[0].opensearch_host, "NA")])
-        join("-", ["qatalyst", var.STAGE, "bitly-bearer-token"])    = "#BITLY_BEARER_TOKEN"
-        join("-", ["qatalyst", var.STAGE, "sendgrid-key"])          = "#SENDGRID_KEY"
-        join("-", ["qatalyst", var.STAGE, "figma-access-token"])    = "#FIGMA_ACCESS_TOKEN"
-        join("-", ["qatalyst", var.STAGE, "fingerprint-token"])     = "#FINGERPRINT_API_TOKEN"
-        join("-", ["qatalyst", var.STAGE, "100ms-access-key"])      = "#QATALYST_100MS_ACCESS_KEY"
-        join("-", ["qatalyst", var.STAGE, "100ms-secret-key"])      = "#QATALYST_100MS_SECRET_KEY"
-        join("-", ["platform", var.STAGE, "client-id-in"])          = "#PLATFORM_CLIENT_ID_IN"
-        join("-", ["platform", var.STAGE, "client-id-us"])          = "#PLATFORM_CLIENT_ID_US"
-        join("-", ["platform", var.STAGE, "client-id-eu"])          = "#PLATFORM_CLIENT_ID_EU"
-        join("-", ["platform", var.STAGE, "client-id-sea"])         = "#PLATFORM_CLIENT_ID_SEA"
-        join("-", ["platform", var.STAGE, "secret-in"])             = "#PLATFORM_SECRET_IN"
-        join("-", ["platform", var.STAGE, "secret-us"])             = "#PLATFORM_SECRET_US"
-        join("-", ["platform", var.STAGE, "secret-eu"])             = "#PLATFORM_SECRET_EU"
-        join("-", ["platform", var.STAGE, "secret-sea"])            = "#PLATFORM_SECRET_SEA"
-        join("-", ["platform", var.STAGE, "realm-id"])              = "#PLATFORM_REALM_ID"
-        join("-", ["qatalyst", var.STAGE, "stripe-api-key"])        = "#QATALYST_STRIPE_API_KEY"
-        join("-", ["qatalyst", var.STAGE, "stripe-webhook-secret"]) = "#QATALYST_STRIPE_WEBHOOK_SECRET"
-        join("-", ["qatalyst", var.STAGE, "feature-flag-auth"])     = random_uuid.feature_flag_auth_sea.result
-        join("-", ["qatalyst", "lucid", "sha1", "key"])             = "#LUCID_SHA1_KEY"
-        join("-", ["qatalyst", var.STAGE, "g2-api-token"])          = "#QATALYST_G2_API_TOKEN"
-        join("-", ["qatalyst", var.STAGE, "g2-product-id"])         = "#QATALYST_G2_PRODUCT_ID"
-        join("-", ["qatalyst", var.STAGE, "google-credentials"])    = "#GOOGLE_AUTHENTICATION_DATA"
+        join("-", ["qatalyst", var.STAGE, "open-ai-key"]) = lookup(var.open_ai_api, data.aws_region.sea.name)
+        "qatalyst-dashboard-opensearch-endpoint"          = join("", ["https://", try(module.create_sea_opensearch[0].opensearch_host, "NA")])
     })
   }
   providers = {
@@ -1159,40 +1090,17 @@ module "create_us_ssm" {
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
   ssm_config = {
-    parameters = merge(var.qatalyst_ssm_config.parameters,
+    parameters = {
+      "qatalyst-private-1"                    = try("${module.create_us_vpc[0].private_subnets[0]}", ""),
+      "qatalyst-private-2"                    = try("${module.create_us_vpc[0].private_subnets[1]}", ""),
+      "qatalyst-private-3"                    = try("${module.create_us_vpc[0].private_subnets[2]}", ""),
+      "qatalyst-study-details-ddb-stream-arn" = module.create_us_dynamodb[0].ddb_stream_arns["qatalyst-study-details"],
+      "qatalyst-lambda-sg-id"                 = module.create_us_vpc[0].lambda_security_group_id
+    },
+    secure_parameters = merge(local.qatalyst_ssm_config,
       {
-        "qatalyst-private-1"                    = try("${module.create_us_vpc[0].private_subnets[0]}", ""),
-        "qatalyst-private-2"                    = try("${module.create_us_vpc[0].private_subnets[1]}", ""),
-        "qatalyst-private-3"                    = try("${module.create_us_vpc[0].private_subnets[2]}", ""),
-        "qatalyst-study-details-ddb-stream-arn" = module.create_us_dynamodb[0].ddb_stream_arns["qatalyst-study-details"],
-        "qatalyst-lambda-sg-id"                 = module.create_us_vpc[0].lambda_security_group_id
-    }),
-    secure_parameters = merge(var.qatalyst_ssm_config.secure_parameters,
-      {
-        join("-", ["qatalyst", var.STAGE, "open-ai-key"])           = lookup(var.open_ai_api, data.aws_region.us.name)
-        "qatalyst-dashboard-opensearch-endpoint"                    = join("", ["https://", try(module.create_us_opensearch[0].opensearch_host, "")])
-        join("-", ["qatalyst", var.STAGE, "bitly-bearer-token"])    = "#BITLY_BEARER_TOKEN"
-        join("-", ["qatalyst", var.STAGE, "sendgrid-key"])          = "#SENDGRID_KEY"
-        join("-", ["qatalyst", var.STAGE, "figma-access-token"])    = "#FIGMA_ACCESS_TOKEN"
-        join("-", ["qatalyst", var.STAGE, "fingerprint-token"])     = "#FINGERPRINT_API_TOKEN"
-        join("-", ["qatalyst", var.STAGE, "100ms-access-key"])      = "#QATALYST_100MS_ACCESS_KEY"
-        join("-", ["qatalyst", var.STAGE, "100ms-secret-key"])      = "#QATALYST_100MS_SECRET_KEY"
-        join("-", ["platform", var.STAGE, "client-id-in"])          = "#PLATFORM_CLIENT_ID_IN"
-        join("-", ["platform", var.STAGE, "client-id-us"])          = "#PLATFORM_CLIENT_ID_US"
-        join("-", ["platform", var.STAGE, "client-id-eu"])          = "#PLATFORM_CLIENT_ID_EU"
-        join("-", ["platform", var.STAGE, "client-id-sea"])         = "#PLATFORM_CLIENT_ID_SEA"
-        join("-", ["platform", var.STAGE, "secret-in"])             = "#PLATFORM_SECRET_IN"
-        join("-", ["platform", var.STAGE, "secret-us"])             = "#PLATFORM_SECRET_US"
-        join("-", ["platform", var.STAGE, "secret-eu"])             = "#PLATFORM_SECRET_EU"
-        join("-", ["platform", var.STAGE, "secret-sea"])            = "#PLATFORM_SECRET_SEA"
-        join("-", ["platform", var.STAGE, "realm-id"])              = "#PLATFORM_REALM_ID"
-        join("-", ["qatalyst", var.STAGE, "stripe-api-key"])        = "#QATALYST_STRIPE_API_KEY"
-        join("-", ["qatalyst", var.STAGE, "stripe-webhook-secret"]) = "#QATALYST_STRIPE_WEBHOOK_SECRET"
-        join("-", ["qatalyst", var.STAGE, "feature-flag-auth"])     = random_uuid.feature_flag_auth_us.result
-        join("-", ["qatalyst", "lucid", "sha1", "key"])             = "#LUCID_SHA1_KEY"
-        join("-", ["qatalyst", var.STAGE, "g2-api-token"])          = "#QATALYST_G2_API_TOKEN"
-        join("-", ["qatalyst", var.STAGE, "g2-product-id"])         = "#QATALYST_G2_PRODUCT_ID"
-        join("-", ["qatalyst", var.STAGE, "google-credentials"])    = "#GOOGLE_AUTHENTICATION_DATA"
+        join("-", ["qatalyst", var.STAGE, "open-ai-key"]) = lookup(var.open_ai_api, data.aws_region.us.name)
+        "qatalyst-dashboard-opensearch-endpoint"          = join("", ["https://", try(module.create_us_opensearch[0].opensearch_host, "")])
     })
   }
   providers = {
