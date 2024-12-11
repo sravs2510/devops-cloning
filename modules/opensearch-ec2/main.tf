@@ -19,6 +19,10 @@ data "aws_ami" "ubuntu_2024_ami" {
   provider    = aws.os_region
   most_recent = true
   filter {
+    name   = "image-id"
+    values = [var.ami_id]
+  }
+  filter {
     name   = "name"
     values = ["ubuntu*24.04*"] # Ubuntu 24.04 LTS
   }

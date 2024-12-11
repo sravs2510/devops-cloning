@@ -259,3 +259,14 @@ variable "cloudwatch_deploy_regions" {
     "us-east-1"      = false
   }
 }
+
+variable "opensearch_ec2_ami_id" {
+  type        = map(string)
+  description = "AMI ID for reach region"
+  default = {
+    "eu-north-1"     = "ami-0faa2d96b415ab531"
+    "ap-south-1"     = "ami-0732a3c13f1092e2e"
+    "ap-southeast-1" = "ami-06650ca7ed78ff6fa"
+    "us-east-1"      = "ami-072726d6621261313"
+  }
+}
