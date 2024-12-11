@@ -8,6 +8,7 @@ module "create_opensearch_eu_ec2" {
   STAGE           = var.STAGE
   DEFAULT_TAGS    = var.DEFAULT_TAGS
   datacenter_code = lookup(var.datacenter_codes, data.aws_region.eu.name)
+  ami_id          = lookup(var.opensearch_ec2_ami_id, data.aws_region.eu.name)
 
   providers = {
     aws.os_region = aws.eu_region
@@ -24,6 +25,7 @@ module "create_opensearch_in_ec2" {
   STAGE           = var.STAGE
   DEFAULT_TAGS    = var.DEFAULT_TAGS
   datacenter_code = lookup(var.datacenter_codes, data.aws_region.in.name)
+  ami_id          = lookup(var.opensearch_ec2_ami_id, data.aws_region.in.name)
 
   providers = {
     aws.os_region = aws.in_region
@@ -40,6 +42,7 @@ module "create_opensearch_sea_ec2" {
   STAGE           = var.STAGE
   DEFAULT_TAGS    = var.DEFAULT_TAGS
   datacenter_code = lookup(var.datacenter_codes, data.aws_region.sea.name)
+  ami_id          = lookup(var.opensearch_ec2_ami_id, data.aws_region.sea.name)
 
   providers = {
     aws.os_region = aws.sea_region
@@ -56,6 +59,7 @@ module "create_opensearch_us_ec2" {
   STAGE           = var.STAGE
   DEFAULT_TAGS    = var.DEFAULT_TAGS
   datacenter_code = lookup(var.datacenter_codes, data.aws_region.us.name)
+  ami_id          = lookup(var.opensearch_ec2_ami_id, data.aws_region.us.name)
 
   providers = {
     aws.os_region = aws.us_region

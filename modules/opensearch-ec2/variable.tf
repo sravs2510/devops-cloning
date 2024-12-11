@@ -27,7 +27,13 @@ variable "vpc_id" {
   type        = string
   description = "VPC Id"
 }
+
 variable "datacenter_code" {
   type        = string
   description = "Data Center code"
+}
+
+variable "ami_id" {
+  type        = string
+  description = "AMI ID"
 }
