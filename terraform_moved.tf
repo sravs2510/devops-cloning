@@ -359,93 +359,93 @@ moved {
   to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-staging-100ms-access-key"]
 }
 moved {
-  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-secret-us"]
-  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-secret-us"]
+  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-secret-us"]
+  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-prod-secret-us"]
 }
 moved {
-  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-secret-sea"]
-  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-secret-sea"]
+  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-secret-sea"]
+  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-prod-secret-sea"]
 }
 moved {
-  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-secret-in"]
-  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-secret-in"]
+  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-secret-in"]
+  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-prod-secret-in"]
 }
 moved {
-  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-secret-eu"]
-  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-secret-eu"]
+  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-secret-eu"]
+  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-prod-secret-eu"]
 }
 moved {
-  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-realm-id"]
-  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-realm-id"]
+  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-realm-id"]
+  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-prod-realm-id"]
 }
 moved {
-  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-client-id-us"]
-  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-client-id-us"]
+  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-client-id-us"]
+  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-prod-client-id-us"]
 }
 moved {
-  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-client-id-sea"]
-  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-client-id-sea"]
+  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-client-id-sea"]
+  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-prod-client-id-sea"]
 }
 moved {
-  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-client-id-in"]
-  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-client-id-in"]
+  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-client-id-in"]
+  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-prod-client-id-in"]
 }
 moved {
-  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-client-id-eu"]
-  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-client-id-eu"]
+  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-client-id-eu"]
+  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-prod-client-id-eu"]
 }
 moved {
-  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-stripe-webhook-secret"]
-  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-stripe-webhook-secret"]
+  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-stripe-webhook-secret"]
+  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-stripe-webhook-secret"]
 }
 moved {
-  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-stripe-api-key"]
-  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-stripe-api-key"]
+  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-stripe-api-key"]
+  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-stripe-api-key"]
 }
 moved {
-  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-sendgrid-key"]
-  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-sendgrid-key"]
+  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-sendgrid-key"]
+  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-sendgrid-key"]
 }
 moved {
-  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-open-ai-key"]
-  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-open-ai-key"]
+  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-open-ai-key"]
+  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-open-ai-key"]
 }
 moved {
-  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-google-credentials"]
-  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-google-credentials"]
+  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-google-credentials"]
+  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-google-credentials"]
 }
 moved {
-  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-g2-product-id"]
-  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-g2-product-id"]
+  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-g2-product-id"]
+  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-g2-product-id"]
 }
 moved {
-  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-g2-api-token"]
-  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-g2-api-token"]
+  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-g2-api-token"]
+  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-g2-api-token"]
 
 }
 moved {
-  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-fingerprint-token"]
-  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-fingerprint-token"]
+  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-fingerprint-token"]
+  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-fingerprint-token"]
 }
 moved {
-  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-figma-access-token"]
-  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-figma-access-token"]
+  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-figma-access-token"]
+  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-figma-access-token"]
 }
 moved {
-  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-feature-flag-auth"]
-  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-feature-flag-auth"]
+  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-feature-flag-auth"]
+  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-feature-flag-auth"]
 }
 moved {
-  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-bitly-bearer-token"]
-  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-bitly-bearer-token"]
+  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-bitly-bearer-token"]
+  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-bitly-bearer-token"]
 }
 moved {
-  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-100ms-secret-key"]
-  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-100ms-secret-key"]
+  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-100ms-secret-key"]
+  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-100ms-secret-key"]
 }
 moved {
-  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-100ms-access-key"]
-  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-100ms-access-key"]
+  from = module.create_in_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-100ms-access-key"]
+  to   = module.create_in_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-100ms-access-key"]
 }
 moved {
   from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_values["qatalyst-study-details-ddb-stream-arn"]
@@ -743,93 +743,92 @@ moved {
   to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-staging-100ms-access-key"]
 }
 moved {
-  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-secret-us"]
-  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-secret-us"]
+  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-secret-us"]
+  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-prod-secret-us"]
 }
 moved {
-  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-secret-sea"]
-  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-secret-sea"]
+  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-secret-sea"]
+  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-prod-secret-sea"]
 }
 moved {
-  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-secret-in"]
-  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-secret-in"]
+  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-secret-in"]
+  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-prod-secret-in"]
 }
 moved {
-  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-secret-eu"]
-  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-secret-eu"]
+  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-secret-eu"]
+  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-prod-secret-eu"]
 }
 moved {
-  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-realm-id"]
-  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-realm-id"]
+  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-realm-id"]
+  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-prod-realm-id"]
 }
 moved {
-  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-client-id-us"]
-  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-client-id-us"]
+  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-client-id-us"]
+  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-prod-client-id-us"]
 }
 moved {
-  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-client-id-sea"]
-  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-client-id-sea"]
+  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-client-id-sea"]
+  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-prod-client-id-sea"]
 }
 moved {
-  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-client-id-in"]
-  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-client-id-in"]
+  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-client-id-in"]
+  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-prod-client-id-in"]
 }
 moved {
-  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-client-id-eu"]
-  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-client-id-eu"]
+  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-client-id-eu"]
+  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-prod-client-id-eu"]
 }
 moved {
-  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-stripe-webhook-secret"]
-  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-stripe-webhook-secret"]
+  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-stripe-webhook-secret"]
+  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-stripe-webhook-secret"]
 }
 moved {
-  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-stripe-api-key"]
-  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-stripe-api-key"]
+  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-stripe-api-key"]
+  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-stripe-api-key"]
 }
 moved {
-  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-sendgrid-key"]
-  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-sendgrid-key"]
+  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-sendgrid-key"]
+  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-sendgrid-key"]
 }
 moved {
-  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-open-ai-key"]
-  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-open-ai-key"]
+  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-open-ai-key"]
+  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-open-ai-key"]
 }
 moved {
-  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-google-credentials"]
-  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-google-credentials"]
+  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-google-credentials"]
+  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-google-credentials"]
 }
 moved {
-  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-g2-product-id"]
-  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-g2-product-id"]
+  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-g2-product-id"]
+  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-g2-product-id"]
 }
 moved {
-  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-g2-api-token"]
-  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-g2-api-token"]
-
+  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-g2-api-token"]
+  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-g2-api-token"]
 }
 moved {
-  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-fingerprint-token"]
-  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-fingerprint-token"]
+  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-fingerprint-token"]
+  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-fingerprint-token"]
 }
 moved {
-  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-figma-access-token"]
-  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-figma-access-token"]
+  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-figma-access-token"]
+  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-figma-access-token"]
 }
 moved {
-  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-feature-flag-auth"]
-  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-feature-flag-auth"]
+  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-feature-flag-auth"]
+  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-feature-flag-auth"]
 }
 moved {
-  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-bitly-bearer-token"]
-  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-bitly-bearer-token"]
+  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-bitly-bearer-token"]
+  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-bitly-bearer-token"]
 }
 moved {
-  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-100ms-secret-key"]
-  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-100ms-secret-key"]
+  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-100ms-secret-key"]
+  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-100ms-secret-key"]
 }
 moved {
-  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-100ms-access-key"]
-  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-100ms-access-key"]
+  from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-100ms-access-key"]
+  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst--prod100ms-access-key"]
 }
 moved {
   from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_values["qatalyst-study-details-ddb-stream-arn"]
@@ -1127,93 +1126,93 @@ moved {
   to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-staging-100ms-access-key"]
 }
 moved {
-  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-secret-us"]
-  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-secret-us"]
+  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-secret-us"]
+  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-prod-secret-us"]
 }
 moved {
-  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-secret-sea"]
-  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-secret-sea"]
+  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-secret-sea"]
+  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-prod-secret-sea"]
 }
 moved {
-  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-secret-in"]
-  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-secret-in"]
+  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-secret-in"]
+  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-prod-secret-in"]
 }
 moved {
-  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-secret-eu"]
-  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-secret-eu"]
+  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-secret-eu"]
+  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-prod-secret-eu"]
 }
 moved {
-  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-realm-id"]
-  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-realm-id"]
+  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-realm-id"]
+  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-prod-realm-id"]
 }
 moved {
-  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-client-id-us"]
-  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-client-id-us"]
+  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-client-id-us"]
+  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-prod-client-id-us"]
 }
 moved {
-  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-client-id-sea"]
-  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-client-id-sea"]
+  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-client-id-sea"]
+  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-prod-client-id-sea"]
 }
 moved {
-  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-client-id-in"]
-  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-client-id-in"]
+  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-client-id-in"]
+  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-prod-client-id-in"]
 }
 moved {
-  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-client-id-eu"]
-  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-client-id-eu"]
+  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-client-id-eu"]
+  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-prod-client-id-eu"]
 }
 moved {
-  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-stripe-webhook-secret"]
-  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-stripe-webhook-secret"]
+  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-stripe-webhook-secret"]
+  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-stripe-webhook-secret"]
 }
 moved {
-  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-stripe-api-key"]
-  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-stripe-api-key"]
+  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-stripe-api-key"]
+  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-stripe-api-key"]
 }
 moved {
-  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-sendgrid-key"]
-  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-sendgrid-key"]
+  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-sendgrid-key"]
+  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-sendgrid-key"]
 }
 moved {
-  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-open-ai-key"]
-  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-open-ai-key"]
+  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-open-ai-key"]
+  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-open-ai-key"]
 }
 moved {
-  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-google-credentials"]
-  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-google-credentials"]
+  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-google-credentials"]
+  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-google-credentials"]
 }
 moved {
-  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-g2-product-id"]
-  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-g2-product-id"]
+  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-g2-product-id"]
+  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-g2-product-id"]
 }
 moved {
-  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-g2-api-token"]
-  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-g2-api-token"]
+  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-g2-api-token"]
+  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-g2-api-token"]
 
 }
 moved {
-  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-fingerprint-token"]
-  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-fingerprint-token"]
+  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-fingerprint-token"]
+  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-fingerprint-token"]
 }
 moved {
-  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-figma-access-token"]
-  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-figma-access-token"]
+  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-figma-access-token"]
+  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-figma-access-token"]
 }
 moved {
-  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-feature-flag-auth"]
-  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-feature-flag-auth"]
+  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-feature-flag-auth"]
+  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-feature-flag-auth"]
 }
 moved {
-  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-bitly-bearer-token"]
-  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-bitly-bearer-token"]
+  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-bitly-bearer-token"]
+  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-bitly-bearer-token"]
 }
 moved {
-  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-100ms-secret-key"]
-  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-100ms-secret-key"]
+  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-100ms-secret-key"]
+  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-100ms-secret-key"]
 }
 moved {
-  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-100ms-access-key"]
-  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-100ms-access-key"]
+  from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-100ms-access-key"]
+  to   = module.create_us_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-100ms-access-key"]
 }
 moved {
   from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_values["qatalyst-study-details-ddb-stream-arn"]
@@ -1511,92 +1510,92 @@ moved {
   to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-staging-100ms-access-key"]
 }
 moved {
-  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-secret-us"]
-  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-secret-us"]
+  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-secret-us"]
+  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-prod-secret-us"]
 }
 moved {
-  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-secret-sea"]
-  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-secret-sea"]
+  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-secret-sea"]
+  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-prod-secret-sea"]
 }
 moved {
-  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-secret-in"]
-  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-secret-in"]
+  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-secret-in"]
+  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-prod-secret-in"]
 }
 moved {
-  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-secret-eu"]
-  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-secret-eu"]
+  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-secret-eu"]
+  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-prod-secret-eu"]
 }
 moved {
-  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-realm-id"]
-  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-realm-id"]
+  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-realm-id"]
+  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-prod-realm-id"]
 }
 moved {
-  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-client-id-us"]
-  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-client-id-us"]
+  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-client-id-us"]
+  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-prod-client-id-us"]
 }
 moved {
-  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-client-id-sea"]
-  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-client-id-sea"]
+  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-client-id-sea"]
+  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-prod-client-id-sea"]
 }
 moved {
-  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-client-id-in"]
-  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-client-id-in"]
+  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-client-id-in"]
+  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-prod-client-id-in"]
 }
 moved {
-  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-client-id-eu"]
-  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-client-id-eu"]
+  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["platform-prod-client-id-eu"]
+  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["platform-prod-client-id-eu"]
 }
 moved {
-  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-stripe-webhook-secret"]
-  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-stripe-webhook-secret"]
+  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-stripe-webhook-secret"]
+  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-stripe-webhook-secret"]
 }
 moved {
-  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-stripe-api-key"]
-  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-stripe-api-key"]
+  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-stripe-api-key"]
+  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-stripe-api-key"]
 }
 moved {
-  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-sendgrid-key"]
-  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-sendgrid-key"]
+  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-sendgrid-key"]
+  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-sendgrid-key"]
 }
 moved {
-  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-open-ai-key"]
-  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-open-ai-key"]
+  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-open-ai-key"]
+  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-open-ai-key"]
 }
 moved {
-  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-google-credentials"]
-  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-google-credentials"]
+  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-google-credentials"]
+  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-google-credentials"]
 }
 moved {
-  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-g2-product-id"]
-  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-g2-product-id"]
+  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-g2-product-id"]
+  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-g2-product-id"]
 }
 moved {
-  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-g2-api-token"]
-  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-g2-api-token"]
+  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-g2-api-token"]
+  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-g2-api-token"]
 }
 moved {
-  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-fingerprint-token"]
-  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-fingerprint-token"]
+  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-fingerprint-token"]
+  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-fingerprint-token"]
 }
 moved {
-  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-figma-access-token"]
-  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-figma-access-token"]
+  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-figma-access-token"]
+  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-figma-access-token"]
 }
 moved {
-  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-feature-flag-auth"]
-  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-feature-flag-auth"]
+  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-feature-flag-auth"]
+  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-feature-flag-auth"]
 }
 moved {
-  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-bitly-bearer-token"]
-  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-bitly-bearer-token"]
+  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-bitly-bearer-token"]
+  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-bitly-bearer-token"]
 }
 moved {
-  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-100ms-secret-key"]
-  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-100ms-secret-key"]
+  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-100ms-secret-key"]
+  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-100ms-secret-key"]
 }
 moved {
-  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-100ms-access-key"]
-  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-100ms-access-key"]
+  from = module.create_eu_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-100ms-access-key"]
+  to   = module.create_eu_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-100ms-access-key"]
 }
 moved {
   from = module.create_in_batch_helios[0].aws_batch_compute_environment.qatalyst_compute_environment
