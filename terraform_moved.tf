@@ -716,7 +716,6 @@ moved {
 moved {
   from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-staging-g2-api-token"]
   to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-staging-g2-api-token"]
-
 }
 moved {
   from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-staging-fingerprint-token"]
@@ -828,7 +827,7 @@ moved {
 }
 moved {
   from = module.create_sea_ssm[0].aws_ssm_parameter.qatalyst_ssm_secure_values["qatalyst-prod-100ms-access-key"]
-  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst--prod100ms-access-key"]
+  to   = module.create_sea_ssm[0].aws_ssm_parameter.ssm_secure_values["qatalyst-prod-100ms-access-key"]
 }
 moved {
   from = module.create_us_ssm[0].aws_ssm_parameter.qatalyst_ssm_values["qatalyst-study-details-ddb-stream-arn"]
