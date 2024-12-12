@@ -188,7 +188,7 @@ module "create_eu_ssm" {
     secure_parameters = merge(local.qatalyst_ssm_secure_values,
       {
         join("-", ["qatalyst", var.STAGE, "open-ai-key"])       = lookup(var.open_ai_api, data.aws_region.eu.name)
-        "qatalyst-dashboard-opensearch-endpoint"                = join("", ["https://", try(module.create_eu_opensearch[0].opensearch_host, "")])
+        "qatalyst-dashboard-opensearch-endpoint"                = var.STAGE == "prod" ? join("", ["https://", module.create_eu_opensearch[0].opensearch_host]) : join("", ["http://", module.create_opensearch_eu_ec2[0].private_ip, ":9200"])
         join("-", ["qatalyst", var.STAGE, "feature-flag-auth"]) = random_uuid.feature_flag_auth_eu.result
     })
   }
@@ -254,7 +254,7 @@ module "create_eu_qatalyst_media_bucket" {
 
 module "create_eu_opensearch" {
   source           = "git@github.com:EntropikTechnologies/terraform-modules.git//opensearch"
-  count            = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
+  count            = var.STAGE == "prod" && lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
   datacenter_codes = var.datacenter_codes
@@ -448,7 +448,7 @@ module "create_in_ssm" {
     secure_parameters = merge(local.qatalyst_ssm_secure_values,
       {
         join("-", ["qatalyst", var.STAGE, "open-ai-key"])       = lookup(var.open_ai_api, data.aws_region.in.name)
-        "qatalyst-dashboard-opensearch-endpoint"                = join("", ["https://", try(module.create_in_opensearch[0].opensearch_host, "NA")])
+        "qatalyst-dashboard-opensearch-endpoint"                = var.STAGE == "prod" ? join("", ["https://", module.create_in_opensearch[0].opensearch_host]) : join("", ["http://", module.create_opensearch_in_ec2[0].private_ip, ":9200"])
         join("-", ["qatalyst", var.STAGE, "feature-flag-auth"]) = random_uuid.feature_flag_auth_in.result
     })
   }
@@ -515,7 +515,7 @@ module "create_in_qatalyst_media_bucket" {
 
 module "create_in_opensearch" {
   source           = "git@github.com:EntropikTechnologies/terraform-modules.git//opensearch"
-  count            = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
+  count            = var.STAGE == "prod" && lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
   datacenter_codes = var.datacenter_codes
@@ -707,7 +707,7 @@ module "create_sea_ssm" {
     secure_parameters = merge(local.qatalyst_ssm_secure_values,
       {
         join("-", ["qatalyst", var.STAGE, "open-ai-key"])       = lookup(var.open_ai_api, data.aws_region.sea.name)
-        "qatalyst-dashboard-opensearch-endpoint"                = join("", ["https://", try(module.create_sea_opensearch[0].opensearch_host, "NA")])
+        "qatalyst-dashboard-opensearch-endpoint"                = var.STAGE == "prod" ? join("", ["https://", module.create_sea_opensearch[0].opensearch_host]) : join("", ["http://", module.create_opensearch_sea_ec2[0].private_ip, ":9200"])
         join("-", ["qatalyst", var.STAGE, "feature-flag-auth"]) = random_uuid.feature_flag_auth_sea.result
     })
   }
@@ -763,7 +763,7 @@ module "create_sea_qatalyst_media_bucket" {
 
 module "create_sea_opensearch" {
   source           = "git@github.com:EntropikTechnologies/terraform-modules.git//opensearch"
-  count            = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
+  count            = var.STAGE == "prod" && lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
   datacenter_codes = var.datacenter_codes
@@ -1129,7 +1129,7 @@ module "create_us_ssm" {
     secure_parameters = merge(local.qatalyst_ssm_secure_values,
       {
         join("-", ["qatalyst", var.STAGE, "open-ai-key"])       = lookup(var.open_ai_api, data.aws_region.us.name)
-        "qatalyst-dashboard-opensearch-endpoint"                = join("", ["https://", try(module.create_us_opensearch[0].opensearch_host, "")])
+        "qatalyst-dashboard-opensearch-endpoint"                = var.STAGE == "prod" ? join("", ["https://", module.create_us_opensearch[0].opensearch_host]) : join("", ["http://", module.create_opensearch_us_ec2[0].private_ip, ":9200"])
         join("-", ["qatalyst", var.STAGE, "feature-flag-auth"]) = random_uuid.feature_flag_auth_us.result
     })
   }
@@ -1216,7 +1216,7 @@ module "create_us_sqs" {
 
 module "create_us_opensearch" {
   source           = "git@github.com:EntropikTechnologies/terraform-modules.git//opensearch"
-  count            = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
+  count            = var.STAGE == "prod" && lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
   DEFAULT_TAGS     = var.DEFAULT_TAGS
   STAGE            = var.STAGE
   datacenter_codes = var.datacenter_codes

@@ -243,6 +243,33 @@ locals {
     }
   ]
 
+  helios_batch_environment_variables = [
+    {
+      name  = "STAGE"
+      value = var.STAGE
+    },
+    {
+      name  = "AWS_ACCOUNT_ID",
+      value = data.aws_caller_identity.current.account_id
+    },
+    {
+      name  = "LOG_LEVEL"
+      value = "INFO"
+    },
+    {
+      name  = "SENTRY_SAMPLE_RATE"
+      value = "1"
+    },
+    {
+      name  = "SENTRY_TRACES_SAMPLE_RATE"
+      value = "0"
+    },
+    {
+      name  = "SENTRY_PROFILING_SAMPLE_RATE"
+      value = "0"
+    }
+  ]
+
   eu_alb_dns_name  = lookup(var.deploy_regions, data.aws_region.eu.name) ? { "eu" = try(module.create_eu_alb[0].qatalyst_alb_dns_name, null) } : {}
   us_alb_dns_name  = lookup(var.deploy_regions, data.aws_region.us.name) ? { "us" = try(module.create_us_alb[0].qatalyst_alb_dns_name, null) } : {}
   in_alb_dns_name  = lookup(var.deploy_regions, data.aws_region.in.name) ? { "in" = try(module.create_in_alb[0].qatalyst_alb_dns_name, null) } : {}
