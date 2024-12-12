@@ -1,3 +1,29 @@
+
+locals {
+  qatalyst_ssm_secure_values = {
+    join("-", ["qatalyst", var.STAGE, "bitly-bearer-token"])    = "#BITLY_BEARER_TOKEN"
+    join("-", ["qatalyst", var.STAGE, "sendgrid-key"])          = "#SENDGRID_KEY"
+    join("-", ["qatalyst", var.STAGE, "figma-access-token"])    = "#FIGMA_ACCESS_TOKEN"
+    join("-", ["qatalyst", var.STAGE, "fingerprint-token"])     = "#FINGERPRINT_API_TOKEN"
+    join("-", ["qatalyst", var.STAGE, "100ms-access-key"])      = "#QATALYST_100MS_ACCESS_KEY"
+    join("-", ["qatalyst", var.STAGE, "100ms-secret-key"])      = "#QATALYST_100MS_SECRET_KEY"
+    join("-", ["platform", var.STAGE, "client-id-in"])          = "#PLATFORM_CLIENT_ID_IN"
+    join("-", ["platform", var.STAGE, "client-id-us"])          = "#PLATFORM_CLIENT_ID_US"
+    join("-", ["platform", var.STAGE, "client-id-eu"])          = "#PLATFORM_CLIENT_ID_EU"
+    join("-", ["platform", var.STAGE, "client-id-sea"])         = "#PLATFORM_CLIENT_ID_SEA"
+    join("-", ["platform", var.STAGE, "secret-in"])             = "#PLATFORM_SECRET_IN"
+    join("-", ["platform", var.STAGE, "secret-us"])             = "#PLATFORM_SECRET_US"
+    join("-", ["platform", var.STAGE, "secret-eu"])             = "#PLATFORM_SECRET_EU"
+    join("-", ["platform", var.STAGE, "secret-sea"])            = "#PLATFORM_SECRET_SEA"
+    join("-", ["platform", var.STAGE, "realm-id"])              = "#PLATFORM_REALM_ID"
+    join("-", ["qatalyst", var.STAGE, "stripe-api-key"])        = "#QATALYST_STRIPE_API_KEY"
+    join("-", ["qatalyst", var.STAGE, "stripe-webhook-secret"]) = "#QATALYST_STRIPE_WEBHOOK_SECRET"
+    join("-", ["qatalyst", "lucid", "sha1", "key"])             = "#LUCID_SHA1_KEY"
+    join("-", ["qatalyst", var.STAGE, "g2-api-token"])          = "#QATALYST_G2_API_TOKEN"
+    join("-", ["qatalyst", var.STAGE, "g2-product-id"])         = "#QATALYST_G2_PRODUCT_ID"
+    join("-", ["qatalyst", var.STAGE, "google-credentials"])    = "#GOOGLE_AUTHENTICATION_DATA"
+  }
+}
 # EU Resources
 
 module "create_eu_vpc" {
@@ -147,19 +173,27 @@ module "create_eu_dynamodb" {
 }
 
 module "create_eu_ssm" {
-  source                                = "./modules/ssm"
-  count                                 = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
-  DEFAULT_TAGS                          = var.DEFAULT_TAGS
-  STAGE                                 = var.STAGE
-  datacenter_codes                      = var.datacenter_codes
-  open_ai_api                           = var.open_ai_api
-  opensearch_host                       = var.STAGE == "prod" ? join("", ["https://", module.create_eu_opensearch[0].opensearch_host]) : join("", ["http://", module.create_opensearch_eu_ec2[0].private_ip, ":9200"])
-  qatalyst_study_details_ddb_stream_arn = try(module.create_eu_dynamodb[0].ddb_stream_arns["qatalyst-study-details"], "")
-  qatalyst_lambda_sg_id                 = try(module.create_eu_vpc[0].lambda_security_group_id, "")
-  private_subnets                       = try(module.create_eu_vpc[0].private_subnets, "")
+  source       = "git@github.com:EntropikTechnologies/terraform-modules.git//ssm"
+  count        = lookup(var.deploy_regions, data.aws_region.eu.name) ? 1 : 0
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
+  ssm_config = {
+    parameters = {
+      "qatalyst-private-1"                    = try("${module.create_eu_vpc[0].private_subnets[0]}", ""),
+      "qatalyst-private-2"                    = try("${module.create_eu_vpc[0].private_subnets[1]}", ""),
+      "qatalyst-private-3"                    = try("${module.create_eu_vpc[0].private_subnets[2]}", ""),
+      "qatalyst-study-details-ddb-stream-arn" = module.create_eu_dynamodb[0].ddb_stream_arns["qatalyst-study-details"],
+      "qatalyst-lambda-sg-id"                 = module.create_eu_vpc[0].lambda_security_group_id
+    },
+    secure_parameters = merge(local.qatalyst_ssm_secure_values,
+      {
+        join("-", ["qatalyst", var.STAGE, "open-ai-key"])       = lookup(var.open_ai_api, data.aws_region.eu.name)
+        "qatalyst-dashboard-opensearch-endpoint"                = var.STAGE == "prod" ? join("", ["https://", module.create_eu_opensearch[0].opensearch_host]) : join("", ["http://", module.create_opensearch_eu_ec2[0].private_ip, ":9200"])
+        join("-", ["qatalyst", var.STAGE, "feature-flag-auth"]) = random_uuid.feature_flag_auth_eu.result
+    })
+  }
   providers = {
     aws.ssm_region = aws.eu_region
-    random.random  = random.random
   }
 }
 
@@ -399,20 +433,28 @@ module "create_in_dynamodb" {
 }
 
 module "create_in_ssm" {
-  source                                = "./modules/ssm"
-  count                                 = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
-  DEFAULT_TAGS                          = var.DEFAULT_TAGS
-  STAGE                                 = var.STAGE
-  datacenter_codes                      = var.datacenter_codes
-  open_ai_api                           = var.open_ai_api
-  opensearch_host                       = var.STAGE == "prod" ? join("", ["https://", module.create_in_opensearch[0].opensearch_host]) : join("", ["http://", module.create_opensearch_in_ec2[0].private_ip, ":9200"])
-  qatalyst_study_details_ddb_stream_arn = module.create_in_dynamodb[0].ddb_stream_arns["qatalyst-study-details"]
-  qatalyst_lambda_sg_id                 = module.create_in_vpc[0].lambda_security_group_id
-  private_subnets                       = module.create_in_vpc[0].private_subnets
+  source       = "git@github.com:EntropikTechnologies/terraform-modules.git//ssm"
+  count        = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
+  ssm_config = {
+    parameters = {
+      "qatalyst-private-1"                    = try("${module.create_in_vpc[0].private_subnets[0]}", ""),
+      "qatalyst-private-2"                    = try("${module.create_in_vpc[0].private_subnets[1]}", ""),
+      "qatalyst-private-3"                    = try("${module.create_in_vpc[0].private_subnets[2]}", ""),
+      "qatalyst-study-details-ddb-stream-arn" = module.create_in_dynamodb[0].ddb_stream_arns["qatalyst-study-details"],
+      "qatalyst-lambda-sg-id"                 = module.create_in_vpc[0].lambda_security_group_id
+    },
+    secure_parameters = merge(local.qatalyst_ssm_secure_values,
+      {
+        join("-", ["qatalyst", var.STAGE, "open-ai-key"])       = lookup(var.open_ai_api, data.aws_region.in.name)
+        "qatalyst-dashboard-opensearch-endpoint"                = var.STAGE == "prod" ? join("", ["https://", module.create_in_opensearch[0].opensearch_host]) : join("", ["http://", module.create_opensearch_in_ec2[0].private_ip, ":9200"])
+        join("-", ["qatalyst", var.STAGE, "feature-flag-auth"]) = random_uuid.feature_flag_auth_in.result
+    })
+  }
 
   providers = {
     aws.ssm_region = aws.in_region
-    random.random  = random.random
   }
 }
 
@@ -650,19 +692,27 @@ module "create_sea_dynamodb" {
 }
 
 module "create_sea_ssm" {
-  source                                = "./modules/ssm"
-  count                                 = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
-  DEFAULT_TAGS                          = var.DEFAULT_TAGS
-  STAGE                                 = var.STAGE
-  datacenter_codes                      = var.datacenter_codes
-  open_ai_api                           = var.open_ai_api
-  opensearch_host                       = var.STAGE == "prod" ? join("", ["https://", module.create_sea_opensearch[0].opensearch_host]) : join("", ["http://", module.create_opensearch_sea_ec2[0].private_ip, ":9200"])
-  qatalyst_study_details_ddb_stream_arn = module.create_sea_dynamodb[0].ddb_stream_arns["qatalyst-study-details"]
-  qatalyst_lambda_sg_id                 = module.create_sea_vpc[0].lambda_security_group_id
-  private_subnets                       = module.create_sea_vpc[0].private_subnets
+  source       = "git@github.com:EntropikTechnologies/terraform-modules.git//ssm"
+  count        = lookup(var.deploy_regions, data.aws_region.sea.name) ? 1 : 0
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
+  ssm_config = {
+    parameters = {
+      "qatalyst-private-1"                    = try("${module.create_sea_vpc[0].private_subnets[0]}", ""),
+      "qatalyst-private-2"                    = try("${module.create_sea_vpc[0].private_subnets[1]}", ""),
+      "qatalyst-private-3"                    = try("${module.create_sea_vpc[0].private_subnets[2]}", ""),
+      "qatalyst-study-details-ddb-stream-arn" = module.create_sea_dynamodb[0].ddb_stream_arns["qatalyst-study-details"],
+      "qatalyst-lambda-sg-id"                 = module.create_sea_vpc[0].lambda_security_group_id
+    },
+    secure_parameters = merge(local.qatalyst_ssm_secure_values,
+      {
+        join("-", ["qatalyst", var.STAGE, "open-ai-key"])       = lookup(var.open_ai_api, data.aws_region.sea.name)
+        "qatalyst-dashboard-opensearch-endpoint"                = var.STAGE == "prod" ? join("", ["https://", module.create_sea_opensearch[0].opensearch_host]) : join("", ["http://", module.create_opensearch_sea_ec2[0].private_ip, ":9200"])
+        join("-", ["qatalyst", var.STAGE, "feature-flag-auth"]) = random_uuid.feature_flag_auth_sea.result
+    })
+  }
   providers = {
     aws.ssm_region = aws.sea_region
-    random.random  = random.random
   }
 }
 
@@ -1064,20 +1114,27 @@ module "create_global_dynamodb" {
 }
 
 module "create_us_ssm" {
-  source                                = "./modules/ssm"
-  count                                 = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
-  DEFAULT_TAGS                          = var.DEFAULT_TAGS
-  STAGE                                 = var.STAGE
-  datacenter_codes                      = var.datacenter_codes
-  open_ai_api                           = var.open_ai_api
-  opensearch_host                       = var.STAGE == "prod" ? join("", ["https://", module.create_us_opensearch[0].opensearch_host]) : join("", ["http://", module.create_opensearch_us_ec2[0].private_ip, ":9200"])
-  qatalyst_study_details_ddb_stream_arn = try(module.create_us_dynamodb[0].ddb_stream_arns["qatalyst-study-details"], "")
-  qatalyst_lambda_sg_id                 = try(module.create_us_vpc[0].lambda_security_group_id, "")
-  private_subnets                       = try(module.create_us_vpc[0].private_subnets, "")
-
+  source       = "git@github.com:EntropikTechnologies/terraform-modules.git//ssm"
+  count        = lookup(var.deploy_regions, data.aws_region.us.name) ? 1 : 0
+  DEFAULT_TAGS = var.DEFAULT_TAGS
+  STAGE        = var.STAGE
+  ssm_config = {
+    parameters = {
+      "qatalyst-private-1"                    = try("${module.create_us_vpc[0].private_subnets[0]}", ""),
+      "qatalyst-private-2"                    = try("${module.create_us_vpc[0].private_subnets[1]}", ""),
+      "qatalyst-private-3"                    = try("${module.create_us_vpc[0].private_subnets[2]}", ""),
+      "qatalyst-study-details-ddb-stream-arn" = module.create_us_dynamodb[0].ddb_stream_arns["qatalyst-study-details"],
+      "qatalyst-lambda-sg-id"                 = module.create_us_vpc[0].lambda_security_group_id
+    },
+    secure_parameters = merge(local.qatalyst_ssm_secure_values,
+      {
+        join("-", ["qatalyst", var.STAGE, "open-ai-key"])       = lookup(var.open_ai_api, data.aws_region.us.name)
+        "qatalyst-dashboard-opensearch-endpoint"                = var.STAGE == "prod" ? join("", ["https://", module.create_us_opensearch[0].opensearch_host]) : join("", ["http://", module.create_opensearch_us_ec2[0].private_ip, ":9200"])
+        join("-", ["qatalyst", var.STAGE, "feature-flag-auth"]) = random_uuid.feature_flag_auth_us.result
+    })
+  }
   providers = {
     aws.ssm_region = aws.us_region
-    random.random  = random.random
   }
 }
 
