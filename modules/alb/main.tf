@@ -362,16 +362,33 @@ resource "aws_wafv2_web_acl" "alb_web_acl" {
               }
             }
             statement {
-              byte_match_statement {
-                search_string = "/v1/"
-                field_to_match {
-                  uri_path {}
+              or_statement {
+                statement {
+                  byte_match_statement {
+                    search_string = "/v1/"
+                    field_to_match {
+                      uri_path {}
+                    }
+                    text_transformation {
+                      priority = 0
+                      type     = "NONE"
+                    }
+                    positional_constraint = "STARTS_WITH"
+                  }
                 }
-                text_transformation {
-                  priority = 0
-                  type     = "NONE"
+                statement {
+                  byte_match_statement {
+                    search_string = "/v2/"
+                    field_to_match {
+                      uri_path {}
+                    }
+                    text_transformation {
+                      priority = 0
+                      type     = "NONE"
+                    }
+                    positional_constraint = "STARTS_WITH"
+                  }
                 }
-                positional_constraint = "STARTS_WITH"
               }
             }
           }
@@ -422,6 +439,19 @@ resource "aws_wafv2_web_acl" "alb_web_acl" {
             }
             positional_constraint = "STARTS_WITH"
             search_string         = "/v1"
+            text_transformation {
+              priority = 1
+              type     = "NONE"
+            }
+          }
+        }
+        statement {
+          byte_match_statement {
+            field_to_match {
+              uri_path {}
+            }
+            positional_constraint = "STARTS_WITH"
+            search_string         = "/v2"
             text_transformation {
               priority = 1
               type     = "NONE"
