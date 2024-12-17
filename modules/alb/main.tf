@@ -273,6 +273,7 @@ data "aws_sns_topic" "current" {
 
 resource "aws_cloudwatch_metric_alarm" "target_response_time_alarm" {
   provider            = aws.alb_region
+  count               = var.STAGE == "prod" ? 1 : 0
   alarm_name          = "qatalyst-alb-latency-monitoring"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = "2"
@@ -291,6 +292,7 @@ resource "aws_cloudwatch_metric_alarm" "target_response_time_alarm" {
 
 resource "aws_cloudwatch_metric_alarm" "error_monitoring_alarm" {
   provider            = aws.alb_region
+  count               = var.STAGE == "prod" ? 1 : 0
   alarm_name          = "qatalyst-alb-error-monitoring"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = "2"
@@ -546,6 +548,7 @@ resource "aws_wafv2_web_acl_logging_configuration" "s3_waf_logging_configuration
 
 resource "aws_cloudwatch_metric_alarm" "healthy_host_count_alarm" {
   provider            = aws.alb_region
+  count               = var.STAGE == "prod" ? 1 : 0
   alarm_name          = "qatalyst-alb-healthy-host-monitoring"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = "2"
@@ -565,6 +568,7 @@ resource "aws_cloudwatch_metric_alarm" "healthy_host_count_alarm" {
 
 resource "aws_cloudwatch_metric_alarm" "testerview_healthy_host_count_alarm" {
   provider            = aws.alb_region
+  count               = var.STAGE == "prod" ? 1 : 0
   alarm_name          = "qatalyst-alb-testerview-healthy-host-monitoring"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = "2"
@@ -584,6 +588,7 @@ resource "aws_cloudwatch_metric_alarm" "testerview_healthy_host_count_alarm" {
 
 resource "aws_cloudwatch_metric_alarm" "reports_healthy_host_count_alarm" {
   provider            = aws.alb_region
+  count               = var.STAGE == "prod" ? 1 : 0
   alarm_name          = "qatalyst-alb-reports-healthy-host-monitoring"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = "2"
@@ -603,6 +608,7 @@ resource "aws_cloudwatch_metric_alarm" "reports_healthy_host_count_alarm" {
 
 resource "aws_cloudwatch_metric_alarm" "copilot_healthy_host_count_alarm" {
   provider            = aws.alb_region
+  count               = var.STAGE == "prod" ? 1 : 0
   alarm_name          = "qatalyst-alb-copilot-healthy-host-monitoring"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = "2"
