@@ -29,6 +29,7 @@ resource "aws_cloudfront_distribution" "media_cf_distribution" {
     origin_id                = var.cf_domain_name
     origin_access_control_id = var.s3_origin_access_control_id
   }
+
   aliases = [
     var.cf_domain_name
   ]
@@ -69,13 +70,22 @@ resource "aws_cloudfront_distribution" "media_cf_distribution" {
 
   tags = merge(tomap({ "Name" : var.cf_domain_name }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
-
 locals {
   account_id = data.aws_caller_identity.current.account_id
 }
+
 #S3 Bucket Policy
 data "aws_iam_policy_document" "media_s3_bucket_policy_document" {
   provider = aws.bucket_region
+  statement {
+    actions   = ["s3:GetObject"]
+    resources = ["${var.bucket_arn}/*"]
+
+    principals {
+      type        = "AWS"
+      identifiers = [aws_cloudfront_origin_access_identity.media_s3_origin_identity.iam_arn]
+    }
+  }
   statement {
     actions   = ["s3:GetObject"]
     resources = ["${var.bucket_arn}/*"]
@@ -91,6 +101,7 @@ data "aws_iam_policy_document" "media_s3_bucket_policy_document" {
     }
   }
 }
+
 
 resource "aws_s3_bucket_policy" "media_s3_bucket_policy" {
   provider = aws.bucket_region

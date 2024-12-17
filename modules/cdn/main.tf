@@ -13,6 +13,7 @@ data "aws_region" "current" {
 
 locals {
   cdn_domain_name = join(".", ["cdn", var.base_domain])
+  account_id      = data.aws_caller_identity.current.account_id
 }
 
 #S3
@@ -99,22 +100,13 @@ data "aws_cloudfront_response_headers_policy" "response_headers_policy" {
   name     = "Managed-SecurityHeadersPolicy"
 }
 
-# CF OAI
-resource "aws_cloudfront_origin_access_identity" "cdn_s3_origin_identity" {
-  provider = aws.cdn_region
-  comment  = local.cdn_domain_name
-}
-
 # CF Distribution
 resource "aws_cloudfront_distribution" "cdn_cf_distribution" {
   provider = aws.cdn_region
   origin {
-    domain_name = aws_s3_bucket.cdn_s3_bucket.bucket_domain_name
-    origin_id   = local.cdn_domain_name
-
-    s3_origin_config {
-      origin_access_identity = "origin-access-identity/cloudfront/${aws_cloudfront_origin_access_identity.cdn_s3_origin_identity.id}"
-    }
+    domain_name              = aws_s3_bucket.cdn_s3_bucket.bucket_domain_name
+    origin_id                = local.cdn_domain_name
+    origin_access_control_id = var.s3_origin_access_control_id
   }
 
   aliases = [
@@ -163,10 +155,24 @@ data "aws_iam_policy_document" "cdn_s3_bucket_policy_document" {
   statement {
     actions   = ["s3:GetObject"]
     resources = ["${aws_s3_bucket.cdn_s3_bucket.arn}/*"]
-  
+
     principals {
       type        = "AWS"
       identifiers = [aws_cloudfront_origin_access_identity.cdn_s3_origin_identity.iam_arn]
+    }
+  }
+  statement {
+    actions   = ["s3:GetObject"]
+    resources = ["${aws_s3_bucket.cdn_s3_bucket.arn}/*"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["cloudfront.amazonaws.com"] # Use the service principal for CloudFront
+    }
+    condition {
+      test     = "StringLike"
+      variable = "AWS:SourceArn"
+      values   = ["arn:aws:cloudfront::${local.account_id}:distribution/*"]
     }
   }
 }
