@@ -43,12 +43,6 @@ data "aws_cloudfront_origin_request_policy" "origin_request_policy_api" {
   provider = aws.cloudfront_region
   name     = "Managed-AllViewer"
 }
-# CF OAI
-
-resource "aws_cloudfront_origin_access_identity" "reports_s3_origin_identity" {
-  provider = aws.cloudfront_region
-  comment  = var.bucket_id
-}
 
 # CF Distribution
 resource "aws_cloudfront_distribution" "reports_cf_distribution" {
@@ -133,15 +127,6 @@ resource "aws_cloudfront_distribution" "reports_cf_distribution" {
 #S3 Bucket Policy
 data "aws_iam_policy_document" "reports_s3_bucket_policy_document" {
   provider = aws.bucket_region
-  statement {
-    actions   = ["s3:GetObject"]
-    resources = ["${var.bucket_arn}/*"]
-
-    principals {
-      type        = "AWS"
-      identifiers = [aws_cloudfront_origin_access_identity.reports_s3_origin_identity.iam_arn]
-    }
-  }
   statement {
     actions   = ["s3:GetObject"]
     resources = ["${var.bucket_arn}/*"]

@@ -25,12 +25,6 @@ data "aws_caller_identity" "current" {
   provider = aws.bucket_region
 }
 
-# CF OAI
-resource "aws_cloudfront_origin_access_identity" "media_s3_origin_identity" {
-  provider = aws.cloudfront_region
-  comment  = var.bucket_id
-}
-
 locals {
   wildcard_cf_domain = join(".", ["*", var.cf_domain_name])
   account_id         = data.aws_caller_identity.current.account_id
@@ -90,15 +84,6 @@ resource "aws_cloudfront_distribution" "media_cf_distribution" {
 #S3 Bucket Policy
 data "aws_iam_policy_document" "media_s3_bucket_policy_document" {
   provider = aws.bucket_region
-  statement {
-    actions   = ["s3:GetObject"]
-    resources = ["${var.bucket_arn}/*"]
-
-    principals {
-      type        = "AWS"
-      identifiers = [aws_cloudfront_origin_access_identity.media_s3_origin_identity.iam_arn]
-    }
-  }
   statement {
     actions   = ["s3:GetObject"]
     resources = ["${var.bucket_arn}/*"]

@@ -38,3 +38,7 @@ variable "DEFAULT_TAGS" {
   description = "Default Tags for all resources"
 }
 
+variable "s3_origin_access_control_id" {
+  type        = string
+  description = "S3 Origin access control"
+}
