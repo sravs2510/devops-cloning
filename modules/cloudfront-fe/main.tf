@@ -21,24 +21,14 @@ data "aws_cloudfront_response_headers_policy" "response_headers_policy" {
   name     = "Managed-SecurityHeadersPolicy"
 }
 
-# CF OAI
-resource "aws_cloudfront_origin_access_identity" "media_s3_origin_identity" {
-  provider = aws.cloudfront_region
-  comment  = var.cf_domain_name
-}
-
 # CF Distribution
 resource "aws_cloudfront_distribution" "media_cf_distribution" {
   provider = aws.cloudfront_region
   origin {
-    domain_name = var.bucket_regional_domain_name
-    origin_id   = var.cf_domain_name
-
-    s3_origin_config {
-      origin_access_identity = "origin-access-identity/cloudfront/${aws_cloudfront_origin_access_identity.media_s3_origin_identity.id}"
-    }
+    domain_name              = var.bucket_regional_domain_name
+    origin_id                = var.cf_domain_name
+    origin_access_control_id = var.s3_origin_access_control_id
   }
-
   aliases = [
     var.cf_domain_name
   ]
@@ -80,6 +70,9 @@ resource "aws_cloudfront_distribution" "media_cf_distribution" {
   tags = merge(tomap({ "Name" : var.cf_domain_name }), tomap({ "STAGE" : var.STAGE }), var.DEFAULT_TAGS)
 }
 
+locals {
+  account_id = data.aws_caller_identity.current.account_id
+}
 #S3 Bucket Policy
 data "aws_iam_policy_document" "media_s3_bucket_policy_document" {
   provider = aws.bucket_region
@@ -88,8 +81,13 @@ data "aws_iam_policy_document" "media_s3_bucket_policy_document" {
     resources = ["${var.bucket_arn}/*"]
 
     principals {
-      type        = "AWS"
-      identifiers = [aws_cloudfront_origin_access_identity.media_s3_origin_identity.iam_arn]
+      type        = "Service"
+      identifiers = ["cloudfront.amazonaws.com"] # Use the service principal for CloudFront
+    }
+    condition {
+      test     = "StringLike"
+      variable = "AWS:SourceArn"
+      values   = ["arn:aws:cloudfront::${local.account_id}:distribution/*"]
     }
   }
 }
