@@ -85,11 +85,12 @@ module "create_tester_view_s3_bucket" {
 
 #CDN
 module "create_cdn" {
-  source       = "./modules/cdn"
-  count        = var.STAGE == "prod" ? 1 : 0
-  base_domain  = var.base_domain
-  DEFAULT_TAGS = var.DEFAULT_TAGS
-  STAGE        = var.STAGE
+  source                      = "./modules/cdn"
+  count                       = var.STAGE == "prod" ? 1 : 0
+  base_domain                 = var.base_domain
+  s3_origin_access_control_id = module.create_cdn_cache_policy.s3_origin_access_control_id
+  DEFAULT_TAGS                = var.DEFAULT_TAGS
+  STAGE                       = var.STAGE
 
   providers = {
     aws.cdn_region = aws.us_region
