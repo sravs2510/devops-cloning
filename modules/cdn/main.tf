@@ -100,6 +100,10 @@ data "aws_cloudfront_response_headers_policy" "response_headers_policy" {
   name     = "Managed-SecurityHeadersPolicy"
 }
 
+resource "aws_cloudfront_origin_access_identity" "cdn_s3_origin_identity" {
+  provider = aws.cdn_region
+  comment  = local.cdn_domain_name
+}
 # CF Distribution
 resource "aws_cloudfront_distribution" "cdn_cf_distribution" {
   provider = aws.cdn_region
