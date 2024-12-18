@@ -10,6 +10,9 @@ terraform {
 data "aws_region" "current" {
   provider = aws.cdn_region
 }
+data "aws_caller_identity" "current" {
+  provider = aws.cdn_region
+}
 
 locals {
   cdn_domain_name = join(".", ["cdn", var.base_domain])
@@ -100,6 +103,10 @@ data "aws_cloudfront_response_headers_policy" "response_headers_policy" {
   name     = "Managed-SecurityHeadersPolicy"
 }
 
+resource "aws_cloudfront_origin_access_identity" "cdn_s3_origin_identity" {
+  provider = aws.cdn_region
+  comment  = local.cdn_domain_name
+}
 # CF Distribution
 resource "aws_cloudfront_distribution" "cdn_cf_distribution" {
   provider = aws.cdn_region
