@@ -10,6 +10,9 @@ terraform {
 data "aws_region" "current" {
   provider = aws.cdn_region
 }
+data "aws_caller_identity" "current" {
+  provider = aws.cdn_region
+}
 
 locals {
   cdn_domain_name = join(".", ["cdn", var.base_domain])
