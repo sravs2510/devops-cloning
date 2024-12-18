@@ -11,6 +11,9 @@ data "aws_region" "current" {
   provider = aws.bucket_region
 }
 
+data "aws_caller_identity" "current" {
+  provider = aws.bucket_region
+}
 data "aws_cloudfront_cache_policy" "cache_policy" {
   provider = aws.cloudfront_region
   name     = "Managed-CachingOptimized"
@@ -19,6 +22,11 @@ data "aws_cloudfront_cache_policy" "cache_policy" {
 data "aws_cloudfront_response_headers_policy" "response_headers_policy" {
   provider = aws.cloudfront_region
   name     = "Managed-SecurityHeadersPolicy"
+}
+
+resource "aws_cloudfront_origin_access_identity" "media_s3_origin_identity" {
+  provider = aws.cloudfront_region
+  comment  = var.cf_domain_name
 }
 
 # CF Distribution
