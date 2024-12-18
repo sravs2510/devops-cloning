@@ -22,6 +22,8 @@ locals {
     join("-", ["qatalyst", var.STAGE, "g2-api-token"])          = "#QATALYST_G2_API_TOKEN"
     join("-", ["qatalyst", var.STAGE, "g2-product-id"])         = "#QATALYST_G2_PRODUCT_ID"
     join("-", ["qatalyst", var.STAGE, "google-credentials"])    = "#GOOGLE_AUTHENTICATION_DATA"
+    join("-", ["qatalyst", var.STAGE, "figma-client-id"])       = "#FIGMA_CLIENT_ID"
+    join("-", ["qatalyst", var.STAGE, "figma-client-secret"])   = "#FIGMA_CLIENT_SECRET"
   }
 }
 # EU Resources

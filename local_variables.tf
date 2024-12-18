@@ -145,6 +145,14 @@ locals {
     {
       name      = "QATALYST_G2_PRODUCT_ID"
       valueFrom = join("-", ["qatalyst", var.STAGE, "g2-product-id"])
+    },
+    {
+      name      = "FIGMA_CLIENT_ID"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "figma-client-id"])
+    },
+    {
+      name      = "FIGMA_CLIENT_SECRET"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "figma-client-secret"])
     }
   ]
   qatalyst_cyborg_ecs_task_environment_secrets = [
@@ -160,6 +168,14 @@ locals {
     {
       name      = "PLATFORM_REALM_ID"
       valueFrom = join("-", ["platform", var.STAGE, "realm-id"])
+    },
+    {
+      name      = "FIGMA_CLIENT_ID"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "figma-client-id"])
+    },
+    {
+      name      = "FIGMA_CLIENT_SECRET"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "figma-client-secret"])
     }
   ]
 
@@ -203,6 +219,14 @@ locals {
     {
       name      = "STRIPE_WEBHOOK_SECRET"
       valueFrom = join("-", ["qatalyst", var.STAGE, "stripe-webhook-secret"])
+    },
+    {
+      name      = "FIGMA_CLIENT_ID"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "figma-client-id"])
+    },
+    {
+      name      = "FIGMA_CLIENT_SECRET"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "figma-client-secret"])
     }
   ]
   qatalyst_furyblade_ecs_task_environment_secrets = [
@@ -213,6 +237,14 @@ locals {
     {
       name      = "OPENAI_API_KEY"
       valueFrom = join("-", ["qatalyst", var.STAGE, "open-ai-key"])
+    },
+    {
+      name      = "FIGMA_CLIENT_ID"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "figma-client-id"])
+    },
+    {
+      name      = "FIGMA_CLIENT_SECRET"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "figma-client-secret"])
     }
   ]
 
@@ -240,6 +272,14 @@ locals {
     {
       name      = "PLATFORM_REALM_ID"
       valueFrom = join("-", ["platform", var.STAGE, "realm-id"])
+    },
+    {
+      name      = "FIGMA_CLIENT_ID"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "figma-client-id"])
+    },
+    {
+      name      = "FIGMA_CLIENT_SECRET"
+      valueFrom = join("-", ["qatalyst", var.STAGE, "figma-client-secret"])
     }
   ]
 
