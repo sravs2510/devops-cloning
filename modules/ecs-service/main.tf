@@ -176,7 +176,7 @@ resource "aws_appautoscaling_target" "qatalyst_ecs_ast" {
 
 resource "aws_appautoscaling_policy" "qatalyst_ecs_asp_sqs_sum" {
   provider           = aws.ecs_region
-  count              = (contains(["staging", "prod"], var.STAGE) && local.is_sqs_service) ? 1 : 0
+  count              = (contains(["qa", "staging", "prod"], var.STAGE) && local.is_sqs_service) ? 1 : 0
   name               = "qatalyst-ecs-asp-sqs-sum-${var.service}"
   policy_type        = "TargetTrackingScaling"
   resource_id        = aws_appautoscaling_target.qatalyst_ecs_ast.resource_id
