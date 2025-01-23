@@ -439,7 +439,7 @@ module "create_in_dynamodb" {
 }
 
 module "create_in_ssm" {
-  source       = "git@github.com:EntropikTechnologies/terraform-modules.git//ssm?ref=feature/AB#50056"
+  source       = "git@github.com:EntropikTechnologies/terraform-modules.git//ssm"
   count        = lookup(var.deploy_regions, data.aws_region.in.name) ? 1 : 0
   DEFAULT_TAGS = var.DEFAULT_TAGS
   STAGE        = var.STAGE
@@ -449,7 +449,7 @@ module "create_in_ssm" {
       "qatalyst-private-2"                    = try("${module.create_in_vpc[0].private_subnets[1]}", ""),
       "qatalyst-private-3"                    = try("${module.create_in_vpc[0].private_subnets[2]}", ""),
       "qatalyst-study-details-ddb-stream-arn" = module.create_in_dynamodb[0].ddb_stream_arns["qatalyst-study-details"],
-      "qatalyst-config-ddb-stream-arn"        = module.create_global_dynamodb.ddb_stream_arns["qatalyst-configurations-ap-south-1"],
+      "qatalyst-config-ddb-stream-arn"        = module.create_global_dynamodb.replica_ddb_stream_arns["qatalyst-configurations-ap-south-1"],
       "qatalyst-lambda-sg-id"                 = module.create_in_vpc[0].lambda_security_group_id
     },
     secure_parameters = merge(local.qatalyst_ssm_secure_values,
@@ -1106,7 +1106,7 @@ module "create_us_qatalyst_media_bucket" {
 
 #Global DDB Tables
 module "create_global_dynamodb" {
-  source          = "git@github.com:EntropikTechnologies/terraform-modules.git//dynamodb"
+  source          = "git@github.com:EntropikTechnologies/terraform-modules.git//dynamodb?ref=feature/AB#50056"
   DEFAULT_TAGS    = var.DEFAULT_TAGS
   STAGE           = var.STAGE
   table_details   = var.global_table_details
