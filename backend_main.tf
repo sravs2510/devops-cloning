@@ -1,3 +1,7 @@
+data "aws_dynamodb_table" "qatalyst-config" {
+  provider = aws.in_region
+  name     = "qatalyst-configurations"
+}
 
 locals {
   qatalyst_ssm_secure_values = {
