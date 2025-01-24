@@ -189,6 +189,7 @@ module "create_eu_ssm" {
       "qatalyst-private-2"                    = try("${module.create_eu_vpc[0].private_subnets[1]}", ""),
       "qatalyst-private-3"                    = try("${module.create_eu_vpc[0].private_subnets[2]}", ""),
       "qatalyst-study-details-ddb-stream-arn" = module.create_eu_dynamodb[0].ddb_stream_arns["qatalyst-study-details"],
+      "qatalyst-config-ddb-stream-arn"        = module.create_global_dynamodb.replica_ddb_stream_arns["qatalyst-configurations"]["eu-north-1"],
       "qatalyst-lambda-sg-id"                 = module.create_eu_vpc[0].lambda_security_group_id
     },
     secure_parameters = merge(local.qatalyst_ssm_secure_values,
@@ -1106,7 +1107,7 @@ module "create_us_qatalyst_media_bucket" {
 
 #Global DDB Tables
 module "create_global_dynamodb" {
-  source          = "git@github.com:EntropikTechnologies/terraform-modules.git//dynamodb?ref=feature/AB#50056"
+  source          = "git@github.com:EntropikTechnologies/terraform-modules.git//dynamodb"
   DEFAULT_TAGS    = var.DEFAULT_TAGS
   STAGE           = var.STAGE
   table_details   = var.global_table_details
