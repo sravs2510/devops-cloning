@@ -1,3 +1,7 @@
+data "aws_dynamodb_table" "qatalyst-config" {
+  provider = aws.in_region
+  name     = "qatalyst-configurations"
+}
 
 locals {
   qatalyst_ssm_secure_values = {
@@ -185,6 +189,7 @@ module "create_eu_ssm" {
       "qatalyst-private-2"                    = try("${module.create_eu_vpc[0].private_subnets[1]}", ""),
       "qatalyst-private-3"                    = try("${module.create_eu_vpc[0].private_subnets[2]}", ""),
       "qatalyst-study-details-ddb-stream-arn" = module.create_eu_dynamodb[0].ddb_stream_arns["qatalyst-study-details"],
+      "qatalyst-config-ddb-stream-arn"        = module.create_global_dynamodb.replica_ddb_stream_arns["qatalyst-configurations"]["eu-north-1"],
       "qatalyst-lambda-sg-id"                 = module.create_eu_vpc[0].lambda_security_group_id
     },
     secure_parameters = merge(local.qatalyst_ssm_secure_values,
@@ -445,6 +450,7 @@ module "create_in_ssm" {
       "qatalyst-private-2"                    = try("${module.create_in_vpc[0].private_subnets[1]}", ""),
       "qatalyst-private-3"                    = try("${module.create_in_vpc[0].private_subnets[2]}", ""),
       "qatalyst-study-details-ddb-stream-arn" = module.create_in_dynamodb[0].ddb_stream_arns["qatalyst-study-details"],
+      "qatalyst-config-ddb-stream-arn"        = module.create_global_dynamodb.replica_ddb_stream_arns["qatalyst-configurations"]["ap-south-1"],
       "qatalyst-lambda-sg-id"                 = module.create_in_vpc[0].lambda_security_group_id
     },
     secure_parameters = merge(local.qatalyst_ssm_secure_values,
